@@ -15,7 +15,7 @@
     "@types/node": "^22.7.4",
     "@types/sortablejs": "^1.15.1",
     "@vitejs/plugin-vue": "^5.0.5",
-    "@vitest/browser": "^1.6.0",
+    "@vitest/browser": "^2.1.7",
     "@vitest/coverage-v8": "^1.6.0",
     "@vue/test-utils": "^2.4.6",
     "@vueuse/core": "^11.1.0",
