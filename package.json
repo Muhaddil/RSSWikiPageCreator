@@ -20,7 +20,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vueuse/core": "^11.1.0",
     "happy-dom": "^15.11.7",
-    "pinia": "^2.1.7",
+    "pinia": "^2.3.0",
     "playwright": "^1.42.1",
     "prettier": "^3.3.3",
     "sass": "^1.77.8",
