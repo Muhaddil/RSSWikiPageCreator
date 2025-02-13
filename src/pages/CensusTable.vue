@@ -3,11 +3,15 @@ import { ref, onMounted, computed } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
-import { fetchCensusData } from '@/api/api';
-import type { CensusQueryData } from '@/api/api';
+import { fetchCensusData, fetchBaseImageUrls } from '@/api/api';
+import type { CensusQueryData, ImageUrls } from '@/api/api';
 import InputText from 'primevue/inputtext';
 
-const bases = ref<CensusQueryData[]>([]);
+interface ExtendedCensusQueryData extends CensusQueryData {
+  imageUrl?: ImageUrls | null;
+}
+
+const bases = ref<ExtendedCensusQueryData[]>([]);
 const isLoading = ref(true);
 const error = ref<string | null>(null);
 const screenWidth = ref(window.innerWidth);
@@ -20,7 +24,12 @@ const gridColumns = computed(() =>
 
 const fetchBases = async (offset = 0, year?: string) => {
   try {
-    const newBases = await fetchCensusData(CIVILIZATION, offset, year);
+    const newBases = await fetchCensusData(CIVILIZATION, offset, year) as ExtendedCensusQueryData[];
+
+    await Promise.all(newBases.map(async (base) => {
+      base.imageUrl = await fetchBaseImageUrls(base._pageName);
+    }));
+
     bases.value = [...bases.value, ...newBases];
 
     if (newBases.length === 500) {
@@ -28,7 +37,7 @@ const fetchBases = async (offset = 0, year?: string) => {
     }
   } catch (err) {
     error.value = 'Error al cargar las bases';
-    console.log(err)
+    console.error(err);
   } finally {
     isLoading.value = false;
   }
@@ -53,6 +62,22 @@ const formatWikiLink = (name: string) => {
     .replace(/\//g, '_')
     .replace(/:/g, ':')
     .replace(/'/g, "'");
+};
+
+// const isModalOpen = ref(false);
+// const modalImage = ref('');
+
+// const openModal = (image: string) => {
+//   if (screenWidth.value <= 768) {
+//     window.open(image, '_blank');
+//   } else {
+//     modalImage.value = image;
+//     isModalOpen.value = true;
+//   }
+// };
+
+const openModal = (image: string) => {
+  window.open(image, '_blank');
 };
 </script>
 
@@ -139,15 +164,31 @@ const formatWikiLink = (name: string) => {
                     <template #header>
                       <span class="builder-link-header">Enlaces de la Base</span>
                     </template>
-                    <a :href="`https://nomanssky.fandom.com/wiki/${formatWikiLink(base._pageName)}`" target="_blank"
-                      class="builder-link">
-                      <i class="pi pi-external-link"></i> Ver detalles de construcción
-                    </a>
+                    <div class="panel-content-with-image">
+                      <a :href="`https://nomanssky.fandom.com/wiki/${formatWikiLink(base._pageName)}`" target="_blank"
+                        class="builder-link">
+                        <i class="pi pi-external-link"></i> Ver detalles de construcción
+                      </a>
+                      <img v-if="base.imageUrl" :src="base.imageUrl.panel" alt="Imagen de la base"
+                        class="panel-base-image" @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(base._pageName)}`)" />
+                    </div>
                   </Panel>
                 </div>
               </div>
             </template>
           </Card>
+          <!-- <Dialog v-model:visible="isModalOpen" modal :closable="false" class="custom-modal"
+            style="width: 90vw; height: 90vh;">
+            <template #header>
+              <button type="button" class="close-modal" @click="isModalOpen = false">X</button>
+            </template>
+            <a :href="modalImage" target="_blank">
+              <div class="modal-content">
+                <img :src=modalImage class="modal-image" alt="Imagen del modal" loading="lazy" decoding="async" />
+                </img>
+              </div>
+            </a>
+          </Dialog> -->
         </div>
       </div>
     </template>
@@ -207,6 +248,54 @@ const formatWikiLink = (name: string) => {
   transform: translateY(-3px);
   box-shadow: 0 0 20px var(--hover-effect);
 }
+
+.panel-base-image {
+  max-width: 100%;
+  height: auto;
+  min-width: 90%;
+  align-items: center;
+  justify-items: center;
+  margin-top: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.panel-base-image:hover {
+  transform: scale(1.02);
+}
+
+/* .custom-modal {
+  width: 90vw !important;
+  height: 90vh !important;
+}
+
+.custom-modal .p-dialog-content {
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  height: 100%;
+}
+
+.modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-image {
+  width: 90%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  image-rendering: crisp-edges;
+} */
 
 .category-tag {
   background: var(--tag-background) !important;
@@ -288,13 +377,13 @@ const formatWikiLink = (name: string) => {
   align-items: flex-start;
   justify-content: flex-end;
   right: 5%;
-  top: 0.5%;
+  top: 2rem;
   height: auto;
   width: auto;
 }
 
 .logo-image {
-  height: 7rem;
+  height: 11rem;
   transition: transform 0.3s ease;
   filter: brightness(var(--logo-brightness, 1));
 }

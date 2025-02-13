@@ -193,3 +193,65 @@ export const fetchCensusData = async (
 
   return mapCensusData(data);
 };
+
+export const getBaseImageName = async (pageName: string): Promise<string | null> => {
+  const queryObject = {
+    ...basicQueryData,
+    action: 'parse',
+    page: pageName,
+    prop: 'wikitext',
+  };
+
+  const url = buildQueryUrl(queryObject);
+  const data = await apiCall<any>(url);
+  const wikitext = data?.parse?.wikitext?.['*'] || '';
+
+  const regex = /\|\s*image\s*=\s*(.+)/i;
+  const match = wikitext.match(regex);
+  if (match) {
+    let imageName = match[1].split('\n')[0].split('|')[0].trim();
+    return imageName;
+  }
+  return null;
+};
+
+export type ImageUrls = {
+  panel: string;
+  modal: string;
+};
+
+export const getImageUrls = async (imageName: string): Promise<ImageUrls | null> => {
+  if (!imageName.toLowerCase().startsWith('file:')) {
+    imageName = 'File:' + imageName;
+  }
+
+  const queryObject = {
+    ...basicQueryData,
+    action: 'query',
+    titles: imageName,
+    prop: 'imageinfo',
+    iiprop: 'url',
+  };
+
+  const url = buildQueryUrl(queryObject);
+  const data = await apiCall<any>(url);
+
+  const pages = data?.query?.pages;
+  if (pages) {
+    const pageKey = Object.keys(pages)[0];
+    const page = pages[pageKey];
+    if (page && page.imageinfo && page.imageinfo[0]) {
+      const rawUrl = page.imageinfo[0].url;
+      const panelUrl = rawUrl.split('/revision')[0];
+      const modalUrl = rawUrl.split('revision')[0];
+      return { panel: panelUrl, modal: modalUrl };
+    }
+  }
+  return null;
+};
+
+export const fetchBaseImageUrls = async (pageName: string): Promise<ImageUrls | null> => {
+  const imageName = await getBaseImageName(pageName);
+  if (!imageName) return null;
+  return await getImageUrls(imageName);
+};
