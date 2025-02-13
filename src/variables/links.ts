@@ -77,7 +77,14 @@ export const linkData = {
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/censustable.html",
         "description": "Matriz holográfica de verificación biométrica para registro interdimensional de miembros RSS",
         "icon": "pi pi-id-card"
-      }
+      },
+      {
+        "title": "Nexo Cartográfico Galáctico RSS",
+        "category": "Protocolo de Acceso Estelar",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/regions.html",
+        "description": "Registro galáctico unificado de todas las regiones cartografiadas bajo soberanía de la Royal Space Society",
+        "icon": "pi pi-prime"
+      },
     ],
     common: [
       {
@@ -156,7 +163,14 @@ export const linkData = {
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/censustable.html",
         "description": "Sistema de verificación y registro actualizado de todos los miembros activos de la RSS",
         "icon": "pi pi-id-card"
-      }
+      },
+      {
+        "title": "Directorio de Regiones RSS",
+        "category": "Protocolo de Acceso Estelar",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/regions.html",
+        "description": "Directorio central de todas las regiones RSS reconocidas oficialmente",
+        "icon": "pi pi-prime"
+      },
     ]
   },
   en: {
@@ -237,7 +251,14 @@ export const linkData = {
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/censustable.html",
         "description": "Holographic biometric verification matrix for interdimensional RSS operatives registry",
         "icon": "pi pi-id-card"
-      }
+      },
+      {
+        "title": "RSS Galactic Cartographic Nexus",
+        "category": "Stellar Access Protocol",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/regions.html",
+        "description": "Unified galactic registry of all charted regions under Royal Space Society sovereignty",
+        "icon": "pi pi-prime"
+      },
     ],
     common: [
       {
@@ -316,7 +337,14 @@ export const linkData = {
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/censustable.html",
         "description": "Updated verification and registration system for all active RSS members",
         "icon": "pi pi-id-card"
-      }
+      },
+      {
+        "title": "RSS Regions Directory",
+        "category": "Stellar Access Protocol",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/regions.html",
+        "description": "Central directory of all officially recognized RSS regions",
+        "icon": "pi pi-prime"
+      },
     ]
   }
 };
