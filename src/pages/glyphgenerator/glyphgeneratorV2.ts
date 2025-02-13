@@ -13,6 +13,7 @@ const regions: { [key: string]: string } = {
   '0266CF95': 'Skitco',
   'F7EBFD24': 'Bajíos de Udrupi',
   'F7EBFD25': 'Bajíos de Jiessl',
+  'FF9B4CB0': 'Vacío de Qudsor',
 };
 
 const galaxies: { [key: string]: string } = {
@@ -30,15 +31,16 @@ const galaxies: { [key: string]: string } = {
   '0266CF95': 'Dimensión de Hilbert',
   'F7EBFD24': 'Euclides',
   'F7EBFD25': 'Euclides',
+  'FF9B4CB0': 'Eissentam',
 };
 
 export function fillRegionSelect(): void {
   const regionSelect = document.getElementById('regionSelect') as HTMLSelectElement;
   for (let region in regions) {
-      let option = document.createElement('option');
-      option.value = region;
-      option.text = regions[region];
-      regionSelect.appendChild(option);
+    let option = document.createElement('option');
+    option.value = region;
+    option.text = regions[region];
+    regionSelect.appendChild(option);
   }
 }
 
@@ -53,10 +55,15 @@ export function generateGlyphs(selectedRegion: string): string {
   let glyphs = '0';
 
   for (let i = 0; i < 3; i++) {
-      glyphs += randomGlyph();
+    glyphs += randomGlyph();
   }
 
   glyphs += selectedRegion;
+
+  // Asegurarnos de que siempre haya 12 caracteres
+  while (glyphs.length < 12) {
+    glyphs += randomGlyph();
+  }
 
   return glyphs;
 }
@@ -65,11 +72,55 @@ export function displayRandomGlyphs(): void {
   const glyphOutput = document.getElementById('glyphOutput') as HTMLElement;
   const regionOutput = document.getElementById('regionOutput') as HTMLElement;
   const galaxyOutput = document.getElementById('galaxyOutput') as HTMLElement;
-  const selectedRegion = (document.getElementById('regionSelect') as HTMLSelectElement).value;
+  const regionSelect = document.getElementById('regionSelect') as HTMLSelectElement;
+  const selectedRegion = regionSelect.value;
+
+  if (!selectedRegion) {
+    glyphOutput.textContent = '⚠️ Error: Selecciona una región antes de generar glifos.';
+    regionOutput.textContent = '';
+    galaxyOutput.textContent = '';
+    return;
+  }
+
   const glyphs = generateGlyphs(selectedRegion);
-  const region = regions[glyphs.slice(4, 12)];
-  const galaxy = galaxies[glyphs.slice(4, 12)];
-  glyphOutput.textContent = glyphs;
+  const region = regions[selectedRegion] || 'Desconocida';
+  const galaxy = galaxies[selectedRegion] || 'Desconocida';
+
+  // Limpiar el contenido del glifo
+  glyphOutput.innerHTML = ''; // Limpiar contenido anterior
+
+  // Crear un contenedor para los glifos
+  const glyphContainer = document.createElement('span');
+  glyphContainer.classList.add('glyph-container');
+
+  // Crear los 12 glifos y animarlos uno por uno
+  let index = 0;
+  const glyphsArray = glyphs.split('');
+
+  function animateNextGlyph() {
+    if (index < glyphsArray.length) {
+      const glyphElement = document.createElement('span');
+      glyphElement.classList.add('glyph');
+      glyphElement.textContent = glyphsArray[index];
+
+      // Agregar cada glifo al contenedor
+      glyphContainer.appendChild(glyphElement);
+
+      // Animar el glifo (rotación)
+      glyphElement.classList.add('spin');
+
+      // Incrementar el índice y llamar a la siguiente animación
+      index++;
+      setTimeout(animateNextGlyph, 100); // Esperar 100ms antes de mostrar el siguiente glifo
+    }
+  }
+
+  // Iniciar la animación de los glifos
+  animateNextGlyph();
+
+  // Agregar el contenedor al elemento de salida
+  glyphOutput.appendChild(glyphContainer);
+
   regionOutput.textContent = 'Región: ' + region;
   galaxyOutput.textContent = 'Galaxia: ' + galaxy;
 }

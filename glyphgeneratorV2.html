@@ -48,11 +48,9 @@
     padding-right: 40%;
   }
 
-  /* Estilos específicos para pantallas pequeñas */
   @media (max-width: 600px) {
     body {
       padding: 20px 0;
-      /* Añade un padding superior e inferior al cuerpo */
     }
 
     .columns {
@@ -83,14 +81,13 @@
               <div class="section">
                 <select id="regionSelect">
                   <option value="">Selecciona una región</option>
-                  <!-- Las opciones se llenarán dinámicamente con JavaScript -->
                 </select>
               </div>
               <div class="section">
                 <button onclick="displayRandomGlyphs()">Generar Glifos</button>
               </div>
               <div class="section">
-                <p id="glyphOutput" class="glyph"></p>
+                <p id="glyphOutput" class="glyph-output"></p>
               </div>
               <div class="section">
                 <p id="regionOutput"></p>
