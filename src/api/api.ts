@@ -277,7 +277,8 @@ export const getRegionsQueryDataUrl = (civilized: string, offset: number = 0): s
       '_pageName=Region',
     ].join(','),
     where: `Civilized='${civilized}'`,
-    offset: offset, // Se añade el offset
+    order_by: 'Region ASC',
+    offset: offset,
   };
 
   return buildQueryUrl(queryObject);

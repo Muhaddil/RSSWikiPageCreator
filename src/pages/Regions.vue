@@ -16,6 +16,8 @@ const error = ref<string | null>(null);
 const screenWidth = ref(window.innerWidth);
 const CIVILIZATION = 'Royal Space Society';
 
+const allowedNames = ['Uekenbe Shallows', 'Uklots Shallows', 'Eighba Fringe', 'Xecroften', 'Areyas', 'Sea of Ticrops', 'Udrupi Shallows', 'Jiessl Shallows', 'Becheeth Sector', 'Juhalbe Cluster', 'Larinar Boundary', 'Qudsor Void', 'Uhcheimri Void', 'Skitco'];
+
 const gridColumns = computed(() =>
   screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3
 );
@@ -34,11 +36,15 @@ const fetchBases = async (offset: number = 0) => {
   try {
     const newBases = await fetchRegionsData(CIVILIZATION, offset) as ExtendedRegionsQueryData[];
 
-    await Promise.all(newBases.map(async (base) => {
+    const filteredBases = newBases.filter(base =>
+      allowedNames.some(name => base.Region.includes(name))
+    );
+
+    await Promise.all(filteredBases.map(async (base) => {
       base.imageUrl = await fetchRegionImageUrls(base.Region);
     }));
 
-    bases.value = mergeAndRemoveDuplicates(bases.value, newBases);
+    bases.value = mergeAndRemoveDuplicates(bases.value, filteredBases);
 
     if (newBases.length === 500) {
       await fetchBases(offset + 500);
@@ -181,7 +187,8 @@ function coords2Glyphs(coordinates: string): string {
                         <i class="pi pi-external-link"></i> Ver detalles de la región
                       </a>
                       <img v-if="base.imageUrl" :src="base.imageUrl.modal" alt="Imagen de la base"
-                        class="panel-base-image" @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(base.Region)}`)" />
+                        class="panel-base-image"
+                        @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(base.Region)}`)" />
                     </div>
                   </Panel>
                 </div>
