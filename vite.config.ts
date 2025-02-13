@@ -26,7 +26,7 @@ export default defineConfig({
       input: [
         'index.html',
         'base.html',
-        'basenocensus.html',
+        'basecensusno.html',
         'biofrig.html',
         'derelict.html',
         'fauna.html',

@@ -13,7 +13,7 @@ const links: PageLinkProps[] = [
   },
   {
     text: '',
-    url: './basenocensus.html',
+    url: './basecensusno.html',
     img: './assets/images/buttons/1_002.png',
     imgAlt: 'Bases Normales',
   },

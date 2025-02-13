@@ -6,7 +6,7 @@ export const router: Record<string, string> = {
   mineral: 'Mineral',
   home: 'Home',
   base: 'Base',
-  basenocensus: 'NormalBase',
+  basecensusno: 'NormalBase',
   fauna: 'Fauna',
   racetrack: 'Racetrack',
   system: 'System',
@@ -45,7 +45,7 @@ switch (route) {
   case 'fauna':
     exportName = 'Fauna';
     break;
-  case 'basenocensus':
+  case 'basecensusno':
     exportName = 'Bases Normales';
     break;
   case 'racetrack':
