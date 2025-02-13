@@ -47,6 +47,7 @@ export default defineConfig({
         'basesdestacadas.html',
         'rsslinks.html',
         'censustable.html',
+        'regions.html',
       ],
     },
   },

@@ -84,8 +84,6 @@ export const getCensusQueryDataUrl = (civilized: string, offset: number, year?: 
     offset
   };
 
-  console.log(queryObject)
-
   return buildQueryUrl(queryObject);
 };
 
@@ -254,4 +252,114 @@ export const fetchBaseImageUrls = async (pageName: string): Promise<ImageUrls | 
   const imageName = await getBaseImageName(pageName);
   if (!imageName) return null;
   return await getImageUrls(imageName);
+};
+
+export interface RegionQueryData {
+  Coordinates: string;
+  Galaxy: string;
+  Quadrant: string;
+  Civilized: string;
+  Region: string;
+}
+
+export type RegionsApiResponse = CargoResponse<RegionQueryData>;
+
+export const getRegionsQueryDataUrl = (civilized: string, offset: number = 0): string => {
+  const queryObject = {
+    ...basicQueryData,
+    action: 'cargoquery',
+    tables: 'Regions',
+    fields: [
+      'Regions.Coordinates',
+      'Regions.Galaxy',
+      'Regions.Quadrant',
+      'Regions.Civilized',
+      '_pageName=Region',
+    ].join(','),
+    where: `Civilized='${civilized}'`,
+    offset: offset, // Se añade el offset
+  };
+
+  return buildQueryUrl(queryObject);
+};
+
+export const mapRegionsData = (data: RegionsApiResponse): RegionQueryData[] => {
+  return data.cargoquery.map(({ title }) => ({
+    Coordinates: title.Coordinates || 'Desconocido',
+    Galaxy: title.Galaxy || 'Desconocido',
+    Quadrant: title.Quadrant || 'Desconocido',
+    Civilized: title.Civilized || 'Desconocido',
+    Region: title.Region || 'Desconocido',
+  }));
+};
+
+export const fetchRegionsData = async (
+  civilized: string,
+  offset: number = 0,
+): Promise<RegionQueryData[]> => {
+  const url = getRegionsQueryDataUrl(civilized, offset);
+  const data = await apiCall<RegionsApiResponse>(url);
+
+  if (!data?.cargoquery) {
+    throw new Error('Invalid API response structure');
+  }
+
+  return mapRegionsData(data);
+};
+
+export const getRegionImageName = async (pageName: string): Promise<string | null> => {
+  const queryObject = {
+    ...basicQueryData,
+    action: 'parse',
+    page: pageName,
+    prop: 'wikitext',
+  };
+
+  const url = buildQueryUrl(queryObject);
+  const data = await apiCall<any>(url);
+  const wikitext = data?.parse?.wikitext?.['*'] || '';
+
+  const regex = /\|\s*image\s*=\s*(.+)/i;
+  const match = wikitext.match(regex);
+  if (match) {
+    let imageName = match[1].split('\n')[0].split('|')[0].trim();
+    return imageName;
+  }
+  return null;
+};
+
+export const getRegionImageUrls = async (imageName: string): Promise<ImageUrls | null> => {
+  if (!imageName.toLowerCase().startsWith('file:')) {
+    imageName = 'File:' + imageName;
+  }
+
+  const queryObject = {
+    ...basicQueryData,
+    action: 'query',
+    titles: imageName,
+    prop: 'imageinfo',
+    iiprop: 'url',
+  };
+
+  const url = buildQueryUrl(queryObject);
+  const data = await apiCall<any>(url);
+
+  const pages = data?.query?.pages;
+  if (pages) {
+    const pageKey = Object.keys(pages)[0];
+    const page = pages[pageKey];
+    if (page && page.imageinfo && page.imageinfo[0]) {
+      const rawUrl = page.imageinfo[0].url;
+      const panelUrl = rawUrl.split('/revision')[0];
+      const modalUrl = rawUrl.split('revision')[0];
+      return { panel: panelUrl, modal: modalUrl };
+    }
+  }
+  return null;
+};
+
+export const fetchRegionImageUrls = async (pageName: string): Promise<ImageUrls | null> => {
+  const imageName = await getRegionImageName(pageName);
+  if (!imageName) return null;
+  return await getRegionImageUrls(imageName);
 };
