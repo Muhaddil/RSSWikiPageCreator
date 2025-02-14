@@ -96,6 +96,9 @@ switch (route) {
   case 'censustable':
     exportName = 'Censo de Bases';
     break;
+  case 'regions':
+    exportName = 'Regiones';
+    break;
   case '':
     exportName = 'Home';
     break;
