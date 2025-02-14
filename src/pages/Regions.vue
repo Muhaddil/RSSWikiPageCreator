@@ -3,11 +3,12 @@ import { ref, onMounted, computed } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
-import { fetchRegionsData, fetchRegionImageUrls } from '@/api/api';
-import type { RegionQueryData, ImageUrls } from '@/api/api';
+import { fetchRegionsData, fetchRegionImageUrls, getRegionStats } from '@/api/api';
+import type { RegionQueryData, ImageUrls, RegionStats } from '@/api/api';
 
 interface ExtendedRegionsQueryData extends RegionQueryData {
   imageUrl?: ImageUrls | null;
+  stats?: RegionStats | null;
 }
 
 const bases = ref<ExtendedRegionsQueryData[]>([]);
@@ -42,6 +43,7 @@ const fetchBases = async (offset: number = 0) => {
 
     await Promise.all(filteredBases.map(async (base) => {
       base.imageUrl = await fetchRegionImageUrls(base.Region);
+      base.stats = await getRegionStats(base.Region);
     }));
 
     bases.value = mergeAndRemoveDuplicates(bases.value, filteredBases);
@@ -111,6 +113,19 @@ const regionGlyphsMap: Record<string, string> = {
 
 function getGlyphs(region: string, coordinates: string): string {
   return regionGlyphsMap[region] || coords2Glyphs(coordinates);
+}
+
+const itemNameTranslations: Record<string, string> = {
+  'Cross': 'Cruzado',
+  'Star systems': 'Sistemas',
+  'Planets': 'Planetas',
+  'Starships': 'Naves',
+  'Multi-Tools': 'Multiherramientas',
+};
+
+function translateItemName(itemName: string | number): string {
+  const key = itemName.toString();
+  return itemNameTranslations[key] || key;
 }
 </script>
 
@@ -186,6 +201,20 @@ function getGlyphs(region: string, coordinates: string): string {
                     </div>
                   </div>
 
+                  <Panel v-if="base.stats" class="stats-panel mt-3">
+                    <template #header>
+                      <span class="stats-header">Estadísticas de la Región</span>
+                    </template>
+                    <div class="stats-content">
+                      <div v-for="(item, itemName) in base.stats" :key="itemName" class="stat-item">
+                        <span class="stat-label">{{ translateItemName(itemName) }}</span>
+                        <Tag class="stat-tag" severity="info">
+                          Cantidad: {{ item.CrossPlatform }}
+                        </Tag>
+                      </div>
+                    </div>
+                  </Panel>
+
                   <Panel v-if="base.Region" class="builder-panel mt-3">
                     <template #header>
                       <span class="builder-link-header">Enlaces de la Región</span>
@@ -218,6 +247,7 @@ function getGlyphs(region: string, coordinates: string): string {
   --text-secondary: #475569;
   --background-primary: #d3d3d3;
   --background-secondary: #f1f1f1;
+  --background-terciary: #a0a0a0;
   --border-color: rgba(99, 102, 241, 0.15);
   --hover-effect: rgba(99, 102, 241, 0.1);
   --tag-background: rgba(79, 70, 229, 0.1);
@@ -232,6 +262,7 @@ function getGlyphs(region: string, coordinates: string): string {
   --text-secondary: #cbd5e1;
   --background-primary: #0a0e1a;
   --background-secondary: #1a1f2d;
+  --background-terciary: #192340;
   --border-color: rgba(103, 232, 249, 0.15);
   --hover-effect: rgba(103, 232, 249, 0.2);
   --tag-background: rgba(103, 232, 249, 0.1);
@@ -242,6 +273,14 @@ function getGlyphs(region: string, coordinates: string): string {
 .galactic-card {
   background: var(--background-primary);
   border: 1px solid var(--border-color);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.space-page-container {
+  max-width: 2800px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .galactic-title {
@@ -281,36 +320,47 @@ function getGlyphs(region: string, coordinates: string): string {
   transform: scale(1.02);
 }
 
-/* .custom-modal {
-  width: 90vw !important;
-  height: 90vh !important;
+.stats-panel {
+  background: var(--background-terciary) !important;
+  border: 1px solid var(--border-color) !important;
+  margin-top: 1rem;
 }
 
-.custom-modal .p-dialog-content {
-  background: transparent;
-  border: none;
+.stats-header {
+  color: var(--tag-text);
+  font-weight: 600;
+}
+
+.stats-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat-item {
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.75rem;
+  text-align: center;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  height: 100%;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.modal-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
+.stat-label {
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
-.modal-image {
-  width: 90%;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  image-rendering: crisp-edges;
-} */
+.stat-tag {
+  background: var(--tag-background) !important;
+  border: 1px solid var(--tag-border) !important;
+  color: var(--tag-text) !important;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+}
 
 .category-tag {
   background: var(--tag-background) !important;

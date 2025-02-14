@@ -364,3 +364,43 @@ export const fetchRegionImageUrls = async (pageName: string): Promise<ImageUrls 
   if (!imageName) return null;
   return await getRegionImageUrls(imageName);
 };
+
+export interface RegionStats {
+  [key: string]: {
+    CrossPlatform: number;
+  };
+}
+
+export const getRegionStats = async (pageName: string): Promise<RegionStats | null> => {
+  const queryObject = {
+    ...basicQueryData,
+    action: 'parse',
+    page: pageName,
+    prop: 'text',
+  };
+
+  const url = buildQueryUrl(queryObject);
+  const data = await apiCall<any>(url);
+  const html = data?.parse?.text?.['*'] || '';
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const table = doc.querySelector('table.article-table');
+  if (!table) return null;
+
+  const stats: RegionStats = {};
+
+  const rows = Array.from(table.querySelectorAll('tr')).slice(2); // Saltar cabeceras
+  for (const row of rows) {
+    const cells = Array.from(row.querySelectorAll('td'));
+    if (cells.length < 6) continue;
+
+    const itemName = cells[0].textContent?.trim().replace(/\[\[|\]\]/g, '') ?? 'Unknown';
+
+    stats[itemName] = {
+      CrossPlatform: parseInt(cells[5].textContent?.trim() ?? '0', 10),
+    };
+  }
+
+  return stats;
+};
