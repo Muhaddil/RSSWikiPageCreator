@@ -119,11 +119,11 @@ export const apiCall = async <T>(url: string): Promise<T> => {
 
 const decodeHtmlEntities = (text: string): string => {
   return text
-    .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'");
+    .replace(/&#039;/g, "'")
+    .replace(/&amp;/g, '&');
 };
 
 export const checkUserExists = async (username: string): Promise<boolean> => {
