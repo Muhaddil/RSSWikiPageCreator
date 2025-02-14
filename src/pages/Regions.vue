@@ -103,6 +103,15 @@ function coords2Glyphs(coordinates: string): string {
 
   return prefix + system_idx + yGlyphHex + zGlyphHex + xGlyphHex;
 }
+
+const regionGlyphsMap: Record<string, string> = {
+  'Uekenbe Shallows': '2141F7EC0D24',
+  'Uklots Shallows': '0016032FE9B0',
+};
+
+function getGlyphs(region: string, coordinates: string): string {
+  return regionGlyphsMap[region] || coords2Glyphs(coordinates);
+}
 </script>
 
 <template>
@@ -173,7 +182,7 @@ function coords2Glyphs(coordinates: string): string {
 
                     <div class="detail-item">
                       <span class="detail-label">Glifos:</span>
-                      <span class="glyph-value">{{ coords2Glyphs(base.Coordinates) }}</span>
+                      <span class="glyph-value">{{ getGlyphs(base.Region, base.Coordinates) }}</span>
                     </div>
                   </div>
 
@@ -200,7 +209,6 @@ function coords2Glyphs(coordinates: string): string {
     </template>
   </Card>
 </template>
-
 
 <style scoped>
 .galactic-card {
