@@ -25,6 +25,7 @@ export const router: Record<string, string> = {
   rsslinks: 'RSSLinks',
   censustable: 'CensusTable',
   regions: 'Regions',
+  cronology: 'Cronology',
 };
 
 export const route = getCurrentRoute();

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Servicio Descontinuado - Royal Space Society</title>
+  <meta name="description" content="El servicio ha sido permanentemente descontinuado">
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
+      --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --background-primary: #0a0e1a;
+      --background-secondary: #1a1f2d;
+      --border-color: rgba(103, 232, 249, 0.15);
+      --tag-background: rgba(103, 232, 249, 0.1);
+      --tag-border: #67e8f9;
+      --tag-text: #67e8f9;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--background-primary);
+      font-family: 'Arial', sans-serif;
+      color: var(--text-primary);
+    }
+
+    .galactic-card {
+      background: var(--background-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 800px;
+      margin: 2rem;
+      position: relative;
+      box-shadow: 0 0 30px rgba(103, 232, 249, 0.1);
+    }
+
+    .galactic-title {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .rss-logo {
+      position: absolute;
+      top: -50px;
+      right: -30px;
+      height: 150px;
+      filter: drop-shadow(0 0 15px rgba(103, 232, 249, 0.3));
+    }
+
+    .content-section {
+      padding: 2rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin: 1rem 0;
+      background: var(--background-primary);
+    }
+
+    .status-tag {
+      background: var(--tag-background);
+      border: 1px solid var(--tag-border);
+      color: var(--tag-text);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      display: inline-block;
+      margin: 1rem 0;
+    }
+
+    @media (max-width: 768px) {
+      .galactic-title {
+        font-size: 1.8rem;
+      }
+
+      .rss-logo {
+        position: relative;
+        top: 0;
+        right: 0;
+        height: 100px;
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="galactic-card">
+    <h1 class="galactic-title">🛡️ Servicio Descontinuado 🛡️</h1>
+
+    <div class="content-section">
+      <div class="status-tag">Estado: Desactivación Permanente</div>
+
+      <p>Lamentamos informar que el <strong>Creador de Páginas Wiki de la Royal Space Society</strong>
+        ha sido permanentemente retirado de servicio.</p>
+
+      <p>Después de un largo viaje y numerosas actualizaciones, hemos tomado la
+        difícil decisión de cerrar definitivamente esta plataforma.</p>
+
+      <p>Siempre quedará la posibilidad de seguir subiendo descubrimientos a la wiki de manera tradicional, es decir,
+        creando el código uno mismo.</p>
+
+      <h3>📅 Cronología del Servicio</h3>
+      <ul>
+        <li>🚀 Lanzamiento inicial: 2023</li>
+        <li>🛰️ Última actualización: 2025</li>
+        <li>🔴 Cierre definitivo: 2025</li>
+      </ul>
+    </div>
+
+    <div class="content-section">
+      <h3>✨ Agradecimientos</h3>
+      <p>Agradecemos a todas y todos los <strong>exploradores</strong> que contribuyeron
+        a este proyecto intergaláctico. Vuestras bases quedarán registradas en la wiki del No Man's Sky.
+      </p>
+      <div class="status-tag">Versión Final: %VITE_VERSION%</div>
+    </div>
+  </div>
+</body>
+
+</html>

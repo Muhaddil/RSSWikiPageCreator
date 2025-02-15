@@ -25,6 +25,7 @@ export default defineConfig({
     rollupOptions: {
       input: [
         'index.html',
+        'indextest.html',
         'base.html',
         'basecensusno.html',
         'biofrig.html',
@@ -48,6 +49,7 @@ export default defineConfig({
         'rsslinks.html',
         'censustable.html',
         'regions.html',
+        'cronology.html',
       ],
     },
   },

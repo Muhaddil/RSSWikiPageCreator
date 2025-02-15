@@ -17,7 +17,23 @@ const error = ref<string | null>(null);
 const screenWidth = ref(window.innerWidth);
 const CIVILIZATION = 'Royal Space Society';
 
-const allowedNames = ['Uekenbe Shallows', 'Uklots Shallows', 'Eighba Fringe', 'Xecroften', 'Areyas', 'Sea of Ticrops', 'Udrupi Shallows', 'Jiessl Shallows', 'Becheeth Sector', 'Juhalbe Cluster', 'Larinar Boundary', 'Qudsor Void', 'Uhcheimri Void', 'Skitco'];
+const allowedNames = [
+  'Uekenbe Shallows',
+  'Uklots Shallows',
+  'Eighba Fringe',
+  'Xecroften',
+  'Areyas',
+  'Sea of Ticrops',
+  'Udrupi Shallows',
+  'Jiessl Shallows',
+  'Becheeth Sector',
+  'Juhalbe Cluster',
+  'Larinar Boundary',
+  'Qudsor Void',
+  'Uhcheimri Void',
+  'Skitco',
+  'Emcalh Nebula',
+];
 
 const gridColumns = computed(() =>
   screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3
