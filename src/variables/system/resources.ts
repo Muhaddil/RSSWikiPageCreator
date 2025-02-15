@@ -38,6 +38,7 @@ const InEnglish = [
   'Activated Quartzite',
   'Crystallised Helium',
   'Lithium',
+  'Sulphurine',
 ] as const;
 
 const InSpanish = [
@@ -78,6 +79,7 @@ const InSpanish = [
   'Cuarcita Activada',
   'Helio cristalizado',
   'Litio',
+  'Sulfurina'
 ] as const;
 
 
