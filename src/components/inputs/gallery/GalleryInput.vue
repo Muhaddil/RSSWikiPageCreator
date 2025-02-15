@@ -11,7 +11,7 @@ import ExternalLink from '../../ExternalLink.vue';
 
 const pageData = usePageDataStore();
 const { galleryFiles } = storeToRefs(pageData);
-const isTooLarge = ref(false);
+const tooLargeFiles = ref<string[]>([]);
 
 let id = 0;
 
@@ -19,11 +19,13 @@ function onUpload(e: FileUploadSelectEvent) {
   const files: unknown = e.files;
   if (!Array.isArray(files)) return;
 
+  tooLargeFiles.value = [];
+
   const validFiles: GalleryFileItem[] = files
     .filter((file) => {
       if (!(file instanceof File)) return false;
       if (file.size > maxFileSize) {
-        isTooLarge.value = true;
+        tooLargeFiles.value.push(file.name);
         return false;
       }
       return true;
@@ -35,7 +37,6 @@ function onUpload(e: FileUploadSelectEvent) {
     }));
 
   if (validFiles.length) {
-    isTooLarge.value = false;
     galleryFiles.value.unshift(...validFiles);
   }
 }
@@ -43,10 +44,12 @@ function onUpload(e: FileUploadSelectEvent) {
 function onDrop(files: File[] | null) {
   if (!files) return;
 
+  tooLargeFiles.value = [];
+
   const validFiles: GalleryFileItem[] = files
     .filter((file) => {
       if (file.size > maxFileSize) {
-        isTooLarge.value = true;
+        tooLargeFiles.value.push(file.name);
         return false;
       }
       return true;
@@ -58,11 +61,9 @@ function onDrop(files: File[] | null) {
     }));
 
   if (validFiles.length) {
-    isTooLarge.value = false;
     galleryFiles.value.unshift(...validFiles);
   }
 }
-
 
 const dropzone = ref<HTMLDivElement | null>(null);
 
@@ -79,8 +80,19 @@ const { isOverDropZone } = useDropZone(dropzone, {
 
 <template>
   <div class="is-flex is-flex-direction-column is-gap-2 mt-5">
-    <p v-if="isTooLarge" class="error-message">
-      Este archivo es demasiado grande para subirlo a la wiki. El tamaño máximo es de 10 MB. Comprime tu archivo aquí:
+    <p v-if="tooLargeFiles.length" class="error-message">
+      <template v-if="tooLargeFiles.length === 1">
+        El archivo <strong>{{ tooLargeFiles[0] }}</strong> es demasiado grande para subirlo (máx. 10MB).
+      </template>
+      <template v-else>
+        Los siguientes archivos son demasiado grandes para subirlos (máx. 10MB):
+        <ul>
+          <li v-for="file in tooLargeFiles" :key="file">
+            {{ file }}
+          </li>
+        </ul>
+      </template>
+      Comprime tu archivo aquí:
       <ExternalLink link="https://nmscd.com/Image-Compressor/" text="Compresor de imágenes" />
     </p>
 
