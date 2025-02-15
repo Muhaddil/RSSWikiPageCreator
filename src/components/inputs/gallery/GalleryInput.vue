@@ -7,34 +7,62 @@ import { storeToRefs } from 'pinia';
 import FileUpload, { type FileUploadSelectEvent } from 'primevue/fileupload';
 import { ref } from 'vue';
 import GalleryPreview from './GalleryPreview.vue';
+import ExternalLink from '../../ExternalLink.vue';
 
 const pageData = usePageDataStore();
 const { galleryFiles } = storeToRefs(pageData);
+const isTooLarge = ref(false);
 
 let id = 0;
 
 function onUpload(e: FileUploadSelectEvent) {
   const files: unknown = e.files;
   if (!Array.isArray(files)) return;
-  const galleryItems: GalleryFileItem[] = files
-    .filter((file) => file instanceof File)
+
+  const validFiles: GalleryFileItem[] = files
+    .filter((file) => {
+      if (!(file instanceof File)) return false;
+      if (file.size > maxFileSize) {
+        isTooLarge.value = true;
+        return false;
+      }
+      return true;
+    })
     .map((file) => ({
       file,
       id: id++,
       desc: '',
     }));
-  galleryFiles.value.unshift(...galleryItems);
+
+  if (validFiles.length) {
+    isTooLarge.value = false;
+    galleryFiles.value.unshift(...validFiles);
+  }
 }
 
 function onDrop(files: File[] | null) {
   if (!files) return;
-  const galleryItems: GalleryFileItem[] = files.map((file) => ({
-    file,
-    id: id++,
-    desc: '',
-  }));
-  galleryFiles.value.unshift(...galleryItems);
+
+  const validFiles: GalleryFileItem[] = files
+    .filter((file) => {
+      if (file.size > maxFileSize) {
+        isTooLarge.value = true;
+        return false;
+      }
+      return true;
+    })
+    .map((file) => ({
+      file,
+      id: id++,
+      desc: '',
+    }));
+
+  if (validFiles.length) {
+    isTooLarge.value = false;
+    galleryFiles.value.unshift(...validFiles);
+  }
 }
+
 
 const dropzone = ref<HTMLDivElement | null>(null);
 
@@ -51,32 +79,17 @@ const { isOverDropZone } = useDropZone(dropzone, {
 
 <template>
   <div class="is-flex is-flex-direction-column is-gap-2 mt-5">
-    <FileUpload
-      :maxFileSize
-      :show-cancel-button="false"
-      :show-upload-button="false"
-      accept="image/*"
-      auto
-      custom-upload
-      multiple
-      @select="onUpload"
-    >
+    <p v-if="isTooLarge" class="error-message">
+      Este archivo es demasiado grande para subirlo a la wiki. El tamaño máximo es de 10 MB. Comprime tu archivo aquí:
+      <ExternalLink link="https://nmscd.com/Image-Compressor/" text="Compresor de imágenes" />
+    </p>
+
+    <FileUpload :maxFileSize="maxFileSize" :show-cancel-button="false" :show-upload-button="false" accept="image/*" auto
+      custom-upload multiple @select="onUpload">
       <template #header>
-        <div
-          class="full-width"
-          ref="dropzone"
-        >
-          <FileUpload
-            :class="{ 'p-button-outlined': !isOverDropZone }"
-            :maxFileSize
-            accept="image/*"
-            choose-label="Añadir archivos"
-            auto
-            custom-upload
-            mode="basic"
-            multiple
-            @select="onUpload"
-          />
+        <div class="full-width" ref="dropzone">
+          <FileUpload :class="{ 'p-button-outlined': !isOverDropZone }" :maxFileSize="maxFileSize" accept="image/*"
+            choose-label="Añadir archivos" auto custom-upload mode="basic" multiple @select="onUpload" />
         </div>
       </template>
       <template #empty>
@@ -89,3 +102,10 @@ const { isOverDropZone } = useDropZone(dropzone, {
     <GalleryPreview />
   </div>
 </template>
+
+<style scoped>
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+</style>

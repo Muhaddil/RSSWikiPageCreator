@@ -15,6 +15,7 @@ import CoordinateInput from '@/components/inputs/CoordinateInput.vue';
 import GalleryInput from '@/components/inputs/gallery/GalleryInput.vue';
 import FileUploadNotice from '@/components/FileUploadNotice.vue';
 import FeatureInput from '@/components/inputs/FeatureInput.vue';
+import BaseTypeSelect from '@/components/inputs/BaseTypeSelect.vue';
 
 const pageData = usePageDataStore();
 const {
@@ -90,7 +91,8 @@ const showDiscovered = computed(() => !discoveredlink.value);
   />
   <CoordinateInput v-model="axes" />
   <GlyphInput v-model="glyphs" />
-  <SanitisedTextInput
+  <BaseTypeSelect v-model="type" />
+  <!-- <SanitisedTextInput
     v-model="type"
     label="Tipo de la base"
     tooltip="Tipo y propósito de la base."
@@ -107,7 +109,7 @@ const showDiscovered = computed(() => !discoveredlink.value);
         <li>Residencial</li>
       </ul>
     </div>
-  </SanitisedTextInput>
+  </SanitisedTextInput> -->
 
   <Fieldset
     class="mb-4"

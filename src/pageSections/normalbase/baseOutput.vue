@@ -76,6 +76,7 @@ const formattedFeatures = computed(() => {
   <div>| terminal = {{ terminal }}</div>
   <div>| racetrack = {{ racetrack }}</div>
   <div>| censusplayer = </div>
+  <div>| censusreddit = </div>
   <div>| censusdiscord = </div>
   <div>| censusfriend = </div>
   <div>| censusarrival = </div>
@@ -91,10 +92,10 @@ const formattedFeatures = computed(() => {
   </div>
   <br />
   <div>==Layout==</div>
-  <div>{{ layout }}</div>
+  <div class="keep-linebreaks">{{ layout }}</div>
   <br />
   <div>==Features==</div>
-  <div>{{ formattedFeatures }}</div>
+  <div class="keep-linebreaks">{{ formattedFeatures }}</div>
   <br />
   <div>==Additional Information==</div>
   <div>{{ additionalInfo }}</div>
