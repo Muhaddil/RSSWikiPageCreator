@@ -124,7 +124,20 @@ function coords2Glyphs(coordinates: string): string {
 
 const regionGlyphsMap: Record<string, string> = {
   'Uekenbe Shallows': '2141F7EC0D24',
-  'Uklots Shallows': '0016032FE9B0',
+  'Uklots Shallows': '01B8032FE9B0',
+  'Xecroften': '01B8F7EC0D25',
+  'Areyas': '0080F8EBDD24',
+  'Udrupi Shallows': '10BCF7EBFD24',
+  'Jiessl Shallows': '01A7F7EBFD25',
+  'Becheeth Sector': '00E6F7EC1D24',
+  'Juhalbe Cluster': '01B6F6EC0D23',
+  'Sea of Ticrops': '007A0EEC7D10',
+  'Larinar Boundary': '010F0AAEBB96',
+  'Eighba Fringe': '0133FEA34C10',
+  'Emcalh Nebula': '0041F9F846D8',
+  'Qudsor Void': '007CFF9B4CB0',
+  'Uhcheimri Void': '00EAFBF21696',
+  'Skitco': '00F30266CF95',
 };
 
 function getGlyphs(region: string, coordinates: string): string {
@@ -137,12 +150,51 @@ const itemNameTranslations: Record<string, string> = {
   'Planets': 'Planetas',
   'Starships': 'Naves',
   'Multi-Tools': 'Multiherramientas',
+  'Euclid': 'Euclides',
+  'Hilbert Dimension' : 'Dimensión de Hilbert',
 };
 
 function translateItemName(itemName: string | number): string {
   const key = itemName.toString();
   return itemNameTranslations[key] || key;
 }
+
+interface Quadrant {
+  name: string;
+  regions: ExtendedRegionsQueryData[];
+}
+
+interface Galaxy {
+  name: string;
+  quadrants: Quadrant[];
+  image?: string;
+}
+
+const groupedGalaxies = computed(() => {
+  const galaxiesMap = new Map<string, Galaxy>();
+
+  bases.value.forEach(region => {
+    if(!galaxiesMap.has(region.Galaxy)) {
+      galaxiesMap.set(region.Galaxy, {
+        name: region.Galaxy,
+        quadrants: [],
+        image: region.imageUrl?.modal
+      });
+    }
+
+    const galaxy = galaxiesMap.get(region.Galaxy)!;
+    let quadrant = galaxy.quadrants.find(q => q.name === region.Quadrant);
+
+    if(!quadrant) {
+      quadrant = { name: region.Quadrant, regions: [] };
+      galaxy.quadrants.push(quadrant);
+    }
+
+    quadrant.regions.push(region);
+  });
+
+  return Array.from(galaxiesMap.values());
+});
 </script>
 
 <template>
@@ -151,12 +203,12 @@ function translateItemName(itemName: string | number): string {
       <div class="space-page-container">
         <div class="flex items-start justify-between mb-6 header-container">
           <div class="flex flex-col">
-            <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank">
+            <div class="header-container">
+              <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank">
               <div class="rss-logo">
                 <img src="/assets/images/basesdestacadas/RSS-Logo.webp" class="logo-image" alt="RSS Logo" />
               </div>
             </a>
-            <div class="header-container">
               <div class="title-theme-container">
                 <h1 class="galactic-title">
                   <span class="title-text">Regiones - Royal Space Society</span>
@@ -190,65 +242,86 @@ function translateItemName(itemName: string | number): string {
           <i class="pi pi-exclamation-triangle"></i> {{ error }}
         </div>
 
-        <div v-else class="grid gap-4" :style="`grid-template-columns: repeat(${gridColumns}, 1fr)`">
-          <Card v-for="(base, index) in bases" :key="index" class="link-card">
-            <template #content>
-              <div class="p-4 base-content">
-                <div class="flex flex-column gap-3">
-                  <div class="flex align-items-center gap-2">
-                    <h3 class="base-title">{{ base.Region }}</h3>
-                    <Tag :value="base.Galaxy" severity="info" class="category-tag" />
-                  </div>
-
-                  <div class="base-details">
-                    <div class="detail-item">
-                      <span class="detail-label">Cuadrante:</span>
-                      <span class="detail-value">{{ base.Quadrant }}</span>
-                    </div>
-
-                    <div class="detail-item">
-                      <span class="detail-label">Coordenadas:</span>
-                      <span class="detail-value">{{ base.Coordinates }}</span>
-                    </div>
-
-                    <div class="detail-item">
-                      <span class="detail-label">Glifos:</span>
-                      <span class="glyph-value">{{ getGlyphs(base.Region, base.Coordinates) }}</span>
-                    </div>
-                  </div>
-
-                  <Panel v-if="base.stats" class="stats-panel mt-3">
-                    <template #header>
-                      <span class="stats-header">Estadísticas de la Región</span>
-                    </template>
-                    <div class="stats-content">
-                      <div v-for="(item, itemName) in base.stats" :key="itemName" class="stat-item">
-                        <span class="stat-label">{{ translateItemName(itemName) }}</span>
-                        <Tag class="stat-tag" severity="info">
-                          Cantidad: {{ item.CrossPlatform }}
-                        </Tag>
-                      </div>
-                    </div>
-                  </Panel>
-
-                  <Panel v-if="base.Region" class="builder-panel mt-3">
-                    <template #header>
-                      <span class="builder-link-header">Enlaces de la Región</span>
-                    </template>
-                    <div class="panel-content-with-image">
-                      <a :href="`https://nomanssky.fandom.com/wiki/${formatWikiLink(base.Region)}`" target="_blank"
-                        class="builder-link">
-                        <i class="pi pi-external-link"></i> Ver detalles de la región
-                      </a>
-                      <img v-if="base.imageUrl" :src="base.imageUrl.modal" alt="Imagen de la base"
-                        class="panel-base-image"
-                        @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(base.Region)}`)" />
-                    </div>
-                  </Panel>
-                </div>
+        <div v-else class="galaxy-container">
+          <Panel v-for="(galaxy, gIndex) in groupedGalaxies" :key="gIndex" class="galaxy-panel" toggleable collapsed>
+            <template #header>
+              <div class="galaxy-header">
+                <img v-if="galaxy.image" :src="galaxy.image" class="galaxy-image" />
+                <h2 class="galaxy-title">{{ translateItemName(galaxy.name) }}</h2>
+                <Tag :value="`${galaxy.quadrants.length} ${galaxy.quadrants.length === 1 ? 'Cuadrante' : 'Cuadrantes'}`" severity="info" />
               </div>
             </template>
-          </Card>
+
+            <div class="quadrants-grid">
+              <Panel v-for="(quadrant, qIndex) in galaxy.quadrants" :key="qIndex" class="quadrant-panel" toggleable collapsed>
+                <template #header>
+                  <h3 class="quadrant-title">
+                    <i class="pi pi-th-large"></i>
+                    {{ quadrant.name }}
+                    <Tag :value="`${quadrant.regions.length} ${quadrant.regions.length === 1 ? 'Región' : 'Regiones'}`" severity="info" />
+                  </h3>
+                </template>
+
+                <div class="regions-grid" :style="`grid-template-columns: repeat(${gridColumns}, 3fr)`">
+                  <Card v-for="(region, rIndex) in quadrant.regions" :key="rIndex" class="region-card">
+                    <template #content>
+                      <div class="p-4 base-content">
+                        <div class="flex flex-column gap-3">
+                          <div class="flex align-items-center gap-2">
+                            <h3 class="base-title">{{ region.Region }}</h3>
+                            <Tag :value="region.Galaxy" severity="info" class="category-tag" />
+                          </div>
+
+                          <div class="base-details">
+                            <div class="detail-item">
+                              <span class="detail-label">Cuadrante:</span>
+                              <span class="detail-value">{{ region.Quadrant }}</span>
+                            </div>
+
+                            <div class="detail-item">
+                              <span class="detail-label">Coordenadas:</span>
+                              <span class="detail-value">{{ region.Coordinates }}</span>
+                            </div>
+
+                            <div class="detail-item">
+                              <span class="detail-label">Glifos:</span>
+                              <span class="glyph-value">{{ getGlyphs(region.Region, region.Coordinates) }}</span>
+                            </div>
+                          </div>
+
+                          <Panel v-if="region.stats" class="stats-panel mt-3">
+                            <template #header>
+                              <span class="stats-header">Estadísticas de la Región</span>
+                            </template>
+                            <div class="stats-content">
+                              <div v-for="(item, itemName) in region.stats" :key="itemName" class="stat-item">
+                                <span class="stat-label">{{ translateItemName(itemName) }}</span>
+                                <Tag class="stat-tag" severity="info">
+                                  Cantidad: {{ item.CrossPlatform }}
+                                </Tag>
+                              </div>
+                            </div>
+                          </Panel>
+
+                          <Panel v-if="region.Region" class="builder-panel mt-3">
+                            <template #header>
+                              <span class="builder-link-header">Enlaces de la Región</span>
+                            </template>
+                            <div class="panel-content-with-image">
+                              <a :href="`https://nomanssky.fandom.com/wiki/${formatWikiLink(region.Region)}`" target="_blank" class="builder-link">
+                                <i class="pi pi-external-link"></i> Ver detalles de la región
+                              </a>
+                              <img v-if="region.imageUrl" :src="region.imageUrl.modal" alt="Imagen de la base" class="panel-base-image" @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(region.Region)}`)" />
+                            </div>
+                          </Panel>
+                        </div>
+                      </div>
+                    </template>
+                  </Card>
+                </div>
+              </Panel>
+            </div>
+          </Panel>
         </div>
       </div>
     </template>
@@ -261,14 +334,15 @@ function translateItemName(itemName: string | number): string {
   --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
   --text-primary: #1e293b;
   --text-secondary: #475569;
-  --background-primary: #d3d3d3;
-  --background-secondary: #f1f1f1;
-  --background-terciary: #a0a0a0;
+  --background-primary: #f8fafc;
+  --background-secondary: #e2e8f0;
+  --background-terciary: #cbd5e1;
   --border-color: rgba(99, 102, 241, 0.15);
   --hover-effect: rgba(99, 102, 241, 0.1);
   --tag-background: rgba(79, 70, 229, 0.1);
   --tag-border: #4f46e5;
   --tag-text: #4f46e5;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .theme-dark .galactic-card {
@@ -276,27 +350,36 @@ function translateItemName(itemName: string | number): string {
   --secondary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
-  --background-primary: #0a0e1a;
-  --background-secondary: #1a1f2d;
-  --background-terciary: #192340;
+  --background-primary: #0f172a;
+  --background-secondary: #1e293b;
+  --background-terciary: #334155;
   --border-color: rgba(103, 232, 249, 0.15);
   --hover-effect: rgba(103, 232, 249, 0.2);
   --tag-background: rgba(103, 232, 249, 0.1);
   --tag-border: #67e8f9;
   --tag-text: #67e8f9;
+  --card-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
 }
 
 .galactic-card {
   background: var(--background-primary);
   border: 1px solid var(--border-color);
-  margin: 0 auto;
-  padding: 0 1rem;
+  margin: 1rem auto;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
 }
 
 .space-page-container {
-  max-width: 2800px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 2rem 1.5rem;
+}
+
+.header-container {
+  position: relative;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .galactic-title {
@@ -426,7 +509,7 @@ function translateItemName(itemName: string | number): string {
   font-family: NMS-Glyphs-Mono;
   text-overflow: ellipsis;
   overflow: hidden;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
 .builder-panel {
@@ -469,9 +552,7 @@ function translateItemName(itemName: string | number): string {
   align-items: flex-start;
   justify-content: flex-end;
   right: 5%;
-  top: 2rem;
-  height: auto;
-  width: auto;
+  top: -3rem;
 }
 
 .logo-image {
@@ -488,29 +569,233 @@ function translateItemName(itemName: string | number): string {
   transform: rotate(-5deg) scale(1.05);
 }
 
-@media (max-width: 768px) {
-  .rss-logo {
-    position: absolute;
-    right: 0.1rem;
-    top: 0.5rem;
-    margin-top: 1rem;
-    width: 0px;
-    height: 0px;
-  }
+.galactic-panel {
+  background: var(--background-secondary) !important;
+  border-radius: 10px !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: var(--card-shadow);
+}
 
-  .logo-image {
-    height: auto;
-    transition: transform 0.3s ease;
-    filter: brightness(var(--logo-brightness, 1));
+.panel-title {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.panel-content {
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.security-level {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.galaxy-container {
+  display: grid;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.galaxy-panel {
+  background: var(--background-terciary) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(79, 70, 229, 0.1);
+}
+
+.galaxy-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(45deg, rgba(79, 70, 229, 0.05), transparent);
+}
+
+.galaxy-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid var(--tag-border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.quadrants-grid {
+  display: grid;
+  gap: 2rem;
+  padding: 1.5rem;
+  grid-template-columns: 1;
+  overflow-x: auto;
+}
+
+.quadrant-panel {
+  background: var(--background-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 10px !important;
+  transition: transform 0.2s ease;
+}
+
+.quadrant-panel:hover {
+  transform: translateY(-2px);
+}
+
+.quadrant-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.regions-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  padding: 1rem;
+  grid-auto-flow: dense;
+}
+
+.region-card {
+  background: var(--background-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease;
+  min-width: 360px;
+  height: fit-content;
+}
+
+.region-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px var(--hover-effect);
+}
+
+.stats-panel {
+  background: var(--background-secondary) !important;
+  border-radius: 8px !important;
+  margin-top: 1.5rem;
+}
+
+.stats-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.stat-item {
+  background: var(--background-primary);
+  border-radius: 6px;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+@media (max-width: 1024px) {
+  .space-page-container {
+    padding: 1.5rem 1rem;
   }
 
   .galactic-title {
-    font-size: 1.5rem;
-    text-align: center;
+    font-size: 2rem;
   }
 
+}
+
+@media (max-width: 768px) {
   .header-container {
-    text-align: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
   }
+
+  .logo-image {
+    height: 0px;
+  }
+
+  .galactic-title {
+    font-size: 1.75rem;
+  }
+
+  .galaxy-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .quadrants-grid {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .regions-grid {
+    width: 50%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-content {
+    grid-template-columns: 1fr;
+  }
+
+  .region-card{
+    max-width: 20%;
+  }
+}
+
+@media (max-width: 480px) {
+  .galactic-title {
+    font-size: 1.5rem;
+  }
+
+  .panel-title {
+    font-size: 1.25rem;
+  }
+
+  .quadrant-title {
+    font-size: 1.1rem;
+  }
+
+  .region-card {
+    margin: 0 -0.5rem;
+  }
+}
+
+@keyframes card-entry {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.galaxy-panel {
+  animation: card-entry 0.6s ease-out;
+}
+
+.region-card {
+  animation: card-entry 0.4s ease-out;
+}
+
+.loading-message,
+.error-message {
+  padding: 3rem 2rem;
+  border-radius: 12px;
+  background: var(--background-secondary);
+  border: 2px dashed var(--border-color);
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.loading-message i {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.error-message i {
+  color: #ef4444;
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 </style>
