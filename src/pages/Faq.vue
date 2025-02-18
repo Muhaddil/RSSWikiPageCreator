@@ -16,7 +16,9 @@ export default defineComponent({
       { id: 8, question: "¿Qué tipo de base puedo dar de alta en el Censo de Bases de la RSS?", answer: "Cualquier base puede registrarse, pero recomendamos que sea tu base principal o una base bien desarrollada. Es posible cambiar la base registrada en cualquier momento." },
       { id: 9, question: "¿Qué tengo que hacer para mantener mi base en el Censo de Bases de la RSS?", answer: "El censo se actualiza anualmente. Debes renovar tu registro cada año, preferentemente en enero. Para renovar, simplemente edita la página de tu base y cambia el campo 'censusrenewal' al año actual (por ejemplo: 'censusrenewal = 2024')." },
       { id: 10, question: "¿Por qué no aparezco en el Censo de Miembros de la RSS si tengo mi base registrada en el Censo de Bases?", answer: "Los administradores de la wiki decidieron que los jugadores con una base registrada en el Censo de Bases no pueden aparecer en el Censo de Miembros, al igual que solo se puede tener una base por jugador en el censo de bases. Cabe destacar que el censo de bases tiene una mayor importancia para la RSS que el censo de miembros. Además, este registro conlleva el compromiso de actualizar la entrada en el censo de la base cada año." },
-      { id: 11, question: "¿Puedo registrar sistemas, planetas o bases fuera de las regiones registradas por la RSS?", answer: "No es recomendable registrar elementos fuera de las regiones registradas por la RSS para evitar problemas con los administradores de la wiki." }
+      { id: 11, question: "¿Puedo registrar sistemas, planetas o bases fuera de las regiones registradas por la RSS?", answer: "No es recomendable registrar elementos fuera de las regiones registradas por la RSS para evitar problemas con los administradores de la wiki." },
+      { id: 12, question: "¿Por qué me da error de Inline Templates?", answer: 'Eso es porque usas un editor que se carga el formato que crea esta web, cambia el editor a editor clásico aquí: <a href="https://nomanssky.fandom.com/wiki/Special:Preferences#mw-prefsection-editing" target="_blank">Editor clásico</a>' }
+
     ]);
 
     const searchTerm = ref("");
@@ -151,7 +153,7 @@ export default defineComponent({
             {{ faq.question }}
           </strong>
           <br />
-          <p class="dropdown-content" v-if="showStates[faq.id]">{{ faq.answer }}</p>
+          <p class="dropdown-content" v-if="showStates[faq.id]" v-html="faq.answer"></p>
         </div>
       </div>
     </div>
@@ -366,6 +368,7 @@ footer p {
 .no-results-message p {
   margin: 0;
 }
+
 .dropdown {
   display: flex;
   flex-direction: column;
@@ -390,5 +393,4 @@ footer p {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 </style>
