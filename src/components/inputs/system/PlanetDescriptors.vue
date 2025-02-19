@@ -4,8 +4,9 @@ import InputTableItem from '../../InputTableItem.vue';
 import SelectDropdown from '../SelectDropdown.vue';
 import { mappedPlanetDescriptors, mappedMoonDescriptors, mappedGiantDescriptors } from '@/variables/system/planetdescriptors';
 import Explainer from '../../Explainer.vue';
+// import getDescriptorData from '@/datalists/planetDatalists';
 
-defineProps<{ resetEvent?: string, isMoon?: boolean, isGiant?: boolean }>();
+defineProps<{ resetEvent?: string, isMoon?: boolean, isGiant?: boolean, biome: string; }>();
 
 const model = defineModel<string>({ required: true });
 

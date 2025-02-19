@@ -238,7 +238,7 @@ watch(
         </InputTableItem>
 
         <BiomeInput v-model="planet.biome" />
-        <PlanetDescriptors v-model="planet.descriptors" :isMoon="planet.ismoon === 'Yes'" :isGiant="planet.isgigant === 'Yes'"/>
+        <PlanetDescriptors :biome="planet.biome" v-model="planet.descriptors" :isMoon="planet.ismoon === 'Yes'" :isGiant="planet.isgigant === 'Yes'"/>
 
         <Panel class="my-4" header="Recursos" toggleable>
           <div v-for="(resource, resourceIndex) in planet.resources" :key="resourceIndex" class="resource-container">

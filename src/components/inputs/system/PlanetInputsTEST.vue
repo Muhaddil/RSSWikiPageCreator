@@ -175,7 +175,7 @@ const removeResource = (planetIndex: number, resourceIndex: number) => {
         </InputTableItem>
 
         <BiomeInput v-model="planet.biome" />
-        <PlanetDescriptors v-model="planet.descriptors" :isMoon="planet.ismoon === 'Yes'" />
+        <PlanetDescriptors :biome="planet.biome" v-model="planet.descriptors" :isMoon="planet.ismoon === 'Yes'" />
 
         <Panel class="my-4" header="Recursos" toggleable>
           <div v-for="(resource, resourceIndex) in planet.resources" :key="resourceIndex" class="resource-container">
