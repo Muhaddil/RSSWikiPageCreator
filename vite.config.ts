@@ -6,21 +6,6 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
   base: '/RSSWikiPageCreator/',
   plugins: [vue()],
-  // test: {
-  //   environment: 'happy-dom',
-  //   browser: {
-  //     provider: 'webdriverio',
-  //     enabled: true,
-  //     headless: true,
-  //     name: 'chrome',
-  //   },
-  //   coverage: {
-  //     include: ['src/**.{ts,vue}', 'src/**/**.{ts,vue}'],
-  //     exclude: ['src/api/**/**.ts', 'src/**/**.d.ts'],
-  //     clean: true,
-  //     all: true,
-  //   },
-  // },
   build: {
     rollupOptions: {
       input: [

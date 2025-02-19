@@ -60,7 +60,6 @@ export function generateGlyphs(selectedRegion: string): string {
 
   glyphs += selectedRegion;
 
-  // Asegurarnos de que siempre haya 12 caracteres
   while (glyphs.length < 12) {
     glyphs += randomGlyph();
   }
@@ -86,14 +85,11 @@ export function displayRandomGlyphs(): void {
   const region = regions[selectedRegion] || 'Desconocida';
   const galaxy = galaxies[selectedRegion] || 'Desconocida';
 
-  // Limpiar el contenido del glifo
-  glyphOutput.innerHTML = ''; // Limpiar contenido anterior
+  glyphOutput.innerHTML = '';
 
-  // Crear un contenedor para los glifos
   const glyphContainer = document.createElement('span');
   glyphContainer.classList.add('glyph-container');
 
-  // Crear los 12 glifos y animarlos uno por uno
   let index = 0;
   const glyphsArray = glyphs.split('');
 
@@ -103,22 +99,17 @@ export function displayRandomGlyphs(): void {
       glyphElement.classList.add('glyph');
       glyphElement.textContent = glyphsArray[index];
 
-      // Agregar cada glifo al contenedor
       glyphContainer.appendChild(glyphElement);
 
-      // Animar el glifo (rotación)
       glyphElement.classList.add('spin');
 
-      // Incrementar el índice y llamar a la siguiente animación
       index++;
-      setTimeout(animateNextGlyph, 100); // Esperar 100ms antes de mostrar el siguiente glifo
+      setTimeout(animateNextGlyph, 100);
     }
   }
 
-  // Iniciar la animación de los glifos
   animateNextGlyph();
 
-  // Agregar el contenedor al elemento de salida
   glyphOutput.appendChild(glyphContainer);
 
   regionOutput.textContent = 'Región: ' + region;
