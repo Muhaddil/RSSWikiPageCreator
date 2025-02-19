@@ -1,11 +1,11 @@
 <script lang="ts">
-import { defineComponent, reactive, ref, computed, watchEffect, onMounted, nextTick } from "vue";
+import { defineComponent, watch, reactive, ref, computed, watchEffect, onMounted, nextTick } from "vue";
 import autoAnimate from "@formkit/auto-animate"
 
 export default defineComponent({
   name: "Faq",
   setup() {
-    const faqs = reactive([
+    const faqs = ref([
       { id: 1, question: "¿Qué es la RSS?", answer: "La RSS es un grupo de jugadores de NMS de habla hispana (aunque también se aceptan miembros de otros idiomas) que tiene una página en la wikipedia de NMS donde se registran los descubrimientos de sus miembros." },
       { id: 2, question: "¿Cómo funciona la wiki de NMS?", answer: "La wiki de NMS tiene administradores que han definido una serie de normas para añadir páginas. Estas normas son de cumplimiento obligatorio. Los administradores pueden modificar o eliminar páginas que no respeten las reglas. Para registrar páginas en la wiki, se debe crear una civilización o una compañía dentro del espacio civilizado." },
       { id: 3, question: "¿Cómo puedo ser miembro de la RSS?", answer: "Para ser miembro de la RSS debes registrarte como usuario de Fandom y darte de alta en el Censo de Miembros de la RSS." },
@@ -26,12 +26,23 @@ export default defineComponent({
     const messageShown = ref<boolean>(false);
 
     const filteredFaqs = computed(() =>
-      faqs.filter(
+      faqs.value.filter(
         (faq) =>
           faq.question.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
           faq.answer.toLowerCase().includes(searchTerm.value.toLowerCase())
       )
     );
+
+    const applyAnimation = async () => {
+      await nextTick();
+      dropdowns.value.forEach((el) => {
+        if (el) autoAnimate(el);
+      });
+    };
+
+    onMounted(applyAnimation);
+
+    watch(filteredFaqs, applyAnimation);
 
     const noResultsMessages = [
       "¿Has probado a buscar algo que tenga sentido?",
@@ -114,13 +125,6 @@ export default defineComponent({
     };
 
     const dropdowns = ref<(HTMLElement | null)[]>([]);
-
-    onMounted(async () => {
-      await nextTick();
-      dropdowns.value.forEach((el) => {
-        if (el) autoAnimate(el);
-      });
-    });
 
     return {
       searchTerm,
