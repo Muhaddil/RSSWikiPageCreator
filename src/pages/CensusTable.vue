@@ -11,9 +11,9 @@ interface ExtendedCensusQueryData extends CensusQueryData {
   imageUrl?: ImageUrls | null;
 }
 
-onMounted(() => {
-  window.location.href = "/RSSWikiPageCreator/indextest.html";
-});
+// onMounted(() => {
+//   window.location.href = "/RSSWikiPageCreator/indextest.html";
+// });
 
 const bases = ref<ExtendedCensusQueryData[]>([]);
 const isLoading = ref(true);

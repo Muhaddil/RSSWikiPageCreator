@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
@@ -7,9 +7,9 @@ import Checkbox from 'primevue/checkbox';
 import { translations, linkData } from '@/variables/links';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 
-onMounted(() => {
-  window.location.href = "/RSSWikiPageCreator/indextest.html";
-});
+// onMounted(() => {
+//   window.location.href = "/RSSWikiPageCreator/indextest.html";
+// });
 
 const queryParams = new URLSearchParams(window.location.search);
 const language = ref<'en' | 'es'>(queryParams.get('lang') === 'en' ? 'en' : 'es');

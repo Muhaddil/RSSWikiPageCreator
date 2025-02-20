@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import Card from 'primevue/card';
 import Carousel from 'primevue/carousel';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Dialog from 'primevue/dialog';
-onMounted(() => {
-  window.location.href = "/RSSWikiPageCreator/indextest.html";
-});
+
+// onMounted(() => {
+//   window.location.href = "/RSSWikiPageCreator/indextest.html";
+// });
 
 const bases = ref([
   {

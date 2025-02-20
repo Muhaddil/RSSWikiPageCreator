@@ -3,10 +3,10 @@ import PageCreator from '@/views/PageCreator.vue';
 import RacetrackOutput from '@/pageSections/racetrack/racetrackOutput.vue';
 import RacetrackInput from '@/pageSections/racetrack/racetrackInput.vue';
 
-import { onMounted } from "vue";
-onMounted(() => {
-  window.location.href = "/RSSWikiPageCreator/indextest.html";
-});
+// import { onMounted } from "vue";
+// onMounted(() => {
+//   window.location.href = "/RSSWikiPageCreator/indextest.html";
+// });
 </script>
 
 <template>

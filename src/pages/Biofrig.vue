@@ -3,10 +3,10 @@ import PageCreator from '@/views/PageCreator.vue';
 import BioFrigOutput from '@/pageSections/biofrig/BioFrigOutput.vue';
 import BioFrigInput from '@/pageSections/biofrig/BioFrigInput.vue';
 
-import { onMounted } from "vue";
-onMounted(() => {
-  window.location.href = "/RSSWikiPageCreator/indextest.html";
-});
+// import { onMounted } from "vue";
+// onMounted(() => {
+//   window.location.href = "/RSSWikiPageCreator/indextest.html";
+// });
 </script>
 
 <template>

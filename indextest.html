@@ -40,6 +40,14 @@
       margin: 2rem;
       position: relative;
       box-shadow: 0 0 30px rgba(103, 232, 249, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .galactic-card:hover {
+      transform: translateY(-1px) scale(1.005);
+      box-shadow: 0 10px 40px rgba(103, 232, 249, 0.2);
+      z-index: 1;
     }
 
     .galactic-title {
@@ -64,6 +72,14 @@
       border-radius: 8px;
       margin: 1rem 0;
       background: var(--background-primary);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .content-section:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 10px 40px rgba(103, 232, 249, 0.2);
+      z-index: 1;
     }
 
     .status-tag {
@@ -94,34 +110,43 @@
 
 <body>
   <div class="galactic-card">
-    <h1 class="galactic-title">🛡️ Servicio Parado 🛡️</h1>
+    <h1 class="galactic-title">🛡️ Servicio Suspendido 🛡️</h1>
 
     <div class="content-section">
-      <div class="status-tag">Estado: Desactivación Temporal</div>
+      <div class="status-tag">Estado: Suspensión Temporal</div>
 
-      <p>Lamentamos informar que el <strong>Creador de Páginas Wiki de la Royal Space Society</strong>
+      <p>Como creador de esta aplicación (Muhaddil), lamento informar que el <strong>Creador de Páginas Wiki de la Royal
+          Space Society</strong>
         ha sido retirado de servicio temporalmente.</p>
 
-      <!-- <p>Después de un largo viaje y numerosas actualizaciones, hemos tomado la
-        difícil decisión de cerrar definitivamente esta plataforma.</p> -->
-
-      <!-- <p>Siempre quedará la posibilidad de seguir subiendo descubrimientos a la wiki de manera tradicional, es decir,
-        creando el código uno mismo.</p> -->
+      <p>Esta decisión se debe principalmente a dos factores:</p>
+      <ul>
+        <li>🚦 Falta de tiempo disponible para su mantenimiento y actualización</li>
+        <li>📉 Interés limitado por parte de la comunidad</li>
+      </ul>
 
       <h3>📅 Cronología del Servicio</h3>
       <ul>
         <li>🚀 Lanzamiento inicial: 2023</li>
-        <li>🛰️ Última actualización: 2025</li>
-        <li>🔴 Cierre temporal: 2025</li>
+        <li>🛠️ Desarrollo activo: 2023-2025</li>
+        <li>🛑 Suspensión temporal: 2025</li>
       </ul>
     </div>
 
     <div class="content-section">
       <h3>✨ Agradecimientos</h3>
-      <p>Agradecemos a todas y todos los <strong>exploradores</strong> que contribuyeron
-        a este proyecto intergaláctico. Vuestras bases quedarán registradas en la wiki del No Man's Sky.
-      </p>
-      <div class="status-tag">Versión Actual: %VITE_VERSION%</div>
+      <p>Quiero dar las gracias a cada <strong>viajero</strong> que apoyó este proyecto.
+        Fue una experiencia increíble crear herramientas para nuestra comunidad, pero actualmente no puedo dedicarle
+        la atención que merece.</p>
+
+      <p>Las bases existentes permanecerán accesibles en la wiki de No Man's Sky como testimonio de nuestro trabajo
+        colectivo.</p>
+
+      <p>¿Volverá algún día? ¡Nunca digas nunca al infinito del universo!</p>
+
+      <div class="status-tag">Última versión desarrollada: %VITE_VERSION%</div>
+      <br />
+      <div class="status-tag secondary">Creado con pasión por Muhaddil</div>
     </div>
   </div>
 </body>

@@ -3,10 +3,10 @@ import PageCreator from '@/views/PageCreator.vue';
 import FloraOutput from '@/pageSections/flora/FloraOutput.vue';
 import FloraInput from '@/pageSections/flora/FloraInput.vue';
 
-import { onMounted } from "vue";
-onMounted(() => {
-  window.location.href = "/RSSWikiPageCreator/indextest.html";
-});
+// import { onMounted } from "vue";
+// onMounted(() => {
+//   window.location.href = "/RSSWikiPageCreator/indextest.html";
+// });
 </script>
 
 <template>

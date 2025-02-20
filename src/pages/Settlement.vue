@@ -3,10 +3,10 @@ import PageCreator from '@/views/PageCreator.vue';
 import SettlementOutput from '@/pageSections/settlement/SettlementOutput.vue';
 import SettlementInput from '@/pageSections/settlement/SettlementInput.vue';
 
-import { onMounted } from "vue";
-onMounted(() => {
-  window.location.href = "/RSSWikiPageCreator/indextest.html";
-});
+// import { onMounted } from "vue";
+// onMounted(() => {
+//   window.location.href = "/RSSWikiPageCreator/indextest.html";
+// });
 </script>
 
 <template>
