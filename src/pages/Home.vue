@@ -4,6 +4,10 @@ import { reactive, onMounted } from 'vue';
 import CivImage from '@/components/CivImage.vue';
 import PageLink from '@/components/PageLink.vue';
 
+onMounted(() => {
+  window.location.href = "/RSSWikiPageCreator/indextest.html";
+});
+
 const links: PageLinkProps[] = [
   {
     text: '',

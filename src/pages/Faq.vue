@@ -126,6 +126,10 @@ export default defineComponent({
 
     const dropdowns = ref<(HTMLElement | null)[]>([]);
 
+    onMounted(() => {
+      window.location.href = "/RSSWikiPageCreator/indextest.html";
+    });
+
     return {
       searchTerm,
       filteredFaqs,

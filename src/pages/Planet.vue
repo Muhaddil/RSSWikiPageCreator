@@ -2,6 +2,11 @@
 import PageCreator from '@/views/PageCreator.vue';
 import PlanetOutput from '@/pageSections/planet/PlanetOutput.vue';
 import PlanetInput from '@/pageSections/planet/PlanetInput.vue';
+
+import { onMounted } from "vue";
+onMounted(() => {
+  window.location.href = "/RSSWikiPageCreator/indextest.html";
+});
 </script>
 
 <template>

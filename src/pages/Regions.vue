@@ -6,6 +6,10 @@ import Panel from 'primevue/panel';
 import { fetchRegionsData, fetchRegionImageUrls, getRegionStats } from '@/api/api';
 import type { RegionQueryData, ImageUrls, RegionStats } from '@/api/api';
 
+onMounted(() => {
+  window.location.href = "/RSSWikiPageCreator/indextest.html";
+});
+
 interface ExtendedRegionsQueryData extends RegionQueryData {
   imageUrl?: ImageUrls | null;
   stats?: RegionStats | null;
