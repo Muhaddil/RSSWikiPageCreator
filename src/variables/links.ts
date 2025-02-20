@@ -85,6 +85,13 @@ export const linkData = {
         "description": "Registro galáctico unificado de todas las regiones cartografiadas bajo soberanía de la Royal Space Society",
         "icon": "pi pi-prime"
       },
+      {
+        "title": "Nexo Cronológico Galáctico RSS",
+        "category": "Protocolo de Registro Temporal",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
+        "description": "Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la Royal Space Society",
+        "icon": "pi-sort-amount-up"
+      }
     ],
     common: [
       {
@@ -171,6 +178,13 @@ export const linkData = {
         "description": "Directorio central de todas las regiones RSS reconocidas oficialmente",
         "icon": "pi pi-prime"
       },
+      {
+        "title": "Cronología de la RSS y de la Web",
+        "category": "Protocolo de Registro Temporal",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
+        "description": "Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la Royal Space Society",
+        "icon": "pi-sort-amount-up"
+      }
     ]
   },
   en: {
@@ -259,6 +273,13 @@ export const linkData = {
         "description": "Unified galactic registry of all charted regions under Royal Space Society sovereignty",
         "icon": "pi pi-prime"
       },
+      {
+        "title": "Galactic Chronological Nexus RSS",
+        "category": "Temporary Registration Protocol",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
+        "description": "A unified record of historical events and significant occurrences under the sovereignty of the Royal Space Society",
+        "icon": "pi-sort-amount-up"
+      }
     ],
     common: [
       {
@@ -345,6 +366,13 @@ export const linkData = {
         "description": "Central directory of all officially recognized RSS regions",
         "icon": "pi pi-prime"
       },
+      {
+        "title": "Timeline of RSS and the Web",
+        "category": "Temporary Registration Protocol",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
+        "description": "A unified record of historical events and significant occurrences under the sovereignty of the Royal Space Society",
+        "icon": "pi-sort-amount-up"
+      }
     ]
   }
 };
@@ -360,7 +388,7 @@ export const translations = {
       systemUpdate: 'System update: 18/7/2567 (Korvax Cycle)',
     },
     common: {
-      title: 'RSS Strategic Resources',
+      title: 'RSS STRATEGIC RESOURCES',
       subtitle: 'Central hub for essential Royal Space Society systems',
       accessTitle: 'Priority Access',
       accessText: 'Exclusive access for active RSS members',
