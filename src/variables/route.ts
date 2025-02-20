@@ -100,6 +100,9 @@ switch (route) {
   case 'regions':
     exportName = 'Regiones';
     break;
+  case 'cronology':
+    exportName = 'Cronología';
+    break;
   case '':
     exportName = 'Home';
     break;

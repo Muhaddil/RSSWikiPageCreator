@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Timeline from 'primevue/timeline';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
+import Panel from 'primevue/panel';
 
 interface TimelineEvent {
   title: string;
@@ -12,10 +13,42 @@ interface TimelineEvent {
 }
 
 const events = ref<TimelineEvent[]>([
-  { title: 'Evento 1', date: '2023-01-01', description: 'Descripción del evento 1', category: 'Categoría 1' },
-  { title: 'Evento 2', date: '2023-02-01', description: 'Descripción del evento 2', category: 'Categoría 2' },
-  { title: 'Evento 3', date: '2023-03-01', description: 'Descripción del evento 3', category: 'Categoría 3' },
+  { title: '1.0.52', date: '02 / 21 / 2025', description: 'Se añadió la página de cronología de la Royal Space Society y de esta misma web.', category: 'Web' },
+  { title: '1.0.51', date: '02 / 13 / 2025', description: 'Se añadió la página de regiones de la Royal Space Society.', category: 'Web' },
+  { title: '1.0.501', date: '02 / 13 / 2025', description: 'Se mejoró el sistema de generación de glifos de la RSS con animaciones y mejoras de su código.', category: 'Web' },
+  { title: '1.0.50', date: '02 / 13 / 2025', description: 'Se añadió un sistema de imágenes dinámico para las bases censadas.', category: 'Web' },
+  { title: '1.0.483', date: '02 / 09 / 2025', description: 'Se arregló un problema con la traducción de un apartado del registro de asentamientos.', category: 'Web' },
+  { title: '1.0.482', date: '02 / 09 / 2025', description: 'Se añadieron animaciones a la página de FAQs sumado a un nuevo sistema de logs.', category: 'Web' },
+  { title: '1.0.48', date: '02 / 08 / 2025', description: 'Se añadió la nueva página del portal de comunidad de la RSS.', category: 'Web' },
+  { title: '1.0.4751', date: '02 / 08 / 2025', description: 'Se añadió la región Qudsor Void de la galaxia Eissentam.', category: 'Web' },
+  { title: '1.0.475', date: '02 / 08 / 2025', description: 'Se añadieron los nuevos sistemas gaseosos sumado a una nueva página, la de bases destacadas.', category: 'Web' },
+  { title: '1.0.474', date: '02 / 07 / 2025', description: 'Se eliminó el apartado de imagen del paisaje del apartado de sistemas.', category: 'Web' },
+  { title: '1.0.473', date: '02 / 05 / 2025', description: 'Se añadió la nueva página del censo, con información actualizada dinamicamente de la wiki.', category: 'Web' },
+  { title: '1.0.472', date: '01 / 31 / 2025', description: 'Se arregló un problema con las fotos en las explicaciones de la web.', category: 'Web' },
+  { title: '1.0.47', date: '01 / 02 / 2025', description: 'Se mejora la lógica del número de planetas en el apartado de sistemas.', category: 'Web' },
+  { title: '1.0.46', date: '01 / 01 / 2025', description: 'Se añade la nueva plantilla de la Royal Space Society a cada apartado de la web.', category: 'Web' },
+  { title: '1.0.45', date: '12 / 31 / 2024', description: 'Se termina de portar todas las páginas de la web a PrimeVue, con la última siendo la de las preguntas frecuentes.', category: 'Web' },
+  { title: '1.0.0', date: '12 / 24 / 2024', description: 'Versión 1.00 del creador de páginas wiki para la RSS.', category: 'Web' },
+  { title: 'Alpha', date: '12 / 08 / 2023', description: 'Primera versión del creador de páginas wiki para la RSS.', category: 'Web' },
+  { title: 'Futuro', date: '01 / 01 / 2025', description: 'Se plantea el proyecto de las famosas 120 bases en el censo. ¡Proyecto para obtener el estatus de Nexo en la wiki!', category: 'Royal Space Society' },
+  { title: 'Censo', date: '12 / 31 / 2024', description: 'Se consigue el máximo número de bases censadas, 58 bases.', category: 'Royal Space Society' },
+  { title: 'Méritos', date: '02 / 08 / 2022', description: 'La Royal Space Society obtiene su segunda estrella y obtiene el titulo de HUB-R al tener registradas 20 bases.', category: 'Royal Space Society' },
+  { title: 'Méritos', date: '09 / 08 / 2021', description: 'La Royal Space Society obtiene el titulo de HUB al alcanzar mas de 20 miembros y tener registrados mas de 20 sistemas en la wiki.', category: 'Royal Space Society' },
+  { title: 'Capital', date: '06 / 01 / 2021', description: 'Construción de Mamadisimo City, capital de la RSS.', category: 'Royal Space Society' },
+  { title: 'Fundación', date: '02 / 08 / 2020 ', description: 'Fundación de la Royal Space Society.', category: 'Royal Space Society' },
+  { title: 'Descubrimiento', date: '01 / 25 / 2020', description: 'Descubrimiento de Urticalia por Kaos193, sistema elegido para ser la sede de la RSS.', category: 'Royal Space Society' },
 ]);
+
+const groupedEvents = computed(() => {
+  return events.value.reduce((groups, event) => {
+    const category = event.category;
+    if (!groups[category]) {
+      groups[category] = [];
+    }
+    groups[category].push(event);
+    return groups;
+  }, {} as Record<string, TimelineEvent[]>);
+});
 </script>
 
 <template>
@@ -25,52 +58,56 @@ const events = ref<TimelineEvent[]>([
         <div class="header-section">
           <div class="header-content">
             <a href="https://example.com" target="_blank" class="logo-link">
-              <img
-                src="/assets/images/basesdestacadas/RSS-Logo.webp"
-                class="logo-image"
-                alt="Logo"
-              />
+              <img src="/assets/images/basesdestacadas/RSS-Logo.webp" class="logo-image" alt="Logo" />
             </a>
             <div class="text-content">
               <h1 class="galactic-title">
                 <span class="title-text">Cronología de Eventos</span>
               </h1>
               <p class="text-stellar-gray subtitle">
-                Explora los eventos importantes de nuestra aplicación
+                Explora los eventos importantes de la Royal Space Society
               </p>
             </div>
           </div>
         </div>
 
-        <Timeline :value="events" align="alternate" class="custom-timeline">
-          <template #opposite="slotProps">
+        <br />
+        <div v-for="(categoryEvents, categoryName) in groupedEvents" :key="categoryName" class="galaxy-panel">
+          <Panel class="quadrant-panel" toggleable collapsed>
+            <template #header>
+                  <h3 class="quadrant-title">
+                    <i class="pi pi-th-large"></i>
+                    {{ categoryName }}
+                  </h3>
+                </template>
+
+            <Timeline :value="categoryEvents" align="alternate" class="custom-timeline">
+              <!-- <template #opposite="slotProps">
             <small class="opposite-content">{{ slotProps.item.category }}</small>
-          </template>
+          </template> -->
 
-          <!-- <template #marker="slotProps"> -->
-          <template>
-            <div class="custom-marker">
-              <!-- {{ new Date(slotProps.item.date).toLocaleString('default', { month: 'short' }) }} -->
-            </div>
-          </template>
+              <!-- <template #marker="slotProps"> -->
+              <template>
+                <div class="custom-marker">
+                  <!-- {{ new Date(slotProps.item.date).toLocaleString('default', { month: 'short' }) }} -->
+                </div>
+              </template>
 
-          <template #content="slotProps">
-            <Card class="event-card">
-              <template #title>{{ slotProps.item.title }}</template>
-              <template #subtitle>
-                {{ new Date(slotProps.item.date).toLocaleDateString() }}
+              <template #content="slotProps">
+                <Card class="event-card">
+                  <template #title>{{ slotProps.item.title }}</template>
+                  <template #subtitle>
+                    {{ new Date(slotProps.item.date).toLocaleDateString() }}
+                  </template>
+                  <template #content>
+                    <p class="event-description">{{ slotProps.item.description }}</p>
+                    <Tag :value="slotProps.item.category" severity="info" class="category-tag" />
+                  </template>
+                </Card>
               </template>
-              <template #content>
-                <p class="event-description">{{ slotProps.item.description }}</p>
-                <Tag
-                  :value="slotProps.item.category"
-                  severity="info"
-                  class="category-tag"
-                />
-              </template>
-            </Card>
-          </template>
-        </Timeline>
+            </Timeline>
+          </Panel>
+        </div>
       </div>
     </template>
   </Card>
@@ -84,6 +121,7 @@ const events = ref<TimelineEvent[]>([
   --text-secondary: #475569;
   --background-primary: #d3d3d3;
   --background-secondary: #f1f1f1;
+  --background-terciary: #cbd5e1;
   --border-color: rgba(99, 102, 241, 0.15);
   --hover-effect: rgba(99, 102, 241, 0.1);
   --tag-background: rgba(79, 70, 229, 0.1);
@@ -102,6 +140,7 @@ const events = ref<TimelineEvent[]>([
   --text-secondary: #cbd5e1;
   --background-primary: #0a0e1a;
   --background-secondary: #1a1f2d;
+  --background-terciary: #334155;
   --border-color: rgba(103, 232, 249, 0.15);
   --hover-effect: rgba(103, 232, 249, 0.2);
   --tag-background: rgba(103, 232, 249, 0.1);
@@ -113,6 +152,20 @@ const events = ref<TimelineEvent[]>([
 
 .timeline-page-container {
   padding: 2rem;
+}
+
+.quadrant-panel {
+  background: var(--background-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 10px !important;
+  transition: transform 0.2s ease;
+  margin-bottom: 1%;
+}
+
+.quadrant-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
 }
 
 .header-section {

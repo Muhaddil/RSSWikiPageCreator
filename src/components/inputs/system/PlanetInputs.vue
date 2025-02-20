@@ -11,7 +11,7 @@ import ResourceSelect from '@/components/inputs/system/ResourceSelect.vue';
 import SingleFileUpload from '@/components/inputs/SingleFileUpload.vue';
 import Checkbox from 'primevue/checkbox';
 import InputTableItem from '../../InputTableItem.vue';
-import { useToast, POSITION } from 'vue-toastification';
+// import { useToast, POSITION } from 'vue-toastification';
 import Button from 'primevue/button';
 import PlanetSentinels from './PlanetSentinels.vue';
 import PlanetFlora from './PlanetFlora.vue';
@@ -20,13 +20,13 @@ import { storeToRefs } from 'pinia';
 
 const pageData = usePageDataStore();
 const { planetnum, moonnum } = storeToRefs(pageData);
-const toast = useToast();
+// const toast = useToast();
 
-function showError(message: string) {
-  toast.error(message, {
-    position: POSITION.BOTTOM_RIGHT,
-  });
-}
+// function showError(message: string) {
+//   toast.error(message, {
+//     position: POSITION.BOTTOM_RIGHT,
+//   });
+// }
 
 const getPlanetLabel = (isMoon: string, isGigant: string) => {
   return isMoon === 'Yes' ? 'Nombre de la luna' : isGigant === 'Yes' ? 'Nombre del gigante' : 'Nombre del planeta';
@@ -56,31 +56,31 @@ interface Planet {
 
 const planets = ref<Planet[]>([]);
 
-const addPlanet = () => {
-  if (planets.value.length < 16) {
-    planets.value.push({
-      id: planets.value.length,
-      name: '',
-      image: '',
-      biome: '',
-      descriptors: '',
-      ismoon: '',
-      isgigant: '',
-      resources: ['', '', ''],
-      weather: '',
-      sentinels: '',
-      faunatotal: '',
-      flora: '',
-      fauna: '',
-    });
-  } else {
-    showError('No puedes agregar más de 6 planetas.');
-  }
-};
+// const addPlanet = () => {
+//   if (planets.value.length < 16) {
+//     planets.value.push({
+//       id: planets.value.length,
+//       name: '',
+//       image: '',
+//       biome: '',
+//       descriptors: '',
+//       ismoon: '',
+//       isgigant: '',
+//       resources: ['', '', ''],
+//       weather: '',
+//       sentinels: '',
+//       faunatotal: '',
+//       flora: '',
+//       fauna: '',
+//     });
+//   } else {
+//     showError('No puedes agregar más de 6 planetas.');
+//   }
+// };
 
-const removePlanet = (index: number) => {
-  planets.value.splice(index, 1);
-};
+// const removePlanet = (index: number) => {
+//   planets.value.splice(index, 1);
+// };
 
 const addResource = (planetIndex: number) => {
   if (planets.value[planetIndex].resources.length < 6) {
@@ -193,7 +193,7 @@ watch(
 
 <template>
   <div>
-    <Button @click="addPlanet">Agregar Planeta</Button>
+    <!-- <Button @click="addPlanet">Agregar Planeta</Button>-->
     <br />
     <br />
     <div v-for="(planet, index) in planets" :key="planet.id">
@@ -268,9 +268,9 @@ watch(
           descubrimiento.
         </SanitisedTextInput>
 
-        <Button v-if="planets.length > 1" @click="removePlanet(index)">
+        <!-- <Button v-if="planets.length > 1" @click="removePlanet(index)">
           Eliminar Planeta
-        </Button>
+        </Button> -->
       </Panel>
     </div>
   </div>
