@@ -90,7 +90,7 @@ export const linkData = {
         "category": "Protocolo de Registro Temporal",
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
         "description": "Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la Royal Space Society",
-        "icon": "pi-sort-amount-up"
+        "icon": "pi pi-sort-amount-up"
       }
     ],
     common: [
@@ -183,7 +183,7 @@ export const linkData = {
         "category": "Protocolo de Registro Temporal",
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
         "description": "Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la Royal Space Society",
-        "icon": "pi-sort-amount-up"
+        "icon": "pi pi-sort-amount-up"
       }
     ]
   },
@@ -278,7 +278,7 @@ export const linkData = {
         "category": "Temporary Registration Protocol",
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
         "description": "A unified record of historical events and significant occurrences under the sovereignty of the Royal Space Society",
-        "icon": "pi-sort-amount-up"
+        "icon": "pi pi-sort-amount-up"
       }
     ],
     common: [
@@ -371,7 +371,7 @@ export const linkData = {
         "category": "Temporary Registration Protocol",
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
         "description": "A unified record of historical events and significant occurrences under the sovereignty of the Royal Space Society",
-        "icon": "pi-sort-amount-up"
+        "icon": "pi pi-sort-amount-up"
       }
     ]
   }
