@@ -266,7 +266,25 @@ const InEnglish = [
   'Blood Rain',
   'Bilious Storms',
   'Deadly Pressure Variations',
+  'Harsh Toxic Wind',
   'Corrupted Blood',
+  'Infinite Toxic Mist',
+  'Echoes of Acid',
+  'Poison Cyclones',
+  'Inescapable Toxins',
+  'Clouds of Haunted Green',
+  'Invisible Jade Winds',
+  'Frozen Mists',
+  'Electric Rain',
+  'Azure Storms',
+  'Extreme Low Pressure',
+  'All-Consuming Cold',
+  'Winds from Beyond',
+  'Unfathomable Storms',
+  'Unimaginable Blue',
+  'Ultramarine Wind',
+  'Inverted Superstorms',
+  'Coastal Storms'
 ] as const;
 
 const InSpanish = [
@@ -534,7 +552,25 @@ const InSpanish = [
   'Lluvia de sangre',
   'Tormentas biliosas',
   'Variaciones de presión mortales',
+  'Viento tóxico fuerte',
   'Sangre corrompida',
+  'Neblina tóxica infinita',
+  'Ecos de ácido',
+  'Ciclones venenosos',
+  'Toxinas inevitables',
+  'Nubes de verde encantado',
+  'Vientos de jade invisibles',
+  'Neblinas congeladas',
+  'Lluvia eléctrica',
+  'Tormentas de azul celeste',
+  'Presión extremadamente baja',
+  'Frío absorbente',
+  'Vientos del más allá',
+  'Tormentas insondables',
+  'Azul inimaginable',
+  'Viento azul ultramarino',
+  'Supertormentas invertidas',
+  'Tormentas costeras'
 ] as const;
 
 export const mappedPlanetWeather: SelectOption[] = InSpanish.map((mode, index) => ({
