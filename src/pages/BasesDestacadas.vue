@@ -6,8 +6,12 @@ import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Dialog from 'primevue/dialog';
 
+// const queryParams = new URLSearchParams(window.location.search);
+
 // onMounted(() => {
-//   window.location.href = "/RSSWikiPageCreator/indextest.html";
+//   if (!queryParams.has("dev")) {
+//    window.location.href = "/RSSWikiPageCreator/indextest.html";
+//   }
 // });
 
 const bases = ref([
@@ -42,6 +46,14 @@ const bases = ref([
     author: 'Abella_84 ',
     description: 'Un lugar tranquilo y pacífico para los viajeros intergalácticos.',
     features: ['Comunidad', 'Arquitectura']
+  },
+  {
+    name: 'RSS CrisCrosApleSoS - GOAT',
+    image: 'assets/images/basesdestacadas/Ccas01.webp',
+    location: 'Galaxia Euclides - RSS Sagittarius',
+    author: 'CrisCrosApleSoS  ',
+    description: 'La base parece un gran carguero, con dos cuernos largos de color azul. También hay acceso al interior.',
+    features: ['Memorial', 'Arquitectura']
   },
 ]);
 
@@ -88,7 +100,8 @@ const openModal = (image: string) => {
           <div class="flex flex-col">
             <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank">
               <div class="rss-logo">
-                <img src="/assets/images/basesdestacadas/RSS-Logo.webp" class="logo-image animate-pulse" alt="RSS Logo" />
+                <img src="/assets/images/basesdestacadas/RSS-Logo.webp" class="logo-image animate-pulse"
+                  alt="RSS Logo" />
               </div>
             </a>
             <h1 class="text-4xl font-bold galactic-title">BASES ESTELARES DESTACADAS</h1>
@@ -98,11 +111,13 @@ const openModal = (image: string) => {
           </div>
         </div>
 
-        <Carousel :value="bases" :numVisible="numVisibleBases" :numScroll="1" circular :autoplayInterval="6000" class="galactic-carousel">
+        <Carousel :value="bases" :numVisible="numVisibleBases" :numScroll="1" circular :autoplayInterval="6000"
+          class="galactic-carousel">
           <template #item="slotProps">
             <div class="base-card relative">
               <div class="image-container">
-                <img :src="slotProps.data.image" :alt="slotProps.data.name" class="galactic-image object-cover w-full h-full" @click="openModal(slotProps.data.image)" />
+                <img :src="slotProps.data.image" :alt="slotProps.data.name"
+                  class="galactic-image object-cover w-full h-full" @click="openModal(slotProps.data.image)" />
               </div>
               <div class="base-info">
                 <div class="info-content">
@@ -116,7 +131,8 @@ const openModal = (image: string) => {
                     <span>{{ slotProps.data.author }}</span>
                   </div>
                   <div class="flex flex-wrap gap-3 my-4">
-                    <Tag v-for="(feature, index) in slotProps.data.features" :key="index" :value="feature" icon="pi pi-caret-right" class="feature-tag" />
+                    <Tag v-for="(feature, index) in slotProps.data.features" :key="index" :value="feature"
+                      icon="pi pi-caret-right" class="feature-tag" />
                   </div>
                   <p class="description-text">{{ slotProps.data.description }}</p>
                 </div>
@@ -127,7 +143,9 @@ const openModal = (image: string) => {
 
         <Panel class="galactic-panel mt-6">
           <template #header>
-            <h2 class="text-2xl font-bold" style="background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(103, 232, 249, 0.3);">Registro Galáctico</h2>
+            <h2 class="text-2xl font-bold"
+              style="background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(103, 232, 249, 0.3);">
+              Registro Galáctico</h2>
           </template>
           <p class="m-0 text-stellar-gray w-full" :class="{ 'keep-linebreaks': screenWidth >= 768 }">
             Las bases aquí mostradas han sido certificadas por la Royal Space Society según los criterios de:
@@ -390,7 +408,7 @@ const openModal = (image: string) => {
 
 
 .logo-image {
-  height: 80px;
+  height: 150px;
   transition: transform 0.3s ease;
   filter: brightness(var(--logo-brightness, 1));
 }
@@ -422,7 +440,7 @@ const openModal = (image: string) => {
   align-items: flex-start;
   justify-content: flex-end;
   right: 5%;
-  top: 8%;
+  top: -40px;
   height: auto;
   width: auto;
 }

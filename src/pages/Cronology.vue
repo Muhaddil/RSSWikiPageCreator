@@ -13,6 +13,8 @@ interface TimelineEvent {
 }
 
 const events = ref<TimelineEvent[]>([
+  { title: '1.0.522', date: '02 / 21 / 2025', description: 'Se añadieron algunos descriptores del clima faltantes.', category: 'Web' },
+  { title: '1.0.521', date: '02 / 21 / 2025', description: 'Se ajustó el máximo de etiquetas seleccionadas a 2, se modificó el mensaje de mantenimiento en indextest.html y se añadió una nueva base al apartado de bases destacadas.', category: 'Web' },
   { title: '1.0.52', date: '02 / 21 / 2025', description: 'Se añadió la página de cronología de la Royal Space Society y de esta misma web.', category: 'Web' },
   { title: '1.0.51', date: '02 / 13 / 2025', description: 'Se añadió la página de regiones de la Royal Space Society.', category: 'Web' },
   { title: '1.0.501', date: '02 / 13 / 2025', description: 'Se mejoró el sistema de generación de glifos de la RSS con animaciones y mejoras de su código.', category: 'Web' },
