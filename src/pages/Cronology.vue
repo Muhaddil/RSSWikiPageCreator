@@ -13,6 +13,18 @@ interface TimelineEvent {
 }
 
 const events = ref<TimelineEvent[]>([
+  { title: 'Futuro', date: '01 / 01 / 2025', description: 'Se plantea el proyecto de las famosas 120 bases en el censo. ¡Proyecto para obtener el estatus de Nexo en la wiki!', category: 'Royal Space Society' },
+  { title: 'Censo', date: '12 / 31 / 2024', description: 'Se consigue el máximo número de bases censadas, 58 bases.', category: 'Royal Space Society' },
+  { title: 'Méritos', date: '02 / 08 / 2022', description: 'La Royal Space Society obtiene su segunda estrella y obtiene el titulo de HUB-R al tener registradas 20 bases.', category: 'Royal Space Society' },
+  { title: 'Méritos', date: '09 / 08 / 2021', description: 'La Royal Space Society obtiene el titulo de HUB al alcanzar mas de 20 miembros y tener registrados mas de 20 sistemas en la wiki.', category: 'Royal Space Society' },
+  { title: 'Capital', date: '06 / 01 / 2021', description: 'Construción de Mamadisimo City, capital de la RSS.', category: 'Royal Space Society' },
+  { title: 'Fundación', date: '02 / 08 / 2020 ', description: 'Fundación de la Royal Space Society.', category: 'Royal Space Society' },
+  { title: 'Descubrimiento', date: '01 / 25 / 2020', description: 'Descubrimiento de Urticalia por Kaos193, sistema elegido para ser la sede de la RSS.', category: 'Royal Space Society' },
+
+
+
+
+  { title: '1.0.525', date: '02 / 21 / 2025', description: 'Se reordenaron los eventos históricos en Cronology.vue.', category: 'Web' },
   { title: '1.0.524', date: '02 / 21 / 2025', description: 'Se implementó un cuadro de diálogo de confirmación para eliminar objetos comercializables y limpiar el código comentado en PlanetInputs.vue. Se arreglaron los descriptores del tiempo de los planetas y se añadieron los faltantes.', category: 'Web' },
   { title: '1.0.523', date: '02 / 21 / 2025', description: 'Se ajustó el límite de advertencia del tamaño de fragmento sumado a un splitter para evitar futuros errores y se modificaron las clases de íconos en los datos del portal de comunidad.', category: 'Web' },
   { title: '1.0.522', date: '02 / 21 / 2025', description: 'Se añadieron algunos descriptores del clima faltantes.', category: 'Web' },
@@ -34,13 +46,6 @@ const events = ref<TimelineEvent[]>([
   { title: '1.0.45', date: '12 / 31 / 2024', description: 'Se termina de portar todas las páginas de la web a PrimeVue, con la última siendo la de las preguntas frecuentes.', category: 'Web' },
   { title: '1.0.0', date: '12 / 24 / 2024', description: 'Versión 1.00 del creador de páginas wiki para la RSS.', category: 'Web' },
   { title: 'Alpha', date: '12 / 08 / 2023', description: 'Primera versión del creador de páginas wiki para la RSS.', category: 'Web' },
-  { title: 'Futuro', date: '01 / 01 / 2025', description: 'Se plantea el proyecto de las famosas 120 bases en el censo. ¡Proyecto para obtener el estatus de Nexo en la wiki!', category: 'Royal Space Society' },
-  { title: 'Censo', date: '12 / 31 / 2024', description: 'Se consigue el máximo número de bases censadas, 58 bases.', category: 'Royal Space Society' },
-  { title: 'Méritos', date: '02 / 08 / 2022', description: 'La Royal Space Society obtiene su segunda estrella y obtiene el titulo de HUB-R al tener registradas 20 bases.', category: 'Royal Space Society' },
-  { title: 'Méritos', date: '09 / 08 / 2021', description: 'La Royal Space Society obtiene el titulo de HUB al alcanzar mas de 20 miembros y tener registrados mas de 20 sistemas en la wiki.', category: 'Royal Space Society' },
-  { title: 'Capital', date: '06 / 01 / 2021', description: 'Construción de Mamadisimo City, capital de la RSS.', category: 'Royal Space Society' },
-  { title: 'Fundación', date: '02 / 08 / 2020 ', description: 'Fundación de la Royal Space Society.', category: 'Royal Space Society' },
-  { title: 'Descubrimiento', date: '01 / 25 / 2020', description: 'Descubrimiento de Urticalia por Kaos193, sistema elegido para ser la sede de la RSS.', category: 'Royal Space Society' },
 ]);
 
 const groupedEvents = computed(() => {
