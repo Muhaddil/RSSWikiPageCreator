@@ -6,8 +6,12 @@ import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Dialog from 'primevue/dialog';
 
+// const queryParams = new URLSearchParams(window.location.search);
+
 // onMounted(() => {
-//   window.location.href = "/RSSWikiPageCreator/indextest.html";
+//   if (!queryParams.has("dev")) {
+//     window.location.href = "/RSSWikiPageCreator/indextest.html";
+//   }
 // });
 
 const bases = ref([
@@ -42,6 +46,14 @@ const bases = ref([
     author: 'Abella_84 ',
     description: 'Un lugar tranquilo y pacífico para los viajeros intergalácticos.',
     features: ['Comunidad', 'Arquitectura']
+  },
+  {
+    name: 'RSS CrisCrosApleSoS - GOAT',
+    image: 'assets/images/basesdestacadas/Ccas01.webp',
+    location: 'Galaxia Euclides - RSS Sagittarius',
+    author: 'CrisCrosApleSoS  ',
+    description: 'La base parece un gran carguero, con dos cuernos largos de color azul. También hay acceso al interior.',
+    features: ['Memorial', 'Arquitectura']
   },
 ]);
 
@@ -390,7 +402,7 @@ const openModal = (image: string) => {
 
 
 .logo-image {
-  height: 80px;
+  height: 150px;
   transition: transform 0.3s ease;
   filter: brightness(var(--logo-brightness, 1));
 }
@@ -422,7 +434,7 @@ const openModal = (image: string) => {
   align-items: flex-start;
   justify-content: flex-end;
   right: 5%;
-  top: 8%;
+  top: -40px;
   height: auto;
   width: auto;
 }

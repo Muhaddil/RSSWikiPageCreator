@@ -27,7 +27,7 @@ const options: Option[] = [
         optionLabel="spanish"
         optionValue="english"
         filter
-        :maxSelectedLabels="3"
+        :maxSelectedLabels="2"
         selectedItemsLabel="Se han seleccionado {0} elementos"
         class="w-full"
       />
@@ -49,7 +49,7 @@ const options: Option[] = [
         optionLabel="spanish"
         optionValue="english"
         filter
-        :maxSelectedLabels="3"
+        :maxSelectedLabels="2"
         selectedItemsLabel="Se han seleccionado {0} elementos"
         class="w-full"
       />
