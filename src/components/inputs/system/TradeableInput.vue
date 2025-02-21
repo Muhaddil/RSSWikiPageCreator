@@ -9,9 +9,11 @@ import { mappedSystemTradeables } from '@/variables/system/systemtradeables';
 import InputTableItem from '../../InputTableItem.vue';
 import Button from 'primevue/button';
 import { useToast, POSITION } from 'vue-toastification';
+import { useConfirm } from 'primevue/useconfirm';
 
 const pageData = usePageDataStore();
 const toast = useToast();
+const confirm = useConfirm();
 
 const tradeables = ref([{
   id: 0,
@@ -66,6 +68,21 @@ const getLabelFromValue = (value: string) => {
   const found = mappedSystemTradeables.find(option => option.value === value);
   return found ? found.label : value;
 };
+
+function showConfirmDialog(index: number) {
+  confirm.require({
+    message: '¿Estás seguro de que quieres borrar este tradeable?',
+    header: 'Confirmar Borrar',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => removePlanet(index),
+    acceptProps: {
+      class: 'p-button-danger',
+    },
+    reject: () => {
+      // Do nothing
+    },
+  });
+}
 </script>
 
 <template>
@@ -100,7 +117,7 @@ const getLabelFromValue = (value: string) => {
           error-message="Solo números válidos sin símbolos especiales">
         </SanitisedTextInput>
 
-        <Button @click="removePlanet(index)">
+        <Button @click="showConfirmDialog(index)">
           Eliminar Tradeable
         </Button>
       </Panel>

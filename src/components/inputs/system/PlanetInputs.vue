@@ -193,9 +193,9 @@ watch(
 
 <template>
   <div>
-    <!-- <Button @click="addPlanet">Agregar Planeta</Button>-->
+    <!-- <Button @click="addPlanet">Agregar Planeta</Button>
     <br />
-    <br />
+    <br /> -->
     <div v-for="(planet, index) in planets" :key="planet.id">
       <Panel class="my-4" :header="`${getPlanetLabelTitle(planet.ismoon, planet.isgigant)} ${index + 1}: ${planet.name}`" toggleable>
         <SanitisedTextInput v-model="planet.name" help-title="Nombre del planeta/luna"
