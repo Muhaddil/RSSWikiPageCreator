@@ -65,9 +65,8 @@ async function copyPage() {
   }
 
   const processedContent = pageData.outputContent
-    // .replace(/<br\s*\/?>/g, '\n')
-    .replace(/\n{2,}/g, '\n\n')
-    .trim();
+    .replace(/<br\s*\/?>/g, '\n')
+    .replace(/\n{2,}/g, '\n\n');
 
   try {
     await navigator.clipboard.writeText(processedContent);

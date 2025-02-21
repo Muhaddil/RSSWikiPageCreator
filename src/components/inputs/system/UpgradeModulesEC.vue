@@ -28,7 +28,7 @@ const options: Option[] = [
     optionLabel="spanish"
     optionValue="english"
     filter
-    :maxSelectedLabels="2"
+    :maxSelectedLabels="3"
     selectedItemsLabel="Se han seleccionado {0} elementos"
     class="w-full"
   />
