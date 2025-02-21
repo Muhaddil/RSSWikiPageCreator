@@ -30,7 +30,7 @@ function isCensusPage() {
 }
 
 function isFAQPage() {
-  return currentUrl.includes('faq.html') || currentUrl.includes('basesdestacadas.html') || currentUrl.includes('rsslinks.html') || currentUrl.includes('censustable.html') || currentUrl.includes('regions.html');
+  return currentUrl.includes('faq.html') || currentUrl.includes('basesdestacadas.html') || currentUrl.includes('rsslinks.html') || currentUrl.includes('censustable.html') || currentUrl.includes('regions.html') || currentUrl.includes('cronology.html') ;
 }
 
 async function copyPage() {
