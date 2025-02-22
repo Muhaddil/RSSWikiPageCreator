@@ -23,7 +23,7 @@ const events = ref<TimelineEvent[]>([
 
 
 
-
+  { title: '1.0.526', date: '02 / 22 / 2025', description: 'Se añadieron dos nuevas bases al apartado de bases destacadas.', category: 'Web' },
   { title: '1.0.525', date: '02 / 21 / 2025', description: 'Se reordenaron los eventos históricos en Cronology.vue.', category: 'Web' },
   { title: '1.0.524', date: '02 / 21 / 2025', description: 'Se implementó un cuadro de diálogo de confirmación para eliminar objetos comercializables y limpiar el código comentado en PlanetInputs.vue. Se arreglaron los descriptores del tiempo de los planetas y se añadieron los faltantes.', category: 'Web' },
   { title: '1.0.523', date: '02 / 21 / 2025', description: 'Se ajustó el límite de advertencia del tamaño de fragmento sumado a un splitter para evitar futuros errores y se modificaron las clases de íconos en los datos del portal de comunidad.', category: 'Web' },

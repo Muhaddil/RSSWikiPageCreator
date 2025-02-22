@@ -18,7 +18,7 @@ const bases = ref([
   {
     name: 'Mamadisimo City',
     image: 'assets/images/basesdestacadas/Mamadisimocity.webp',
-    location: 'Galaxia Euclides - Sistema Sentinel Prime',
+    location: 'Galaxia Euclides - Sistema Urticalia',
     author: 'Lider Mamadisimo',
     description: 'Capital intergaláctica de la Royal Space Society con instalaciones de investigación avanzada y centro de comercio interestelar.',
     features: ['Tecnología', 'Comercio', 'Investigación']
@@ -26,7 +26,7 @@ const bases = ref([
   {
     name: 'RSS UfoPrime',
     image: 'assets/images/basesdestacadas/Ufoprime.webp',
-    location: 'Galaxia Euclides - Sistema Sentinel Prime',
+    location: 'Galaxia Euclides - Sistema Urticalia',
     author: 'Olivello',
     description: 'Nave principal de la Royal Space Society, donde se coordinan todos los movimientos estratégicos.',
     features: ['Artística', 'Tecnología']
@@ -43,7 +43,7 @@ const bases = ref([
     name: 'Suburbios de Cobaltonia',
     image: 'assets/images/basesdestacadas/ASC1.webp',
     location: 'Galaxia Euclides - Sistema Okubak-Sha VII',
-    author: 'Abella_84 ',
+    author: 'Abella_84',
     description: 'Un lugar tranquilo y pacífico para los viajeros intergalácticos.',
     features: ['Comunidad', 'Arquitectura']
   },
@@ -51,9 +51,25 @@ const bases = ref([
     name: 'RSS CrisCrosApleSoS - GOAT',
     image: 'assets/images/basesdestacadas/Ccas01.webp',
     location: 'Galaxia Euclides - RSS Sagittarius',
-    author: 'CrisCrosApleSoS  ',
+    author: 'CrisCrosApleSoS',
     description: 'La base parece un gran carguero, con dos cuernos largos de color azul. También hay acceso al interior.',
     features: ['Memorial', 'Arquitectura']
+  },
+  {
+    name: 'RSS Library',
+    image: 'assets/images/basesdestacadas/Lib5.webp',
+    location: 'Galaxia Euclides - Urticalia',
+    author: 'FranCGC',
+    description: 'Un grandioso templo del conocimiento, donde la arquitectura imponente se fusiona con los asombrosos descubrimientos que resguarda en su interior.',
+    features: ['Descanso', 'Arquitectura']
+  },
+  {
+    name: 'Iglesia de la Santa Mamadisimidad',
+    image: 'assets/images/basesdestacadas/Iglesia.webp',
+    location: 'Galaxia Euclides - Urticalia',
+    author: 'Olivello',
+    description: 'La Iglesia de la Santa Mamadisimidad es un imponente templo de amplias dimensiones, cuya entrada alargada da la bienvenida a los fieles.',
+    features: ['Historia', 'Arte religioso', 'Ambiente solemne']
   },
 ]);
 
