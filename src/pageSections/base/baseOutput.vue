@@ -101,10 +101,10 @@ const formattedFeatures = computed(() => {
   </div>
   <br />
   <div>==Layout==</div>
-  <div class="keep-linebreaks">{{ layout }}</div>
+  <div>{{ layout }}</div>
   <br />
   <div>==Features==</div>
-  <div class="keep-linebreaks">{{ formattedFeatures }}</div>
+  <div>{{ formattedFeatures }}</div>
   <br />
   <div>==Additional Information==</div>
   <div>{{ additionalInfo }}</div>
