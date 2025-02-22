@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import Timeline from 'primevue/timeline';
 import Card from 'primevue/card';
-import Tag from 'primevue/tag';
+// import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 
 interface TimelineEvent {
@@ -22,7 +22,7 @@ const events = ref<TimelineEvent[]>([
   { title: 'Descubrimiento', date: '01 / 25 / 2020', description: 'Descubrimiento de Urticalia por Kaos193, sistema elegido para ser la sede de la RSS.', category: 'Royal Space Society' },
 
 
-
+  { title: '1.0.527', date: '02 / 22 / 2025', description: 'Se mejoró es sistema del apartado de la cronología ademas se implementó un sistema nuevo de prefetch en la página principal.', category: 'Web' },
   { title: '1.0.526', date: '02 / 22 / 2025', description: 'Se añadieron dos nuevas bases al apartado de bases destacadas.', category: 'Web' },
   { title: '1.0.525', date: '02 / 21 / 2025', description: 'Se reordenaron los eventos históricos en Cronology.vue.', category: 'Web' },
   { title: '1.0.524', date: '02 / 21 / 2025', description: 'Se implementó un cuadro de diálogo de confirmación para eliminar objetos comercializables y limpiar el código comentado en PlanetInputs.vue. Se arreglaron los descriptores del tiempo de los planetas y se añadieron los faltantes.', category: 'Web' },
@@ -49,14 +49,18 @@ const events = ref<TimelineEvent[]>([
 ]);
 
 const groupedEvents = computed(() => {
-  return events.value.reduce((groups, event) => {
-    const category = event.category;
-    if (!groups[category]) {
-      groups[category] = [];
+  const categories = events.value.reduce((groups, event) => {
+    if (!groups[event.category]) {
+      groups[event.category] = {};
     }
-    groups[category].push(event);
+    if (!groups[event.category][event.date]) {
+      groups[event.category][event.date] = [];
+    }
+    groups[event.category][event.date].push(event);
     return groups;
-  }, {} as Record<string, TimelineEvent[]>);
+  }, {} as Record<string, Record<string, TimelineEvent[]>>);
+
+  return categories;
 });
 </script>
 
@@ -81,36 +85,26 @@ const groupedEvents = computed(() => {
         </div>
 
         <br />
+
         <div v-for="(categoryEvents, categoryName) in groupedEvents" :key="categoryName" class="galaxy-panel">
           <Panel class="quadrant-panel" toggleable collapsed>
             <template #header>
-                  <h3 class="quadrant-title">
-                    <i class="pi pi-th-large"></i>
-                    {{ categoryName }}
-                  </h3>
-                </template>
+              <h3 class="quadrant-title">
+                <i class="pi pi-th-large"></i>
+                {{ categoryName }}
+              </h3>
+            </template>
 
-            <Timeline :value="categoryEvents" align="alternate" class="custom-timeline">
-              <!-- <template #opposite="slotProps">
-            <small class="opposite-content">{{ slotProps.item.category }}</small>
-          </template> -->
-
-              <!-- <template #marker="slotProps"> -->
-              <template>
-                <div class="custom-marker">
-                  <!-- {{ new Date(slotProps.item.date).toLocaleString('default', { month: 'short' }) }} -->
-                </div>
-              </template>
-
-              <template #content="slotProps">
-                <Card class="event-card">
-                  <template #title>{{ slotProps.item.title }}</template>
-                  <template #subtitle>
-                    {{ new Date(slotProps.item.date).toLocaleDateString() }}
-                  </template>
+            <Timeline :value="Object.entries(categoryEvents)" align="alternate" class="custom-timeline">
+              <template #content="{ item }">
+                <Card class="event-card separated-card">
+                  <template #title>{{ item[0] }}</template>
                   <template #content>
-                    <p class="event-description">{{ slotProps.item.description }}</p>
-                    <Tag :value="slotProps.item.category" severity="info" class="category-tag" />
+                    <ul class="event-list">
+                      <li v-for="event in item[1]" :key="event.title" class="event-item">
+                        <strong>{{ event.title }}</strong> - {{ event.description }}
+                      </li>
+                    </ul>
                   </template>
                 </Card>
               </template>
@@ -296,5 +290,20 @@ const groupedEvents = computed(() => {
     height: 1.75rem;
     font-size: 0.9rem;
   }
+}
+
+.separated-card {
+  padding: 1rem;
+}
+
+.event-list {
+  list-style: disc;
+  padding-left: 1.5rem;
+  text-align: left;
+  width: 100%;
+}
+
+.event-item {
+  margin-bottom: 0.5rem;
 }
 </style>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CivImageProps, PageLinkProps } from '@/types/homePageProps';
-import { reactive, onMounted } from 'vue';
+import { reactive, onMounted, onUnmounted } from 'vue';
 import CivImage from '@/components/CivImage.vue';
 import PageLink from '@/components/PageLink.vue';
 
@@ -150,13 +150,96 @@ onMounted(() => {
   }, 10);  // Determines how often it checks (ms)
 });
 
+const hoverTimers = new Map<string, NodeJS.Timeout>();
+
+function schedulePrefetch(url: string) {
+  const timer = hoverTimers.get(url);
+  if (timer) clearTimeout(timer);
+
+  const newTimer = setTimeout(() => {
+    prefetchPage(url);
+    hoverTimers.delete(url);
+  }, 100);
+
+  hoverTimers.set(url, newTimer);
+}
+
+function cancelPrefetch(url: string) {
+  const timer = hoverTimers.get(url);
+  if (timer) {
+    clearTimeout(timer);
+    hoverTimers.delete(url);
+  }
+}
+
+// function prefetchPage(url: string, retries = 3) {
+//   const fullUrl = new URL(url, window.location.href).href;
+//   console.log(`[Prefetch] Intentando prefetch de: ${fullUrl}`);
+
+//   const existing = Array.from(document.querySelectorAll('link[rel="prefetch"]'));
+
+//   if (!existing.some(link => link.getAttribute('href') === fullUrl)) {
+//     console.log(`[Prefetch] Iniciando prefetch para: ${fullUrl}`);
+
+//     const link = document.createElement("link");
+//     link.rel = "prefetch";
+//     link.href = fullUrl;
+//     document.head.appendChild(link);
+
+//     link.onload = () => {
+//       console.log(`[Prefetch] Completado: ${fullUrl}`);
+//     };
+//     link.onerror = (err) => {
+//       console.error(`[Prefetch] Error al cargar: ${fullUrl}`, err);
+
+//       // Reintentar si quedan intentos
+//       if (retries > 0) {
+//         console.log(`[Prefetch] Reintentando (${retries} intentos restantes)...`);
+//         setTimeout(() => prefetchPage(url, retries - 1), 1000); // Reintentar después de 1 segundo
+//       } else {
+//         console.error(`[Prefetch] No se pudo cargar: ${fullUrl} después de varios intentos.`);
+//       }
+//     };
+//   } else {
+//     console.log(`[Prefetch] ${fullUrl} ya fue prefetcheado.`);
+//   }
+// }
+
+function prefetchPage(url: string, retries = 3) {
+  const fullUrl = new URL(url, window.location.href).href;
+  // console.log(`[Prefetch] Iniciando prefetch manual para: ${fullUrl}`);
+
+  fetch(fullUrl, { mode: "no-cors" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      // console.log(`[Prefetch] Completado: ${fullUrl}`);
+    })
+    .catch((err) => {
+      console.error(`[Prefetch] Error al cargar: ${fullUrl}`, err);
+
+      if (retries > 0) {
+        console.log(`[Prefetch] Reintentando (${retries} intentos restantes)...`);
+        setTimeout(() => prefetchPage(url, retries - 1), 1000); // Reintentar después de 1 segundo
+      } else {
+        console.error(`[Prefetch] No se pudo cargar: ${fullUrl} después de varios intentos.`);
+      }
+    });
+}
+
+onUnmounted(() => {
+  hoverTimers.forEach(timer => clearTimeout(timer));
+});
 </script>
 
 <template>
   <p class="subtitle is-4 has-text-centered">Elige qué página quieres crear:</p>
   <!-- <div class="subtitle is-4">No hay soporte completo para la versión 5.00 de NMS<br>Elija qué tipo de página desea crear:</div> -->
   <div class="page-options">
-    <PageLink v-for="link in links" :url="link.url" :text="link.text" :img="link.img" :imgAlt="link.imgAlt" :disabled="link.inactive" />
+    <div v-for="link in links" @mouseenter="schedulePrefetch(link.url)" @mouseleave="cancelPrefetch(link.url)">
+      <PageLink :url="link.url" :text="link.text" :img="link.img" :imgAlt="link.imgAlt" :disabled="link.inactive" />
+    </div>
   </div>
   <div class="built-by is-4 has-text-centered">
     <div>Traído a usted por:</div>

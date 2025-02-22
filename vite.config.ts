@@ -44,6 +44,7 @@ export default defineConfig({
         'censustable.html',
         'regions.html',
         'cronology.html',
+        'fotosdestacadas.html',
       ],
     },
   },
