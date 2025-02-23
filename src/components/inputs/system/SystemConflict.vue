@@ -29,6 +29,7 @@ const id = useId('systemeconomy');
     <template #input>
       <SelectDropdown
         v-model="model"
+        :filter="true"
         :aria-labelledby="id"
         :options="mappedSystemConflict"
         optionLabel="label"
