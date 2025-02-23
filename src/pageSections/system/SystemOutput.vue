@@ -150,69 +150,52 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
   </div>
   <br />
   <div>==Discovery==</div>
-  <!-- Caso 1: Solo descubrimiento con enlace -->
   <div v-if="discDate && !docDate && discoveredlink">
     Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on {{ discDate
     }}
   </div>
 
-  <!-- Caso 2: Solo descubrimiento sin enlace -->
   <div v-else-if="discDate && !docDate && discovered">
     Discovered and uploaded by ''{{ discovered }}'' on {{ discDate }}
   </div>
 
-  <!-- Caso 3: Ambos eventos (descubrimiento y documentación) con misma fecha (con enlace) -->
-  <div v-else-if="discDate && docDate && discoveredlink && docBy && discDate === docDate">
-    Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> and explored
-    and documented by ''{{ docBy }}'' on {{ discDate }}
-  </div>
-
-  <!-- Caso 4: Ambos eventos (descubrimiento y documentación) con misma fecha (sin enlace) -->
   <div v-else-if="discDate && docDate && discovered && docBy && discDate === docDate">
     Discovered and uploaded by ''{{ discovered }}'' and explored and documented by ''{{ docBy }}'' on {{ discDate }}
   </div>
 
-  <!-- Caso 5: Ambos eventos (descubrimiento y documentación) con diferentes fechas (con enlace) -->
   <div v-else-if="discDate && docDate && discoveredlink && docBy && discDate !== docDate">
     * Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on {{
       discDate }}<br>
     * Explored and documented by ''{{ docBy }}'' on {{ docDate }}
   </div>
 
-  <!-- Caso 6: Ambos eventos (descubrimiento y documentación) con diferentes fechas (sin enlace) -->
   <div v-else-if="discDate && docDate && discovered && docBy && discDate !== docDate">
     * Discovered and uploaded by ''{{ discovered }}'' on {{ discDate }}<br>
     * Explored and documented by ''{{ docBy }}'' on {{ docDate }}
   </div>
 
-  <!-- Caso 7: Solo documentación (con enlace) -->
   <div v-else-if="!discDate && docDate && discoveredlink && docBy">
     Explored and documented by ''{{ docBy }}'' on {{ docDate }}
   </div>
 
-  <!-- Caso 8: Solo documentación (sin enlace) -->
   <div v-else-if="!discDate && docDate && discovered && docBy">
     Explored and documented by ''{{ docBy }}'' on {{ docDate }}
   </div>
 
-  <!-- Caso 9: Solo descubrimiento con enlace y docDate definido, pero sin docBy -->
   <div v-else-if="discDate && docDate && discoveredlink && !docBy && discDate === docDate">
     Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on {{ discDate
     }}
   </div>
 
-  <!-- Caso 10: Solo descubrimiento con enlace y docDate definido, pero sin docBy (fechas diferentes) -->
   <div v-else-if="discDate && docDate && discoveredlink && !docBy && discDate !== docDate">
     Discovered by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on {{ discDate }} and
     uploaded on {{ docDate }}
   </div>
 
-  <!-- Caso 11: Solo descubrimiento sin enlace y docDate definido, pero sin docBy -->
   <div v-else-if="discDate && docDate && discovered && !docBy && discDate === docDate">
     Discovered and uploaded by ''{{ discovered }}'' on {{ discDate }}
   </div>
 
-  <!-- Caso 12: Solo descubrimiento sin enlace y docDate definido, pero sin docBy (fechas diferentes) -->
   <div v-else-if="discDate && docDate && discovered && !docBy && discDate !== docDate">
     Discovered by ''{{ discovered }}'' on {{ discDate }} and uploaded on {{ docDate }}
   </div>
