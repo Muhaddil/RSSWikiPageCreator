@@ -32,7 +32,7 @@ const wealthInSpanish = {
     'Satisfactorio',
     'Sostenible',
   ],
-  Baja: ['Declinante', 'Indigente', 'Fracasado', 'Principiante', 'Pocos suministros', 'Luchador', 'Desafortunado', 'Desalentador'],
+  Baja: ['Declinante', 'Indigente', 'En quiebra', 'Principiante', 'Pocos suministros', 'Luchador', 'Desafortunado', 'Desalentador'],
   'Fuera de la ley': ['Mercado Negro'],
   Ninguna: ['Datos no disponibles'],
 } as const;
