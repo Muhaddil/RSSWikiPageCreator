@@ -16,20 +16,20 @@ onMounted(() => {
 
 const photos = ref([
   {
-    title: 'Nebulosa del Corazón Cósmico',
-    image: 'assets/images/fotosdestacadas/Mamadisimocity.webp',
-    location: 'Galaxia Andrómeda - Sector X-45',
-    photographer: 'StellarShutter',
-    equipment: 'Nikkor Z9 Interstellar',
+    title: 'Crash at the Sky',
+    image: 'assets/images/fotosdestacadas/Fk03.webp',
+    location: 'Galaxia Euclides - Sistema Desconocido',
+    photographer: 'Fran.Korvax',
+    equipment: '',
     technique: 'Exposición prolongada multiespectral',
-    tags: ['Nebulosas', 'Color cósmico', 'HDRI']
+    tags: ['Desastres', 'Color cósmico', 'HDRI']
   },
   {
-    title: 'Amanecer en Kepler-186f',
-    image: 'assets/images/fotosdestacadas/Progenie.webp',
-    location: 'Sistema Kepler-186 - Exoplaneta 186f',
-    photographer: 'GalaxyEye',
-    equipment: 'Sony α9X Quantum',
+    title: 'Suns Over The Rings',
+    image: 'assets/images/fotosdestacadas/Moonw01.webp',
+    location: 'Galaxia Euclides - Sistema Desconocido',
+    photographer: 'MoonWatcher',
+    equipment: '',
     technique: 'Captura de triple espectro',
     tags: ['Exoplanetas', 'Amaneceres', 'Geología alienígena']
   },
@@ -38,7 +38,7 @@ const photos = ref([
     image: 'assets/images/fotosdestacadas/cluster1.webp',
     location: 'Vía Láctea - Brazo de Sagitario',
     photographer: 'CosmoLens',
-    equipment: 'Canon R5 Astro Edition',
+    equipment: '',
     technique: 'Stacking de 500 exposiciones',
     tags: ['Cúmulos estelares', 'Astrofotografía', 'Resolución extrema']
   },
@@ -68,7 +68,6 @@ const openModal = (image: string) => {
   }
 };
 
-// Mantener el mismo sistema de responsive
 window.addEventListener('resize', () => {
   if (Math.abs(window.innerWidth - screenWidth.value) > 50) {
     screenWidth.value = window.innerWidth;
@@ -115,7 +114,7 @@ window.addEventListener('resize', () => {
                       <i class="pi pi-camera mr-2"></i>
                       <span>{{ slotProps.data.photographer }}</span>
                     </div>
-                    <div class="equipment-tag">
+                    <div class="equipment-tag" v-if="slotProps.data.equipment">
                       <i class="pi pi-microchip mr-2"></i>
                       <span>{{ slotProps.data.equipment }}</span>
                     </div>
