@@ -4,7 +4,16 @@ const InEnglishWealthCategories = ['High', 'Medium', 'Low', 'Outlaw', 'None'] as
 const InSpanishWealthCategories = ['Alta', 'Media', 'Baja', 'Fuera de la ley', 'Ninguna'] as const;
 
 const wealthInEnglish = {
-  High: ['★★★ (Advanced)', '★★★ (Affluent)', '★★★ (Booming)', '★★★ (Flourishing)', '★★★ (High Supply)', '★★★ (Opulent)', '★★★ (Prosperous)', '★★★ (Wealthy)'],
+  High: [
+    '★★★ (Advanced)',
+    '★★★ (Affluent)',
+    '★★★ (Booming)',
+    '★★★ (Flourishing)',
+    '★★★ (High Supply)',
+    '★★★ (Opulent)',
+    '★★★ (Prosperous)',
+    '★★★ (Wealthy)',
+  ],
   Medium: [
     '★★ (Adequate)',
     '★★ (Balanced)',
@@ -15,25 +24,43 @@ const wealthInEnglish = {
     '★★ (Satisfactory)',
     '★★ (Sustainable)',
   ],
-  Low: ['★ (Declining)', '★ (Destitute)', '★ (Failing)', '★ (Fledgling)', '★ (Low Supply)', '★ (Struggling)', '★ (Unsuccessful)', '★ (Unpromising)'],
+  Low: [
+    '★ (Declining)',
+    '★ (Destitute)',
+    '★ (Failing)',
+    '★ (Fledgling)',
+    '★ (Low Supply)',
+    '★ (Struggling)',
+    '★ (Unsuccessful)',
+    '★ (Unpromising)',
+  ],
   Outlaw: ['Black Market'],
   None: ['Data Unavailable'],
 } as const;
 
 const wealthInSpanish = {
-  Alta: ['Avanzado', 'Acaudalado', 'Próspero', 'Floreciente', 'Alta Suministro', 'Opulento', 'Rico', 'Adinerado'],
+  Alta: ['Avanzado', 'Pudiente', 'En auge', 'Floreciente', 'Muchos suministros', 'Opulento', 'Próspero', 'Rico'],
   Media: [
     'Adecuado',
     'Equilibrado',
-    'Cómodo',
-    'Desarrollándose',
-    'Suministro Medio',
+    'Holgado',
+    'En desarrollo',
+    'Suministro medio',
     'Prometedor',
     'Satisfactorio',
     'Sostenible',
   ],
-  Baja: ['Declinante', 'Indigente', 'En quiebra', 'Principiante', 'Pocos suministros', 'Luchador', 'Desafortunado', 'Desalentador'],
-  'Fuera de la ley': ['Mercado Negro'],
+  Baja: [
+    'En declive',
+    'Carente',
+    'En quiebra',
+    'Incipiente',
+    'Pocos suministros',
+    'En apuros',
+    'Infructuoso',
+    'Poco prometedor',
+  ],
+  'Fuera de la ley': ['Mercado negro'],
   Ninguna: ['Datos no disponibles'],
 } as const;
 

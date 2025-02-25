@@ -22,6 +22,7 @@ const events = ref<TimelineEvent[]>([
   { title: 'Descubrimiento', date: '01 / 25 / 2020', description: 'Descubrimiento de Urticalia por Kaos193, sistema elegido para ser la sede de la RSS.', category: 'Royal Space Society' },
 
 
+  { title: '1.0.53', date: '02 / 25 / 2025', description: 'Se corrigieron las categorías de riqueza y se mejoró el sistema de ocultación de los apartados de la estación espacial en los sistemas que no tienen.', category: 'Web' },
   { title: '1.0.529', date: '02 / 23 / 2025', description: 'Se mejoró ciertos la lógica de documentación de descubrimiento.', category: 'Web' },
   { title: '1.0.528', date: '02 / 23 / 2025', description: 'Se añadieron ciertos descriptores planetarios faltantes.', category: 'Web' },
   { title: '1.0.527', date: '02 / 22 / 2025', description: 'Se mejoró es sistema del apartado de la cronología ademas se implementó un sistema nuevo de prefetch en la página principal.', category: 'Web' },

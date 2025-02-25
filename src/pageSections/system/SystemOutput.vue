@@ -304,7 +304,7 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
     </div>
   </div>
   <br />
-  <div v-if="wealth !== 'Data Unavailable'">
+  <div v-if="faction !== 'Uncharted'">
     <div>==Space Station==</div>
     <div data-station="img">[[File:{{ ssImage }}|thumb|System space station]]</div>
     <div data-station="note"></div>

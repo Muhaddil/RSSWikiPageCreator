@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.0.529",
+  "version": "1.0.53",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,36 +12,36 @@
     "test-ci": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "^22.13.4",
+    "@types/node": "^22.13.5",
     "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^5.2.1",
-    "@vitest/browser": "^3.0.6",
-    "@vitest/coverage-v8": "^3.0.6",
+    "@vitest/browser": "^3.0.7",
+    "@vitest/coverage-v8": "^3.0.7",
     "@vue/test-utils": "^2.4.6",
     "@vueuse/core": "^12.7.0",
-    "happy-dom": "^17.1.1",
+    "happy-dom": "^17.1.8",
     "pinia": "^3.0.1",
-    "prettier": "^3.5.1",
-    "sass-embedded": "^1.85.0",
+    "prettier": "^3.5.2",
+    "sass-embedded": "^1.85.1",
     "typescript": "^5.7.3",
-    "vite": "^6.1.1",
-    "vitest": "^3.0.6",
+    "vite": "^6.2.0",
+    "vitest": "^3.0.7",
     "vue": "^3.5.13",
     "vue-toastification": "^2.0.0-rc.5",
-    "vue-tsc": "^2.2.0",
-    "webdriverio": "^9.9.3"
+    "vue-tsc": "^2.2.4",
+    "webdriverio": "^9.10.1"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
     "@primeuix/utils": "^0.5.1",
-    "@primevue/core": "^4.3.0-rc.1",
-    "@primevue/icons": "^4.3.0-rc.1",
-    "@primevue/themes": "^4.3.0-rc.1",
+    "@primevue/core": "^4.3.1",
+    "@primevue/icons": "^4.3.1",
+    "@primevue/themes": "^4.3.1",
     "bulma": "^1.0.3",
     "md5-hex": "^5.0.0",
     "parse-mediawiki-template": "^0.2.2",
     "primeicons": "^7.0.0",
-    "primevue": "^4.3.0-rc.1",
+    "primevue": "^4.3.1",
     "vue-draggable-plus": "^0.6.0"
   }
 }
