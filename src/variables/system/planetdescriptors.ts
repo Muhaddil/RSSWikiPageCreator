@@ -1090,7 +1090,7 @@ const InSpanishGiant = [
   'Gigante abundante en flora',
   'Gigante floreciente',
   'Gigante abundante',
-  'Gigante paradisíaco',
+  'Colosal paradisíaco',
   'Gigante en pedazos',
   'Gigante con fracturas',
   'Gigante en fragmentación',

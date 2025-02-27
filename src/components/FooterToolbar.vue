@@ -30,7 +30,7 @@ function isCensusPage() {
 }
 
 function isFAQPage() {
-  return currentUrl.includes('faq.html') || currentUrl.includes('basesdestacadas.html') || currentUrl.includes('rsslinks.html') || currentUrl.includes('censustable.html') || currentUrl.includes('regions.html') || currentUrl.includes('cronology.html') ;
+  return currentUrl.includes('faq.html') || currentUrl.includes('basesdestacadas.html') || currentUrl.includes('rsslinks.html') || currentUrl.includes('censustable.html') || currentUrl.includes('regions.html') || currentUrl.includes('cronology.html') || currentUrl.includes('rssfriends.html');
 }
 
 async function copyPage() {
@@ -91,9 +91,9 @@ async function handleSubmit() {
 
   try {
     await sendToDiscord(payloadSections);
-    setTimeout(() => {}, 5000);
+    setTimeout(() => { }, 5000);
   } catch (error) {
-    setTimeout(() => {}, 5000);
+    setTimeout(() => { }, 5000);
     console.error(error);
   }
 }
@@ -198,7 +198,7 @@ function createPage() {
       } else {
         window.open(`https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society?action=edit&section=9#editform`, '_blank');
         return;
-        }
+      }
     }
   }
 
@@ -322,40 +322,19 @@ function showConfirmDialog() {
   <Toolbar class="is-borderless is-radiusless" v-if="!isFAQPage()">
     <template #center>
       <div class="is-gap-1 is-flex is-justify-content-center footer-toolbar">
-        <Button
-          label="Copiar"
-          @click="copyPage"
-        />
+        <Button label="Copiar" @click="copyPage" />
 
-        <Button
-          v-if="!isBaseRenewalPage()"
-          as="a"
-          label="Crear"
-          severity="warn"
-          @click="createPage"
-        />
+        <Button v-if="!isBaseRenewalPage()" as="a" label="Crear" severity="warn" @click="createPage" />
 
-        <Button
-          v-if="!isBaseRenewalPage()"
-          label="Descargar Código"
-          @click="downloadCode"
-        />
-        <Button
-          v-if="!isBaseRenewalPage()"
-          label="Subir Archivos"
-          @click="uploadFiles"
-        />
+        <Button v-if="!isBaseRenewalPage()" label="Descargar Código" @click="downloadCode" />
+        <Button v-if="!isBaseRenewalPage()" label="Subir Archivos" @click="uploadFiles" />
 
-        <Button
-          label="Restablecer"
-          severity="danger"
-          @click="showConfirmDialog"
-        />
+        <Button label="Restablecer" severity="danger" @click="showConfirmDialog" />
       </div>
     </template>
   </Toolbar>
 
-  <ConfirmDialog :draggable="true"/>
+  <ConfirmDialog :draggable="true" />
 </template>
 
 

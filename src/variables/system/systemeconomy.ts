@@ -132,6 +132,7 @@ export const mappedSystemEconomy = [
           { label: 'Experimental', value: 'Experimental' },
           { label: 'Matemático', value: 'Mathematical' },
           { label: 'Investigación', value: 'Research' },
+          { label: 'Científico', value: 'Scientific' },
       ],
   },
   {

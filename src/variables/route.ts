@@ -27,6 +27,7 @@ export const router: Record<string, string> = {
   regions: 'Regions',
   cronology: 'Cronology',
   fotosdestacadas: 'FotosDestacadas',
+  rssfriends: 'RSSFriends',
 };
 
 export const route = getCurrentRoute();
@@ -103,6 +104,9 @@ switch (route) {
     break;
   case 'cronology':
     exportName = 'Cronología';
+    break;
+  case 'rssfriends':
+    exportName = 'Códigos de Amigo';
     break;
   case '':
     exportName = 'Home';
