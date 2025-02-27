@@ -45,6 +45,7 @@ export default defineConfig({
         'regions.html',
         'cronology.html',
         'fotosdestacadas.html',
+        'rssfriends.html',
       ],
     },
   },
