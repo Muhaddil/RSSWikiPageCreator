@@ -91,7 +91,14 @@ export const linkData = {
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
         "description": "Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la Royal Space Society",
         "icon": "pi pi-sort-amount-up"
-      }
+      },
+      {
+        "title": "Nexo Viajeros Estelares RSS",
+        "category": "Protocolo de Viajeros Estelares",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html",
+        "description": "Registro unificado de viajeros que forman parte de la RSS",
+        "icon": "pi pi-link"
+      },
     ],
     common: [
       {
@@ -184,7 +191,14 @@ export const linkData = {
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
         "description": "Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la Royal Space Society",
         "icon": "pi pi-sort-amount-up"
-      }
+      },
+      {
+        "title": "Creador de tarjetas de amigo",
+        "category": "Protocolo de Viajeros Estelares",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html",
+        "description": "Registro unificado de viajeros que forman parte de la RSS",
+        "icon": "pi pi-link"
+      },
     ]
   },
   en: {
@@ -279,7 +293,14 @@ export const linkData = {
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
         "description": "A unified record of historical events and significant occurrences under the sovereignty of the Royal Space Society",
         "icon": "pi pi-sort-amount-up"
-      }
+      },
+      {
+        "title": "Nexus Star Travelers RSS",
+        "category": "Star Travelers Protocol",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html",
+        "description": "Unified registry of travelers who are part of the RSS",
+        "icon": "pi pi-link"
+      },
     ],
     common: [
       {
@@ -372,7 +393,14 @@ export const linkData = {
         "url": "https://muhaddil.github.io/RSSWikiPageCreator/cronology.html",
         "description": "A unified record of historical events and significant occurrences under the sovereignty of the Royal Space Society",
         "icon": "pi pi-sort-amount-up"
-      }
+      },
+      {
+        "title": "Friend Card Creator",
+        "category": "Star Travelers Protocol",
+        "url": "https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html",
+        "description": "Unified registry of travelers who are part of the RSS",
+        "icon": "pi pi-link"
+      },
     ]
   }
 };
