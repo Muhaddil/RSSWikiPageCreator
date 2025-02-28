@@ -52,7 +52,7 @@ const locationSentence = computed(() => {
 
 const formattedFeatures = computed(() => {
   if (!features.value || features.value.length === 0) return '';
-  return features.value.map(feature => `* [[${feature}]]`).join('\n');
+  return '<pre>\n' + features.value.map(feature => '* [[' + feature + ']]').join('\n') + '\n</pre>';
 });
 </script>
 
@@ -104,7 +104,7 @@ const formattedFeatures = computed(() => {
   <div>{{ layout }}</div>
   <br />
   <div>==Features==</div>
-  <div>{{ formattedFeatures }}</div>
+  <div v-html="formattedFeatures"></div>
   <br />
   <div>==Additional Information==</div>
   <div>{{ additionalInfo }}</div>
