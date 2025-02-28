@@ -5,8 +5,9 @@ import FileUpload from 'primevue/fileupload';
 import FileUploadNotice from '@/components/FileUploadNotice.vue';
 import SanitisedTextInput from '@/components/inputs/SanitisedTextInput.vue';
 import SelectDropdown from '@/components/inputs/SelectDropdown.vue';
+import ProgressSpinner from 'primevue/progressspinner';
 import Button from 'primevue/button';
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 import { regexMatch } from '@/helpers/inputValidation';
 import { watchDebounced } from '@vueuse/core';
 import { debounceDelay } from '@/variables/debounce';
@@ -19,6 +20,7 @@ const friendCode = ref<string>('');
 const navImage = ref<string>('');
 const isWhite = ref<string>('');
 const scale = ref<number>(1);
+const isDownloading = ref(false);
 
 const PlayerRaces = ref([
   { label: 'Korvax', value: 'Korvax', icon: '/RSSWikiPageCreator/assets/images/friends/holo-korvax.png' },
@@ -71,6 +73,7 @@ const updateRaceIcon = () => {
 };
 
 const downloadCard = async () => {
+  isDownloading.value = true;
   const cardElement = document.querySelector('.rss-card-wrapper') as HTMLElement;
   if (!cardElement) return;
 
@@ -93,6 +96,7 @@ const downloadCard = async () => {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  isDownloading.value = false;
 };
 
 watchEffect(() => (friendCode.value = friendCode.value.toUpperCase()));
@@ -123,8 +127,9 @@ watchDebounced(
           </div>
         </div>
 
-        <SanitisedTextInput :model-value="scale.toString()" @update:model-value="scale = Number($event) || 1"
-          placeholder="Número" class="input-text" label="Escala de salida de la foto" />
+        <SanitisedTextInput :model-value="scale.toString()"
+          @update:model-value="scale = Math.min(Number($event) || 1, 10)" placeholder="Número" class="input-text"
+          label="Escala de salida de la foto" tooltip="La escala máxima es 10"/>
 
         <SanitisedTextInput v-model="playerName" placeholder="Nombre" class="input-text" label="Nombre del jugador" />
 
@@ -189,8 +194,15 @@ watchDebounced(
       </div>
 
       <br />
-      <Button @click="downloadCard" class="download-button">Descargar Carta</Button>
-
+      <div class="download-section">
+        <Button @click="downloadCard" class="download-button" :disabled="isDownloading" :loading="isDownloading"
+          style="color: white">
+          <template #icon>
+            <ProgressSpinner v-if="isDownloading" class="pi pi-spin pi-spinner" />
+          </template>
+          {{ isDownloading ? 'Generando imagen...' : 'Descargar Carta' }}
+        </Button>
+      </div>
       <br />
       <br />
       <br />
@@ -320,5 +332,53 @@ watchDebounced(
 
 .text-white {
   color: white;
+}
+
+.download-button {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  width: 150px;
+}
+
+.download-button:disabled {
+  opacity: 0.8;
+  background-color: var(--primary-color);
+  cursor: not-allowed;
+}
+
+.download-button:disabled::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 100%;
+  }
+}
+
+.pi-spinner {
+  margin-right: 0.5rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.0.541",
+  "version": "1.0.542",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -38,7 +38,7 @@
     "@primevue/icons": "^4.3.1",
     "@primevue/themes": "^4.3.1",
     "bulma": "^1.0.3",
-    "html2canvas": "^1.4.1",
+    "html2canvas-pro": "^1.5.8",
     "md5-hex": "^5.0.0",
     "parse-mediawiki-template": "^0.2.2",
     "primeicons": "^7.0.0",

@@ -344,7 +344,7 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
       </span>
       }}
     </div>
-    <div id="scrapDealer" data-station="scrapDealer">
+    <div id="scrapDealer" data-station="scrapDealer" v-if="modulesSD && modulesSD.length > 0">
       <br />
       <div>===Scrap Dealer===</div>
       <div><span v-pre>{{</span>ScrapDealer</div>
