@@ -371,36 +371,56 @@ export interface RegionStats {
   };
 }
 
+const fetchCategoryStats = async (pageName: string, tableClass: string, tableFields: string): Promise<number | null> => {
+  try {
+    const queryObject = {
+      ...basicQueryData,
+      action: 'cargoquery',
+      tables: tableClass,
+      fields: [tableFields].join(','),
+      where: `Civilized='Royal Space Society' AND Region='${pageName}'`,
+      limit: 500,
+    };
+
+    const url = buildQueryUrl(queryObject);
+    const data = await apiCall<any>(url);
+
+    if (data?.cargoquery && Array.isArray(data.cargoquery)) {
+      return data.cargoquery.length;
+    }
+
+    return null;
+  } catch (error) {
+    console.error(`Error fetching category stats for ${pageName}:`, error);
+    return null;
+  }
+};
+
 export const getRegionStats = async (pageName: string): Promise<RegionStats | null> => {
-  const queryObject = {
-    ...basicQueryData,
-    action: 'parse',
-    page: pageName,
-    prop: 'text',
+  const stats: RegionStats = {
+    "Bases": { CrossPlatform: 0 },
+    "Star systems": { CrossPlatform: 0 },
+    "Planets": { CrossPlatform: 0 },
+    "Fauna": { CrossPlatform: 0 },
+    "Starships": { CrossPlatform: 0 },
+    "Multi-Tools": { CrossPlatform: 0 },
   };
 
-  const url = buildQueryUrl(queryObject);
-  const data = await apiCall<any>(url);
-  const html = data?.parse?.text?.['*'] || '';
+  const categories = {
+    "Star systems": { tableClass: "Systems", tableFields: "Region" },
+    "Bases": { tableClass: "Bases", tableFields: "Name" },
+    "Planets": { tableClass: "Planets", tableFields: "Civilized" },
+    "Fauna": { tableClass: "Creatures", tableFields: "Name" },
+    "Starships": { tableClass: "Starships", tableFields: "Coordinates" },
+    "Multi-Tools": { tableClass: "Multitools", tableFields: "Civilized" },
+  };
 
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-  const table = doc.querySelector('table.article-table');
-  if (!table) return null;
-
-  const stats: RegionStats = {};
-
-  const rows = Array.from(table.querySelectorAll('tr')).slice(2); // Saltar cabeceras
-  for (const row of rows) {
-    const cells = Array.from(row.querySelectorAll('td'));
-    if (cells.length < 6) continue;
-
-    const itemName = cells[0].textContent?.trim().replace(/\[\[|\]\]/g, '') ?? 'Unknown';
-
-    stats[itemName] = {
-      CrossPlatform: parseInt(cells[5].textContent?.trim() ?? '0', 10),
-    };
+  for (const [categoryName, { tableClass, tableFields }] of Object.entries(categories)) {
+    const categoryStats = await fetchCategoryStats(pageName, tableClass, tableFields);
+    if (categoryStats !== null) {
+      stats[categoryName] = { CrossPlatform: categoryStats };
+    }
   }
 
-  return stats;
+  return Object.keys(stats).length > 0 ? stats : null;
 };

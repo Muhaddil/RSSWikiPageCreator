@@ -64,6 +64,7 @@ const fetchBases = async (offset: number = 0) => {
     await Promise.all(filteredBases.map(async (base) => {
       base.imageUrl = await fetchRegionImageUrls(base.Region);
       base.stats = await getRegionStats(base.Region);
+      // console.log(base);
     }));
 
     bases.value = mergeAndRemoveDuplicates(bases.value, filteredBases);
