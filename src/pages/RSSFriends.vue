@@ -18,6 +18,7 @@ const playerRaceIcon = ref<string>('');
 const friendCode = ref<string>('');
 const navImage = ref<string>('');
 const isWhite = ref<string>('');
+const scale = ref<number>(1);
 
 const PlayerRaces = ref([
   { label: 'Korvax', value: 'Korvax', icon: '/RSSWikiPageCreator/assets/images/friends/holo-korvax.png' },
@@ -73,10 +74,15 @@ const downloadCard = async () => {
   const cardElement = document.querySelector('.rss-card-wrapper') as HTMLElement;
   if (!cardElement) return;
 
+  const rect = cardElement.getBoundingClientRect();
+  const scaleFactor = Number(scale.value) || 1;
+
   const canvas = await html2canvas(cardElement, {
     useCORS: true,
     backgroundColor: null,
-    scale: 2,
+    width: rect.width,
+    height: rect.height,
+    scale: scaleFactor,
   });
 
   const image = canvas.toDataURL('image/png');
@@ -116,6 +122,9 @@ watchDebounced(
               style="width: 185px; left: -12px;" binary />
           </div>
         </div>
+
+        <SanitisedTextInput :model-value="scale.toString()" @update:model-value="scale = Number($event) || 1"
+          placeholder="Número" class="input-text" label="Escala de salida de la foto" />
 
         <SanitisedTextInput v-model="playerName" placeholder="Nombre" class="input-text" label="Nombre del jugador" />
 
@@ -160,9 +169,7 @@ watchDebounced(
           Raza
         </div>
 
-        <img class="card-image-marco"
-          src="/assets/images/friends/marco.png"
-          alt="Tarjeta RSS" />
+        <img class="card-image-marco" src="/assets/images/friends/marco.png" alt="Tarjeta RSS" />
 
         <div class="card-name-field" :class="{ 'text-black': isWhite, 'text-white': !isWhite }">
           {{ playerName }}
@@ -182,7 +189,7 @@ watchDebounced(
       </div>
 
       <br />
-        <Button @click="downloadCard" class="download-button">Descargar Carta</Button>
+      <Button @click="downloadCard" class="download-button">Descargar Carta</Button>
 
       <br />
       <br />
