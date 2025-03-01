@@ -84,8 +84,11 @@ async function handleSubmit() {
     .replace(/<br\s*\/?>/g, '\n')
     .replace(/\n{2,}/g, '\n\n');
 
+  const formattedName = pageData.name.replace(/\s+/g, '_');
+
   const payloadSections = [
     `- **Página en la wiki creada:** ${pageData.name}`,
+    `- https://nomanssky.fandom.com/wiki/${formattedName}`,
     `\`\`\`html\n${processedContent}\n\`\`\``
   ];
 
