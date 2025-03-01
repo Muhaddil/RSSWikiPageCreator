@@ -9,6 +9,7 @@ import { Colours } from './css/stylePreset';
 import Toast, { POSITION } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import ConfirmationService from 'primevue/confirmationservice';
+import AnimateOnScroll from 'primevue/animateonscroll';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -96,6 +97,7 @@ app.use(Toast, {
   closeOnClick: true,
   maxToasts: 5,
 });
+app.directive('animateonscroll', AnimateOnScroll);
 
 app.mount('#app');
 
