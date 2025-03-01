@@ -1,13 +1,9 @@
 <script lang="ts">
 import { defineComponent, watch, reactive, ref, computed, watchEffect, onMounted, nextTick } from "vue";
-import autoAnimate from "@formkit/auto-animate";
-import AnimateOnScroll from 'primevue/animateonscroll';
+import autoAnimate from "@formkit/auto-animate"
 
 export default defineComponent({
   name: "Faq",
-  directives: {
-    animateonscroll: AnimateOnScroll
-  },
   setup() {
     const faqs = ref([
       { id: 1, question: "¿Qué es la RSS?", answer: "La RSS es un grupo de jugadores de NMS de habla hispana (aunque también se aceptan miembros de otros idiomas) que tiene una página en la wikipedia de NMS donde se registran los descubrimientos de sus miembros." },
@@ -151,6 +147,7 @@ export default defineComponent({
 
 <template>
   <div>
+    <!-- <h1 class="title" style="text-align: center;">Preguntas Frecuentes</h1> -->
     <div class="search-container">
       <input type="text" v-model="searchTerm" placeholder="Buscar preguntas..." />
       <i class="search-icon">🔍</i>
@@ -159,9 +156,8 @@ export default defineComponent({
     <div id="faqList">
       <p v-if="filteredFaqs.length === 0 && randomMessage" class="no-results-message">{{ randomMessage }}</p>
 
-      <div v-for="(faq) in filteredFaqs" :key="faq.id" class="box faq-item"
-           v-animateonscroll="{ enterClass: 'animate-enter fade-in-10 slide-in-from-t-20 animate-duration-1000', leaveClass: 'animate-leave fade-out-0' }">
-        <div class="dropdown">
+      <div v-for="(faq) in filteredFaqs" :key="faq.id" class="box faq-item">
+        <div ref="dropdowns" class="dropdown">
           <strong class="dropdown-label" @click="toggleShow(faq.id)">
             {{ faq.question }}
           </strong>
