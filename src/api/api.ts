@@ -398,8 +398,8 @@ const fetchCategoryStats = async (pageName: string, tableClass: string, tableFie
 
 export const getRegionStats = async (pageName: string): Promise<RegionStats | null> => {
   const stats: RegionStats = {
-    "Bases": { CrossPlatform: 0 },
     "Star systems": { CrossPlatform: 0 },
+    "Bases": { CrossPlatform: 0 },
     "Planets": { CrossPlatform: 0 },
     "Fauna": { CrossPlatform: 0 },
     "Starships": { CrossPlatform: 0 },
