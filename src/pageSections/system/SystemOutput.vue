@@ -46,6 +46,7 @@ const {
   modulesSD,
   discDate,
   docDate,
+  extraInfo,
 } = storeToRefs(pageData);
 
 const glyphcoords = computed(() => glyphs2Coords(glyphs.value));
@@ -205,7 +206,7 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
   <div>{| class="article-table" style="text-align:center; width:100%; max-width:1250px"}</div>
   <div>|-</div>
   <div>! style="width:150px" | Image</div>
-  <!-- <div>! style="width:150px" | Landscape</div> -->
+  <div v-if="extraInfo">! style="width:150px" | Landscape</div>
   <div>! Name</div>
   <div>! Type</div>
   <div>! style="min-width:10em" | Resources</div>

@@ -168,6 +168,7 @@ interface PageData {
   basename: string;
   playername: string;
   discordname: string;
+  extraInfo: string;
 }
 
 const defaultState: PageData = {
@@ -320,6 +321,7 @@ const defaultState: PageData = {
   basename: '',
   playername: '',
   discordname: '',
+  extraInfo: '',
   presetData: structuredClone(defaultData),
 };
 

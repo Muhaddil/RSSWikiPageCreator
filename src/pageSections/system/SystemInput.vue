@@ -21,6 +21,7 @@ import SystemConflict from '@/components/inputs/system/SystemConflict.vue';
 import WealthSelect from '@/components/WealthSelect.vue';
 import PlatformSelect from '@/components/inputs/PlatformSelect.vue';
 import PlanetInputs from '@/components/inputs/system/PlanetInputs.vue';
+import PlanetInputsExtra from '@/components/inputs/system/PlanetInputsExtra.vue';
 import TradeableInput from '@/components/inputs/system/TradeableInput.vue';
 import UpgradeModules from '@/components/inputs/system/UpgradeModules.vue';
 import UpgradeModulesSS from '@/components/inputs/system/UpgradeModulesSS.vue';
@@ -64,6 +65,7 @@ const {
   modulesEC,
   modulesES,
   modulesSD,
+  extraInfo,
 } = storeToRefs(pageData);
 
 const systemplanets = ref([]);
@@ -185,7 +187,20 @@ watch(economybuy, (newValue) => {
     </template>
   </InputTableItem>
 
-  <PlanetInputs v-model="systemplanets" />
+  <InputTableItem>
+    <template #label>
+      <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
+        <label for="extrainfo-checkbox">¿Planetas Completos?</label>
+        <Explainer tooltip="Si quieres que los planetas tengan informacion extra."></Explainer>
+      </div>
+    </template>
+    <template #input>
+      <Checkbox v-model="extraInfo" false-value="" input-id="extrainfo-checkbox" true-value="Yes" binary />
+    </template>
+  </InputTableItem>
+
+  <PlanetInputs v-model="systemplanets" v-if="!extraInfo"/>
+  <PlanetInputsExtra v-model="systemplanets" v-if="extraInfo"/>
   <SystemRace v-model="faction" />
   <SystemEconomy v-model="economy" />
 
