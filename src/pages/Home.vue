@@ -221,7 +221,7 @@ function prefetchPage(url: string, retries = 3) {
 
       if (retries > 0) {
         console.log(`[Prefetch] Reintentando (${retries} intentos restantes)...`);
-        setTimeout(() => prefetchPage(url, retries - 1), 1000); // Reintentar después de 1 segundo
+        setTimeout(() => prefetchPage(url, retries - 1), 1000);
       } else {
         console.error(`[Prefetch] No se pudo cargar: ${fullUrl} después de varios intentos.`);
       }

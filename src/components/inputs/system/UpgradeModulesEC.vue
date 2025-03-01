@@ -15,6 +15,7 @@ const options: Option[] = [
   { english: 'Minotaur Cannon Upgrade', spanish: 'Módulo de cañón del Minotauro' },
   { english: 'Daedalus Engine Upgrade', spanish: 'Módulo de motor del Minotauro' },
   { english: 'Minotaur Laser Upgrade', spanish: 'Módulo de láser del Minotauro' },
+  { english: 'Minotaur Flamethrower Upgrade', spanish: 'Mejora del lanzallamas del Minotauro' },
   { english: 'Nautilon Cannon Upgrade', spanish: 'Módulo de cañón de Nautilo' },
 ];
 </script>

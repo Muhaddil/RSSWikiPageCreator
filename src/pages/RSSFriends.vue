@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watchEffect } from 'vue';
+import { ref, onMounted, onUnmounted, watchEffect, nextTick } from 'vue';
 import Card from 'primevue/card';
 import FileUpload from 'primevue/fileupload';
 import FileUploadNotice from '@/components/FileUploadNotice.vue';
@@ -73,30 +73,47 @@ const updateRaceIcon = () => {
 };
 
 const downloadCard = async () => {
-  isDownloading.value = true;
   const cardElement = document.querySelector('.rss-card-wrapper') as HTMLElement;
   if (!cardElement) return;
 
+  await nextTick();
+
   const rect = cardElement.getBoundingClientRect();
-  const scaleFactor = Number(scale.value) || 1;
+  isDownloading.value = true;
 
-  const canvas = await html2canvas(cardElement, {
-    useCORS: true,
-    backgroundColor: null,
-    width: rect.width,
-    height: rect.height,
-    scale: scaleFactor,
-  });
+  try {
+    requestAnimationFrame(async () => {
+      try {
+        const canvas = await html2canvas(cardElement, {
+          scale: scale.value || 1,
+          backgroundColor: null,
+          useCORS: true,
+          width: rect.width,
+          height: rect.height,
+          logging: false,
+        });
 
-  const image = canvas.toDataURL('image/png');
+        const image = canvas.toDataURL('image/png');
+        descargarImagen(image);
+      } catch (error) {
+        console.error('Error al generar la imagen:', error);
+      } finally {
+        isDownloading.value = false;
+      }
+    });
+  } catch (error) {
+    console.error('Error al descargar la imagen:', error);
+    isDownloading.value = false;
+  }
+};
 
+const descargarImagen = (imagen: string) => {
   const link = document.createElement('a');
-  link.href = image;
+  link.href = imagen;
   link.download = 'tarjeta.png';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  isDownloading.value = false;
 };
 
 watchEffect(() => (friendCode.value = friendCode.value.toUpperCase()));
@@ -129,7 +146,7 @@ watchDebounced(
 
         <SanitisedTextInput :model-value="scale.toString()"
           @update:model-value="scale = Math.min(Number($event) || 1, 10)" placeholder="Número" class="input-text"
-          label="Escala de salida de la foto" tooltip="La escala máxima es 10"/>
+          label="Escala de salida de la foto" tooltip="La escala máxima es 10" />
 
         <SanitisedTextInput v-model="playerName" placeholder="Nombre" class="input-text" label="Nombre del jugador" />
 
@@ -157,10 +174,9 @@ watchDebounced(
       </div>
 
       <br />
-      <div class="rss-card-wrapper">
-        <img class="rss-card-background"
-          :src="isWhite ? '/RSSWikiPageCreator/assets/images/friends/friend-white.png' : '/RSSWikiPageCreator/assets/images/friends/friend.png'"
-          alt="Tarjeta RSS" />
+      <div ref="cardElement" class="rss-card-wrapper">
+        <img class="rss-card-background" :src="isWhite ? `/RSSWikiPageCreator/assets/images/friends/friend-white.png?${Date.now()}` :
+          `/RSSWikiPageCreator/assets/images/friends/friend.png?${Date.now()}`" alt="Tarjeta RSS" />
 
         <div class="card-image-container">
           <img v-if="navImage" :src="navImage" alt="Imagen subida" class="uploaded-image" />
@@ -262,7 +278,6 @@ watchDebounced(
 }
 
 .uploaded-image {
-  width: 100%;
   height: 100%;
   object-fit: cover;
 }

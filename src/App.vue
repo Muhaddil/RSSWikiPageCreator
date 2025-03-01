@@ -25,7 +25,9 @@ const RouteComponent = defineAsyncComponent<Component>({
         <i class="pi pi-heart-fill heart-icon"></i>
         <div class="footer-text">
           <span class="footer-title">Creado con pasión y dedicación por</span>
-          <span class="author-name">Muhaddil</span>
+          <a href="https://github.com/Muhaddil" target="_blank" rel="noopener noreferrer">
+            <span class="author-name">Muhaddil</span>
+          </a>
         </div>
         <i class="pi pi-star-fill star-icon"></i>
       </div>
@@ -98,7 +100,7 @@ footer {
   font-weight: 600;
   font-size: 1.4rem;
   font-style: italic;
-  text-shadow: 0 0 10px rgba(79,70,229, 0.7);
+  text-shadow: 0 0 10px rgba(79, 70, 229, 0.7);
 }
 
 .footer-subtitle {
@@ -122,13 +124,15 @@ footer {
 
 @keyframes shine {
   0% {
-    text-shadow: 0 0 5px rgba(255,255,255,0.2);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
   }
+
   50% {
-    text-shadow: 0 0 20px rgba(255,255,255,0.5);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
   }
+
   100% {
-    text-shadow: 0 0 5px rgba(255,255,255,0.2);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
   }
 }
 
@@ -137,6 +141,7 @@ footer {
     flex-direction: column;
     gap: 0.5rem;
   }
+
   .author-name {
     font-size: 1.2rem;
   }
