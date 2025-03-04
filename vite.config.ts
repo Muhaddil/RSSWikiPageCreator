@@ -46,6 +46,7 @@ export default defineConfig({
         'cronology.html',
         'fotosdestacadas.html',
         'rssfriends.html',
+        'guias.html',
       ],
     },
   },

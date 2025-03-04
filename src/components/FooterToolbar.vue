@@ -30,7 +30,9 @@ function isCensusPage() {
 }
 
 function isFAQPage() {
-  return currentUrl.includes('faq.html') || currentUrl.includes('basesdestacadas.html') || currentUrl.includes('rsslinks.html') || currentUrl.includes('censustable.html') || currentUrl.includes('regions.html') || currentUrl.includes('cronology.html') || currentUrl.includes('rssfriends.html');
+  return currentUrl.includes('faq.html') || currentUrl.includes('basesdestacadas.html') || currentUrl.includes('rsslinks.html')
+  || currentUrl.includes('censustable.html') || currentUrl.includes('regions.html') || currentUrl.includes('cronology.html')
+  || currentUrl.includes('rssfriends.html') || currentUrl.includes('guias.html');
 }
 
 async function copyPage() {

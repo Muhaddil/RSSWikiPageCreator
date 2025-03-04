@@ -109,6 +109,9 @@ switch (route) {
   case 'rssfriends':
     exportName = 'Códigos de Amigo';
     break;
+  case 'guias':
+    exportName = 'Guías de uso';
+    break;
   case '':
     exportName = 'Home';
     break;
