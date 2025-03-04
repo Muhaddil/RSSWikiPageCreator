@@ -28,6 +28,7 @@ export const router: Record<string, string> = {
   cronology: 'Cronology',
   fotosdestacadas: 'FotosDestacadas',
   rssfriends: 'RSSFriends',
+  guias: 'Guias',
 };
 
 export const route = getCurrentRoute();
