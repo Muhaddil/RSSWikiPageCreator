@@ -12,7 +12,7 @@
     "test-ci": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "^22.13.11",
+    "@types/node": "^22.13.13",
     "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitest/browser": "^3.0.9",
@@ -24,7 +24,7 @@
     "prettier": "^3.5.3",
     "sass-embedded": "^1.86.0",
     "typescript": "^5.8.2",
-    "vite": "^6.2.2",
+    "vite": "^6.2.3",
     "vitest": "^3.0.9",
     "vue": "^3.5.13",
     "vue-toastification": "^2.0.0-rc.5",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
-    "@primeuix/utils": "^0.5.1",
+    "@primeuix/utils": "^0.5.2",
     "@primevue/core": "^4.3.2",
     "@primevue/icons": "^4.3.2",
     "@primevue/themes": "^4.3.2",
