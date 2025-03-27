@@ -390,6 +390,7 @@ footer p {
   font-weight: bold;
   cursor: pointer;
   color: var(--heading-color);
+  user-select: none;
 }
 
 .dropdown-content {
