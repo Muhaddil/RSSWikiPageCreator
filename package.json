@@ -12,7 +12,7 @@
     "test-ci": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "^22.13.13",
+    "@types/node": "^22.13.14",
     "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitest/browser": "^3.0.9",
@@ -34,15 +34,15 @@
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
     "@primeuix/utils": "^0.5.2",
-    "@primevue/core": "^4.3.2",
-    "@primevue/icons": "^4.3.2",
-    "@primevue/themes": "^4.3.2",
+    "@primevue/core": "^4.3.3",
+    "@primevue/icons": "^4.3.3",
+    "@primevue/themes": "^4.3.3",
     "bulma": "^1.0.3",
     "html2canvas-pro": "^1.5.8",
     "md5-hex": "^5.0.0",
     "parse-mediawiki-template": "^0.2.2",
     "primeicons": "^7.0.0",
-    "primevue": "^4.3.2",
+    "primevue": "^4.3.3",
     "vue-draggable-plus": "^0.6.0"
   }
 }
