@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.0.553",
+  "version": "1.0.554",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,28 +12,28 @@
     "test-ci": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "^22.13.14",
+    "@types/node": "^22.13.17",
     "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^5.2.3",
-    "@vitest/browser": "^3.0.9",
-    "@vitest/coverage-v8": "^3.0.9",
+    "@vitest/browser": "^3.1.1",
+    "@vitest/coverage-v8": "^3.1.1",
     "@vue/test-utils": "^2.4.6",
     "@vueuse/core": "^13.0.0",
     "happy-dom": "^17.4.4",
     "pinia": "^3.0.1",
     "prettier": "^3.5.3",
-    "sass-embedded": "^1.86.0",
+    "sass-embedded": "^1.86.1",
     "typescript": "^5.8.2",
-    "vite": "^6.2.3",
-    "vitest": "^3.0.9",
+    "vite": "^6.2.4",
+    "vitest": "^3.1.1",
     "vue": "^3.5.13",
     "vue-toastification": "^2.0.0-rc.5",
     "vue-tsc": "^2.2.8",
-    "webdriverio": "^9.12.1"
+    "webdriverio": "^9.12.2"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
-    "@primeuix/utils": "^0.5.2",
+    "@primeuix/utils": "^0.5.3",
     "@primevue/core": "^4.3.3",
     "@primevue/icons": "^4.3.3",
     "@primevue/themes": "^4.3.3",

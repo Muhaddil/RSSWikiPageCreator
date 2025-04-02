@@ -11,6 +11,7 @@ import html2canvas from 'html2canvas-pro';
 import { regexMatch } from '@/helpers/inputValidation';
 import { watchDebounced } from '@vueuse/core';
 import { debounceDelay } from '@/variables/debounce';
+import GlyphInput from '@/components/inputs/GlyphInput.vue';
 import Checkbox from 'primevue/checkbox';
 
 const playerName = ref<string>('');
@@ -19,6 +20,9 @@ const playerRaceIcon = ref<string>('');
 const friendCode = ref<string>('');
 const navImage = ref<string>('');
 const isWhite = ref<string>('');
+const Glyphs = ref<string>('');
+const location = ref<string>('');
+const usePersonalizedGlyphs = ref<string>('');
 const scale = ref<number>(1);
 const isDownloading = ref(false);
 
@@ -144,6 +148,16 @@ watchDebounced(
           </div>
         </div>
 
+        <div class="columns is-mobile mb-0">
+          <div class="column is-flex is-align-items-center">
+            <label>¿Usar ubicación personalizada?</label>
+          </div>
+          <div class="column is-flex">
+            <Checkbox v-model="usePersonalizedGlyphs" true-value="true" false-value="" class="input-text"
+              style="width: 185px; left: -12px;" binary />
+          </div>
+        </div>
+
         <SanitisedTextInput :model-value="scale.toString()"
           @update:model-value="scale = Math.min(Number($event) || 1, 10)" placeholder="Número" class="input-text"
           label="Escala de salida de la foto" tooltip="La escala máxima es 10" />
@@ -160,6 +174,11 @@ watchDebounced(
           </div>
         </div>
 
+        <GlyphInput v-model="Glyphs" v-if="usePersonalizedGlyphs"/>
+
+        <SanitisedTextInput v-model="location" v-if="usePersonalizedGlyphs" placeholder="Ubicación" class="input-text"
+          label="Ubicación"/>
+
         <SanitisedTextInput v-model="friendCode" placeholder="Código de amigo" class="input-text"
           label="Código de amigo" :invalid="!isFriendCodeValid" error-message="Formato de código de amigo incorrecto" />
 
@@ -175,8 +194,13 @@ watchDebounced(
 
       <br />
       <div ref="cardElement" class="rss-card-wrapper">
-        <img class="rss-card-background" :src="isWhite ? `/RSSWikiPageCreator/assets/images/friends/friend-white.png?${Date.now()}` :
-          `/RSSWikiPageCreator/assets/images/friends/friend.png?${Date.now()}`" alt="Tarjeta RSS" />
+        <img class="rss-card-background" :src="usePersonalizedGlyphs
+          ? (isWhite
+            ? '/RSSWikiPageCreator/assets/images/friends/friend-white-noglyphs.png'
+            : '/RSSWikiPageCreator/assets/images/friends/friend-noglyphs.png')
+          : (isWhite
+            ? '/RSSWikiPageCreator/assets/images/friends/friend-white.png'
+            : '/RSSWikiPageCreator/assets/images/friends/friend.png')" alt="Tarjeta RSS" />
 
         <div class="card-image-container">
           <img v-if="navImage" :src="navImage" alt="Imagen subida" class="uploaded-image" />
@@ -198,6 +222,14 @@ watchDebounced(
 
         <div class="card-race-field" :class="{ 'text-black': isWhite, 'text-white': !isWhite }">
           {{ playerRace }}
+        </div>
+
+        <div class="card-glyphs-field" v-if="usePersonalizedGlyphs" :class="{ 'text-black': isWhite, 'text-white': !isWhite }">
+          {{ Glyphs }}
+        </div>
+
+        <div class="card-location-field" v-if="usePersonalizedGlyphs" :class="{ 'text-black': isWhite, 'text-white': !isWhite }">
+          {{ location }}
         </div>
 
         <div class="card-friend-code-field" :class="{ 'text-black': isWhite, 'text-white': !isWhite }">
@@ -298,6 +330,23 @@ watchDebounced(
   font-size: 2.2rem;
   font-family: 'NMSFuturaProBook';
   color: rgb(168, 0, 0);
+}
+
+.card-glyphs-field {
+  position: absolute;
+  top: 440px;
+  left: 300px;
+  font-size: 1.3rem;
+  font-family: 'NMS-Glyphs-Mono';
+}
+
+.card-location-field {
+  position: absolute;
+  top: 410px;
+  left: 290px;
+  font-size: 0.9rem;
+  max-width: 180px;
+  font-family: 'NMSFuturaProBook';
 }
 
 .card-race-title {

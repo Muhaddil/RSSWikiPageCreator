@@ -21,6 +21,7 @@ const events = ref<TimelineEvent[]>([
   { title: 'Fundación', date: '02 / 08 / 2020 ', description: 'Fundación de la Royal Space Society.', category: 'Royal Space Society' },
   { title: 'Descubrimiento', date: '01 / 25 / 2020', description: 'Descubrimiento de Urticalia por Kaos193, sistema elegido para ser la sede de la RSS.', category: 'Royal Space Society' },
 
+  { title: '1.0.554', date: '02 / 04 / 2025', description: 'Se actualizaron las dependencias y se mejoró el apartado tarjetas de amigo de la RSS.', category: 'Web' },
   { title: '1.0.553', date: '27 / 03 / 2025', description: 'Se actualizaron las dependencias y se mejoró el apartado de preguntas frecuentes.', category: 'Web' },
   { title: '1.0.552', date: '22 / 03 / 2025', description: 'Se actualizaron las dependencias.', category: 'Web' },
   { title: '1.0.551', date: '08 / 01 / 2025', description: 'Se añadió una nueva guía.', category: 'Web' },
