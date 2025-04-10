@@ -1,1 +1,0 @@
-const e=["Lush","Barren","Dead","Exotic","Mega Exotic","Scorched","Frozen","Toxic","Irradiated","Marsh","Volcanic","Gas Giant"],i=["Rico","Estéril","Muerto","Exótico","Mega Exótico","Quemado","Congelado","Tóxico","Irradiado","Cenagal","Volcánico","Gigante Gaseoso"],c=i.map(((a,o)=>({label:a,value:e[o]})));export{c as m};
