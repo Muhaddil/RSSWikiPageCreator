@@ -28,7 +28,7 @@
   --body-backgroundimage: url(/assets/images/buttons/nave-mamadisima-royal-space-society_Blcno.gif);
   --boton-backgoundcolor: #FFFFFF;
   --boton-fontcolor: #000000;
-  --hublogo: url(https://static.wikia.nocookie.net/nomanssky_gamepedia/images/1/10/RSS_HUB_White.png);
+  --hublogo: url(/assets/images/shared/logo-white.png);
 }
 
 /* Dark Theme */
@@ -58,6 +58,6 @@ html.theme-dark {
   --body-backgroundimage: url(/assets/images/buttons/nave-mamadisima-royal-space-society_opacity10.gif);
   --boton-backgoundcolor: #000000;
   --boton-fontcolor: #FFFFFF;
-  --hublogo: url(https://static.wikia.nocookie.net/nomanssky_gamepedia/images/5/51/RSS_Emblem_Hub.png);
+  --hublogo: url(/assets/images/shared/logo-black.png);
 }
 
