@@ -88,7 +88,7 @@ window.addEventListener('resize', () => {
             </p>
           </div>
           <div class="rss-logo">
-            <img src="/assets/images/basesdestacadas/RSS-Logo.webp"
+            <img src="/assets/images/shared/logo-white.png"
                  class="logo-image animate-pulse"
                  alt="AstroCam Logo" />
           </div>

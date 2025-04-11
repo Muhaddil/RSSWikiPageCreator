@@ -44,7 +44,7 @@ const gridColumns = computed(() => screenWidth.value < 768 ? 1 : screenWidth.val
           <div class="flex flex-col">
             <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank">
               <div class="rss-logo">
-                <img src="/assets/images/basesdestacadas/RSS-Logo.webp" class="logo-image" alt="RSS Logo" />
+                <img src="/assets/images/shared/logo-white.png" class="logo-image" alt="RSS Logo" />
               </div>
             </a>
             <div class="header-container">

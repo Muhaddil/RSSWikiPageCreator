@@ -12,7 +12,7 @@
     "test-ci": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
+    "@types/node": "^22.14.1",
     "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vitest/browser": "^3.1.1",
@@ -29,7 +29,7 @@
     "vue": "^3.5.13",
     "vue-toastification": "^2.0.0-rc.5",
     "vue-tsc": "^2.2.8",
-    "webdriverio": "^9.12.4"
+    "webdriverio": "^9.12.5"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",

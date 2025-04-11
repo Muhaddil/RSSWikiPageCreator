@@ -83,7 +83,7 @@ const groupedEvents = computed(() => {
         <div class="header-section">
           <div class="header-content">
             <a href="https://example.com" target="_blank" class="logo-link">
-              <img src="/assets/images/basesdestacadas/RSS-Logo.webp" class="logo-image" alt="Logo" />
+              <img src="/assets/images/shared/logo-white.png" class="logo-image" alt="Logo" />
             </a>
             <div class="text-content">
               <h1 class="galactic-title">

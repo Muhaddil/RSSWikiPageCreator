@@ -116,7 +116,7 @@ const openModal = (image: string) => {
           <div class="flex flex-col">
             <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank">
               <div class="rss-logo">
-                <img src="/assets/images/basesdestacadas/RSS-Logo.webp" class="logo-image animate-pulse"
+                <img src="/assets/images/shared/logo-white.png" class="logo-image animate-pulse"
                   alt="RSS Logo" />
               </div>
             </a>
