@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
@@ -34,6 +34,16 @@ const getLabel = (language: 'en' | 'es'): string => {
 window.addEventListener('resize', updateScreenWidth);
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
+
+onMounted(() => {
+  watch(isEpicLanguage, () => {
+    const card = document.querySelector('.galactic-card');
+    if (card) {
+      card.classList.add('epic-transition');
+      setTimeout(() => card.classList.remove('epic-transition'), 1000);
+    }
+  });
+});
 </script>
 
 <template>
@@ -56,9 +66,17 @@ const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.va
             </a>
             <div class="header-container">
               <div class="title-theme-container">
-                <h1 class="galactic-title">
-                  <span class="title-text">{{ t.title }}</span>
-                </h1>
+                <transition
+                  name="title-fade"
+                  mode="out-in"
+                >
+                  <h1
+                    key="title"
+                    class="galactic-title"
+                  >
+                    <span class="title-text">{{ t.title }}</span>
+                  </h1>
+                </transition>
               </div>
             </div>
             <p class="text-stellar-gray mt-2"><ThemeSwitch style="margin-right: 2rem" />{{ t.subtitle }}</p>
@@ -67,18 +85,28 @@ const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.va
               <Checkbox
                 v-model="isEpicLanguage"
                 :binary="true"
+                class="epic-checkbox"
                 style="margin-right: 8px"
               />
-              <label
-                class="text-sm"
-                style="margin-right: 8px"
-                >{{ getLabel(language) }}</label
+              <transition
+                name="label-fade"
+                mode="out-in"
               >
+                <label
+                  :key="getLabel(language)"
+                  class="text-sm epic-label"
+                  style="margin-right: 8px"
+                >
+                  {{ getLabel(language) }}
+                </label>
+              </transition>
             </div>
           </div>
         </div>
 
-        <div
+        <transition-group
+          name="card-stagger"
+          tag="div"
           class="grid gap-4"
           :style="`grid-template-columns: repeat(${gridColumns}, 1fr)`"
         >
@@ -112,7 +140,7 @@ const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.va
               </a>
             </template>
           </Card>
-        </div>
+        </transition-group>
 
         <Panel class="galactic-panel mt-6">
           <template #header>
@@ -278,5 +306,99 @@ const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.va
   .header-container {
     text-align: center;
   }
+}
+
+.title-fade-enter-active,
+.title-fade-leave-active,
+.label-fade-enter-active,
+.label-fade-leave-active {
+  transition: all 0.5s ease;
+}
+
+.title-fade-enter-from,
+.title-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.label-fade-enter-from,
+.label-fade-leave-to {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.card-stagger-move {
+  transition: transform 0.8s ease;
+}
+
+.card-stagger-enter-active {
+  transition: all 0.5s ease;
+  transition-delay: calc(0.1s * var(--i));
+}
+
+.card-stagger-enter-from {
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+}
+
+.epic-checkbox.p-checkbox.p-highlight .p-checkbox-box {
+  animation: checkbox-glow 0.6s ease;
+}
+
+@keyframes checkbox-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(103, 232, 249, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 10px 3px rgba(103, 232, 249, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(103, 232, 249, 0);
+  }
+}
+
+.galactic-card.epic-transition {
+  animation: epic-transition 1.2s ease;
+}
+
+@keyframes epic-transition {
+  0% {
+    transform: scale(1);
+    background: var(--background-primary);
+  }
+  25% {
+    transform: scale(1.005);
+    background: linear-gradient(45deg, var(--background-primary) 0%, rgba(103, 232, 249, 0.1) 100%);
+  }
+  50% {
+    transform: scale(1);
+    box-shadow: 0 0 30px rgba(103, 232, 249, 0.2);
+  }
+  100% {
+    background: var(--background-primary);
+  }
+}
+
+.epic-label {
+  display: inline-block;
+  position: relative;
+  padding: 2px 5px;
+  transition: all 0.3s ease;
+}
+
+.epic-label::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--tag-border);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.epic-checkbox:checked + .epic-label::after {
+  transform: scaleX(1);
 }
 </style>
