@@ -74,7 +74,7 @@ function glyphs2Coords(glyphs: string): string {
     coords_x.toString(16).toUpperCase().padStart(4, '0'),
     coords_y.toString(16).toUpperCase().padStart(4, '0'),
     coords_z.toString(16).toUpperCase().padStart(4, '0'),
-    system_idx.padStart(4, '0')
+    system_idx.padStart(4, '0'),
   ];
 
   return coordinates.join(':');
@@ -109,7 +109,9 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{System infobox</div>
   <div>| name = {{ name }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -152,8 +154,8 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
   <br />
   <div>==Discovery==</div>
   <div v-if="discDate && !docDate && discoveredlink">
-    Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on {{ discDate
-    }}
+    Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on
+    {{ discDate }}
   </div>
 
   <div v-else-if="discDate && !docDate && discovered">
@@ -165,13 +167,13 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
   </div>
 
   <div v-else-if="discDate && docDate && discoveredlink && docBy && discDate !== docDate">
-    * Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on {{
-      discDate }}<br>
+    * Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on
+    {{ discDate }}<br />
     * Explored and documented by ''{{ docBy }}'' on {{ docDate }}
   </div>
 
   <div v-else-if="discDate && docDate && discovered && docBy && discDate !== docDate">
-    * Discovered and uploaded by ''{{ discovered }}'' on {{ discDate }}<br>
+    * Discovered and uploaded by ''{{ discovered }}'' on {{ discDate }}<br />
     * Explored and documented by ''{{ docBy }}'' on {{ docDate }}
   </div>
 
@@ -184,8 +186,8 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
   </div>
 
   <div v-else-if="discDate && docDate && discoveredlink && !docBy && discDate === docDate">
-    Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on {{ discDate
-    }}
+    Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on
+    {{ discDate }}
   </div>
 
   <div v-else-if="discDate && docDate && discoveredlink && !docBy && discDate !== docDate">
@@ -216,7 +218,7 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
   <div>! Fauna</div>
   <div v-if="generatedOutput">
     <div>
-      <pre style="white-space: pre-wrap; word-wrap: break-word;">{{ generatedOutput }}</pre>
+      <pre style="white-space: pre-wrap; word-wrap: break-word">{{ generatedOutput }}</pre>
     </div>
   </div>
   <div>|<span v-pre>}</span></div>
@@ -280,16 +282,20 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
   <div>==Documented Starships==</div>
   <div><span v-pre>{{</span>CARGOShipSys|{{ glyphcoords }}|{{ regionData.galaxy }}<span v-pre>}}</span></div>
   <br />
-  <div style="display: none" id="Starships">
-    All Starships discovered in the system can be found in the [[{{ name }} - Starship Album]].
-    <br /><br />
+  <div
+    style="display: none"
+    id="Starships"
+  >
+    All Starships discovered in the system can be found in the [[{{ name }} - Starship Album]]. <br /><br />
   </div>
   <div>==Documented Multi-Tools==</div>
   <div><span v-pre>{{</span>CARGOMTCoord|{{ glyphcoords }}|{{ regionData.galaxy }}<span v-pre>}}</span></div>
   <br />
-  <div style="display: none" id="MTs">
-    All Multi-Tools discovered in the system can be found in the [[{{ name }} - Multi-Tool Album]].
-    <br /><br />
+  <div
+    style="display: none"
+    id="MTs"
+  >
+    All Multi-Tools discovered in the system can be found in the [[{{ name }} - Multi-Tool Album]]. <br /><br />
   </div>
   <div>==Location Information==</div>
   <div><span v-pre>{{CoordGlyphConvert|</span>{{ glyphcoords }}<span v-pre>}}</span></div>
@@ -300,7 +306,8 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
   ===System Location===
   <div v-if="regionData && regionData.region && regionData.galaxy">
     <div>
-      Located in the [[{{ regionData.region }}]] [[region]] of [[Royal Space Society]] in the [[{{ regionData.galaxy
+      Located in the [[{{ regionData.region }}]] [[region]] of [[Royal Space Society]] in the [[{{
+        regionData.galaxy
       }}]] galaxy.
     </div>
   </div>
@@ -327,8 +334,7 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
     <div data-station="merchant">
       <div>
         The Space Station merchants offer the following <span v-pre>{{</span>class|S<span v-pre>}}</span> class items
-        for
-        sale:
+        for sale:
       </div>
       <span v-pre>{{</span>SSMerchants
       <span v-if="formattedModulesMT">
@@ -345,7 +351,11 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
       </span>
       }}
     </div>
-    <div id="scrapDealer" data-station="scrapDealer" v-if="modulesSD && modulesSD.length > 0">
+    <div
+      id="scrapDealer"
+      data-station="scrapDealer"
+      v-if="modulesSD && modulesSD.length > 0"
+    >
       <br />
       <div>===Scrap Dealer===</div>
       <div><span v-pre>{{</span>ScrapDealer</div>

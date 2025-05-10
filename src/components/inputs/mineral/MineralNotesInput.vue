@@ -17,7 +17,11 @@ const id = useId('floranotes');
     <template #label>
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label :id>Notas:</label>
-        <Explainer tooltip=" Encontrado en el escaneo de minerales." help-title="Notas del mineral" help-img="mineral/notes">
+        <Explainer
+          tooltip=" Encontrado en el escaneo de minerales."
+          help-title="Notas del mineral"
+          help-img="mineral/notes"
+        >
         </Explainer>
       </div>
     </template>

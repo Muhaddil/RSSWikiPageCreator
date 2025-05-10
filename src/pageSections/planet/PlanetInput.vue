@@ -79,9 +79,9 @@ watch(originalFaunaNum, (newValue) => {
 });
 
 const terrainMapping = {
-  'Pangeano': 'Pangean',
-  'Continental': 'Continental',
-  'Semioceánico': 'Semi-Oceanic'
+  Pangeano: 'Pangean',
+  Continental: 'Continental',
+  Semioceánico: 'Semi-Oceanic',
 };
 
 const mappedterrainMapping: SelectOption[] = mapOptions(terrainMapping);
@@ -91,26 +91,45 @@ const showDiscovered = computed(() => !discoveredlink.value);
 </script>
 
 <template>
-  <SanitisedTextInput v-model="name" help-img="planet/planetName" help-title="Nombre del Planeta"
+  <SanitisedTextInput
+    v-model="name"
+    help-img="planet/planetName"
+    help-title="Nombre del Planeta"
     label="Nombre del Planeta:"
-    tooltip="Introduce exactamente como se ve en el juego. Cuidado con el 0 (cero) y la O (o).">
+    tooltip="Introduce exactamente como se ve en el juego. Cuidado con el 0 (cero) y la O (o)."
+  >
     Introduce exactamente como se ve en el juego. Cuidado con el 0 (cero) y la O (o).
   </SanitisedTextInput>
-  <SanitisedTextInput v-model="orgName" label="Nombre original antes de registrar (si está disponible):" />
+  <SanitisedTextInput
+    v-model="orgName"
+    label="Nombre original antes de registrar (si está disponible):"
+  />
 
-  <SingleFileUpload v-model="image" label="Imagen principal:" help-title="Subida de Archivo"
-    tooltip="La imagen no se subirá a la wiki. Esto es solo para autocompletar el nombre de la imagen.">
+  <SingleFileUpload
+    v-model="image"
+    label="Imagen principal:"
+    help-title="Subida de Archivo"
+    tooltip="La imagen no se subirá a la wiki. Esto es solo para autocompletar el nombre de la imagen."
+  >
     <FileUploadNotice />
   </SingleFileUpload>
 
-  <SingleFileUpload v-model="navImage" label="Nombre de la imagen principal:" help-title="Subida de Archivo"
-    tooltip="La imagen no se subirá a la wiki. Esto es solo para autocompletar el nombre de la imagen.">
+  <SingleFileUpload
+    v-model="navImage"
+    label="Nombre de la imagen principal:"
+    help-title="Subida de Archivo"
+    tooltip="La imagen no se subirá a la wiki. Esto es solo para autocompletar el nombre de la imagen."
+  >
     <FileUploadNotice />
   </SingleFileUpload>
 
-  <SanitisedTextInput v-model="system" help-img="planet/planetName" help-title="Nombre del Sistema"
+  <SanitisedTextInput
+    v-model="system"
+    help-img="planet/planetName"
+    help-title="Nombre del Sistema"
     label="Nombre del Sistema:"
-    tooltip="Introduce exactamente como se ve en el juego. Cuidado con el 0 (cero) y la O (o).">
+    tooltip="Introduce exactamente como se ve en el juego. Cuidado con el 0 (cero) y la O (o)."
+  >
     Introduce exactamente como se ve en el juego. Cuidado con el 0 (cero) y la O (o).
   </SanitisedTextInput>
 
@@ -119,16 +138,25 @@ const showDiscovered = computed(() => !discoveredlink.value);
   <BiomeInput v-model="biome" />
   <MoonInputs v-model="systemplanets" />
   <PlanetDescriptors v-model="Planetdescriptors" />
-  <SanitisedTextInput v-model="atmosphere" label="Atmósfera del planeta:"
-    tooltip="Se puede encontrar en la guía de exploración." help-img="planet/atmosphere"
-    help-title="Atmósfera del planeta">Se puede encontrar en la guía de exploración.</SanitisedTextInput>
+  <SanitisedTextInput
+    v-model="atmosphere"
+    label="Atmósfera del planeta:"
+    tooltip="Se puede encontrar en la guía de exploración."
+    help-img="planet/atmosphere"
+    help-title="Atmósfera del planeta"
+    >Se puede encontrar en la guía de exploración.</SanitisedTextInput
+  >
   <InputTableItem>
     <template #label>
       <label>Terreno del planeta:</label>
     </template>
 
     <template #input>
-      <SelectDropdown v-model="terrain" :aria-labelledby="terrain" :options="mappedterrainMapping" />
+      <SelectDropdown
+        v-model="terrain"
+        :aria-labelledby="terrain"
+        :options="mappedterrainMapping"
+      />
     </template>
   </InputTableItem>
   <PlanetWeather v-model="weather" />
@@ -137,25 +165,54 @@ const showDiscovered = computed(() => !discoveredlink.value);
 
   <PlanetFlora v-model="flora" />
   <PlanetFauna v-model="fauna" />
-  <SanitisedTextInput v-model="originalFaunaNum" label="Número de Fauna:" help-img="planet/faunaNum"
-    help-title="Número de fauna del planeta" :invalid="!isCostValid" error-message="Solo debe contener numeros"
-    tooltip="Se puede encontrar en el menú de descubrimiento.">Se puede encontrar en el menú de descubrimiento.
+  <SanitisedTextInput
+    v-model="originalFaunaNum"
+    label="Número de Fauna:"
+    help-img="planet/faunaNum"
+    help-title="Número de fauna del planeta"
+    :invalid="!isCostValid"
+    error-message="Solo debe contener numeros"
+    tooltip="Se puede encontrar en el menú de descubrimiento."
+    >Se puede encontrar en el menú de descubrimiento.
   </SanitisedTextInput>
 
   <PlanetFaunaInputs />
   <PlanetFloraInputs />
   <PlanetMineralInputs />
 
-  <DateSelect v-model="discDate" label="¿Cuándo se descubrió este planeta?"></DateSelect>
-  <DateSelect v-model="docDate" label="¿Cuándo se documentó este planeta?" />
-  <SanitisedTextInput v-model="researchteam2" label="Departamento: (Opcional)" />
+  <DateSelect
+    v-model="discDate"
+    label="¿Cuándo se descubrió este planeta?"
+  ></DateSelect>
+  <DateSelect
+    v-model="docDate"
+    label="¿Cuándo se documentó este planeta?"
+  />
+  <SanitisedTextInput
+    v-model="researchteam2"
+    label="Departamento: (Opcional)"
+  />
   <GameModeSelect v-model="mode" />
   <PlatformSelect v-model="platform" />
-  <SanitisedTextInput v-if="showDiscoveredLink" v-model="discoveredlink" label="Nombre en la wiki del descubridor:" />
-  <SanitisedTextInput v-if="showDiscovered" v-model="discovered" label="Alias del descubridor si no tiene wiki:" />
-  <SanitisedTextInput v-model="docBy" label="Nombre del documentador si no es el descubridor:" />
+  <SanitisedTextInput
+    v-if="showDiscoveredLink"
+    v-model="discoveredlink"
+    label="Nombre en la wiki del descubridor:"
+  />
+  <SanitisedTextInput
+    v-if="showDiscovered"
+    v-model="discovered"
+    label="Alias del descubridor si no tiene wiki:"
+  />
+  <SanitisedTextInput
+    v-model="docBy"
+    label="Nombre del documentador si no es el descubridor:"
+  />
 
-  <TextareaInput v-model="additionalInfo" label="Información Adicional:" />
+  <TextareaInput
+    v-model="additionalInfo"
+    label="Información Adicional:"
+  />
 
   <GalleryInput />
 </template>

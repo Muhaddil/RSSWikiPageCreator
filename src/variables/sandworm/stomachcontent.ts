@@ -16,7 +16,7 @@ const InEnglish = [
   'Rubble',
   'Sentinel Walkers',
   'Several Gek',
-  'Unpleasant liquid'
+  'Unpleasant liquid',
 ] as const;
 
 const InSpanish = [
@@ -35,11 +35,10 @@ const InSpanish = [
   'Escombros',
   'Caminantes Centinelas',
   'Varios Gek',
-  'Líquido desagradable'
+  'Líquido desagradable',
 ] as const;
 
 export const mappedStomachContent: SelectOption[] = InSpanish.map((mode, index) => ({
   label: mode,
   value: InEnglish[index],
 }));
-

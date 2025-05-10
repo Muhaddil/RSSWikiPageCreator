@@ -5,7 +5,7 @@ import SelectDropdown from '../SelectDropdown.vue';
 import { mappedPlanetFlora } from '@/variables/system/planetflora';
 import Explainer from '../../Explainer.vue';
 
-defineProps<{ resetEvent?: string, isMoon?: boolean }>();
+defineProps<{ resetEvent?: string; isMoon?: boolean }>();
 
 const model = defineModel<string>({ required: true });
 
@@ -17,7 +17,11 @@ const id = useId('planetdescriptors');
     <template #label>
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label :id>Flora:</label>
-        <Explainer tooltip="Se puede encontrar en el menú de descubrimiento." help-img="planet/flora" help-title="Nivel de flora de la Luna">
+        <Explainer
+          tooltip="Se puede encontrar en el menú de descubrimiento."
+          help-img="planet/flora"
+          help-title="Nivel de flora de la Luna"
+        >
           Se puede encontrar en el menú de descubrimiento.
         </Explainer>
       </div>
@@ -30,7 +34,6 @@ const id = useId('planetdescriptors');
         :options="mappedPlanetFlora"
         :reset-event="resetEvent"
       />
-
     </template>
   </InputTableItem>
 </template>

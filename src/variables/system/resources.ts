@@ -79,9 +79,8 @@ const InSpanish = [
   'Cuarcita Activada',
   'Helio cristalizado',
   'Litio',
-  'Sulfurina'
+  'Sulfurina',
 ] as const;
-
 
 export const mappedResourcesOptions: SelectOption[] = InSpanish.map((mode, index) => ({
   label: mode,

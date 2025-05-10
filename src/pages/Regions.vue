@@ -39,33 +39,29 @@ const allowedNames = [
   'Emcalh Nebula',
 ];
 
-const gridColumns = computed(() =>
-  screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3
-);
+const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 
 const mergeAndRemoveDuplicates = (
   existing: ExtendedRegionsQueryData[],
   newItems: ExtendedRegionsQueryData[]
 ): ExtendedRegionsQueryData[] => {
   const merged = [...existing, ...newItems];
-  return merged.filter((item, index, self) =>
-    index === self.findIndex(t => t.Region === item.Region)
-  );
+  return merged.filter((item, index, self) => index === self.findIndex((t) => t.Region === item.Region));
 };
 
 const fetchBases = async (offset: number = 0) => {
   try {
-    const newBases = await fetchRegionsData(CIVILIZATION, offset) as ExtendedRegionsQueryData[];
+    const newBases = (await fetchRegionsData(CIVILIZATION, offset)) as ExtendedRegionsQueryData[];
 
-    const filteredBases = newBases.filter(base =>
-      allowedNames.some(name => base.Region.includes(name))
+    const filteredBases = newBases.filter((base) => allowedNames.some((name) => base.Region.includes(name)));
+
+    await Promise.all(
+      filteredBases.map(async (base) => {
+        base.imageUrl = await fetchRegionImageUrls(base.Region);
+        base.stats = await getRegionStats(base.Region);
+        // console.log(base);
+      })
     );
-
-    await Promise.all(filteredBases.map(async (base) => {
-      base.imageUrl = await fetchRegionImageUrls(base.Region);
-      base.stats = await getRegionStats(base.Region);
-      // console.log(base);
-    }));
 
     bases.value = mergeAndRemoveDuplicates(bases.value, filteredBases);
 
@@ -86,12 +82,7 @@ onMounted(async () => {
 });
 
 const formatWikiLink = (name: string) => {
-  return name
-    .trim()
-    .replace(/\s+/g, '_')
-    .replace(/\//g, '_')
-    .replace(/:/g, ':')
-    .replace(/'/g, "'");
+  return name.trim().replace(/\s+/g, '_').replace(/\//g, '_').replace(/:/g, ':').replace(/'/g, "'");
 };
 
 const openModal = (image: string) => {
@@ -107,7 +98,7 @@ function coords2Glyphs(coordinates: string): string {
   const coords_y = parseInt(yStr, 16);
   const coords_z = parseInt(zStr, 16);
 
-  const system_idx = "000";
+  const system_idx = '000';
 
   const X_Z_POS_SHIFT = 2049;
   const X_Z_NEG_SHIFT = 2047;
@@ -130,8 +121,8 @@ function coords2Glyphs(coordinates: string): string {
 const regionGlyphsMap: Record<string, string> = {
   'Uekenbe Shallows': '2141F7EC0D24',
   'Uklots Shallows': '01B8032FE9B0',
-  'Xecroften': '01B8F7EC0D25',
-  'Areyas': '0080F8EBDD24',
+  Xecroften: '01B8F7EC0D25',
+  Areyas: '0080F8EBDD24',
   'Udrupi Shallows': '10BCF7EBFD24',
   'Jiessl Shallows': '01A7F7EBFD25',
   'Becheeth Sector': '00E6F7EC1D24',
@@ -142,7 +133,7 @@ const regionGlyphsMap: Record<string, string> = {
   'Emcalh Nebula': '0041F9F846D8',
   'Qudsor Void': '007CFF9B4CB0',
   'Uhcheimri Void': '00EAFBF21696',
-  'Skitco': '00F30266CF95',
+  Skitco: '00F30266CF95',
 };
 
 function getGlyphs(region: string, coordinates: string): string {
@@ -150,13 +141,13 @@ function getGlyphs(region: string, coordinates: string): string {
 }
 
 const itemNameTranslations: Record<string, string> = {
-  'Cross': 'Cruzado',
+  Cross: 'Cruzado',
   'Star systems': 'Sistemas',
-  'Planets': 'Planetas',
-  'Starships': 'Naves',
+  Planets: 'Planetas',
+  Starships: 'Naves',
   'Multi-Tools': 'Multiherramientas',
-  'Euclid': 'Euclides',
-  'Hilbert Dimension' : 'Dimensión de Hilbert',
+  Euclid: 'Euclides',
+  'Hilbert Dimension': 'Dimensión de Hilbert',
 };
 
 function translateItemName(itemName: string | number): string {
@@ -178,19 +169,19 @@ interface Galaxy {
 const groupedGalaxies = computed(() => {
   const galaxiesMap = new Map<string, Galaxy>();
 
-  bases.value.forEach(region => {
-    if(!galaxiesMap.has(region.Galaxy)) {
+  bases.value.forEach((region) => {
+    if (!galaxiesMap.has(region.Galaxy)) {
       galaxiesMap.set(region.Galaxy, {
         name: region.Galaxy,
         quadrants: [],
-        image: region.imageUrl?.modal
+        image: region.imageUrl?.modal,
       });
     }
 
     const galaxy = galaxiesMap.get(region.Galaxy)!;
-    let quadrant = galaxy.quadrants.find(q => q.name === region.Quadrant);
+    let quadrant = galaxy.quadrants.find((q) => q.name === region.Quadrant);
 
-    if(!quadrant) {
+    if (!quadrant) {
       quadrant = { name: region.Quadrant, regions: [] };
       galaxy.quadrants.push(quadrant);
     }
@@ -209,11 +200,18 @@ const groupedGalaxies = computed(() => {
         <div class="flex items-start justify-between mb-6 header-container">
           <div class="flex flex-col">
             <div class="header-container">
-              <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank">
-              <div class="rss-logo">
-                <img src="/assets/images/shared/logo-white.png" class="logo-image" alt="RSS Logo" />
-              </div>
-            </a>
+              <a
+                href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society"
+                target="_blank"
+              >
+                <div class="rss-logo">
+                  <img
+                    src="/assets/images/shared/logo-white.png"
+                    class="logo-image"
+                    alt="RSS Logo"
+                  />
+                </div>
+              </a>
               <div class="title-theme-container">
                 <h1 class="galactic-title">
                   <span class="title-text">Regiones - Royal Space Society</span>
@@ -229,10 +227,16 @@ const groupedGalaxies = computed(() => {
             <h2 class="panel-title">Información de las regiones</h2>
           </template>
           <div class="panel-content">
-            <p>Total de regiones registradas: <strong>{{ bases.length }}</strong></p>
+            <p>
+              Total de regiones registradas: <strong>{{ bases.length }}</strong>
+            </p>
             <p class="security-level mt-2">
               Nivel de seguridad:
-              <Tag value="Clasificado RSS" severity="info" class="category-tag" />
+              <Tag
+                value="Clasificado RSS"
+                severity="info"
+                class="category-tag"
+              />
             </p>
             <p class="update-info">Última actualización: {{ new Date().toLocaleDateString() }}</p>
           </div>
@@ -240,41 +244,83 @@ const groupedGalaxies = computed(() => {
 
         <br />
 
-        <div v-if="isLoading" class="loading-message">
+        <div
+          v-if="isLoading"
+          class="loading-message"
+        >
           <i class="pi pi-spinner pi-spin"></i> Cargando regiones...
         </div>
-        <div v-else-if="error" class="error-message p-error">
+        <div
+          v-else-if="error"
+          class="error-message p-error"
+        >
           <i class="pi pi-exclamation-triangle"></i> {{ error }}
         </div>
 
-        <div v-else class="galaxy-container">
-          <Panel v-for="(galaxy, gIndex) in groupedGalaxies" :key="gIndex" class="galaxy-panel" toggleable collapsed>
+        <div
+          v-else
+          class="galaxy-container"
+        >
+          <Panel
+            v-for="(galaxy, gIndex) in groupedGalaxies"
+            :key="gIndex"
+            class="galaxy-panel"
+            toggleable
+            collapsed
+          >
             <template #header>
               <div class="galaxy-header">
-                <img v-if="galaxy.image" :src="galaxy.image" class="galaxy-image" />
+                <img
+                  v-if="galaxy.image"
+                  :src="galaxy.image"
+                  class="galaxy-image"
+                />
                 <h2 class="galaxy-title">{{ translateItemName(galaxy.name) }}</h2>
-                <Tag :value="`${galaxy.quadrants.length} ${galaxy.quadrants.length === 1 ? 'Cuadrante' : 'Cuadrantes'}`" severity="info" />
+                <Tag
+                  :value="`${galaxy.quadrants.length} ${galaxy.quadrants.length === 1 ? 'Cuadrante' : 'Cuadrantes'}`"
+                  severity="info"
+                />
               </div>
             </template>
 
             <div class="quadrants-grid">
-              <Panel v-for="(quadrant, qIndex) in galaxy.quadrants" :key="qIndex" class="quadrant-panel" toggleable collapsed>
+              <Panel
+                v-for="(quadrant, qIndex) in galaxy.quadrants"
+                :key="qIndex"
+                class="quadrant-panel"
+                toggleable
+                collapsed
+              >
                 <template #header>
                   <h3 class="quadrant-title">
                     <i class="pi pi-th-large"></i>
                     {{ quadrant.name }}
-                    <Tag :value="`${quadrant.regions.length} ${quadrant.regions.length === 1 ? 'Región' : 'Regiones'}`" severity="info" />
+                    <Tag
+                      :value="`${quadrant.regions.length} ${quadrant.regions.length === 1 ? 'Región' : 'Regiones'}`"
+                      severity="info"
+                    />
                   </h3>
                 </template>
 
-                <div class="regions-grid" :style="`grid-template-columns: repeat(${gridColumns}, 3fr)`">
-                  <Card v-for="(region, rIndex) in quadrant.regions" :key="rIndex" class="region-card">
+                <div
+                  class="regions-grid"
+                  :style="`grid-template-columns: repeat(${gridColumns}, 3fr)`"
+                >
+                  <Card
+                    v-for="(region, rIndex) in quadrant.regions"
+                    :key="rIndex"
+                    class="region-card"
+                  >
                     <template #content>
                       <div class="p-4 base-content">
                         <div class="flex flex-column gap-3">
                           <div class="flex align-items-center gap-2">
                             <h3 class="base-title">{{ region.Region }}</h3>
-                            <Tag :value="region.Galaxy" severity="info" class="category-tag" />
+                            <Tag
+                              :value="region.Galaxy"
+                              severity="info"
+                              class="category-tag"
+                            />
                           </div>
 
                           <div class="base-details">
@@ -294,29 +340,52 @@ const groupedGalaxies = computed(() => {
                             </div>
                           </div>
 
-                          <Panel v-if="region.stats" class="stats-panel mt-3">
+                          <Panel
+                            v-if="region.stats"
+                            class="stats-panel mt-3"
+                          >
                             <template #header>
                               <span class="stats-header">Estadísticas de la Región</span>
                             </template>
                             <div class="stats-content">
-                              <div v-for="(item, itemName) in region.stats" :key="itemName" class="stat-item">
+                              <div
+                                v-for="(item, itemName) in region.stats"
+                                :key="itemName"
+                                class="stat-item"
+                              >
                                 <span class="stat-label">{{ translateItemName(itemName) }}</span>
-                                <Tag class="stat-tag" severity="info">
+                                <Tag
+                                  class="stat-tag"
+                                  severity="info"
+                                >
                                   Cantidad: {{ item.CrossPlatform }}
                                 </Tag>
                               </div>
                             </div>
                           </Panel>
 
-                          <Panel v-if="region.Region" class="builder-panel mt-3">
+                          <Panel
+                            v-if="region.Region"
+                            class="builder-panel mt-3"
+                          >
                             <template #header>
                               <span class="builder-link-header">Enlaces de la Región</span>
                             </template>
                             <div class="panel-content-with-image">
-                              <a :href="`https://nomanssky.fandom.com/wiki/${formatWikiLink(region.Region)}`" target="_blank" class="builder-link">
+                              <a
+                                :href="`https://nomanssky.fandom.com/wiki/${formatWikiLink(region.Region)}`"
+                                target="_blank"
+                                class="builder-link"
+                              >
                                 <i class="pi pi-external-link"></i> Ver detalles de la región
                               </a>
-                              <img v-if="region.imageUrl" :src="region.imageUrl.modal" alt="Imagen de la base" class="panel-base-image" @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(region.Region)}`)" />
+                              <img
+                                v-if="region.imageUrl"
+                                :src="region.imageUrl.modal"
+                                alt="Imagen de la base"
+                                class="panel-base-image"
+                                @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(region.Region)}`)"
+                              />
                             </div>
                           </Panel>
                         </div>
@@ -399,7 +468,9 @@ const groupedGalaxies = computed(() => {
 .link-card {
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .link-card:hover {
@@ -703,7 +774,6 @@ const groupedGalaxies = computed(() => {
   .galactic-title {
     font-size: 2rem;
   }
-
 }
 
 @media (max-width: 768px) {
@@ -741,7 +811,7 @@ const groupedGalaxies = computed(() => {
     grid-template-columns: 1fr;
   }
 
-  .region-card{
+  .region-card {
     max-width: 20%;
   }
 }

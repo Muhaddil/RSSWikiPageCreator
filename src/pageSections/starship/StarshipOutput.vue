@@ -57,7 +57,9 @@ const sizeSpecificValues = computed(() => {
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{Starship infobox</div>
   <div>| name = {{ name }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -93,10 +95,8 @@ const sizeSpecificValues = computed(() => {
   <br />
   <div>==Summary==</div>
   <div>
-    <div>
-    '''{{ name }}''' is a [[Planetary Settlement|planetary settlement]]-type [[starship]].
+    <div>'''{{ name }}''' is a [[Planetary Settlement|planetary settlement]]-type [[starship]].</div>
   </div>
-</div>
   <br />
   <div>==Appearance==</div>
   <div>{{ appearance }}</div>
@@ -105,7 +105,10 @@ const sizeSpecificValues = computed(() => {
   <div><span v-pre>{{</span>{{ statsClass }}<span v-pre>}}</span></div>
   <br />
   <div>==Location==</div>
-  <div>This starship was discovered in the [[{{ system }}]] [[star system]] in the [[{{ regionData.region }}]] [[region]] of [[{{ civilized }}]], in the [[{{ regionData.galaxy }}]] [[galaxy]].</div>
+  <div>
+    This starship was discovered in the [[{{ system }}]] [[star system]] in the [[{{ regionData.region }}]] [[region]]
+    of [[{{ civilized }}]], in the [[{{ regionData.galaxy }}]] [[galaxy]].
+  </div>
   <br />
   <div class="keep-linebreaks"><span v-pre>{{CoordGlyphConvert</span>|{{ glyphs }}<span v-pre>}}</span></div>
   <br />

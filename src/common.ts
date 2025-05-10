@@ -20,7 +20,6 @@ import { usePageDataStore } from './stores/pageData';
 // import generalDatalists from '@/datalists/GeneralDatalists';
 // import { fetchSectionWikiText } from './miscLogic/api';
 
-
 // export async function translateText(text: string, targetLang: string): Promise<string> {
 //   const response = await fetch(
 //     `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=es|${targetLang}`
@@ -81,9 +80,6 @@ import { usePageDataStore } from './stores/pageData';
 
 //   setDropdownOptions(dropdownElement, versionNames, versionTexts);
 // }
-
-
-
 
 // /**
 //  * Sets the options in a dropdown element based on an array
@@ -247,7 +243,6 @@ import { usePageDataStore } from './stores/pageData';
 //   }
 // }
 
-
 // /**
 //  * Updates a destination element with the sanitized value of a source element's value or content.
 //  *
@@ -372,7 +367,6 @@ import { usePageDataStore } from './stores/pageData';
 // export function addStaticPageData2(key: string, value: any) {
 //   Object.defineProperty(pageData, key, { configurable: false, writable: false, value: value });
 // }
-
 
 // /**
 //  * Sanitizes a given string by removing all non-link wiki markup, and trimming the result.
@@ -1048,7 +1042,6 @@ export function getNumber(
 //     }
 //   }
 // }
-
 
 // /**
 //  * Checks the integrity of the page data and returns an error message if there's an issue.

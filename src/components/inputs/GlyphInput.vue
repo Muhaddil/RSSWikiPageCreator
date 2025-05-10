@@ -85,7 +85,7 @@ const showDeleteButton = computed(() => model.value);
           help-img="shared/glyphs"
           help-title="Glifos"
         >
-        Se encuentra en el modo Foto. Los glifos son específicos de cada {{ activeCelestialBody }}.
+          Se encuentra en el modo Foto. Los glifos son específicos de cada {{ activeCelestialBody }}.
         </Explainer>
       </div>
       <div class="column is-flex is-align-items-center">

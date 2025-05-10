@@ -122,4 +122,3 @@ export const mappedPlanetFauna: SelectOption[] = InSpanish.map((mode, index) => 
   label: mode,
   value: InEnglish[index],
 }));
-

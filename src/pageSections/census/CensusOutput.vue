@@ -4,20 +4,10 @@ import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
 
 const pageData = usePageDataStore();
-const {
-  discovered,
-  discoveredlink,
-  planet,
-  mode,
-  discDate,
-  system,
-  platform,
-  basename,
-  playername,
-  discordname,
-} = storeToRefs(pageData);
+const { discovered, discoveredlink, planet, mode, discDate, system, platform, basename, playername, discordname } =
+  storeToRefs(pageData);
 
-const profile = ref('')
+const profile = ref('');
 
 watch([discovered, discoveredlink], () => {
   if (discoveredlink.value) {
@@ -31,6 +21,9 @@ watch([discovered, discoveredlink], () => {
 </script>
 
 <template>
-  <div>| {{ playername }} || {{ discordname }} || {{ system }} || {{ planet }} || {{ basename }} || {{ platform }} || {{ mode }} || {{ discDate }} || {{ profile }} </div>
+  <div>
+    | {{ playername }} || {{ discordname }} || {{ system }} || {{ planet }} || {{ basename }} || {{ platform }} ||
+    {{ mode }} || {{ discDate }} || {{ profile }}
+  </div>
   <div>|-</div>
 </template>

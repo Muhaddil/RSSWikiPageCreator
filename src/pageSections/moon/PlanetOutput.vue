@@ -94,7 +94,9 @@ const faunaVerb = computed(() => {
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{Moon infobox</div>
   <div>| name = {{ name }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -136,8 +138,8 @@ const faunaVerb = computed(() => {
   <br />
   <div>==Discovery==</div>
   <div v-if="discDate && !docDate && discoveredlink">
-    Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on {{ discDate
-    }}
+    Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on
+    {{ discDate }}
   </div>
 
   <div v-else-if="discDate && !docDate && discovered">
@@ -149,13 +151,13 @@ const faunaVerb = computed(() => {
   </div>
 
   <div v-else-if="discDate && docDate && discoveredlink && docBy && discDate !== docDate">
-    * Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on {{
-      discDate }}<br>
+    * Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on
+    {{ discDate }}<br />
     * Explored and documented by ''{{ docBy }}'' on {{ docDate }}
   </div>
 
   <div v-else-if="discDate && docDate && discovered && docBy && discDate !== docDate">
-    * Discovered and uploaded by ''{{ discovered }}'' on {{ discDate }}<br>
+    * Discovered and uploaded by ''{{ discovered }}'' on {{ discDate }}<br />
     * Explored and documented by ''{{ docBy }}'' on {{ docDate }}
   </div>
 
@@ -168,8 +170,8 @@ const faunaVerb = computed(() => {
   </div>
 
   <div v-else-if="discDate && docDate && discoveredlink && !docBy && discDate === docDate">
-    Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on {{ discDate
-    }}
+    Discovered and uploaded by <WikiTemplate template-name="profile">{{ discoveredlink }}</WikiTemplate> on
+    {{ discDate }}
   </div>
 
   <div v-else-if="discDate && docDate && discoveredlink && !docBy && discDate !== docDate">
@@ -193,16 +195,22 @@ const faunaVerb = computed(() => {
   <div v-if="!formattedGeneratedOutput">This planet has no moons.</div>
   <br />
   <div>==Location==</div>
-  <div>It can be found in the [[{{ system }}]] [[star system]] in the [[{{ regionData.region }}]] [[region]] of [[Royal
-    Space Society]], in the [[{{ regionData.galaxy }}]] [[galaxy]].</div>
+  <div>
+    It can be found in the [[{{ system }}]] [[star system]] in the [[{{ regionData.region }}]] [[region]] of [[Royal
+    Space Society]], in the [[{{ regionData.galaxy }}]] [[galaxy]].
+  </div>
   <br />
   <div><span v-pre>{{CoordGlyphConvert|</span>{{ glyphcoords }}<span v-pre>}}</span></div>
   <br />
   <div>===Documented Bases===</div>
-  <div><span v-pre>{{CARGOBasesPlanet|{{PAGENAME}}}}</span></div>
+  <div>
+    <span v-pre>{{CARGOBasesPlanet|{{PAGENAME}}}}</span>
+  </div>
   <br />
   <div>===Documented Multi-Tool Sites===</div>
-  <div><span v-pre>{{CARGOMTPlanetShort|planet={{PAGENAME}}}}</span></div>
+  <div>
+    <span v-pre>{{CARGOMTPlanetShort|planet={{PAGENAME}}}}</span>
+  </div>
   <br />
   <div>===Notable Locations / Waypoints===</div>
   <div>{{ locations }}</div>

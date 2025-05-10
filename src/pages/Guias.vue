@@ -1,19 +1,17 @@
 <script setup lang="ts">
-import { ref, computed, watch, reactive, watchEffect, onMounted, nextTick } from "vue";
-import autoAnimate from "@formkit/auto-animate";
+import { ref, computed, watch, reactive, watchEffect, onMounted, nextTick } from 'vue';
+import autoAnimate from '@formkit/auto-animate';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
-import { guides } from '@/variables/guides/guides'
+import { guides } from '@/variables/guides/guides';
 
-const searchTerm = ref("");
-const currentCategory = ref("all");
+const searchTerm = ref('');
+const currentCategory = ref('all');
 
-const categories = computed(() => [
-  ...new Set(guides.value.map(g => g.category))
-]);
+const categories = computed(() => [...new Set(guides.value.map((g) => g.category))]);
 
 const filteredGuides = computed(() => {
-  return guides.value.filter(guide => {
+  return guides.value.filter((guide) => {
     const matchesSearch = guide.title.toLowerCase().includes(searchTerm.value.toLowerCase());
     const matchesCategory = currentCategory.value === 'all' || guide.category === currentCategory.value;
     return matchesSearch && matchesCategory;
@@ -33,13 +31,13 @@ watch(filteredGuides, applyAnimation);
 
 const noResultsMessages = [
   "Prueba con términos más generales como 'formulario' o 'wiki'",
-  "¿Has probado a filtrar por categoría?",
-  "Revisa nuestra documentación técnica para más detalles",
-  "Si no encuentras algo, consulta nuestra sección de tutoriales",
-  "¿Necesitas ayuda más específica? Contáctanos en Discord"
+  '¿Has probado a filtrar por categoría?',
+  'Revisa nuestra documentación técnica para más detalles',
+  'Si no encuentras algo, consulta nuestra sección de tutoriales',
+  '¿Necesitas ayuda más específica? Contáctanos en Discord',
 ];
 
-const randomMessage = ref("");
+const randomMessage = ref('');
 const messageShown = ref(false);
 
 const getRandomMessage = () => {
@@ -48,14 +46,14 @@ const getRandomMessage = () => {
 };
 
 watchEffect(() => {
-  if (searchTerm.value === "") {
-    randomMessage.value = "";
+  if (searchTerm.value === '') {
+    randomMessage.value = '';
     messageShown.value = false;
   } else if (filteredGuides.value.length === 0 && !messageShown.value) {
     randomMessage.value = getRandomMessage();
     messageShown.value = true;
   } else if (filteredGuides.value.length > 0) {
-    randomMessage.value = "";
+    randomMessage.value = '';
     messageShown.value = false;
   }
 });
@@ -67,7 +65,7 @@ const toggleStep = (id: number) => {
 
 const filterCategory = (cat: string) => {
   currentCategory.value = cat;
-  searchTerm.value = "";
+  searchTerm.value = '';
 };
 </script>
 
@@ -78,11 +76,19 @@ const filterCategory = (cat: string) => {
         <span class="title-text">📚 Guías de uso</span>
       </h1>
       <div class="category-filter">
-        <button @click="filterCategory('all')" :class="{ active: currentCategory === 'all' }" class="galactic-button">
+        <button
+          @click="filterCategory('all')"
+          :class="{ active: currentCategory === 'all' }"
+          class="galactic-button"
+        >
           Mostrar todas
         </button>
-        <button v-for="cat in categories" @click="filterCategory(cat)" :class="{ active: currentCategory === cat }"
-          class="galactic-button">
+        <button
+          v-for="cat in categories"
+          @click="filterCategory(cat)"
+          :class="{ active: currentCategory === cat }"
+          class="galactic-button"
+        >
           {{ cat }}
         </button>
       </div>
@@ -90,44 +96,92 @@ const filterCategory = (cat: string) => {
 
     <div class="search-wrapper">
       <div class="search-box">
-        <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20">
+        <svg
+          class="search-icon"
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+        >
           <path
-            d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+            d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 0 0 1.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 0 0-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 0 0 5.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+          />
         </svg>
-        <input type="text" v-model="searchTerm" placeholder="Buscar en guías..." class="search-input galactic-input" />
+        <input
+          type="text"
+          v-model="searchTerm"
+          placeholder="Buscar en guías..."
+          class="search-input galactic-input"
+        />
       </div>
     </div>
 
-    <div v-if="randomMessage" class="empty-state galactic-panel">
+    <div
+      v-if="randomMessage"
+      class="empty-state galactic-panel"
+    >
       <i class="pi pi-info-circle empty-icon"></i>
       <p class="empty-message">{{ randomMessage }}</p>
     </div>
 
     <div class="guides-grid">
-      <Panel v-for="guide in filteredGuides" :key="guide.id" :toggleable="true" class="guide-card"
-        :class="{ expanded: showStates[guide.id] }" @toggle="toggleStep(guide.id)" collapsed>
+      <Panel
+        v-for="guide in filteredGuides"
+        :key="guide.id"
+        :toggleable="true"
+        class="guide-card"
+        :class="{ expanded: showStates[guide.id] }"
+        @toggle="toggleStep(guide.id)"
+        collapsed
+      >
         <template #header>
           <div class="card-header">
             <div class="header-content">
               <h3 class="guide-title">{{ guide.title }}</h3>
-              <Tag :value="guide.category" class="category-tag" />
+              <Tag
+                :value="guide.category"
+                class="category-tag"
+              />
             </div>
           </div>
         </template>
 
-        <img alt="Imagen de cabecera de la guía" :src="guide.headerImage" class="guide-image header-image" />
+        <img
+          alt="Imagen de cabecera de la guía"
+          :src="guide.headerImage"
+          class="guide-image header-image"
+        />
 
         <ol class="guide-steps">
-          <li v-for="(step, index) in guide.steps" :key="index" class="step-item">
-            <div class="step-text" v-html="step.text"></div>
-            <img v-if="step.image" :src="step.image" :alt="`Paso ${index + 1}`" class="step-image">
+          <li
+            v-for="(step, index) in guide.steps"
+            :key="index"
+            class="step-item"
+          >
+            <div
+              class="step-text"
+              v-html="step.text"
+            ></div>
+            <img
+              v-if="step.image"
+              :src="step.image"
+              :alt="`Paso ${index + 1}`"
+              class="step-image"
+            />
           </li>
         </ol>
 
         <template #footer>
           <div class="flex gap-4 mt-1">
-            <Button label="Cancelar" severity="secondary" outlined class="w-full" />
-            <Button label="Guardar" class="w-full" />
+            <Button
+              label="Cancelar"
+              severity="secondary"
+              outlined
+              class="w-full"
+            />
+            <Button
+              label="Guardar"
+              class="w-full"
+            />
           </div>
         </template>
       </Panel>
@@ -250,7 +304,9 @@ const filterCategory = (cat: string) => {
 .guide-card {
   background: var(--background-secondary);
   border: 1px solid var(--border-color) !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   padding: 1rem;
   /* Evita que el contenido quede pegado al borde */
 }

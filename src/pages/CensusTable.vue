@@ -22,17 +22,17 @@ const screenWidth = ref(window.innerWidth);
 const CIVILIZATION = 'Royal Space Society';
 const selectedYear = ref<string>('');
 
-const gridColumns = computed(() =>
-  screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3
-);
+const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 
 const fetchBases = async (offset = 0, year?: string) => {
   try {
-    const newBases = await fetchCensusData(CIVILIZATION, offset, year) as ExtendedCensusQueryData[];
+    const newBases = (await fetchCensusData(CIVILIZATION, offset, year)) as ExtendedCensusQueryData[];
 
-    await Promise.all(newBases.map(async (base) => {
-      base.imageUrl = await fetchBaseImageUrls(base._pageName);
-    }));
+    await Promise.all(
+      newBases.map(async (base) => {
+        base.imageUrl = await fetchBaseImageUrls(base._pageName);
+      })
+    );
 
     bases.value = [...bases.value, ...newBases];
 
@@ -60,12 +60,7 @@ onMounted(async () => {
 });
 
 const formatWikiLink = (name: string) => {
-  return name
-    .trim()
-    .replace(/\s+/g, '_')
-    .replace(/\//g, '_')
-    .replace(/:/g, ':')
-    .replace(/'/g, "'");
+  return name.trim().replace(/\s+/g, '_').replace(/\//g, '_').replace(/:/g, ':').replace(/'/g, "'");
 };
 
 // const isModalOpen = ref(false);
@@ -91,9 +86,16 @@ const openModal = (image: string) => {
       <div class="space-page-container">
         <div class="flex items-start justify-between mb-6 header-container">
           <div class="flex flex-col">
-            <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank">
+            <a
+              href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society"
+              target="_blank"
+            >
               <div class="rss-logo">
-                <img src="/assets/images/shared/logo-white.png" class="logo-image" alt="RSS Logo" />
+                <img
+                  src="/assets/images/shared/logo-white.png"
+                  class="logo-image"
+                  alt="RSS Logo"
+                />
               </div>
             </a>
             <div class="header-container">
@@ -108,9 +110,24 @@ const openModal = (image: string) => {
         </div>
 
         <div class="filter-container mb-4 flex items-center">
-          <label for="yearInput" class="mr-2">Selecciona el año del censo:</label>
-          <InputText id="yearInput" type="number" v-model="selectedYear" placeholder="Ej. 2023" class="p-inputtext" />
-          <button @click="updateBases" class="p-button p-component ml-2">Filtrar</button>
+          <label
+            for="yearInput"
+            class="mr-2"
+            >Selecciona el año del censo:</label
+          >
+          <InputText
+            id="yearInput"
+            type="number"
+            v-model="selectedYear"
+            placeholder="Ej. 2023"
+            class="p-inputtext"
+          />
+          <button
+            @click="updateBases"
+            class="p-button p-component ml-2"
+          >
+            Filtrar
+          </button>
         </div>
 
         <Panel class="galactic-panel mt-6">
@@ -118,10 +135,16 @@ const openModal = (image: string) => {
             <h2 class="panel-title">Información del Censo</h2>
           </template>
           <div class="panel-content">
-            <p>Total de bases registradas: <strong>{{ bases.length }}</strong></p>
+            <p>
+              Total de bases registradas: <strong>{{ bases.length }}</strong>
+            </p>
             <p class="security-level mt-2">
               Nivel de seguridad:
-              <Tag value="Clasificado RSS" severity="info" class="category-tag" />
+              <Tag
+                value="Clasificado RSS"
+                severity="info"
+                class="category-tag"
+              />
             </p>
             <p class="update-info">Última actualización: {{ new Date().toLocaleDateString() }}</p>
           </div>
@@ -129,21 +152,39 @@ const openModal = (image: string) => {
 
         <br />
 
-        <div v-if="isLoading" class="loading-message">
+        <div
+          v-if="isLoading"
+          class="loading-message"
+        >
           <i class="pi pi-spinner pi-spin"></i> Cargando bases espaciales...
         </div>
-        <div v-else-if="error" class="error-message p-error">
+        <div
+          v-else-if="error"
+          class="error-message p-error"
+        >
           <i class="pi pi-exclamation-triangle"></i> {{ error }}
         </div>
 
-        <div v-else class="grid gap-4" :style="`grid-template-columns: repeat(${gridColumns}, 1fr)`">
-          <Card v-for="(base, index) in bases" :key="index" class="link-card">
+        <div
+          v-else
+          class="grid gap-4"
+          :style="`grid-template-columns: repeat(${gridColumns}, 1fr)`"
+        >
+          <Card
+            v-for="(base, index) in bases"
+            :key="index"
+            class="link-card"
+          >
             <template #content>
               <div class="p-4 base-content">
                 <div class="flex flex-column gap-3">
                   <div class="flex align-items-center gap-2">
                     <h3 class="base-title">{{ base.Name }}</h3>
-                    <Tag :value="base.Platform" severity="info" class="category-tag" />
+                    <Tag
+                      :value="base.Platform"
+                      severity="info"
+                      class="category-tag"
+                    />
                   </div>
 
                   <div class="base-details">
@@ -158,23 +199,46 @@ const openModal = (image: string) => {
                     </div>
 
                     <div class="flex gap-2">
-                      <Tag :value="base.Mode" severity="success" class="category-tag" />
-                      <Tag :value="`Llegada: ${base.CensusArrival}`" severity="warning" class="category-tag" />
-                      <Tag :value="`Renovación: ${base.CensusRenewal}`" severity="danger" class="category-tag" />
+                      <Tag
+                        :value="base.Mode"
+                        severity="success"
+                        class="category-tag"
+                      />
+                      <Tag
+                        :value="`Llegada: ${base.CensusArrival}`"
+                        severity="warning"
+                        class="category-tag"
+                      />
+                      <Tag
+                        :value="`Renovación: ${base.CensusRenewal}`"
+                        severity="danger"
+                        class="category-tag"
+                      />
                     </div>
                   </div>
 
-                  <Panel v-if="base.Name" class="builder-panel mt-3">
+                  <Panel
+                    v-if="base.Name"
+                    class="builder-panel mt-3"
+                  >
                     <template #header>
                       <span class="builder-link-header">Enlaces de la Base</span>
                     </template>
                     <div class="panel-content-with-image">
-                      <a :href="`https://nomanssky.fandom.com/wiki/${formatWikiLink(base._pageName)}`" target="_blank"
-                        class="builder-link">
+                      <a
+                        :href="`https://nomanssky.fandom.com/wiki/${formatWikiLink(base._pageName)}`"
+                        target="_blank"
+                        class="builder-link"
+                      >
                         <i class="pi pi-external-link"></i> Ver detalles de construcción
                       </a>
-                      <img v-if="base.imageUrl" :src="base.imageUrl.panel" alt="Imagen de la base"
-                        class="panel-base-image" @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(base._pageName)}`)" />
+                      <img
+                        v-if="base.imageUrl"
+                        :src="base.imageUrl.panel"
+                        alt="Imagen de la base"
+                        class="panel-base-image"
+                        @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(base._pageName)}`)"
+                      />
                     </div>
                   </Panel>
                 </div>
@@ -245,7 +309,9 @@ const openModal = (image: string) => {
 .link-card {
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .link-card:hover {

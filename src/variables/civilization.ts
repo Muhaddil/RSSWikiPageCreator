@@ -1,1 +1,1 @@
-export const civName = 'Royal Space Society'
+export const civName = 'Royal Space Society';

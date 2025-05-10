@@ -162,4 +162,3 @@ const showDiscovered = computed(() => !discoveredlink.value);
 
   <GalleryInput />
 </template>
-

@@ -26,20 +26,22 @@ function showError(message: string) {
   });
 }
 
-const faunas = ref<Array<{
-  id: number;
-  name: string;
-  image: string;
-  hemisphere: string;
-  rarity: string;
-  ecosystem: string;
-  activity: string;
-  genus: string;
-  weight: string;
-  height: string;
-  hasWikipage: string;
-  discovered: string;
-}>>([]);
+const faunas = ref<
+  Array<{
+    id: number;
+    name: string;
+    image: string;
+    hemisphere: string;
+    rarity: string;
+    ecosystem: string;
+    activity: string;
+    genus: string;
+    weight: string;
+    height: string;
+    hasWikipage: string;
+    discovered: string;
+  }>
+>([]);
 
 const addFauna = () => {
   if (faunas.value.length < 25) {
@@ -67,29 +69,34 @@ const removeFauna = (index: number) => {
 };
 
 const generateOutput = () => {
-  const output = faunas.value.map((fauna) => {
-    const formattedName = fauna.hasWikipage === "Yes" ? `[[${fauna.name}]]` : fauna.name;
-    return `|-
+  const output = faunas.value
+    .map((fauna) => {
+      const formattedName = fauna.hasWikipage === 'Yes' ? `[[${fauna.name}]]` : fauna.name;
+      return `|-
 |[[File: ${fauna.image || 'nmsMisc_NotAvailable.png'}|150px]] || ${formattedName} || ${fauna.rarity} / ${fauna.ecosystem} / ${fauna.activity} || [[${fauna.genus}]] || ${fauna.height}m || ${fauna.weight}kg`;
-  }).join('\n\n');
+    })
+    .join('\n\n');
   pageData.generatedOutputFauna = output;
 };
 
-watch(faunas, () => {
-  generateOutput();
-}, { deep: true });
-
+watch(
+  faunas,
+  () => {
+    generateOutput();
+  },
+  { deep: true }
+);
 
 const genera = ref<string[]>([]);
 const selectedGenus = ref<string>('');
 const produces = ref<string[]>([]);
 
 watch(
-  () => faunas.value.map(fauna => fauna.ecosystem),
+  () => faunas.value.map((fauna) => fauna.ecosystem),
   (newEcosystems) => {
-    genera.value = [...new Set(newEcosystems.flatMap(ecosystem =>
-      Object.keys(creatureData.ecosystems[ecosystem] || {})
-    ))];
+    genera.value = [
+      ...new Set(newEcosystems.flatMap((ecosystem) => Object.keys(creatureData.ecosystems[ecosystem] || {}))),
+    ];
   }
 );
 
@@ -102,78 +109,121 @@ watch(selectedGenus, (newGenus) => {
 });
 
 const formattedGenera = computed(() => {
-  return genera.value.map(genus => ({
+  return genera.value.map((genus) => ({
     label: genus,
-    value: genus
+    value: genus,
   }));
 });
-
 </script>
 
 <template>
   <div>
-    <Panel class="my-4" :header="`Fauna:`" toggleable>
-    <Button @click="addFauna">+ Añadir Fauna</Button>
-    <br />
-    <br />
-    <div v-for="(fauna, index) in faunas" :key="fauna.id">
-      <Panel class="my-4" :header="`Criatura: ${fauna.name}`" toggleable>
-        <SanitisedTextInput v-model="fauna.name" help-title="Nombre de la criatura" label="Nombre de la criatura:"
-          helpImg="creature/creatureName" tooltip="Se puede encontrar en el menú de descubrimiento">Se puede encontrar en el
-          menú de
-          descubrimiento.<br>Introduzca exactamente como se ve en el juego. Cuidado con 0 (cero) y O (o).
-        </SanitisedTextInput>
+    <Panel
+      class="my-4"
+      :header="`Fauna:`"
+      toggleable
+    >
+      <Button @click="addFauna">+ Añadir Fauna</Button>
+      <br />
+      <br />
+      <div
+        v-for="(fauna, index) in faunas"
+        :key="fauna.id"
+      >
+        <Panel
+          class="my-4"
+          :header="`Criatura: ${fauna.name}`"
+          toggleable
+        >
+          <SanitisedTextInput
+            v-model="fauna.name"
+            help-title="Nombre de la criatura"
+            label="Nombre de la criatura:"
+            helpImg="creature/creatureName"
+            tooltip="Se puede encontrar en el menú de descubrimiento"
+            >Se puede encontrar en el menú de descubrimiento.<br />Introduzca exactamente como se ve en el juego.
+            Cuidado con 0 (cero) y O (o).
+          </SanitisedTextInput>
 
-        <SingleFileUpload v-model="fauna.image" label="Nombre del archivo de la criatura:" help-title="Subida de Archivo"
-          tooltip="La imagen no se subirá a la wiki. Esto es solo para autocompletar el nombre de la imagen.">
-          <FileUploadNotice />
-        </SingleFileUpload>
+          <SingleFileUpload
+            v-model="fauna.image"
+            label="Nombre del archivo de la criatura:"
+            help-title="Subida de Archivo"
+            tooltip="La imagen no se subirá a la wiki. Esto es solo para autocompletar el nombre de la imagen."
+          >
+            <FileUploadNotice />
+          </SingleFileUpload>
 
-        <HemisphereSelect v-model="fauna.hemisphere" />
-        <RaritySelect v-model="fauna.rarity" />
-        <EcosystemSelect v-model="fauna.ecosystem" />
-        <ActivitySelect v-model="fauna.activity" />
-        <InputTableItem>
-          <template #label>
-            <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
-              <label>Género:</label>
-              <Explainer tooltip="Encontrado en el menú de descubrimiento de criaturas.">
-              </Explainer>
-            </div>
-          </template>
+          <HemisphereSelect v-model="fauna.hemisphere" />
+          <RaritySelect v-model="fauna.rarity" />
+          <EcosystemSelect v-model="fauna.ecosystem" />
+          <ActivitySelect v-model="fauna.activity" />
+          <InputTableItem>
+            <template #label>
+              <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
+                <label>Género:</label>
+                <Explainer tooltip="Encontrado en el menú de descubrimiento de criaturas."> </Explainer>
+              </div>
+            </template>
 
-          <template #input>
-            <SelectDropdown v-model="fauna.genus" :options="formattedGenera" />
-          </template>
-        </InputTableItem>
+            <template #input>
+              <SelectDropdown
+                v-model="fauna.genus"
+                :options="formattedGenera"
+              />
+            </template>
+          </InputTableItem>
 
-        <SanitisedTextInput v-model="fauna.weight" label="Peso en KG:" maxlength="5" placeholder="1.5"
-          tooltip="Encontrado en el escaneo de criaturas. No se necesitan poner 'kg'."
-          help-img="creature/creatureWeight" help-title="Peso de la criatura" />
+          <SanitisedTextInput
+            v-model="fauna.weight"
+            label="Peso en KG:"
+            maxlength="5"
+            placeholder="1.5"
+            tooltip="Encontrado en el escaneo de criaturas. No se necesitan poner 'kg'."
+            help-img="creature/creatureWeight"
+            help-title="Peso de la criatura"
+          />
 
-        <SanitisedTextInput v-model="fauna.height" label="Altura en M:" maxlength="5" placeholder="1.5"
-          tooltip="Encontrado en el escaneo de criaturas. No se necesitan poner 'kg'."
-          help-img="creature/creatureHeight" help-title="Altura de la criatura" />
+          <SanitisedTextInput
+            v-model="fauna.height"
+            label="Altura en M:"
+            maxlength="5"
+            placeholder="1.5"
+            tooltip="Encontrado en el escaneo de criaturas. No se necesitan poner 'kg'."
+            help-img="creature/creatureHeight"
+            help-title="Altura de la criatura"
+          />
 
-        <SanitisedTextInput v-model="fauna.discovered" label="Descubridor:" />
+          <SanitisedTextInput
+            v-model="fauna.discovered"
+            label="Descubridor:"
+          />
 
-        <InputTableItem>
-          <template #label>
-            <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
-              <label for="hasWikipage-checkbox">¿Tiene página el la wiki?</label>
-            </div>
-          </template>
-          <template #input>
-            <Checkbox v-model="fauna.hasWikipage" false-value="" input-id="hasWikipage-checkbox" true-value="Yes"
-              binary />
-          </template>
-        </InputTableItem>
+          <InputTableItem>
+            <template #label>
+              <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
+                <label for="hasWikipage-checkbox">¿Tiene página el la wiki?</label>
+              </div>
+            </template>
+            <template #input>
+              <Checkbox
+                v-model="fauna.hasWikipage"
+                false-value=""
+                input-id="hasWikipage-checkbox"
+                true-value="Yes"
+                binary
+              />
+            </template>
+          </InputTableItem>
 
-        <Button v-if="faunas.length >= 1" @click="removeFauna(index)">
-          Eliminar Criatura
-        </Button>
-      </Panel>
-    </div>
+          <Button
+            v-if="faunas.length >= 1"
+            @click="removeFauna(index)"
+          >
+            Eliminar Criatura
+          </Button>
+        </Panel>
+      </div>
     </Panel>
   </div>
 </template>

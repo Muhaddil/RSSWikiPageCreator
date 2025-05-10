@@ -43,13 +43,15 @@ const locationSentence = computed(() => {
 
 const formattedFeatures = computed(() => {
   if (!features.value || features.value.length === 0) return '';
-  return '<pre>\n' + features.value.map(feature => '* [[' + feature + ']]').join('\n') + '\n</pre>';
+  return '<pre>\n' + features.value.map((feature) => '* [[' + feature + ']]').join('\n') + '\n</pre>';
 });
 </script>
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{Base infobox</div>
   <div>| name = {{ name }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -75,13 +77,13 @@ const formattedFeatures = computed(() => {
   <div>| arena = {{ arena }}</div>
   <div>| terminal = {{ terminal }}</div>
   <div>| racetrack = {{ racetrack }}</div>
-  <div>| censusplayer = </div>
-  <div>| censusreddit = </div>
-  <div>| censusdiscord = </div>
-  <div>| censusfriend = </div>
-  <div>| censusarrival = </div>
-  <div>| censusrenewal = </div>
-  <div>| censusshow = </div>
+  <div>| censusplayer =</div>
+  <div>| censusreddit =</div>
+  <div>| censusdiscord =</div>
+  <div>| censusfriend =</div>
+  <div>| censusarrival =</div>
+  <div>| censusrenewal =</div>
+  <div>| censusshow =</div>
   <div v-pre>}}</div>
   <div>'''{{ name }}''' is a player base.</div>
   <br />

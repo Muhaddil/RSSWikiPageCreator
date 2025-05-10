@@ -1,7 +1,16 @@
 <template>
-  <a :href="url" :title="title" class="button" :style="{ backgroundImage: 'url(' + img + ')' }">
+  <a
+    :href="url"
+    :title="title"
+    class="button"
+    :style="{ backgroundImage: 'url(' + img + ')' }"
+  >
     {{ text }}
-    <span class="alt-text" v-if="!img">{{ imgAlt }}</span>
+    <span
+      class="alt-text"
+      v-if="!img"
+      >{{ imgAlt }}</span
+    >
   </a>
 </template>
 
@@ -55,5 +64,4 @@ a.button {
   overflow: hidden;
   visibility: hidden;
 }
-
 </style>

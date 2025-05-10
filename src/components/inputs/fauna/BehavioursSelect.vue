@@ -17,8 +17,7 @@ const id = useId('behaviour');
     <template #label>
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label>Comportamiento:</label>
-        <Explainer tooltip="Encontrado en el escaneo de criaturas.">
-        </Explainer>
+        <Explainer tooltip="Encontrado en el escaneo de criaturas."> </Explainer>
       </div>
     </template>
 

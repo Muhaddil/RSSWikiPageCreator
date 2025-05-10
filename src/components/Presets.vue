@@ -111,8 +111,8 @@ function hideDialog() {
       />
 
       <SanitisedTextInput
-          v-model="presetData.researchteam2"
-          label="Departamento: (Opcional)"
+        v-model="presetData.researchteam2"
+        label="Departamento: (Opcional)"
       />
 
       <WealthSelect

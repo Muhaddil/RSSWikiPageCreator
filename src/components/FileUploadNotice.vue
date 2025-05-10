@@ -5,8 +5,9 @@ import ExternalLink from './ExternalLink.vue';
 
 <template>
   <p>
-    Las imágenes que cargues aquí no se cargarán en la wiki. Esto es solo para completar automáticamente el nombre de la imagen. El tamaño máximo de archivo es de 10 MB. Puedes cargar tus imágenes en la wiki en
-      <WikiLink
+    Las imágenes que cargues aquí no se cargarán en la wiki. Esto es solo para completar automáticamente el nombre de la
+    imagen. El tamaño máximo de archivo es de 10 MB. Puedes cargar tus imágenes en la wiki en
+    <WikiLink
       link="Special:Upload?multiple=true"
       text="Especial:Subir"
     />.

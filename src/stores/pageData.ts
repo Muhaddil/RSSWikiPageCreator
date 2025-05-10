@@ -353,7 +353,7 @@ export const usePageDataStore = defineStore('pageData', {
       const documenter = isLink ? state.docBy : `''${state.docBy}''`;
       let researchteamLink = '';
       if (hasResearchteam) {
-        researchteamLink = `[[${state.researchteam2}]] member`
+        researchteamLink = `[[${state.researchteam2}]] member`;
       }
       return `${hasResearchteam ? researchteamLink + ' ' : ''}${documenter}`;
     },

@@ -10,18 +10,8 @@ import DateSelect from '@/components/inputs/DateSelect.vue';
 import { debounceDelay } from '@/variables/debounce';
 
 const pageData = usePageDataStore();
-const {
-  discovered,
-  discoveredlink,
-  planet,
-  mode,
-  discDate,
-  system,
-  platform,
-  basename,
-  playername,
-  discordname,
-} = storeToRefs(pageData);
+const { discovered, discoveredlink, planet, mode, discDate, system, platform, basename, playername, discordname } =
+  storeToRefs(pageData);
 
 const showDiscoveredLink = computed(() => !discovered.value);
 const showDiscovered = computed(() => !discoveredlink.value);
@@ -35,7 +25,6 @@ watchDebounced(
   },
   { debounce: debounceDelay }
 );
-
 </script>
 
 <template>
@@ -75,7 +64,10 @@ watchDebounced(
 
   <PlatformSelect v-model="platform" />
   <GameModeSelect v-model="mode" />
-  <DateSelect v-model="discDate" label="Fecha de cuando te uniste a la RSS" />
+  <DateSelect
+    v-model="discDate"
+    label="Fecha de cuando te uniste a la RSS"
+  />
 
   <SanitisedTextInput
     v-if="showDiscoveredLink"

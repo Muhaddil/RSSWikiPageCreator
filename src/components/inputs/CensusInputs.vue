@@ -111,8 +111,8 @@ watchDebounced(
       label="Código de amigo"
       tooltip="Se puede encontrar en las Opciones"
     >
-      Puedes encontrar tu código de amigo en Opciones &rarr; Red &rarr; Ver Lista de Amigos de No Man's Sky &rarr; Mostrar mi
-      Código de Amigo de No Man's Sky
+      Puedes encontrar tu código de amigo en Opciones &rarr; Red &rarr; Ver Lista de Amigos de No Man's Sky &rarr;
+      Mostrar mi Código de Amigo de No Man's Sky
     </TextInput>
     <DateSelect
       v-model="censusarrival"

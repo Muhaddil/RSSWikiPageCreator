@@ -75,13 +75,11 @@ export const getCensusQueryDataUrl = (civilized: string, offset: number, year?: 
       'CensusRenewal',
       'Builderlink',
     ].join(','),
-    where: `CensusShow IS NOT NULL AND Civilized='${civilized}'${
-      year ? ` AND CensusRenewal HOLDS ${year}` : ''
-    }`,
+    where: `CensusShow IS NOT NULL AND Civilized='${civilized}'${year ? ` AND CensusRenewal HOLDS ${year}` : ''}`,
     order_by: 'CensusRenewal DESC',
     group_by: 'CensusPlayer',
     limit: 500,
-    offset
+    offset,
   };
 
   return buildQueryUrl(queryObject);
@@ -177,11 +175,7 @@ export const mapCensusData = (data: CensusApiResponse): CensusQueryData[] => {
   }));
 };
 
-export const fetchCensusData = async (
-  civilized: string,
-  offset: number,
-  year?: string
-): Promise<CensusQueryData[]> => {
+export const fetchCensusData = async (civilized: string, offset: number, year?: string): Promise<CensusQueryData[]> => {
   const url = getCensusQueryDataUrl(civilized, offset, year);
   const data = await apiCall<CensusApiResponse>(url);
 
@@ -269,13 +263,9 @@ export const getRegionsQueryDataUrl = (civilized: string, offset: number = 0): s
     ...basicQueryData,
     action: 'cargoquery',
     tables: 'Regions',
-    fields: [
-      'Regions.Coordinates',
-      'Regions.Galaxy',
-      'Regions.Quadrant',
-      'Regions.Civilized',
-      '_pageName=Region',
-    ].join(','),
+    fields: ['Regions.Coordinates', 'Regions.Galaxy', 'Regions.Quadrant', 'Regions.Civilized', '_pageName=Region'].join(
+      ','
+    ),
     where: `Civilized='${civilized}'`,
     order_by: 'Region ASC',
     offset: offset,
@@ -294,10 +284,7 @@ export const mapRegionsData = (data: RegionsApiResponse): RegionQueryData[] => {
   }));
 };
 
-export const fetchRegionsData = async (
-  civilized: string,
-  offset: number = 0,
-): Promise<RegionQueryData[]> => {
+export const fetchRegionsData = async (civilized: string, offset: number = 0): Promise<RegionQueryData[]> => {
   const url = getRegionsQueryDataUrl(civilized, offset);
   const data = await apiCall<RegionsApiResponse>(url);
 
@@ -371,7 +358,11 @@ export interface RegionStats {
   };
 }
 
-const fetchCategoryStats = async (pageName: string, tableClass: string, tableFields: string): Promise<number | null> => {
+const fetchCategoryStats = async (
+  pageName: string,
+  tableClass: string,
+  tableFields: string
+): Promise<number | null> => {
   try {
     const queryObject = {
       ...basicQueryData,
@@ -398,21 +389,21 @@ const fetchCategoryStats = async (pageName: string, tableClass: string, tableFie
 
 export const getRegionStats = async (pageName: string): Promise<RegionStats | null> => {
   const stats: RegionStats = {
-    "Star systems": { CrossPlatform: 0 },
-    "Bases": { CrossPlatform: 0 },
-    "Planets": { CrossPlatform: 0 },
-    "Fauna": { CrossPlatform: 0 },
-    "Starships": { CrossPlatform: 0 },
-    "Multi-Tools": { CrossPlatform: 0 },
+    'Star systems': { CrossPlatform: 0 },
+    Bases: { CrossPlatform: 0 },
+    Planets: { CrossPlatform: 0 },
+    Fauna: { CrossPlatform: 0 },
+    Starships: { CrossPlatform: 0 },
+    'Multi-Tools': { CrossPlatform: 0 },
   };
 
   const categories = {
-    "Star systems": { tableClass: "Systems", tableFields: "Region" },
-    "Bases": { tableClass: "Bases", tableFields: "Name" },
-    "Planets": { tableClass: "Planets", tableFields: "Civilized" },
-    "Fauna": { tableClass: "Creatures", tableFields: "Name" },
-    "Starships": { tableClass: "Starships", tableFields: "Coordinates" },
-    "Multi-Tools": { tableClass: "Multitools", tableFields: "Civilized" },
+    'Star systems': { tableClass: 'Systems', tableFields: 'Region' },
+    Bases: { tableClass: 'Bases', tableFields: 'Name' },
+    Planets: { tableClass: 'Planets', tableFields: 'Civilized' },
+    Fauna: { tableClass: 'Creatures', tableFields: 'Name' },
+    Starships: { tableClass: 'Starships', tableFields: 'Coordinates' },
+    'Multi-Tools': { tableClass: 'Multitools', tableFields: 'Civilized' },
   };
 
   for (const [categoryName, { tableClass, tableFields }] of Object.entries(categories)) {

@@ -43,32 +43,66 @@ const showDiscovered = computed(() => !discoveredlink.value);
 </script>
 
 <template>
-  <SingleFileUpload v-model="image" label="Imagen principal" help-title="Subida de Archivo"
-    tooltip="La imagen no se subirá a la wiki. Esto es solo para completar automáticamente el nombre de la imagen.">
+  <SingleFileUpload
+    v-model="image"
+    label="Imagen principal"
+    help-title="Subida de Archivo"
+    tooltip="La imagen no se subirá a la wiki. Esto es solo para completar automáticamente el nombre de la imagen."
+  >
     <FileUploadNotice />
   </SingleFileUpload>
-  <SanitisedTextInput v-model="system" label="Nombre del Sistema" />
-  <SanitisedTextInput v-model="planet" label="Nombre del Planeta"
-    tooltip="Nombre del Planeta O el planeta rodeado por la luna donde se puede encontrar el asentamiento." />
-  <SanitisedTextInput v-model="moon" label="Nombre de la Luna"
-    tooltip="Si asentamiento está en una luna. Déjalo en blanco si la base está en un planeta." />
+  <SanitisedTextInput
+    v-model="system"
+    label="Nombre del Sistema"
+  />
+  <SanitisedTextInput
+    v-model="planet"
+    label="Nombre del Planeta"
+    tooltip="Nombre del Planeta O el planeta rodeado por la luna donde se puede encontrar el asentamiento."
+  />
+  <SanitisedTextInput
+    v-model="moon"
+    label="Nombre de la Luna"
+    tooltip="Si asentamiento está en una luna. Déjalo en blanco si la base está en un planeta."
+  />
   <CoordinateInput v-model="axes" />
   <GlyphInput v-model="glyphs" />
 
   <Class v-model="sandwormclass" />
-  <SanitisedTextInput v-model="maxdepth" label="Máxima profundidad:" :invalid="!isMaxDepthValid"
-    error-message="Sólo debe contener números" />
+  <SanitisedTextInput
+    v-model="maxdepth"
+    label="Máxima profundidad:"
+    :invalid="!isMaxDepthValid"
+    error-message="Sólo debe contener números"
+  />
   <StomachContentInput v-model="stomachContent" />
   <AppearonReload v-model="appearonreload" />
 
   <GameModeSelect v-model="mode" />
 
-  <SanitisedTextInput v-if="showDiscoveredLink" v-model="discoveredlink" label="Nombre en la wiki del descubridor:" />
-  <SanitisedTextInput v-if="showDiscovered" v-model="discovered" label="Alias del descubridor si no tiene wiki:" />
-  <SanitisedTextInput v-model="docBy" label="Alias del documentador si no es el descubridor:" />
-  <SanitisedTextInput v-model="researchteam2" label="Departamento: (Opcional)" />
+  <SanitisedTextInput
+    v-if="showDiscoveredLink"
+    v-model="discoveredlink"
+    label="Nombre en la wiki del descubridor:"
+  />
+  <SanitisedTextInput
+    v-if="showDiscovered"
+    v-model="discovered"
+    label="Alias del descubridor si no tiene wiki:"
+  />
+  <SanitisedTextInput
+    v-model="docBy"
+    label="Alias del documentador si no es el descubridor:"
+  />
+  <SanitisedTextInput
+    v-model="researchteam2"
+    label="Departamento: (Opcional)"
+  />
 
-  <TextareaInput v-model="appearance" label="Apariencia" />
+  <TextareaInput
+    v-model="appearance"
+    label="Apariencia"
+  />
 
   <GalleryInput />
 </template>

@@ -32,13 +32,15 @@ const {
 
 const formattedExocraftTable = computed(() => {
   if (!exocraftTable.value || exocraftTable.value.length === 0) return '';
-  return exocraftTable.value.map(exocraftTable => `[[${exocraftTable}]]`).join(', ');
+  return exocraftTable.value.map((exocraftTable) => `[[${exocraftTable}]]`).join(', ');
 });
 </script>
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{Racetrack infobox</div>
   <div>| name = {{ name }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -50,7 +52,9 @@ const formattedExocraftTable = computed(() => {
   <div>| planet = {{ planet }}</div>
   <div>| moon = {{ moon }}</div>
   <div>| axes = {{ axes }}</div>
-  <div>| coordinates = <WikiTemplate template-name="Glyphs2Coords">{{ glyphs }}</WikiTemplate></div>
+  <div>
+    | coordinates = <WikiTemplate template-name="Glyphs2Coords">{{ glyphs }}</WikiTemplate>
+  </div>
   <div>| suited = {{ formattedExocraftTable }}</div>
   <div>| civilized = {{ civilized }}</div>
   <div>| researchteam = {{ researchteam2 }}</div>
@@ -62,8 +66,10 @@ const formattedExocraftTable = computed(() => {
   <div>'''{{ name }}''' is a racetrack.</div>
   <br />
   <div>==Summary==</div>
-  <div>'''{{ name }}''' is a [[racetrack]], located on the <span v-if="moon">[[moon]] [[{{ moon }}]] of the</span>
-    [[planet]] [[{{ planet }}]] in the [[{{ system }}]] system.</div>
+  <div>
+    '''{{ name }}''' is a [[racetrack]], located on the
+    <span v-if="moon">[[moon]] [[{{ moon }}]] of the</span> [[planet]] [[{{ planet }}]] in the [[{{ system }}]] system.
+  </div>
   It is suited for {{ formattedExocraftTable }}.
   <br />
   <br />

@@ -7,4 +7,3 @@ export const mappedSystemRace: SelectOption[] = InSpanish.map((mode, index) => (
   label: mode,
   value: InEnglish[index],
 }));
-

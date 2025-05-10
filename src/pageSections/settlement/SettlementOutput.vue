@@ -38,7 +38,9 @@ const locationSentence = computed(() => {
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{Settlement infobox</div>
   <div>| name = {{ name }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -65,9 +67,10 @@ const locationSentence = computed(() => {
   <div>==Summary==</div>
   <div>
     <div>
-    '''{{ name }}''' is a [[Planetary Settlement|planetary settlement]], located on the {{ locationSentence }} in the [[{{ system }}]] system.
+      '''{{ name }}''' is a [[Planetary Settlement|planetary settlement]], located on the {{ locationSentence }} in the
+      [[{{ system }}]] system.
+    </div>
   </div>
-</div>
   <br />
   <div>==Location==</div>
   <div class="keep-linebreaks">It is located at {{ axes }}</div>

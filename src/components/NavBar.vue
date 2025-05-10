@@ -34,12 +34,61 @@ onMounted(() => {
 </script>
 
 <template>
-  <Button v-if="!isIndexPage" :href="'/'" as="a" icon="pi pi-arrow-left" label="Ver Otras Páginas" link />
-  <Button v-if="!isIndexPage" :href="'rsslinks.html'" as="a" icon="pi pi-arrow-right" label="Portal Comunidad" link />
-  <Button v-if="isIndexPage" :href="'/RSSWikiPageCreator/'" as="a" icon="pi pi-arrow-left" label="Volver al Menu Principal" link />
+  <Button
+    v-if="!isIndexPage"
+    :href="'/'"
+    as="a"
+    icon="pi pi-arrow-left"
+    label="Ver Otras Páginas"
+    link
+  />
+  <Button
+    v-if="!isIndexPage"
+    :href="'rsslinks.html'"
+    as="a"
+    icon="pi pi-arrow-right"
+    label="Portal Comunidad"
+    link
+  />
+  <Button
+    v-if="isIndexPage"
+    :href="'/RSSWikiPageCreator/'"
+    as="a"
+    icon="pi pi-arrow-left"
+    label="Volver al Menu Principal"
+    link
+  />
 
-  <Button v-if="sandwormLink" :href="sandwormLink" as="a" icon="pi pi-arrow-right" label="Ir a Sandworm" link />
-  <Button v-if="faunaLink" :href="faunaLink" as="a" icon="pi pi-arrow-right" label="Ir a Fauna" link />
-  <Button v-if="moonLink" :href="moonLink" as="a" icon="pi pi-arrow-right" label="Lunas" link />
-  <Button v-if="planetLink" :href="planetLink" as="a" icon="pi pi-arrow-right" label="Planetas" link />
+  <Button
+    v-if="sandwormLink"
+    :href="sandwormLink"
+    as="a"
+    icon="pi pi-arrow-right"
+    label="Ir a Sandworm"
+    link
+  />
+  <Button
+    v-if="faunaLink"
+    :href="faunaLink"
+    as="a"
+    icon="pi pi-arrow-right"
+    label="Ir a Fauna"
+    link
+  />
+  <Button
+    v-if="moonLink"
+    :href="moonLink"
+    as="a"
+    icon="pi pi-arrow-right"
+    label="Lunas"
+    link
+  />
+  <Button
+    v-if="planetLink"
+    :href="planetLink"
+    as="a"
+    icon="pi pi-arrow-right"
+    label="Planetas"
+    link
+  />
 </template>

@@ -7,7 +7,7 @@ import Explainer from '..//../Explainer.vue';
 import { usePageDataStore } from '../../../stores/pageData';
 import { storeToRefs } from 'pinia';
 
-defineProps<{ resetEvent?: string, label: string; index: number;  }>();
+defineProps<{ resetEvent?: string; label: string; index: number }>();
 
 const pageData = usePageDataStore();
 const { elements } = storeToRefs(pageData);
@@ -20,8 +20,13 @@ const id = useId('resourcesflora');
     <template #label>
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label :id="id">{{ label }}</label>
-        <Explainer :tooltip="`Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.`"
-          :help-img="`flora/element${index}`" :help-title="`${label}`"> Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.</Explainer>
+        <Explainer
+          :tooltip="`Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.`"
+          :help-img="`flora/element${index}`"
+          :help-title="`${label}`"
+        >
+          Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.</Explainer
+        >
       </div>
     </template>
 

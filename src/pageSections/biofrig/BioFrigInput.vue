@@ -30,7 +30,6 @@ const {
   trade,
 } = storeToRefs(pageData);
 
-
 const originalCost = ref('');
 
 const formatNumberWithCommas = (value: string) => {
@@ -87,13 +86,48 @@ const showDiscovered = computed(() => !discoveredlink.value);
   <GlyphInput v-model="glyphs" />
   <ClassSelect v-model="royalclass" />
 
-  <SanitisedTextInput v-model="originalCost" label="Coste:" :invalid="!isCostValid" error-message="Solo debe contener números" ></SanitisedTextInput>
+  <SanitisedTextInput
+    v-model="originalCost"
+    label="Coste:"
+    :invalid="!isCostValid"
+    error-message="Solo debe contener números"
+  ></SanitisedTextInput>
 
-  <SanitisedTextInput v-model="combat" label="Combate:" :invalid="!isCombatValid" error-message="Solo debe contener números" maxlength="2"></SanitisedTextInput>
-  <SanitisedTextInput v-model="exploration" label="Exploración:" :invalid="!isExplorationValid" error-message="Solo debe contener números" maxlength="2"></SanitisedTextInput>
-  <SanitisedTextInput v-model="industrial" label="Industrial:" :invalid="!isInsdustrialValid" error-message="Solo debe contener números" maxlength="2"></SanitisedTextInput>
-  <SanitisedTextInput v-model="trade" label="Comercio:" :invalid="!isTradeValid" error-message="Solo debe contener números" maxlength="2"></SanitisedTextInput>
-  <SanitisedTextInput v-model="fuel" label="Combustible:" :invalid="!isFuelValid" error-message="Solo debe contener números" maxlength="2"></SanitisedTextInput>
+  <SanitisedTextInput
+    v-model="combat"
+    label="Combate:"
+    :invalid="!isCombatValid"
+    error-message="Solo debe contener números"
+    maxlength="2"
+  ></SanitisedTextInput>
+  <SanitisedTextInput
+    v-model="exploration"
+    label="Exploración:"
+    :invalid="!isExplorationValid"
+    error-message="Solo debe contener números"
+    maxlength="2"
+  ></SanitisedTextInput>
+  <SanitisedTextInput
+    v-model="industrial"
+    label="Industrial:"
+    :invalid="!isInsdustrialValid"
+    error-message="Solo debe contener números"
+    maxlength="2"
+  ></SanitisedTextInput>
+  <SanitisedTextInput
+    v-model="trade"
+    label="Comercio:"
+    :invalid="!isTradeValid"
+    error-message="Solo debe contener números"
+    maxlength="2"
+  ></SanitisedTextInput>
+  <SanitisedTextInput
+    v-model="fuel"
+    label="Combustible:"
+    :invalid="!isFuelValid"
+    error-message="Solo debe contener números"
+    maxlength="2"
+  ></SanitisedTextInput>
 
   <SanitisedTextInput
     v-if="showDiscoveredLink"

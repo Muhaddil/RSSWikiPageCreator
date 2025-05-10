@@ -17,7 +17,11 @@ const id = useId('floraage');
     <template #label>
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label :id>Edad de la planta:</label>
-        <Explainer tooltip="Encontrado en el escaneo de flora." help-img="flora/age" help-title="Edad de la planta">Encontrado en el escaneo de flora.
+        <Explainer
+          tooltip="Encontrado en el escaneo de flora."
+          help-img="flora/age"
+          help-title="Edad de la planta"
+          >Encontrado en el escaneo de flora.
         </Explainer>
       </div>
     </template>

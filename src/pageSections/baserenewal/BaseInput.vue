@@ -22,7 +22,7 @@ function updateCensusRenewal(input: string) {
   const match = input.match(regex);
 
   if (match && match[1]) {
-    let years = match[1].split(',').map(year => year.trim());
+    let years = match[1].split(',').map((year) => year.trim());
 
     if (years.length === 0) {
       return input.replace(regex, `censusrenewal = ${currentYear}`);
@@ -100,9 +100,7 @@ function showError(message: string) {
 }
 
 function createPage() {
-  const requiredFields = [
-    { field: pageData.name, message: '¡Pon el nombre de tu base!' },
-  ];
+  const requiredFields = [{ field: pageData.name, message: '¡Pon el nombre de tu base!' }];
 
   for (const { field, message } of requiredFields) {
     if (!field) {
@@ -117,7 +115,6 @@ function createPage() {
 
   window.open(`https://nomanssky.fandom.com/wiki/${pageData.name}?action=edit#editform`, '_blank');
 }
-
 </script>
 
 <template>
@@ -130,7 +127,10 @@ function createPage() {
 
     <div class="checkbox-container">
       <label>
-        <input type="checkbox" v-model="addAllYears" />
+        <input
+          type="checkbox"
+          v-model="addAllYears"
+        />
         Añadir todos los años desde el último registrado.
       </label>
       <div class="note">
@@ -138,21 +138,36 @@ function createPage() {
       </div>
     </div>
 
-    <SanitisedTextInput v-model="name" help-img="base/baseName" help-title="Nombre de la Base:"
-      label="Nombre de la Base" tooltip="Escribe exactamente como se ve en el juego. Cuidado con 0 (cero) y O (o).">
+    <SanitisedTextInput
+      v-model="name"
+      help-img="base/baseName"
+      help-title="Nombre de la Base:"
+      label="Nombre de la Base"
+      tooltip="Escribe exactamente como se ve en el juego. Cuidado con 0 (cero) y O (o)."
+    >
       Escribe exactamente como se ve en el juego. Cuidado con 0 (cero) y O (o).
     </SanitisedTextInput>
 
-    <Button as="a" label="Ir a la base" severity="warn" @click="createPage" />
+    <Button
+      as="a"
+      label="Ir a la base"
+      severity="warn"
+      @click="createPage"
+    />
 
     <br />
     <br />
 
-    <TextareaInput v-model="censusrenewal" label="Pega tu código aquí" placeholder="Ejemplo de código a pegar"
-      class="textarea-input" />
+    <TextareaInput
+      v-model="censusrenewal"
+      label="Pega tu código aquí"
+      placeholder="Ejemplo de código a pegar"
+      class="textarea-input"
+    />
 
     <div class="note">
-      <p><strong>Nota:</strong> Si no tienes ningún año en el campo de <code>censusrenewal</code>, el sistema fallará.
+      <p>
+        <strong>Nota:</strong> Si no tienes ningún año en el campo de <code>censusrenewal</code>, el sistema fallará.
       </p>
     </div>
   </div>

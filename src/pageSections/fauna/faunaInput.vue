@@ -53,7 +53,7 @@ const {
 } = storeToRefs(pageData);
 
 const isSecondGenderVisible = computed(() => {
-  return gender2.value !== "" && gender2.value !== gender.value;
+  return gender2.value !== '' && gender2.value !== gender.value;
 });
 
 watch(genus, (newGenus) => {
@@ -126,9 +126,9 @@ const showDiscovered = computed(() => !discoveredlink.value);
     label="Género 2 (si tiene):"
   />
 
-  <BehavioursSelect v-model="behaviour"/>
-  <DietSelect v-model="diet"/>
-  <NotesSelect v-model="notes"/>
+  <BehavioursSelect v-model="behaviour" />
+  <DietSelect v-model="diet" />
+  <NotesSelect v-model="notes" />
 
   <SanitisedTextInput
     v-model="weight"
@@ -200,5 +200,5 @@ const showDiscovered = computed(() => !discoveredlink.value);
     label="Apariencia:"
   />
 
-<GalleryInput />
+  <GalleryInput />
 </template>

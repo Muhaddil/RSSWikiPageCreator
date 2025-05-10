@@ -26,20 +26,22 @@ function showError(message: string) {
   });
 }
 
-const faunas = ref<Array<{
-  id: number;
-  name: string;
-  image: string;
-  hasWikipage: string;
-  discovered: string;
-  age: string;
-  nutsource: string;
-  notes: string;
-  root: string;
-  elements1: string;
-  elements2: string;
-  elementsall: string;
-}>>([]);
+const faunas = ref<
+  Array<{
+    id: number;
+    name: string;
+    image: string;
+    hasWikipage: string;
+    discovered: string;
+    age: string;
+    nutsource: string;
+    notes: string;
+    root: string;
+    elements1: string;
+    elements2: string;
+    elementsall: string;
+  }>
+>([]);
 
 const addFauna = () => {
   if (faunas.value.length < 25) {
@@ -72,100 +74,149 @@ watchEffect(() => {
       fauna.elements2 = '';
     }
 
-    const formattedElements = [fauna.elements1, fauna.elements2]
-      .filter(Boolean)
-      .map((element) => `[[${element}]]`);
+    const formattedElements = [fauna.elements1, fauna.elements2].filter(Boolean).map((element) => `[[${element}]]`);
 
     fauna.elementsall = formattedElements.join(', ');
   });
 });
 
 const generateOutput = () => {
-  const output = faunas.value.map((fauna) => {
-    const formattedName = fauna.hasWikipage === "Yes" ? `[[${fauna.name}]]` : fauna.name;
-    return `|-
+  const output = faunas.value
+    .map((fauna) => {
+      const formattedName = fauna.hasWikipage === 'Yes' ? `[[${fauna.name}]]` : fauna.name;
+      return `|-
 ||[[File: ${fauna.image || 'nmsMisc_NotAvailable.png'}|150px]] || ${formattedName} || ${fauna.age} || ${fauna.root} || ${fauna.nutsource} || ${fauna.notes} || ${fauna.elementsall} || ${fauna.discovered}`;
-}).join('\n');
+    })
+    .join('\n');
   pageData.generatedOutputFlora = output;
 };
 
-watch(faunas, () => {
-  generateOutput();
-}, { deep: true });
+watch(
+  faunas,
+  () => {
+    generateOutput();
+  },
+  { deep: true }
+);
 </script>
 
 <template>
   <div>
-    <Panel class="my-4" :header="`Flora:`" toggleable>
-    <Button @click="addFauna">+ Añadir Flora</Button>
-    <br />
-    <br />
-    <div v-for="(fauna, index) in faunas" :key="fauna.id">
-      <Panel class="my-4" :header="`Planta: ${fauna.name}`" toggleable>
-        <SanitisedTextInput v-model="fauna.name" help-title="Nombre de la flora" label="Nombre de la planta:"
-          helpImg="flora/floraName" tooltip="Encontrado en el visor de análisis.">Encontrado en el visor de
-          análisis.<br>Introduzca exactamente como se ve en el juego. Cuidado con 0 (cero) y O (o).
-        </SanitisedTextInput>
+    <Panel
+      class="my-4"
+      :header="`Flora:`"
+      toggleable
+    >
+      <Button @click="addFauna">+ Añadir Flora</Button>
+      <br />
+      <br />
+      <div
+        v-for="(fauna, index) in faunas"
+        :key="fauna.id"
+      >
+        <Panel
+          class="my-4"
+          :header="`Planta: ${fauna.name}`"
+          toggleable
+        >
+          <SanitisedTextInput
+            v-model="fauna.name"
+            help-title="Nombre de la flora"
+            label="Nombre de la planta:"
+            helpImg="flora/floraName"
+            tooltip="Encontrado en el visor de análisis."
+            >Encontrado en el visor de análisis.<br />Introduzca exactamente como se ve en el juego. Cuidado con 0
+            (cero) y O (o).
+          </SanitisedTextInput>
 
-        <SingleFileUpload v-model="fauna.image" label="Nombre del archivo de la planta:" help-title="Subida de Archivo"
-          tooltip="La imagen no se subirá a la wiki. Esto es solo para autocompletar el nombre de la imagen.">
-          <FileUploadNotice />
-        </SingleFileUpload>
+          <SingleFileUpload
+            v-model="fauna.image"
+            label="Nombre del archivo de la planta:"
+            help-title="Subida de Archivo"
+            tooltip="La imagen no se subirá a la wiki. Esto es solo para autocompletar el nombre de la imagen."
+          >
+            <FileUploadNotice />
+          </SingleFileUpload>
 
-        <floraAgeageIput v-model="fauna.age" />
-        <floraRootInput v-model="fauna.root" />
-        <floranutSourceInput v-model="fauna.nutsource" />
-        <floraNotesInput v-model="fauna.notes" />
-        <InputTableItem>
-          <template #label>
-            <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
-              <label>Elemento Primario</label>
-              <Explainer :tooltip="`Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.`"
-                :help-img="`flora/element0`" help-title="`Elemento Primario`"> Encontrado en el escaneo de flora. Dejar
-                vacío si no está en la lista.</Explainer>
-            </div>
-          </template>
+          <floraAgeageIput v-model="fauna.age" />
+          <floraRootInput v-model="fauna.root" />
+          <floranutSourceInput v-model="fauna.nutsource" />
+          <floraNotesInput v-model="fauna.notes" />
+          <InputTableItem>
+            <template #label>
+              <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
+                <label>Elemento Primario</label>
+                <Explainer
+                  :tooltip="`Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.`"
+                  :help-img="`flora/element0`"
+                  help-title="`Elemento Primario`"
+                >
+                  Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.</Explainer
+                >
+              </div>
+            </template>
 
-          <template #input>
-            <SelectDropdown v-model="fauna.elements1" :options="mappedFloraResources" />
-          </template>
-        </InputTableItem>
+            <template #input>
+              <SelectDropdown
+                v-model="fauna.elements1"
+                :options="mappedFloraResources"
+              />
+            </template>
+          </InputTableItem>
 
-        <InputTableItem>
-          <template #label>
-            <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
-              <label>Elemento Secundario</label>
-              <Explainer :tooltip="`Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.`"
-                :help-img="`flora/element1`" help-title="`Elemento Secundario`"> Encontrado en el escaneo de flora. Dejar
-                vacío si no está en la lista.</Explainer>
-            </div>
-          </template>
+          <InputTableItem>
+            <template #label>
+              <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
+                <label>Elemento Secundario</label>
+                <Explainer
+                  :tooltip="`Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.`"
+                  :help-img="`flora/element1`"
+                  help-title="`Elemento Secundario`"
+                >
+                  Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.</Explainer
+                >
+              </div>
+            </template>
 
-          <template #input>
-            <SelectDropdown v-model="fauna.elements2" :options="mappedFloraResources" />
-          </template>
-        </InputTableItem>
+            <template #input>
+              <SelectDropdown
+                v-model="fauna.elements2"
+                :options="mappedFloraResources"
+              />
+            </template>
+          </InputTableItem>
 
-        <SanitisedTextInput v-model="fauna.discovered" label="Descubridor:" />
+          <SanitisedTextInput
+            v-model="fauna.discovered"
+            label="Descubridor:"
+          />
 
-        <InputTableItem>
-          <template #label>
-            <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
-              <label for="hasWikipage-checkbox">¿Tiene página el la wiki?</label>
-            </div>
-          </template>
-          <template #input>
-            <Checkbox v-model="fauna.hasWikipage" false-value="" input-id="hasWikipage-checkbox" true-value="Yes"
-              binary />
-          </template>
-        </InputTableItem>
+          <InputTableItem>
+            <template #label>
+              <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
+                <label for="hasWikipage-checkbox">¿Tiene página el la wiki?</label>
+              </div>
+            </template>
+            <template #input>
+              <Checkbox
+                v-model="fauna.hasWikipage"
+                false-value=""
+                input-id="hasWikipage-checkbox"
+                true-value="Yes"
+                binary
+              />
+            </template>
+          </InputTableItem>
 
-        <Button v-if="faunas.length >= 1" @click="removeFauna(index)">
-          Eliminar Flora
-        </Button>
-      </Panel>
-    </div>
-  </Panel>
+          <Button
+            v-if="faunas.length >= 1"
+            @click="removeFauna(index)"
+          >
+            Eliminar Flora
+          </Button>
+        </Panel>
+      </div>
+    </Panel>
   </div>
 </template>
 

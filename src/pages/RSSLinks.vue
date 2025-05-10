@@ -33,7 +33,7 @@ const getLabel = (language: 'en' | 'es'): string => {
 
 window.addEventListener('resize', updateScreenWidth);
 
-const gridColumns = computed(() => screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3);
+const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 </script>
 
 <template>
@@ -42,9 +42,16 @@ const gridColumns = computed(() => screenWidth.value < 768 ? 1 : screenWidth.val
       <div class="space-page-container">
         <div class="flex items-start justify-between mb-6 header-container">
           <div class="flex flex-col">
-            <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank">
+            <a
+              href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society"
+              target="_blank"
+            >
               <div class="rss-logo">
-                <img src="/assets/images/shared/logo-white.png" class="logo-image" alt="RSS Logo" />
+                <img
+                  src="/assets/images/shared/logo-white.png"
+                  class="logo-image"
+                  alt="RSS Logo"
+                />
               </div>
             </a>
             <div class="header-container">
@@ -54,47 +61,73 @@ const gridColumns = computed(() => screenWidth.value < 768 ? 1 : screenWidth.val
                 </h1>
               </div>
             </div>
-              <p class="text-stellar-gray mt-2"><ThemeSwitch style="margin-right: 2rem;"/>{{ t.subtitle }}</p>
-              <br />
-              <div class="flex items-center gap-2 language-toggle">
-                <Checkbox v-model="isEpicLanguage" :binary="true" style="margin-right: 8px;" />
-                <label class="text-sm" style="margin-right: 8px;">{{ getLabel(language) }}</label>
-              </div>
+            <p class="text-stellar-gray mt-2"><ThemeSwitch style="margin-right: 2rem" />{{ t.subtitle }}</p>
+            <br />
+            <div class="flex items-center gap-2 language-toggle">
+              <Checkbox
+                v-model="isEpicLanguage"
+                :binary="true"
+                style="margin-right: 8px"
+              />
+              <label
+                class="text-sm"
+                style="margin-right: 8px"
+                >{{ getLabel(language) }}</label
+              >
             </div>
           </div>
-
-          <div class="grid gap-4" :style="`grid-template-columns: repeat(${gridColumns}, 1fr)`">
-            <Card v-for="(link, index) in links" :key="index" class="link-card">
-              <template #content>
-                <a :href="link.url" target="_blank" class="link-content">
-                  <div class="flex items-start gap-4 p-4">
-                    <i :class="link.icon" class="link-icon"></i>
-                    <div>
-                      <div class="flex items-center gap-2 mb-2">
-                        {{ link.title }}
-                        <Tag :value="link.category" class="category-tag" />
-                      </div>
-                      <p class="link-description">{{ link.description }}</p>
-                    </div>
-                  </div>
-                </a>
-              </template>
-            </Card>
-          </div>
-
-          <Panel class="galactic-panel mt-6">
-            <template #header>
-              <h2 class="panel-title">
-                {{ t.accessTitle }}
-              </h2>
-            </template>
-            <p class="panel-content">
-              {{ t.accessText }}<br><br>
-              <span class="security-level">{{ t.securityLevel }}</span><br>
-              {{ t.systemUpdate }}
-            </p>
-          </Panel>
         </div>
+
+        <div
+          class="grid gap-4"
+          :style="`grid-template-columns: repeat(${gridColumns}, 1fr)`"
+        >
+          <Card
+            v-for="(link, index) in links"
+            :key="index"
+            class="link-card"
+          >
+            <template #content>
+              <a
+                :href="link.url"
+                target="_blank"
+                class="link-content"
+              >
+                <div class="flex items-start gap-4 p-4">
+                  <i
+                    :class="link.icon"
+                    class="link-icon"
+                  ></i>
+                  <div>
+                    <div class="flex items-center gap-2 mb-2">
+                      {{ link.title }}
+                      <Tag
+                        :value="link.category"
+                        class="category-tag"
+                      />
+                    </div>
+                    <p class="link-description">{{ link.description }}</p>
+                  </div>
+                </div>
+              </a>
+            </template>
+          </Card>
+        </div>
+
+        <Panel class="galactic-panel mt-6">
+          <template #header>
+            <h2 class="panel-title">
+              {{ t.accessTitle }}
+            </h2>
+          </template>
+          <p class="panel-content">
+            {{ t.accessText }}<br /><br />
+            <span class="security-level">{{ t.securityLevel }}</span
+            ><br />
+            {{ t.systemUpdate }}
+          </p>
+        </Panel>
+      </div>
     </template>
   </Card>
 </template>
@@ -145,7 +178,9 @@ const gridColumns = computed(() => screenWidth.value < 768 ? 1 : screenWidth.val
 .link-card {
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .link-card:hover {

@@ -33,12 +33,13 @@ const {
 //   const moonSentence = `moon [[${moon.value}]] of the`;
 //   return moon.value ? `${moonSentence} ${planetSentence}` : planetSentence;
 // });
-
 </script>
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{Starship infobox</div>
   <div>| name = {{ name }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -61,10 +62,8 @@ const {
   <br />
   <div>==Summary==</div>
   <div>
-    <div>
-    '''{{ name }}''' is an [[Starship Catalogue - Frigate|organic frigate]]-type [[starship]].
+    <div>'''{{ name }}''' is an [[Starship Catalogue - Frigate|organic frigate]]-type [[starship]].</div>
   </div>
-</div>
   <br />
   <div>==Appearance==</div>
   <div>{{ appearance }}</div>
@@ -79,7 +78,11 @@ const {
   <div><span v-pre>}}</span></div>
   <br />
   <div>==Location==</div>
-  <div>The <span v-pre>{{Class</span>|{{ royalclass }}<span v-pre>}}</span> class version of this frigate can be found in the [[{{ system }}]] [[star system]] in the [[{{ regionData.region }}]] [[region]] of [[Royal Space Society]], in the [[{{ regionData.galaxy }}]] [[galaxy]].</div>
+  <div>
+    The <span v-pre>{{Class</span>|{{ royalclass }}<span v-pre>}}</span> class version of this frigate can be found in
+    the [[{{ system }}]] [[star system]] in the [[{{ regionData.region }}]] [[region]] of [[Royal Space Society]], in
+    the [[{{ regionData.galaxy }}]] [[galaxy]].
+  </div>
   <br />
   <div>==Additional Information==</div>
   <div v-if="docBy && docBy !== discoveredlink && docBy !== discovered">Documented by {{ docBySentence }}</div>

@@ -25,12 +25,7 @@ onMounted(() => {
 });
 
 const isValid = computed(() => {
-  return !!(
-    pageData.outputContent &&
-    pageData.name &&
-    pageData.glyphs &&
-    pageData.regionData.region
-  );
+  return !!(pageData.outputContent && pageData.name && pageData.glyphs && pageData.regionData.region);
 });
 
 const currentUrl = window.location.pathname;
@@ -66,7 +61,7 @@ onUnmounted(() => {
           <div
             ref="outputRef"
             class="output-content"
-            :style="(!isValid && !isBaseRenewalPage && !isCensusPage) ? { userSelect: 'none', opacity: 0.5 } : {}"
+            :style="!isValid && !isBaseRenewalPage && !isCensusPage ? { userSelect: 'none', opacity: 0.5 } : {}"
           >
             <slot name="output"></slot>
           </div>
@@ -94,7 +89,9 @@ onUnmounted(() => {
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .theme-dark .galactic-card {

@@ -20,12 +20,19 @@ const RouteComponent = defineAsyncComponent<Component>({
   </header>
   <main class="container main-page-content pt-4 my-5">
     <RouteComponent />
-    <div class="footer-section" v-if="componentName !== 'Faq'">
+    <div
+      class="footer-section"
+      v-if="componentName !== 'Faq'"
+    >
       <div class="footer-content">
         <i class="pi pi-heart-fill heart-icon"></i>
         <div class="footer-text">
           <span class="footer-title">Creado con pasión y dedicación por</span>
-          <a href="https://github.com/Muhaddil" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/Muhaddil"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="author-name">Muhaddil</span>
           </a>
         </div>
@@ -34,7 +41,10 @@ const RouteComponent = defineAsyncComponent<Component>({
       <p class="footer-subtitle"></p>
     </div>
   </main>
-  <footer v-if="componentName !== 'Home'" class="full-width">
+  <footer
+    v-if="componentName !== 'Home'"
+    class="full-width"
+  >
     <FooterToolbar />
   </footer>
 </template>

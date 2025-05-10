@@ -17,7 +17,10 @@ const id = useId('hemisphere');
     <template #label>
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label :id>Tipo de la base</label>
-        <Explainer tooltip="Tipo y propósito de la base" help-title="Tipo y propósito de la base">
+        <Explainer
+          tooltip="Tipo y propósito de la base"
+          help-title="Tipo y propósito de la base"
+        >
           <div class="dialog-center">
             <ul class="dialog-list">
               <li>Artístico</li>
@@ -34,7 +37,12 @@ const id = useId('hemisphere');
     </template>
 
     <template #input>
-      <SelectDropdown v-model="model" :aria-labelledby="id" :options="mappedModeOptions" :reset-event />
+      <SelectDropdown
+        v-model="model"
+        :aria-labelledby="id"
+        :options="mappedModeOptions"
+        :reset-event
+      />
     </template>
   </InputTableItem>
 </template>

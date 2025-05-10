@@ -18,9 +18,7 @@ import { numberErrorComponent } from '@/common';
 import { mappedMineralResources } from '@/variables/mineral/resources';
 
 const pageData = usePageDataStore();
-const {
-  elements,
-} = storeToRefs(pageData);
+const { elements } = storeToRefs(pageData);
 
 const toast = useToast();
 
@@ -34,19 +32,21 @@ watchEffect(() => {
   if (elements.value[0] === elements.value[1]) elements.value[1] = '';
 });
 
-const faunas = ref<Array<{
-  id: number;
-  name: string;
-  image: string;
-  hasWikipage: string;
-  discovered: string;
-  notes: string;
-  elements1: string;
-  elements2: string;
-  elementsall: string;
-  metalContent: string;
-  formation: string;
-}>>([]);
+const faunas = ref<
+  Array<{
+    id: number;
+    name: string;
+    image: string;
+    hasWikipage: string;
+    discovered: string;
+    notes: string;
+    elements1: string;
+    elements2: string;
+    elementsall: string;
+    metalContent: string;
+    formation: string;
+  }>
+>([]);
 
 const addFauna = () => {
   if (faunas.value.length < 25) {
@@ -78,16 +78,14 @@ watchEffect(() => {
       fauna.elements2 = '';
     }
 
-    const formattedElements = [fauna.elements1, fauna.elements2]
-      .filter(Boolean)
-      .map((element) => `[[${element}]]`);
+    const formattedElements = [fauna.elements1, fauna.elements2].filter(Boolean).map((element) => `[[${element}]]`);
 
     fauna.elementsall = formattedElements.join(', ');
   });
 });
 
 watch(
-  () => faunas.value.map(fauna => fauna.metalContent),
+  () => faunas.value.map((fauna) => fauna.metalContent),
   (newValues) => {
     faunas.value.forEach((fauna, index) => {
       const newValue = newValues[index];
@@ -100,48 +98,76 @@ watch(
 );
 
 const generateOutput = () => {
-  const output = faunas.value.map((fauna) => {
-    const formattedName = fauna.hasWikipage === "Yes" ? `[[${fauna.name}]]` : fauna.name;
-    return `|-
+  const output = faunas.value
+    .map((fauna) => {
+      const formattedName = fauna.hasWikipage === 'Yes' ? `[[${fauna.name}]]` : fauna.name;
+      return `|-
 ||[[File: ${fauna.image || 'nmsMisc_NotAvailable.png'}|150px]] || ${formattedName} || ${fauna.metalContent} || ${fauna.formation} || ${fauna.notes} || ${fauna.elementsall} || ${fauna.discovered}`;
-  }).join('\n\n');
+    })
+    .join('\n\n');
   pageData.generatedOutputMinerals = output;
 };
 
-watch(faunas, () => {
-  generateOutput();
-}, { deep: true });
-
-const isContentInvalid = computed(() =>
-  faunas.value.some((fauna) => numberErrorComponent(fauna.metalContent) !== '')
+watch(
+  faunas,
+  () => {
+    generateOutput();
+  },
+  { deep: true }
 );
+
+const isContentInvalid = computed(() => faunas.value.some((fauna) => numberErrorComponent(fauna.metalContent) !== ''));
 </script>
 
 <template>
   <div>
-    <Panel class="my-4" :header="`Minerales:`" toggleable>
+    <Panel
+      class="my-4"
+      :header="`Minerales:`"
+      toggleable
+    >
       <Button @click="addFauna">+ Añadir Mineral</Button>
       <br />
       <br />
-      <div v-for="(fauna, index) in faunas" :key="fauna.id">
-        <Panel class="my-4" :header="`Mineral: ${fauna.name}`" toggleable>
-          <SanitisedTextInput v-model="fauna.name" help-title="Nombre del mineral" label="Nombre del mineral:"
-            helpImg="mineral/mineralName" tooltip="Encontrado en el visor de análisis.">Encontrado en el visor de
-            análisis.<br>Introduzca exactamente como se ve en el juego. Cuidado con 0 (cero) y O (o).
+      <div
+        v-for="(fauna, index) in faunas"
+        :key="fauna.id"
+      >
+        <Panel
+          class="my-4"
+          :header="`Mineral: ${fauna.name}`"
+          toggleable
+        >
+          <SanitisedTextInput
+            v-model="fauna.name"
+            help-title="Nombre del mineral"
+            label="Nombre del mineral:"
+            helpImg="mineral/mineralName"
+            tooltip="Encontrado en el visor de análisis."
+            >Encontrado en el visor de análisis.<br />Introduzca exactamente como se ve en el juego. Cuidado con 0
+            (cero) y O (o).
           </SanitisedTextInput>
 
-          <SingleFileUpload v-model="fauna.image" label="Nombre del archivo de la planta:"
+          <SingleFileUpload
+            v-model="fauna.image"
+            label="Nombre del archivo de la planta:"
             help-title="Subida de Archivo"
-            tooltip="La imagen no se subirá a la wiki. Esto es solo para autocompletar el nombre de la imagen.">
+            tooltip="La imagen no se subirá a la wiki. Esto es solo para autocompletar el nombre de la imagen."
+          >
             <FileUploadNotice />
           </SingleFileUpload>
 
-          <SanitisedTextInput v-model="fauna.metalContent" label="Contenido de metales:"
-            tooltip="Encontrado en el escaneo de minerales." help-img="mineral/content" help-title="Contenido metálico"
-            :invalid="isContentInvalid" error-message="Sólo debe contener números" maxlength="2">Encontrado en el
-            escaneo de
-            minerales.</SanitisedTextInput>
-
+          <SanitisedTextInput
+            v-model="fauna.metalContent"
+            label="Contenido de metales:"
+            tooltip="Encontrado en el escaneo de minerales."
+            help-img="mineral/content"
+            help-title="Contenido metálico"
+            :invalid="isContentInvalid"
+            error-message="Sólo debe contener números"
+            maxlength="2"
+            >Encontrado en el escaneo de minerales.</SanitisedTextInput
+          >
 
           <MineralFormationInput v-model="fauna.formation" />
           <MineralNotesInput v-model="fauna.notes" />
@@ -150,15 +176,21 @@ const isContentInvalid = computed(() =>
             <template #label>
               <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
                 <label>Elemento Primario</label>
-                <Explainer :tooltip="`Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.`"
-                  :help-img="`mineral/element0`" help-title="`Elemento Primario`"> Encontrado en el escaneo de flora.
-                  Dejar
-                  vacío si no está en la lista.</Explainer>
+                <Explainer
+                  :tooltip="`Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.`"
+                  :help-img="`mineral/element0`"
+                  help-title="`Elemento Primario`"
+                >
+                  Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.</Explainer
+                >
               </div>
             </template>
 
             <template #input>
-              <SelectDropdown v-model="fauna.elements1" :options="mappedMineralResources" />
+              <SelectDropdown
+                v-model="fauna.elements1"
+                :options="mappedMineralResources"
+              />
             </template>
           </InputTableItem>
 
@@ -166,19 +198,28 @@ const isContentInvalid = computed(() =>
             <template #label>
               <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
                 <label>Elemento Secundario</label>
-                <Explainer :tooltip="`Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.`"
-                  :help-img="`mineral/element1`" help-title="`Elemento Secundario`"> Encontrado en el escaneo de flora.
-                  Dejar
-                  vacío si no está en la lista.</Explainer>
+                <Explainer
+                  :tooltip="`Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.`"
+                  :help-img="`mineral/element1`"
+                  help-title="`Elemento Secundario`"
+                >
+                  Encontrado en el escaneo de flora. Dejar vacío si no está en la lista.</Explainer
+                >
               </div>
             </template>
 
             <template #input>
-              <SelectDropdown v-model="fauna.elements2" :options="mappedMineralResources" />
+              <SelectDropdown
+                v-model="fauna.elements2"
+                :options="mappedMineralResources"
+              />
             </template>
           </InputTableItem>
 
-          <SanitisedTextInput v-model="fauna.discovered" label="Descubridor:" />
+          <SanitisedTextInput
+            v-model="fauna.discovered"
+            label="Descubridor:"
+          />
 
           <InputTableItem>
             <template #label>
@@ -187,12 +228,20 @@ const isContentInvalid = computed(() =>
               </div>
             </template>
             <template #input>
-              <Checkbox v-model="fauna.hasWikipage" false-value="" input-id="hasWikipage-checkbox" true-value="Yes"
-                binary />
+              <Checkbox
+                v-model="fauna.hasWikipage"
+                false-value=""
+                input-id="hasWikipage-checkbox"
+                true-value="Yes"
+                binary
+              />
             </template>
           </InputTableItem>
 
-          <Button v-if="faunas.length >= 1" @click="removeFauna(index)">
+          <Button
+            v-if="faunas.length >= 1"
+            @click="removeFauna(index)"
+          >
             Eliminar Flora
           </Button>
         </Panel>

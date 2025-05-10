@@ -54,7 +54,20 @@ app.use(PrimeVue, {
     dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
     dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
     dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    monthNames: [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre',
+    ],
     monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
     chooseYear: 'Elegir año',
     chooseMonth: 'Elegir mes',
@@ -87,7 +100,7 @@ app.use(PrimeVue, {
     fileChosenMessage: '{0} archivos',
     noFileChosenMessage: 'No se ha elegido ningún archivo',
     emptyMessage: 'No hay opciones disponibles',
-  }
+  },
 });
 app.use(Toast, {
   position: POSITION.BOTTOM_CENTER,

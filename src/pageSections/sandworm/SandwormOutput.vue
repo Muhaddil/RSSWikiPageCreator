@@ -35,7 +35,9 @@ const locationSentence = computed(() => {
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{Settlement infobox</div>
   <div>| name = Immortal Worm {{ planet }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -60,16 +62,16 @@ const locationSentence = computed(() => {
   <br />
   <div>==Summary==</div>
   <div>
-    <div>
-    '''Immortal Worm {{ planet }}''' is a [[creature]], a member of the [[Shaihuluda]] [[genus]].
+    <div>'''Immortal Worm {{ planet }}''' is a [[creature]], a member of the [[Shaihuluda]] [[genus]].</div>
   </div>
-</div>
   <br />
   <div>==Appearance==</div>
   <div class="keep-linebreaks">{{ appearance }}</div>
   <br />
   <div>==Location==</div>
-  <div class="keep-linebreaks">It can be found on the {{ locationSentence }} in the [[{{ system }}]] [[star system]].</div>
+  <div class="keep-linebreaks">
+    It can be found on the {{ locationSentence }} in the [[{{ system }}]] [[star system]].
+  </div>
   <br />
   <div class="keep-linebreaks"><span v-pre>{{CoordGlyphConvert</span>|{{ glyphs }}<span v-pre>}}</span></div>
   <br />

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import  MultiSelect from 'primevue/multiselect';
+import MultiSelect from 'primevue/multiselect';
 
 type Option = { english: string; spanish: string };
 
@@ -63,18 +63,18 @@ const options: Option[] = [
 </script>
 
 <template>
-      <label for="ms-cities">Características de la Base</label>
-      <MultiSelect
-        id="ms-cities"
-        v-model="model"
-        :options="options"
-        optionLabel="spanish"
-        optionValue="english"
-        filter
-        :maxSelectedLabels="2"
-        selectedItemsLabel="Se han seleccionado {0} elementos"
-        class="w-full"
-      />
+  <label for="ms-cities">Características de la Base</label>
+  <MultiSelect
+    id="ms-cities"
+    v-model="model"
+    :options="options"
+    optionLabel="spanish"
+    optionValue="english"
+    filter
+    :maxSelectedLabels="2"
+    selectedItemsLabel="Se han seleccionado {0} elementos"
+    class="w-full"
+  />
 </template>
 
 <!-- <script setup lang="ts">

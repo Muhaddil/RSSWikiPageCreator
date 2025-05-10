@@ -8,7 +8,7 @@ const InEnglish = [
   'Planetary Maggot',
   'The Consumer',
   'Unstoppable Nematode',
-  'Worm Lord'
+  'Worm Lord',
 ] as const;
 
 const InSpanish = [
@@ -19,11 +19,10 @@ const InSpanish = [
   'Cresa planetaria',
   'El Consumidor',
   'Nematodo imparable',
-  'Señor de los gusanos'
+  'Señor de los gusanos',
 ] as const;
 
 export const mappedClass: SelectOption[] = InSpanish.map((mode, index) => ({
   label: mode,
   value: InEnglish[index],
 }));
-

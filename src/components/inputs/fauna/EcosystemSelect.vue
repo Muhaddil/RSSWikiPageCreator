@@ -17,8 +17,7 @@ const id = useId('ecosystem');
     <template #label>
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label :id>Ecosistema:</label>
-        <Explainer tooltip="Seleccione un ecosistema para filtrar los géneros de criaturas.">
-        </Explainer>
+        <Explainer tooltip="Seleccione un ecosistema para filtrar los géneros de criaturas."> </Explainer>
       </div>
     </template>
 

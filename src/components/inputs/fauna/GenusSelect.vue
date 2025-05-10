@@ -15,9 +15,7 @@ const id = useId('genus');
 defineProps<{ resetEvent?: string }>();
 
 const pageData = usePageDataStore();
-const {
-  ecosystem,
-} = storeToRefs(pageData);
+const { ecosystem } = storeToRefs(pageData);
 
 const genera = ref<string[]>([]);
 const selectedGenus = ref<string>('');
@@ -37,9 +35,9 @@ watch(selectedGenus, (newGenus) => {
 });
 
 const formattedGenera = computed(() => {
-  return genera.value.map(genus => ({
+  return genera.value.map((genus) => ({
     label: genus,
-    value: genus
+    value: genus,
   }));
 });
 
@@ -51,8 +49,7 @@ updateGeneraList();
     <template #label>
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label :id>Género:</label>
-        <Explainer tooltip="Encontrado en el menú de descubrimiento de criaturas.">
-        </Explainer>
+        <Explainer tooltip="Encontrado en el menú de descubrimiento de criaturas."> </Explainer>
       </div>
     </template>
 

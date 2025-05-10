@@ -7,4 +7,3 @@ export const mappedSystemStarcolor: SelectOption[] = InSpanish.map((mode, index)
   label: mode,
   value: InEnglish[index],
 }));
-

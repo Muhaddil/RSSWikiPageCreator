@@ -598,4 +598,3 @@ export const mappedPlanetWeather: SelectOption[] = InSpanish.map((mode, index) =
   label: mode,
   value: InEnglish[index],
 }));
-

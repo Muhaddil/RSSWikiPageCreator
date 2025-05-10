@@ -15,11 +15,13 @@ const pageData = usePageDataStore();
 const toast = useToast();
 const confirm = useConfirm();
 
-const tradeables = ref([{
-  id: 0,
-  name: '',
-  price: '',
-}]);
+const tradeables = ref([
+  {
+    id: 0,
+    name: '',
+    price: '',
+  },
+]);
 
 function showError(message: string) {
   toast.error(message, {
@@ -44,10 +46,12 @@ const removePlanet = (index: number) => {
 };
 
 const tradeTerminal = () => {
-  const output = tradeables.value.map((tradeable) => {
-    return `|-
+  const output = tradeables.value
+    .map((tradeable) => {
+      return `|-
 |{{ilink|${tradeable.name}}} || {{Units}} ${tradeable.price}`;
-  }).join('\n');
+    })
+    .join('\n');
   pageData.tradeTerminal = output;
 };
 
@@ -57,15 +61,19 @@ const formatPrice = (price: string) => {
   return price.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
-watch(tradeables, (newTradeables) => {
-  newTradeables.forEach((tradeable) => {
-    tradeable.price = formatPrice(tradeable.price.replace(/,/g, ''));
-  });
-  tradeTerminal();
-}, { deep: true });
+watch(
+  tradeables,
+  (newTradeables) => {
+    newTradeables.forEach((tradeable) => {
+      tradeable.price = formatPrice(tradeable.price.replace(/,/g, ''));
+    });
+    tradeTerminal();
+  },
+  { deep: true }
+);
 
 const getLabelFromValue = (value: string) => {
-  const found = mappedSystemTradeables.find(option => option.value === value);
+  const found = mappedSystemTradeables.find((option) => option.value === value);
   return found ? found.label : value;
 };
 
@@ -90,23 +98,37 @@ function showConfirmDialog(index: number) {
     <Button @click="addPlanet">Agregar Tradeable</Button>
     <br />
     <br />
-    <div v-for="(tradeable, index) in tradeables" :key="tradeable.id">
-      <Panel class="my-4" :header="`Tradeable ${index + 1}: ${getLabelFromValue(tradeable.name)}`" toggleable>
+    <div
+      v-for="(tradeable, index) in tradeables"
+      :key="tradeable.id"
+    >
+      <Panel
+        class="my-4"
+        :header="`Tradeable ${index + 1}: ${getLabelFromValue(tradeable.name)}`"
+        toggleable
+      >
         <InputTableItem>
           <template #label>
             <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
               <label id="tradeables">Nombre del tradeable:</label>
-              <Explainer tooltip="Se pueden encontrar en la estación espacial." help-img="system/tradeables"
-                help-title="Objetos comercializables de la estación espacial">
-                Se pueden encontrar en la estación espacial en el Terminal de comercio.<br>
+              <Explainer
+                tooltip="Se pueden encontrar en la estación espacial."
+                help-img="system/tradeables"
+                help-title="Objetos comercializables de la estación espacial"
+              >
+                Se pueden encontrar en la estación espacial en el Terminal de comercio.<br />
                 Incluya solo bienes comercializables (artículos con fondo blanco en la parte superior)
               </Explainer>
             </div>
           </template>
 
           <template #input>
-            <SelectDropdown v-model="tradeable.name" aria-labelledby="tradeables" :options="mappedSystemTradeables"
-              filter />
+            <SelectDropdown
+              v-model="tradeable.name"
+              aria-labelledby="tradeables"
+              :options="mappedSystemTradeables"
+              filter
+            />
           </template>
         </InputTableItem>
 
@@ -114,12 +136,11 @@ function showConfirmDialog(index: number) {
           v-model="tradeable.price"
           label="Precio del tradeable:"
           :invalid="!isPriceValid(tradeable.price)"
-          error-message="Solo números válidos sin símbolos especiales">
+          error-message="Solo números válidos sin símbolos especiales"
+        >
         </SanitisedTextInput>
 
-        <Button @click="showConfirmDialog(index)">
-          Eliminar Tradeable
-        </Button>
+        <Button @click="showConfirmDialog(index)"> Eliminar Tradeable </Button>
       </Panel>
     </div>
   </div>

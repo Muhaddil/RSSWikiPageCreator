@@ -8,28 +8,27 @@ import InputTableItem from '@/components/InputTableItem.vue';
 import SelectDropdown from '@/components/inputs/SelectDropdown.vue';
 
 const pageData = usePageDataStore();
-const { type, name } =
-  storeToRefs(pageData);
+const { type, name } = storeToRefs(pageData);
 
 const isCollapsed = ref(false);
 
-const primaryColor = ref('')
-const secondaryColor = ref('')
+const primaryColor = ref('');
+const secondaryColor = ref('');
 
 const primaryColorMapping: { [key: string]: string } = {
-  'Azul': 'blue',
-  'Cromado': 'chrome',
-  'Crema': 'cream',
-  'Verde': 'green',
-  'Gris': 'grey',
-  'Naranja': 'orange',
-  'Rosa': 'pink',
-  'Morado': 'purple',
-  'Rojo': 'red',
-  'Bronceado': 'tan',
+  Azul: 'blue',
+  Cromado: 'chrome',
+  Crema: 'cream',
+  Verde: 'green',
+  Gris: 'grey',
+  Naranja: 'orange',
+  Rosa: 'pink',
+  Morado: 'purple',
+  Rojo: 'red',
+  Bronceado: 'tan',
   'Verde azulado': 'teal',
-  'Blanco': 'white',
-  'Amarillo': 'yellow',
+  Blanco: 'white',
+  Amarillo: 'yellow',
 };
 
 const mappedprimaryColorMapping: SelectOption[] = Object.entries(primaryColorMapping).map(([label, value]) => ({
@@ -65,7 +64,11 @@ watchEffect(() => {
       </template>
 
       <template #input>
-        <SelectDropdown v-model="primaryColor" :aria-labelledby="primaryColor" :options="mappedprimaryColorMapping" />
+        <SelectDropdown
+          v-model="primaryColor"
+          :aria-labelledby="primaryColor"
+          :options="mappedprimaryColorMapping"
+        />
       </template>
     </InputTableItem>
 
@@ -77,7 +80,11 @@ watchEffect(() => {
       </template>
 
       <template #input>
-        <SelectDropdown v-model="secondaryColor" :aria-labelledby="secondaryColor" :options="mappedprimaryColorMapping" />
+        <SelectDropdown
+          v-model="secondaryColor"
+          :aria-labelledby="secondaryColor"
+          :options="mappedprimaryColorMapping"
+        />
       </template>
     </InputTableItem>
 

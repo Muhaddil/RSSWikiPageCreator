@@ -53,7 +53,9 @@ const filledElements = computed(() => elements.value.filter(Boolean));
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{Mineral infobox</div>
   <div>| name = {{ name }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -96,7 +98,8 @@ const filledElements = computed(() => elements.value.filter(Boolean));
   <br />
   <div>==Location==</div>
   <div>
-    It can be found on the <span v-if="moon">[[moon]] [[{{ moon }}]] of the</span> [[planet]] [[{{planet}}]] in the [[{{ system }}]] [[star system]].
+    It can be found on the <span v-if="moon">[[moon]] [[{{ moon }}]] of the</span> [[planet]] [[{{ planet }}]] in the
+    [[{{ system }}]] [[star system]].
   </div>
   <div>
     <WikiTemplate template-name="CoordGlyphConvert">{{ glyphs }}</WikiTemplate>

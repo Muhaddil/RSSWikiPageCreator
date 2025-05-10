@@ -9,24 +9,40 @@ import Tools from './Tools.vue';
 const currentUrl = window.location.pathname;
 
 function isDestPage() {
-  return currentUrl.includes('basesdestacadas.html') || currentUrl.includes('rsslinks.html') || currentUrl.includes('cronology.html');
+  return (
+    currentUrl.includes('basesdestacadas.html') ||
+    currentUrl.includes('rsslinks.html') ||
+    currentUrl.includes('cronology.html')
+  );
 }
 
 function isLinksPage() {
   return currentUrl.includes('rsslinks.html');
 }
-
 </script>
 
 <template>
-  <Toolbar class="is-borderless is-radiusless" v-if="!isLinksPage()">
+  <Toolbar
+    class="is-borderless is-radiusless"
+    v-if="!isLinksPage()"
+  >
     <template #start>
       <NavBar />
     </template>
 
     <template #center>
-      <h1 v-if="!isDestPage()" class="title is-3">Royal Space Society Wiki Page Creator{{ pageformattedName === 'Home' ? '' : ` - ${pageformattedName}` }}</h1>
-      <h1 v-if="isDestPage()" class="title is-3">Royal Space Society - {{ pageformattedName }}</h1>
+      <h1
+        v-if="!isDestPage()"
+        class="title is-3"
+      >
+        Royal Space Society Wiki Page Creator{{ pageformattedName === 'Home' ? '' : ` - ${pageformattedName}` }}
+      </h1>
+      <h1
+        v-if="isDestPage()"
+        class="title is-3"
+      >
+        Royal Space Society - {{ pageformattedName }}
+      </h1>
     </template>
 
     <template #end>

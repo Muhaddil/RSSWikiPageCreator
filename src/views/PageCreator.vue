@@ -25,12 +25,7 @@ onMounted(() => {
 });
 
 const isValid = computed(() => {
-  return !!(
-    pageData.outputContent &&
-    pageData.name &&
-    pageData.glyphs &&
-    pageData.regionData.region
-  );
+  return !!(pageData.outputContent && pageData.name && pageData.glyphs && pageData.regionData.region);
 });
 
 const currentUrl = window.location.pathname;
@@ -57,11 +52,14 @@ onUnmounted(() => {
 
     <Card
       class="column is-full-mobile p-0 is-family-monospace"
-      :class="{'is-disabled': !isValid && !isBaseRenewalPage && !isCensusPage}"
+      :class="{ 'is-disabled': !isValid && !isBaseRenewalPage && !isCensusPage }"
     >
       <template #content>
         <Fluid>
-          <div ref="outputRef" :style="(!isValid && !isBaseRenewalPage && !isCensusPage) ? { userSelect: 'none', opacity: 0.5 } : {}">
+          <div
+            ref="outputRef"
+            :style="!isValid && !isBaseRenewalPage && !isCensusPage ? { userSelect: 'none', opacity: 0.5 } : {}"
+          >
             <slot name="output"></slot>
           </div>
         </Fluid>

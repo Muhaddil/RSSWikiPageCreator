@@ -125,7 +125,8 @@ const isSmallScreen = computed(() => width.value <= smallContainerWidth);
               #errorMessage
               v-if="isTooLarge"
             >
-              Este archivo es demasiado grande para subirlo a la wiki. El tamaño máximo es de 10 MB. Comprime tu archivo aquí:
+              Este archivo es demasiado grande para subirlo a la wiki. El tamaño máximo es de 10 MB. Comprime tu archivo
+              aquí:
               <ExternalLink
                 link="https://nmscd.com/Image-Compressor/"
                 text="Compresor de imágenes"

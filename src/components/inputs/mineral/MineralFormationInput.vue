@@ -17,7 +17,12 @@ const id = useId('biomeinput');
     <template #label>
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label :id>Proceso de formación:</label>
-        <Explainer tooltip="Encontrado en el escaneo de minerales" help-img="mineral/formation" help-title="Proceso de formación">Encontrado en el escaneo de minerales.</Explainer>
+        <Explainer
+          tooltip="Encontrado en el escaneo de minerales"
+          help-img="mineral/formation"
+          help-title="Proceso de formación"
+          >Encontrado en el escaneo de minerales.</Explainer
+        >
       </div>
     </template>
 

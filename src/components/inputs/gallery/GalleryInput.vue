@@ -80,28 +80,57 @@ const { isOverDropZone } = useDropZone(dropzone, {
 
 <template>
   <div class="is-flex is-flex-direction-column is-gap-2 mt-5">
-    <p v-if="tooLargeFiles.length" class="error-message">
+    <p
+      v-if="tooLargeFiles.length"
+      class="error-message"
+    >
       <template v-if="tooLargeFiles.length === 1">
         El archivo <strong>{{ tooLargeFiles[0] }}</strong> es demasiado grande para subirlo (máx. 10MB).
       </template>
       <template v-else>
         Los siguientes archivos son demasiado grandes para subirlos (máx. 10MB):
         <ul>
-          <li v-for="file in tooLargeFiles" :key="file">
+          <li
+            v-for="file in tooLargeFiles"
+            :key="file"
+          >
             {{ file }}
           </li>
         </ul>
       </template>
       Comprime tu archivo aquí:
-      <ExternalLink link="https://nmscd.com/Image-Compressor/" text="Compresor de imágenes" />
+      <ExternalLink
+        link="https://nmscd.com/Image-Compressor/"
+        text="Compresor de imágenes"
+      />
     </p>
 
-    <FileUpload :maxFileSize="maxFileSize" :show-cancel-button="false" :show-upload-button="false" accept="image/*" auto
-      custom-upload multiple @select="onUpload">
+    <FileUpload
+      :maxFileSize="maxFileSize"
+      :show-cancel-button="false"
+      :show-upload-button="false"
+      accept="image/*"
+      auto
+      custom-upload
+      multiple
+      @select="onUpload"
+    >
       <template #header>
-        <div class="full-width" ref="dropzone">
-          <FileUpload :class="{ 'p-button-outlined': !isOverDropZone }" :maxFileSize="maxFileSize" accept="image/*"
-            choose-label="Añadir archivos" auto custom-upload mode="basic" multiple @select="onUpload" />
+        <div
+          class="full-width"
+          ref="dropzone"
+        >
+          <FileUpload
+            :class="{ 'p-button-outlined': !isOverDropZone }"
+            :maxFileSize="maxFileSize"
+            accept="image/*"
+            choose-label="Añadir archivos"
+            auto
+            custom-upload
+            mode="basic"
+            multiple
+            @select="onUpload"
+          />
         </div>
       </template>
       <template #empty>

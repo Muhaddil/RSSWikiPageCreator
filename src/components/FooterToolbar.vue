@@ -30,9 +30,16 @@ function isCensusPage() {
 }
 
 function isFAQPage() {
-  return currentUrl.includes('faq.html') || currentUrl.includes('basesdestacadas.html') || currentUrl.includes('rsslinks.html')
-  || currentUrl.includes('censustable.html') || currentUrl.includes('regions.html') || currentUrl.includes('cronology.html')
-  || currentUrl.includes('rssfriends.html') || currentUrl.includes('guias.html');
+  return (
+    currentUrl.includes('faq.html') ||
+    currentUrl.includes('basesdestacadas.html') ||
+    currentUrl.includes('rsslinks.html') ||
+    currentUrl.includes('censustable.html') ||
+    currentUrl.includes('regions.html') ||
+    currentUrl.includes('cronology.html') ||
+    currentUrl.includes('rssfriends.html') ||
+    currentUrl.includes('guias.html')
+  );
 }
 
 async function copyPage() {
@@ -41,7 +48,7 @@ async function copyPage() {
   if (isBaseRenewalPage()) {
     requiredFields = [
       { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.censusrenewal, message: '¿Qué quieres copiar? Rellena los datos' }
+      { field: pageData.censusrenewal, message: '¿Qué quieres copiar? Rellena los datos' },
     ];
   } else if (isCensusPage()) {
     requiredFields = [
@@ -55,7 +62,7 @@ async function copyPage() {
       { field: pageData.outputContent, message: 'ERROR 404' },
       { field: pageData.name, message: '¡Falta el nombre!' },
       { field: pageData.glyphs, message: '¡Faltan los Glifos!' },
-      { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' }
+      { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' },
     ];
   }
 
@@ -82,23 +89,21 @@ async function copyPage() {
 }
 
 async function handleSubmit() {
-  const processedContent = pageData.outputContent
-    .replace(/<br\s*\/?>/g, '\n')
-    .replace(/\n{2,}/g, '\n\n');
+  const processedContent = pageData.outputContent.replace(/<br\s*\/?>/g, '\n').replace(/\n{2,}/g, '\n\n');
 
   const formattedName = pageData.name.replace(/\s+/g, '_');
 
   const payloadSections = [
     `- **Página en la wiki creada:** ${pageData.name}`,
     `- https://nomanssky.fandom.com/wiki/${formattedName}`,
-    `\`\`\`html\n${processedContent}\n\`\`\``
+    `\`\`\`html\n${processedContent}\n\`\`\``,
   ];
 
   try {
     await sendToDiscord(payloadSections);
-    setTimeout(() => { }, 5000);
+    setTimeout(() => {}, 5000);
   } catch (error) {
-    setTimeout(() => { }, 5000);
+    setTimeout(() => {}, 5000);
     console.error(error);
   }
 }
@@ -116,7 +121,7 @@ async function sendToDiscord(sections: string[]): Promise<void> {
 
       const content = section.slice(firstLineEnd + 1, section.lastIndexOf('\n'));
 
-      const reserved = language ? (openingLine.length + 4) : 6;
+      const reserved = language ? openingLine.length + 4 : 6;
 
       let index = 0;
       while (index < content.length) {
@@ -201,7 +206,10 @@ function createPage() {
         showError(message);
         return;
       } else {
-        window.open(`https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society?action=edit&section=9#editform`, '_blank');
+        window.open(
+          `https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society?action=edit&section=9#editform`,
+          '_blank'
+        );
         return;
       }
     }
@@ -211,7 +219,7 @@ function createPage() {
     const requiredFields = [
       { field: pageData.name, message: '¡Falta el nombre!' },
       { field: pageData.glyphs, message: '¡Faltan los Glifos!' },
-      { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' }
+      { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' },
     ];
 
     for (const { field, message } of requiredFields) {
@@ -226,7 +234,7 @@ function createPage() {
     position: POSITION.BOTTOM_RIGHT,
   });
 
-  handleSubmit()
+  handleSubmit();
 
   window.open(`https://nomanssky.fandom.com/wiki/${pageData.name}?action=edit`, '_blank');
 }
@@ -236,7 +244,7 @@ function downloadCode() {
   if (isBaseRenewalPage()) {
     requiredFields = [
       { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.censusrenewal, message: '¿Qué quieres copiar? Rellena los datos' }
+      { field: pageData.censusrenewal, message: '¿Qué quieres copiar? Rellena los datos' },
     ];
   } else if (isCensusPage()) {
     requiredFields = [
@@ -250,7 +258,7 @@ function downloadCode() {
       { field: pageData.outputContent, message: 'ERROR 404' },
       { field: pageData.name, message: '¡Falta el nombre!' },
       { field: pageData.glyphs, message: '¡Faltan los Glifos!' },
-      { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' }
+      { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' },
     ];
   }
 
@@ -318,30 +326,53 @@ function showConfirmDialog() {
       toast.info('Restablecimiento cancelado.', {
         position: POSITION.BOTTOM_RIGHT,
       });
-    }
+    },
   });
 }
 </script>
 
 <template>
-  <Toolbar class="is-borderless is-radiusless" v-if="!isFAQPage()">
+  <Toolbar
+    class="is-borderless is-radiusless"
+    v-if="!isFAQPage()"
+  >
     <template #center>
       <div class="is-gap-1 is-flex is-justify-content-center footer-toolbar">
-        <Button label="Copiar" @click="copyPage" />
+        <Button
+          label="Copiar"
+          @click="copyPage"
+        />
 
-        <Button v-if="!isBaseRenewalPage()" as="a" label="Crear" severity="warn" @click="createPage" />
+        <Button
+          v-if="!isBaseRenewalPage()"
+          as="a"
+          label="Crear"
+          severity="warn"
+          @click="createPage"
+        />
 
-        <Button v-if="!isBaseRenewalPage()" label="Descargar Código" @click="downloadCode" />
-        <Button v-if="!isBaseRenewalPage()" label="Subir Archivos" @click="uploadFiles" />
+        <Button
+          v-if="!isBaseRenewalPage()"
+          label="Descargar Código"
+          @click="downloadCode"
+        />
+        <Button
+          v-if="!isBaseRenewalPage()"
+          label="Subir Archivos"
+          @click="uploadFiles"
+        />
 
-        <Button label="Restablecer" severity="danger" @click="showConfirmDialog" />
+        <Button
+          label="Restablecer"
+          severity="danger"
+          @click="showConfirmDialog"
+        />
       </div>
     </template>
   </Toolbar>
 
   <ConfirmDialog :draggable="true" />
 </template>
-
 
 <style scoped>
 .footer-toolbar {

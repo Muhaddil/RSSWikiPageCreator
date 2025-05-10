@@ -36,7 +36,9 @@ const {
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{Multitool infobox</div>
   <div>| name = {{ name }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -65,21 +67,24 @@ const {
   <div>'''{{ name }}''' is a multi-tool.</div>
   <br />
   <div>==Summary==</div>
-  <div>
-    '''{{ name }}''' is [[Multi-Tool Catalogue - {{ type }}|{{ type }} multi-tool]].
-  </div>
+  <div>'''{{ name }}''' is [[Multi-Tool Catalogue - {{ type }}|{{ type }} multi-tool]].</div>
   <br />
   <div>==Appearance==</div>
   <div>{{ appearance }}</div>
   <br />
   <div>==Location==</div>
-  <div>This multi-tool is located in the [[{{ system }}]] [[star system]] in the [[{{ regionData.region }}]] [[region]] of
-    [[Royal Space Society]], in the [[{{ regionData.galaxy }}]] [[galaxy]].</div>
-    <br />
+  <div>
+    This multi-tool is located in the [[{{ system }}]] [[star system]] in the [[{{ regionData.region }}]] [[region]] of
+    [[Royal Space Society]], in the [[{{ regionData.galaxy }}]] [[galaxy]].
+  </div>
+  <br />
   <div class="keep-linebreaks"><span v-pre>{{CoordGlyphConvert</span>|{{ glyphs }}<span v-pre>}}</span></div>
   <br />
   <div>==Stats==</div>
-  <div>The <span v-pre>{{Class|</span>{{ royalclass }}<span v-pre>}}</span> class version of this weapon has the following base stats:</div>
+  <div>
+    The <span v-pre>{{Class|</span>{{ royalclass }}<span v-pre>}}</span> class version of this weapon has the following
+    base stats:
+  </div>
   <div>* '''Damage Potential''': {{ damagePotential }}</div>
   <div>* '''Scanner Range''': {{ scannerRange }}</div>
   <br />

@@ -1,14 +1,14 @@
-import { ref } from "vue";
+import { ref } from 'vue';
 
 export const guides = ref([
   {
     id: 1,
-    title: "Creación de una página para una base",
-    category: "Bases",
+    title: 'Creación de una página para una base',
+    category: 'Bases',
     steps: [
       {
         text: `Ingresa el nombre de la base en el campo "Nombre". Este será el título principal de la página wiki.`,
-        image: "",
+        image: '',
       },
       {
         text: `Haz clic en el botón "+ Elegir" bajo "Imagen principal" para subir una imagen que represente visualmente la base.`,
@@ -70,19 +70,19 @@ export const guides = ref([
         text: `Después, pulsa el botón de "Crear página" para ser redirigido a la página de creación de la wiki y allí deberás pegar el código que acabas de copiar.`,
       },
       {
-        text: `Aquí tienes un video tutorial sobre cómo crear una página para una base. <div class="video-container"><iframe width="560" height="315" src="https://www.youtube.com/embed/IsUdAspX8_E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
-      }
+        text: `Aquí tienes un video tutorial sobre cómo crear una página para una base. <div class="video-container"><iframe width="560" height="315" src="https://www.youtube.com/embed/IsUdAspX8_E" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`,
+      },
     ],
-    headerImage: ''
+    headerImage: '',
   },
   {
     id: 2,
-    title: "Creación de una página para un sistema estelar",
-    category: "Sistemas Estelares",
+    title: 'Creación de una página para un sistema estelar',
+    category: 'Sistemas Estelares',
     steps: [
       {
         text: `Ingresa el nombre del sistema estelar en el campo "Nombre del sistema". Este será el título principal de la página wiki.`,
-        image: "",
+        image: '',
       },
       {
         text: `Si el sistema tenía un nombre diferente al que lo has registrado, ingrésalo en el campo "Nombre original antes de registrar (si esta disponible)".`,
@@ -188,8 +188,8 @@ export const guides = ref([
       },
       {
         text: `Después, pulsa el botón de "Crear página" para ser redirigido a la página de creación de la wiki y allí deberás pegar el código que acabas de copiar.`,
-      }
+      },
     ],
-    headerImage: ''
-  }
+    headerImage: '',
+  },
 ]);

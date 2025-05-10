@@ -24,6 +24,6 @@ watchDebounced(model, (newVal) => (invalid.value = !validateCoords(newVal)), { d
     help-title="Coordenadas planetarias"
     help-img="shared/axes"
   >
-  Lo encontrarás usando tu visor de análisis O en el tablero de tu nave.
+    Lo encontrarás usando tu visor de análisis O en el tablero de tu nave.
   </SanitisedTextInput>
 </template>

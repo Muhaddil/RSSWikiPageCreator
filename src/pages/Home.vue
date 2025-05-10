@@ -147,7 +147,7 @@ onMounted(() => {
       hubLogo.value = newHubLogoValue;
       images[0].img = hubLogo.value;
     }
-  }, 10);  // Determines how often it checks (ms)
+  }, 10); // Determines how often it checks (ms)
 });
 
 const hoverTimers = new Map<string, NodeJS.Timeout>();
@@ -209,7 +209,7 @@ function prefetchPage(url: string, retries = 3) {
   const fullUrl = new URL(url, window.location.href).href;
   // console.log(`[Prefetch] Iniciando prefetch manual para: ${fullUrl}`);
 
-  fetch(fullUrl, { mode: "no-cors" })
+  fetch(fullUrl, { mode: 'no-cors' })
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -229,7 +229,7 @@ function prefetchPage(url: string, retries = 3) {
 }
 
 onUnmounted(() => {
-  hoverTimers.forEach(timer => clearTimeout(timer));
+  hoverTimers.forEach((timer) => clearTimeout(timer));
 });
 </script>
 
@@ -237,15 +237,30 @@ onUnmounted(() => {
   <p class="subtitle is-4 has-text-centered">Elige qué página quieres crear:</p>
   <!-- <div class="subtitle is-4">No hay soporte completo para la versión 5.00 de NMS<br>Elija qué tipo de página desea crear:</div> -->
   <div class="page-options">
-    <div v-for="link in links" @mouseenter="schedulePrefetch(link.url)" @mouseleave="cancelPrefetch(link.url)">
-      <PageLink :url="link.url" :text="link.text" :img="link.img" :imgAlt="link.imgAlt" :disabled="link.inactive" />
+    <div
+      v-for="link in links"
+      @mouseenter="schedulePrefetch(link.url)"
+      @mouseleave="cancelPrefetch(link.url)"
+    >
+      <PageLink
+        :url="link.url"
+        :text="link.text"
+        :img="link.img"
+        :imgAlt="link.imgAlt"
+        :disabled="link.inactive"
+      />
     </div>
   </div>
   <div class="built-by is-4 has-text-centered">
     <div>Traído a usted por:</div>
   </div>
   <div class="images">
-    <CivImage v-for="image in images" :img="image.img" :img-alt="image.imgAlt" :link="image.link" />
+    <CivImage
+      v-for="image in images"
+      :img="image.img"
+      :img-alt="image.imgAlt"
+      :link="image.link"
+    />
   </div>
   <div class="images"><b>Royal Space Society</b></div>
 </template>

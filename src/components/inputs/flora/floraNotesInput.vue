@@ -17,7 +17,11 @@ const id = useId('floranotes');
     <template #label>
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label :id>Notas:</label>
-        <Explainer tooltip="Encontrado en el escaneo de flora." help-img="flora/notes" help-title="Notas">Encontrado en el escaneo de flora.
+        <Explainer
+          tooltip="Encontrado en el escaneo de flora."
+          help-img="flora/notes"
+          help-title="Notas"
+          >Encontrado en el escaneo de flora.
         </Explainer>
       </div>
     </template>

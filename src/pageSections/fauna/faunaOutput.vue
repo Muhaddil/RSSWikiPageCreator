@@ -46,7 +46,6 @@ const combinedGender = computed(() => {
     return `${gender.value} - ${gender2.value}`;
   }
   return gender.value || gender2.value || '';
-
 });
 
 const combinedWeight = computed(() => {
@@ -66,7 +65,9 @@ const combinedHeight = computed(() => {
 
 <template>
   <div><span v-pre>{{Version|</span>{{ release }}<span v-pre>}}</span></div>
-  <div><span v-pre>{{Royal Space Society}}</span></div>
+  <div>
+    <span v-pre>{{Royal Space Society}}</span>
+  </div>
   <div v-pre>{{Fauna infobox</div>
   <div>| name = {{ name }}</div>
   <div>| image = {{ image || 'nmsMisc_NotAvailable.png' }}</div>
@@ -75,7 +76,9 @@ const combinedHeight = computed(() => {
   <div>| system = {{ system }}</div>
   <div>| planet = {{ planet }}</div>
   <div>| moon = {{ moon }}</div>
-  <div>| coordinates = <WikiTemplate template-name="Glyphs2Coords">{{ glyphs }}</WikiTemplate></div>
+  <div>
+    | coordinates = <WikiTemplate template-name="Glyphs2Coords">{{ glyphs }}</WikiTemplate>
+  </div>
   <div>| hemisphere = {{ hemisphere }}</div>
   <div>| rarity = {{ rarity }}</div>
   <div>| ecosystem = {{ ecosystem }}</div>
@@ -108,7 +111,10 @@ const combinedHeight = computed(() => {
   <div>'''Additional Observations''': {{ notes }}</div>
   <br />
   <div>==Alias Names==</div>
-  <div class="keep-linebreaks" v-if="orgName">
+  <div
+    class="keep-linebreaks"
+    v-if="orgName"
+  >
     <WikiTemplate template-name="aliasc">text=Original|name={{ orgName }}</WikiTemplate>
   </div>
   <div class="keep-linebreaks">
@@ -116,8 +122,8 @@ const combinedHeight = computed(() => {
   </div>
   <br />
   <div>==Additional Information==</div>
-      <div v-if="docBy && docBy !== discoveredlink && docBy !== discovered">Documented by {{ docBySentence }}</div>
-      <br />
+  <div v-if="docBy && docBy !== discoveredlink && docBy !== discovered">Documented by {{ docBySentence }}</div>
+  <br />
   <div>==Gallery==</div>
   <GalleryOutput />
 </template>

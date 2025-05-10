@@ -29,7 +29,7 @@ const isDownloading = ref(false);
 const PlayerRaces = ref([
   { label: 'Korvax', value: 'Korvax', icon: '/RSSWikiPageCreator/assets/images/friends/holo-korvax.png' },
   { label: 'Gek', value: 'Gek', icon: '/RSSWikiPageCreator/assets/images/friends/holo-gek.png' },
-  { label: 'Vy\'keen', value: 'Vy\'keen', icon: '/RSSWikiPageCreator/assets/images/friends/holo-vykeen.png' },
+  { label: "Vy'keen", value: "Vy'keen", icon: '/RSSWikiPageCreator/assets/images/friends/holo-vykeen.png' },
   { label: 'Anomalía', value: 'Anomalía', icon: '/RSSWikiPageCreator/assets/images/friends/holo-anomalia.png' },
   { label: 'Autofago', value: 'Autofago', icon: '/RSSWikiPageCreator/assets/images/friends/holo-autofago.png' },
   { label: 'Viajero', value: 'Viajero', icon: '/RSSWikiPageCreator/assets/images/friends/holo-viajero.png' },
@@ -72,7 +72,7 @@ onUnmounted(() => {
 });
 
 const updateRaceIcon = () => {
-  const race = PlayerRaces.value.find(r => r.value === playerRace.value);
+  const race = PlayerRaces.value.find((r) => r.value === playerRace.value);
   playerRaceIcon.value = race ? race.icon : '';
 };
 
@@ -135,7 +135,10 @@ watchDebounced(
 </script>
 
 <template>
-  <Card class="rss-card-container" v-if="screenWidth > 768">
+  <Card
+    class="rss-card-container"
+    v-if="screenWidth > 768"
+  >
     <template #content>
       <div class="upload-section">
         <div class="columns is-mobile mb-0">
@@ -143,8 +146,14 @@ watchDebounced(
             <label>¿En blanco?</label>
           </div>
           <div class="column is-flex">
-            <Checkbox v-model="isWhite" true-value="true" false-value="" class="input-text"
-              style="width: 185px; left: -12px;" binary />
+            <Checkbox
+              v-model="isWhite"
+              true-value="true"
+              false-value=""
+              class="input-text"
+              style="width: 185px; left: -12px"
+              binary
+            />
           </div>
         </div>
 
@@ -153,39 +162,81 @@ watchDebounced(
             <label>¿Usar ubicación personalizada?</label>
           </div>
           <div class="column is-flex">
-            <Checkbox v-model="usePersonalizedGlyphs" true-value="true" false-value="" class="input-text"
-              style="width: 185px; left: -12px;" binary />
+            <Checkbox
+              v-model="usePersonalizedGlyphs"
+              true-value="true"
+              false-value=""
+              class="input-text"
+              style="width: 185px; left: -12px"
+              binary
+            />
           </div>
         </div>
 
-        <SanitisedTextInput :model-value="scale.toString()"
-          @update:model-value="scale = Math.min(Number($event) || 1, 10)" placeholder="Número" class="input-text"
-          label="Escala de salida de la foto" tooltip="La escala máxima es 10" />
+        <SanitisedTextInput
+          :model-value="scale.toString()"
+          @update:model-value="scale = Math.min(Number($event) || 1, 10)"
+          placeholder="Número"
+          class="input-text"
+          label="Escala de salida de la foto"
+          tooltip="La escala máxima es 10"
+        />
 
-        <SanitisedTextInput v-model="playerName" placeholder="Nombre" class="input-text" label="Nombre del jugador" />
+        <SanitisedTextInput
+          v-model="playerName"
+          placeholder="Nombre"
+          class="input-text"
+          label="Nombre del jugador"
+        />
 
         <div class="columns is-mobile mb-0">
           <div class="column is-flex is-align-items-center">
             <label>Raza del Jugador</label>
           </div>
           <div class="column is-flex">
-            <SelectDropdown v-model="playerRace" :options="PlayerRaces.map(r => r.value)"
-              @update:model-value="updateRaceIcon" class="input-text" style="width: 185px; left: -12px;" />
+            <SelectDropdown
+              v-model="playerRace"
+              :options="PlayerRaces.map((r) => r.value)"
+              @update:model-value="updateRaceIcon"
+              class="input-text"
+              style="width: 185px; left: -12px"
+            />
           </div>
         </div>
 
-        <GlyphInput v-model="Glyphs" v-if="usePersonalizedGlyphs"/>
+        <GlyphInput
+          v-model="Glyphs"
+          v-if="usePersonalizedGlyphs"
+        />
 
-        <SanitisedTextInput v-model="location" v-if="usePersonalizedGlyphs" placeholder="Ubicación" class="input-text"
-          label="Ubicación"/>
+        <SanitisedTextInput
+          v-model="location"
+          v-if="usePersonalizedGlyphs"
+          placeholder="Ubicación"
+          class="input-text"
+          label="Ubicación"
+        />
 
-        <SanitisedTextInput v-model="friendCode" placeholder="Código de amigo" class="input-text"
-          label="Código de amigo" :invalid="!isFriendCodeValid" error-message="Formato de código de amigo incorrecto" />
+        <SanitisedTextInput
+          v-model="friendCode"
+          placeholder="Código de amigo"
+          class="input-text"
+          label="Código de amigo"
+          :invalid="!isFriendCodeValid"
+          error-message="Formato de código de amigo incorrecto"
+        />
 
         <br />
 
-        <FileUpload mode="basic" name="navImage" :auto="true" :customUpload="true" @uploader="onUpload" accept="image/*"
-          chooseLabel="Subir imagen">
+        <FileUpload
+          mode="basic"
+          name="navImage"
+          :auto="true"
+          :customUpload="true"
+          @uploader="onUpload"
+          accept="image/*"
+          chooseLabel="Subir imagen"
+        >
           <template #content>
             <FileUploadNotice />
           </template>
@@ -193,60 +244,104 @@ watchDebounced(
       </div>
 
       <br />
-      <div ref="cardElement" class="rss-card-wrapper">
-        <img class="rss-card-background" :src="usePersonalizedGlyphs
-          ? (isWhite
-            ? '/RSSWikiPageCreator/assets/images/friends/friend-white-noglyphs.png'
-            : '/RSSWikiPageCreator/assets/images/friends/friend-noglyphs.png')
-          : (isWhite
-            ? '/RSSWikiPageCreator/assets/images/friends/friend-white.png'
-            : '/RSSWikiPageCreator/assets/images/friends/friend.png')" alt="Tarjeta RSS" />
+      <div
+        ref="cardElement"
+        class="rss-card-wrapper"
+      >
+        <img
+          class="rss-card-background"
+          :src="
+            usePersonalizedGlyphs
+              ? isWhite
+                ? '/RSSWikiPageCreator/assets/images/friends/friend-white-noglyphs.png'
+                : '/RSSWikiPageCreator/assets/images/friends/friend-noglyphs.png'
+              : isWhite
+                ? '/RSSWikiPageCreator/assets/images/friends/friend-white.png'
+                : '/RSSWikiPageCreator/assets/images/friends/friend.png'
+          "
+          alt="Tarjeta RSS"
+        />
 
         <div class="card-image-container">
-          <img v-if="navImage" :src="navImage" alt="Imagen subida" class="uploaded-image" />
+          <img
+            v-if="navImage"
+            :src="navImage"
+            alt="Imagen subida"
+            class="uploaded-image"
+          />
         </div>
 
-        <div class="card-name-title">
-          Nombre
-        </div>
+        <div class="card-name-title">Nombre</div>
 
-        <div class="card-race-title">
-          Raza
-        </div>
+        <div class="card-race-title">Raza</div>
 
-        <img class="card-image-marco" src="/assets/images/friends/marco.png" alt="Tarjeta RSS" />
+        <img
+          class="card-image-marco"
+          src="/assets/images/friends/marco.png"
+          alt="Tarjeta RSS"
+        />
 
-        <div class="card-name-field" :class="{ 'text-black': isWhite, 'text-white': !isWhite }">
+        <div
+          class="card-name-field"
+          :class="{ 'text-black': isWhite, 'text-white': !isWhite }"
+        >
           {{ playerName }}
         </div>
 
-        <div class="card-race-field" :class="{ 'text-black': isWhite, 'text-white': !isWhite }">
+        <div
+          class="card-race-field"
+          :class="{ 'text-black': isWhite, 'text-white': !isWhite }"
+        >
           {{ playerRace }}
         </div>
 
-        <div class="card-glyphs-field" v-if="usePersonalizedGlyphs" :class="{ 'text-black': isWhite, 'text-white': !isWhite }">
+        <div
+          class="card-glyphs-field"
+          v-if="usePersonalizedGlyphs"
+          :class="{ 'text-black': isWhite, 'text-white': !isWhite }"
+        >
           {{ Glyphs }}
         </div>
 
-        <div class="card-location-field" v-if="usePersonalizedGlyphs" :class="{ 'text-black': isWhite, 'text-white': !isWhite }">
+        <div
+          class="card-location-field"
+          v-if="usePersonalizedGlyphs"
+          :class="{ 'text-black': isWhite, 'text-white': !isWhite }"
+        >
           {{ location }}
         </div>
 
-        <div class="card-friend-code-field" :class="{ 'text-black': isWhite, 'text-white': !isWhite }">
+        <div
+          class="card-friend-code-field"
+          :class="{ 'text-black': isWhite, 'text-white': !isWhite }"
+        >
           {{ friendCode }}
         </div>
 
         <div class="card-race-icon-field">
-          <img v-if="playerRaceIcon" :src="playerRaceIcon" alt="Icono de raza" class="race-icon" />
+          <img
+            v-if="playerRaceIcon"
+            :src="playerRaceIcon"
+            alt="Icono de raza"
+            class="race-icon"
+          />
         </div>
       </div>
 
       <br />
       <div class="download-section">
-        <Button @click="downloadCard" class="download-button" :disabled="isDownloading" :loading="isDownloading"
-          style="color: white">
+        <Button
+          @click="downloadCard"
+          class="download-button"
+          :disabled="isDownloading"
+          :loading="isDownloading"
+          style="color: white"
+        >
           <template #icon>
-            <ProgressSpinner v-if="isDownloading" class="pi pi-spin pi-spinner" />
+            <ProgressSpinner
+              v-if="isDownloading"
+              class="pi pi-spin pi-spinner"
+            />
           </template>
           {{ isDownloading ? 'Generando imagen...' : 'Descargar Carta' }}
         </Button>
@@ -258,7 +353,10 @@ watchDebounced(
     </template>
   </Card>
 
-  <Card class="rss-card-container" v-if="screenWidth <= 768">
+  <Card
+    class="rss-card-container"
+    v-if="screenWidth <= 768"
+  >
     <template #content>
       <h1>Esta página solo está disponible en pantallas de escritorio.</h1>
     </template>
@@ -418,10 +516,7 @@ watchDebounced(
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.4),
-      transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   animation: shimmer 1.5s infinite;
 }
 
