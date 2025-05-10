@@ -1,6 +1,7 @@
 [![Build](https://github.com/Muhaddil/RSSWikiPageCreator/actions/workflows/deploy-all.yml/badge.svg)](https://github.com/Muhaddil/RSSWikiPageCreator/actions/workflows/deploy-all.yml)
 [![pages-build-deployment](https://github.com/Muhaddil/RSSWikiPageCreator/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/Muhaddil/RSSWikiPageCreator/actions/workflows/pages/pages-build-deployment)
 [![CodeQL](https://github.com/Muhaddil/RSSWikiPageCreator/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/Muhaddil/RSSWikiPageCreator/actions/workflows/github-code-scanning/codeql)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Muhaddil/RSSWikiPageCreator)
 
 # No Man's Sky - Página para crear paginas en la wiki (valga la redundancia)!
 
