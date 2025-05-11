@@ -60,7 +60,7 @@ onMounted(async () => {
 });
 
 const formatWikiLink = (name: string) => {
-  return name.trim().replace(/\s+/g, '_').replace(/\//g, '_').replace(/:/g, ':').replace(/'/g, "'");
+  return name.trim().replace(/\s+/g, '_').replace(/\//g, '_');
 };
 
 // const isModalOpen = ref(false);
