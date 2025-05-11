@@ -193,12 +193,10 @@ const groupedGalaxies = computed(() => {
 });
 
 const regionsNeedingSystems = computed(() =>
-  bases.value.filter(
-    (region) => {
-      const systems = region.stats?.['Star systems']?.CrossPlatform;
-      return systems !== undefined && systems < 10;
-    }
-  )
+  bases.value.filter((region) => {
+    const systems = region.stats?.['Star systems']?.CrossPlatform;
+    return systems !== undefined && systems < 10;
+  })
 );
 </script>
 
@@ -209,9 +207,16 @@ const regionsNeedingSystems = computed(() =>
         <div class="flex items-start justify-between mb-6 header-container">
           <div class="flex flex-col">
             <div class="header-container">
-              <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank">
+              <a
+                href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society"
+                target="_blank"
+              >
                 <div class="rss-logo">
-                  <img src="/assets/images/shared/logo-white.png" class="logo-image" alt="RSS Logo" />
+                  <img
+                    src="/assets/images/shared/logo-white.png"
+                    class="logo-image"
+                    alt="RSS Logo"
+                  />
                 </div>
               </a>
               <div class="title-theme-container">
@@ -234,7 +239,11 @@ const regionsNeedingSystems = computed(() =>
             </p>
             <p class="security-level mt-2">
               Nivel de seguridad:
-              <Tag value="Clasificado RSS" severity="info" class="category-tag" />
+              <Tag
+                value="Clasificado RSS"
+                severity="info"
+                class="category-tag"
+              />
             </p>
             <p class="update-info">Última actualización: {{ new Date().toLocaleDateString() }}</p>
           </div>
@@ -242,28 +251,38 @@ const regionsNeedingSystems = computed(() =>
 
         <br />
 
-        <Panel v-if="regionsNeedingSystems.length > 0"
-          class="galaxy-panel shadow-md rounded-xl border border-yellow-300" toggleable collapsed>
+        <Panel
+          v-if="regionsNeedingSystems.length > 0"
+          class="galaxy-panel shadow-md rounded-xl border border-yellow-300"
+          toggleable
+          collapsed
+        >
           <template #header>
             <div class="galaxy-header flex items-start gap-4 p-4 bg-yellow-50 rounded-t-xl">
               <i class="pi pi-exclamation-triangle text-yellow-600 text-2xl"></i>
               <div class="flex flex-col">
-                <h2 class="text-lg font-semibold text-yellow-800">
-                  Regiones con pocos sistemas descubiertos
-                </h2>
+                <h2 class="text-lg font-semibold text-yellow-800">Regiones con pocos sistemas descubiertos</h2>
                 <p class="text-sm text-yellow-700">
                   Estas regiones tienen menos de 10 sistemas registrados y requieren exploración.
                 </p>
               </div>
-              <Tag :value="`${regionsNeedingSystems.length} region${regionsNeedingSystems.length === 1 ? '' : 'es'}`"
-                severity="warning" class="ml-auto font-medium text-sm" />
+              <Tag
+                :value="`${regionsNeedingSystems.length} region${regionsNeedingSystems.length === 1 ? '' : 'es'}`"
+                severity="warning"
+                class="ml-auto font-medium text-sm"
+              />
             </div>
           </template>
 
-          <div class="regions-grid grid gap-4 p-4 bg-white rounded-b-xl"
-            :style="`grid-template-columns: repeat(${gridColumns}, minmax(250px, 1fr))`">
-            <Card v-for="(region, index) in regionsNeedingSystems" :key="index"
-              class="region-card border border-gray-200 shadow-sm rounded-lg">
+          <div
+            class="regions-grid grid gap-4 p-4 bg-white rounded-b-xl"
+            :style="`grid-template-columns: repeat(${gridColumns}, minmax(250px, 1fr))`"
+          >
+            <Card
+              v-for="(region, index) in regionsNeedingSystems"
+              :key="index"
+              class="region-card border border-gray-200 shadow-sm rounded-lg"
+            >
               <template #content>
                 <div class="p-4">
                   <h3 class="text-lg font-semibold text-gray-800 mb-1">
@@ -282,51 +301,94 @@ const regionsNeedingSystems = computed(() =>
                       {{ getGlyphs(region.Region, region.Coordinates) }}
                     </span>
                   </p>
-                  <Tag value="Menos de 10 sistemas" severity="danger" class="mt-3 text-xs px-2 py-1 rounded" />
+                  <Tag
+                    value="Menos de 10 sistemas"
+                    severity="danger"
+                    class="mt-3 text-xs px-2 py-1 rounded"
+                  />
                 </div>
               </template>
             </Card>
           </div>
         </Panel>
 
-        <div v-if="isLoading" class="loading-message">
+        <div
+          v-if="isLoading"
+          class="loading-message"
+        >
           <i class="pi pi-spinner pi-spin"></i> Cargando regiones...
         </div>
-        <div v-else-if="error" class="error-message p-error">
+        <div
+          v-else-if="error"
+          class="error-message p-error"
+        >
           <i class="pi pi-exclamation-triangle"></i> {{ error }}
         </div>
 
-        <div v-else class="galaxy-container">
-          <Panel v-for="(galaxy, gIndex) in groupedGalaxies" :key="gIndex" class="galaxy-panel" toggleable collapsed>
+        <div
+          v-else
+          class="galaxy-container"
+        >
+          <Panel
+            v-for="(galaxy, gIndex) in groupedGalaxies"
+            :key="gIndex"
+            class="galaxy-panel"
+            toggleable
+            collapsed
+          >
             <template #header>
               <div class="galaxy-header">
-                <img v-if="galaxy.image" :src="galaxy.image" class="galaxy-image" />
+                <img
+                  v-if="galaxy.image"
+                  :src="galaxy.image"
+                  class="galaxy-image"
+                />
                 <h2 class="galaxy-title">{{ translateItemName(galaxy.name) }}</h2>
-                <Tag :value="`${galaxy.quadrants.length} ${galaxy.quadrants.length === 1 ? 'Cuadrante' : 'Cuadrantes'}`"
-                  severity="info" />
+                <Tag
+                  :value="`${galaxy.quadrants.length} ${galaxy.quadrants.length === 1 ? 'Cuadrante' : 'Cuadrantes'}`"
+                  severity="info"
+                />
               </div>
             </template>
 
             <div class="quadrants-grid">
-              <Panel v-for="(quadrant, qIndex) in galaxy.quadrants" :key="qIndex" class="quadrant-panel" toggleable
-                collapsed>
+              <Panel
+                v-for="(quadrant, qIndex) in galaxy.quadrants"
+                :key="qIndex"
+                class="quadrant-panel"
+                toggleable
+                collapsed
+              >
                 <template #header>
                   <h3 class="quadrant-title">
                     <i class="pi pi-th-large"></i>
                     {{ quadrant.name }}
-                    <Tag :value="`${quadrant.regions.length} ${quadrant.regions.length === 1 ? 'Región' : 'Regiones'}`"
-                      severity="info" />
+                    <Tag
+                      :value="`${quadrant.regions.length} ${quadrant.regions.length === 1 ? 'Región' : 'Regiones'}`"
+                      severity="info"
+                    />
                   </h3>
                 </template>
 
-                <div class="regions-grid" :style="`grid-template-columns: repeat(${gridColumns}, 3fr)`">
-                  <Card v-for="(region, rIndex) in quadrant.regions" :key="rIndex" class="region-card">
+                <div
+                  class="regions-grid"
+                  :style="`grid-template-columns: repeat(${gridColumns}, 3fr)`"
+                >
+                  <Card
+                    v-for="(region, rIndex) in quadrant.regions"
+                    :key="rIndex"
+                    class="region-card"
+                  >
                     <template #content>
                       <div class="p-4 base-content">
                         <div class="flex flex-column gap-3">
                           <div class="flex align-items-center gap-2">
                             <h3 class="base-title">{{ region.Region }}</h3>
-                            <Tag :value="region.Galaxy" severity="info" class="category-tag" />
+                            <Tag
+                              :value="region.Galaxy"
+                              severity="info"
+                              class="category-tag"
+                            />
                           </div>
 
                           <div class="base-details">
@@ -346,32 +408,52 @@ const regionsNeedingSystems = computed(() =>
                             </div>
                           </div>
 
-                          <Panel v-if="region.stats" class="stats-panel mt-3">
+                          <Panel
+                            v-if="region.stats"
+                            class="stats-panel mt-3"
+                          >
                             <template #header>
                               <span class="stats-header">Estadísticas de la Región</span>
                             </template>
                             <div class="stats-content">
-                              <div v-for="(item, itemName) in region.stats" :key="itemName" class="stat-item">
+                              <div
+                                v-for="(item, itemName) in region.stats"
+                                :key="itemName"
+                                class="stat-item"
+                              >
                                 <span class="stat-label">{{ translateItemName(itemName) }}</span>
-                                <Tag class="stat-tag" severity="info">
+                                <Tag
+                                  class="stat-tag"
+                                  severity="info"
+                                >
                                   Cantidad: {{ item.CrossPlatform }}
                                 </Tag>
                               </div>
                             </div>
                           </Panel>
 
-                          <Panel v-if="region.Region" class="builder-panel mt-3">
+                          <Panel
+                            v-if="region.Region"
+                            class="builder-panel mt-3"
+                          >
                             <template #header>
                               <span class="builder-link-header">Enlaces de la Región</span>
                             </template>
                             <div class="panel-content-with-image">
-                              <a :href="`https://nomanssky.fandom.com/wiki/${formatWikiLink(region.Region)}`"
-                                target="_blank" class="builder-link">
+                              <a
+                                :href="`https://nomanssky.fandom.com/wiki/${formatWikiLink(region.Region)}`"
+                                target="_blank"
+                                class="builder-link"
+                              >
                                 <i class="pi pi-external-link"></i> Ver detalles de la región
                               </a>
-                              <img v-if="region.imageUrl" :src="region.imageUrl.modal" alt="Imagen de la base"
+                              <img
+                                v-if="region.imageUrl"
+                                :src="region.imageUrl.modal"
+                                alt="Imagen de la base"
                                 class="panel-base-image"
-                                @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(region.Region)}`)" />
+                                @click="openModal(`https://nomanssky.fandom.com/wiki/${formatWikiLink(region.Region)}`)"
+                              />
                             </div>
                           </Panel>
                         </div>

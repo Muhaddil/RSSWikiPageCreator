@@ -59,11 +59,11 @@ const events = ref<TimelineEvent[]>([
     category: 'Royal Space Society',
   },
 
-
-    {
+  {
     title: '1.0.556',
     date: '11 / 05 / 2025',
-    description: 'Se añadió un nuevo apartado a la página de las regiones para mostrar las regiones que requieren de exploración.',
+    description:
+      'Se añadió un nuevo apartado a la página de las regiones para mostrar las regiones que requieren de exploración.',
     category: 'Web',
   },
   {
