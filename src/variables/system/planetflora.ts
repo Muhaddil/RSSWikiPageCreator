@@ -60,7 +60,7 @@ const InEnglish = [
 const InSpanish = [
   'Abundante',
   'Fructuoso',
-  'Alta',
+  'Alto',
   'Rebosante',
   'Frecuente',
   'Lleno',
@@ -97,7 +97,7 @@ const InSpanish = [
   'Chillón',
   'Viral',
   'Invasivo',
-  'Profusa',
+  'Profuso',
   'Copioso',
   'Rico',
   'Numeroso',

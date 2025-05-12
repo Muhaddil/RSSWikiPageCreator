@@ -749,7 +749,7 @@ export function getRarezaData(): Rarezas {
   const rarezas: Rarezas = {
     rarity: {
       Abundant: 'Abundante',
-      High: 'Alta',
+      High: 'Alto',
       Ample: 'Rebosante',
       Frequent: 'Frecuente',
       Full: 'Lleno',
@@ -786,7 +786,7 @@ export function getRarezaData(): Rarezas {
       Screaming: 'Chillón',
       Viral: 'Viral',
       Invasive: 'Invasivo',
-      Bountiful: 'Profusa',
+      Bountiful: 'Profuso',
       Copious: 'Copioso',
       Rich: 'Rico',
       Numerous: 'Numeroso',
@@ -856,7 +856,7 @@ export function getRareza2Data(): Rarezas2 {
       Screaming: 'Chillón',
       Viral: 'Viral',
       Invasive: 'Invasivo',
-      Bountiful: 'Profusa',
+      Bountiful: 'Profuso',
       Copious: 'Copioso',
       Rich: 'Rico',
       Numerous: 'Numeroso',
