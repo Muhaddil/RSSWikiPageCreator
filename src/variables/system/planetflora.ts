@@ -107,7 +107,7 @@ const InSpanish = [
   'Intermitente',
   'Atípico',
   'Exiguo',
-  'Disperso',
+  'Vacío',
   'Agotado',
   'Falto',
   'Seco',
