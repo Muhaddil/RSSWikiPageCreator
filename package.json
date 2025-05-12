@@ -29,7 +29,7 @@
     "vue": "^3.5.13",
     "vue-toastification": "^2.0.0-rc.5",
     "vue-tsc": "^2.2.10",
-    "webdriverio": "^9.12.7"
+    "webdriverio": "^9.13.0"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.2",
@@ -38,7 +38,7 @@
     "@primevue/icons": "^4.3.4",
     "@primevue/themes": "^4.3.4",
     "bulma": "^1.0.4",
-    "html2canvas-pro": "^1.5.10",
+    "html2canvas-pro": "^1.5.11",
     "md5-hex": "^5.0.0",
     "parse-mediawiki-template": "^0.2.2",
     "primeicons": "^7.0.0",
