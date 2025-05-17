@@ -4,6 +4,7 @@ import { componentName } from '@/variables/route';
 import { defineAsyncComponent, onMounted, type Component } from 'vue';
 import { usePageDataStore } from './stores/pageData';
 import FooterToolbar from './components/FooterToolbar.vue';
+import { ref } from 'vue';
 
 const pageData = usePageDataStore();
 
@@ -12,12 +13,50 @@ onMounted(async () => pageData.initStore());
 const RouteComponent = defineAsyncComponent<Component>({
   loader: () => import(`./pages/${componentName}.vue`),
 });
+
+const updateAvailable = ref(false);
+const currentVersion = import.meta.env.VITE_VERSION;
+
+async function checkForUpdate() {
+  try {
+    const response = await fetch('https://muhaddil.github.io/RSSWikiPageCreator/version.json', { cache: 'no-store' });
+    const remote = await response.json();
+    if (remote.version && remote.version !== currentVersion) {
+      updateAvailable.value = true;
+    }
+  } catch (e) {
+    // Manejo de error opcional
+  }
+}
+
+onMounted(() => {
+  checkForUpdate();
+  setInterval(checkForUpdate, 60 * 1000); // Cada 5 minutos
+});
+
+function reloadPage() {
+  location.replace(location.href);
+}
 </script>
 
 <template>
   <header class="header">
     <MainToolbar />
   </header>
+
+  <div
+    v-if="updateAvailable"
+    class="update-banner"
+  >
+    <span class="banner-text"> <i class="pi pi-refresh"></i> ¡Nueva versión disponible! </span>
+    <button
+      class="p-button p-button-sm p-button-outlined"
+      @click="reloadPage"
+    >
+      Actualizar
+    </button>
+  </div>
+
   <main class="container main-page-content pt-4 my-5">
     <RouteComponent />
     <div
@@ -154,6 +193,51 @@ footer {
 
   .author-name {
     font-size: 1.2rem;
+  }
+}
+
+.update-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--surface-100);
+  color: var(--text-color);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  margin: 1rem auto;
+  max-width: 960px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: slide-fade-in 0.4s ease-out;
+  transition: var(--theme-transition);
+}
+
+.banner-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.update-btn {
+  @apply p-button p-button-sm p-button-outlined;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+.update-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 8px rgba(100, 108, 255, 0.4);
+}
+
+@keyframes slide-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
