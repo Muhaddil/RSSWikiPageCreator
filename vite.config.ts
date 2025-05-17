@@ -47,7 +47,6 @@ export default defineConfig({
         'fotosdestacadas.html',
         'rssfriends.html',
         'guias.html',
-        'version.json',
       ],
     },
   },
