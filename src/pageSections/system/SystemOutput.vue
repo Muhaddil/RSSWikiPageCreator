@@ -81,28 +81,49 @@ function glyphs2Coords(glyphs: string): string {
 }
 
 const formattedModulesMT = computed(() => {
-  return modulesMT.value.map((module, index) => `| MT${index + 1}=${module}`).join('\n');
+  return modulesMT.value
+    .filter((module) => module)
+    .map((module, index) => `| MT${index + 1}=${module}`)
+    .join('\n');
 });
 
 const formattedmodulesSS = computed(() => {
-  return modulesSS.value.map((module, index) => `| SS${index + 1}=${module}`).join('\n');
+  return modulesSS.value
+    .filter((module) => module)
+    .map((module, index) => `| SS${index + 1}=${module}`)
+    .join('\n');
 });
 
 const formattedmodulesEC = computed(() => {
-  return modulesEC.value.map((module, index) => `| EC${index + 1}=${module}`).join('\n');
+  return modulesEC.value
+    .filter((module) => module)
+    .map((module, index) => `| EC${index + 1}=${module}`)
+    .join('\n');
 });
 
 const formattedmodulesES = computed(() => {
-  return modulesES.value.map((module, index) => `| ES${index + 1}=${module}`).join('\n');
+  return modulesES.value
+    .filter((module) => module)
+    .map((module, index) => `| ES${index + 1}=${module}`)
+    .join('\n');
 });
 
 const formattedmodulesSD = computed(() => {
-  return modulesSD.value.map((module, index) => `| ${index + 1}=${module}`).join('\n');
+  return modulesSD.value
+    .filter((module) => module)
+    .map((module, index) => `| ${index + 1}=${module}`)
+    .join('\n');
 });
 
 watch(discoveredlink, (newDiscoveredLinkValue) => {
   if (newDiscoveredLinkValue) {
     discovered.value = '';
+  }
+});
+
+watch(wealth, (newwealth) => {
+  if (newwealth) {
+    console.log('wealth changed', newwealth);
   }
 });
 </script>
@@ -316,7 +337,10 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
     <div>==Space Station==</div>
     <div data-station="img">[[File:{{ ssImage }}|thumb|System space station]]</div>
     <div data-station="note"></div>
-    <div data-station="terminal">
+    <div
+      data-station="terminal"
+      v-if="wealth !== 'Black Market'"
+    >
       <div>
         The [[Space Station]] [[Galactic Trade Terminal|terminal]] offers the following [[Trade Commodities]] for sale:
       </div>
@@ -331,7 +355,10 @@ watch(discoveredlink, (newDiscoveredLinkValue) => {
       </div>
       <div>|}</div>
     </div>
-    <div data-station="merchant">
+    <div
+      v-if="wealth !== 'Black Market'"
+      data-station="merchant"
+    >
       <div>
         The Space Station merchants offer the following <span v-pre>{{</span>class|S<span v-pre>}}</span> class items
         for sale:

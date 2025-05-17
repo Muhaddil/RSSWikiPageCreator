@@ -324,13 +324,17 @@ watch(economybuy, (newValue) => {
     label="Nombre del documentador si no es el descubridor:"
   />
 
-  <div v-if="faction !== 'Uncharted'">
+  <div v-if="faction !== 'Uncharted' && wealth !== 'Black Market'">
     <TradeableInput />
 
     <UpgradeModulesES v-model="modulesES" />
     <UpgradeModules v-model="modulesMT" />
     <UpgradeModulesSS v-model="modulesSS" />
     <UpgradeModulesEC v-model="modulesEC" />
+    <UpgradeModulesSD v-model="modulesSD" />
+  </div>
+
+  <div v-if="faction !== 'Uncharted' && wealth === 'Black Market'">
     <UpgradeModulesSD v-model="modulesSD" />
   </div>
   <TextareaInput

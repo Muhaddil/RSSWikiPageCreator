@@ -6,7 +6,6 @@ type Option = { english: string; spanish: string };
 const model = defineModel<string[]>({ required: true });
 
 const options: Option[] = [
-  { english: '', spanish: 'Nada' },
   { english: 'Suspicious Launch Thrusters Module', spanish: 'Módulo sospechoso de propulsores de lanzamiento' },
   { english: 'Suspicious Mining Beam Module', spanish: 'Módulo de láser de extracción sospechoso' },
   { english: 'Suspicious Scanner Module', spanish: 'Módulo de escáner sospechoso' },
