@@ -20,8 +20,9 @@ const bases = ref([
     image: 'assets/images/basesdestacadas/Mamadisimocity.webp',
     location: 'Galaxia Euclides - Sistema Urticalia',
     author: 'Lider Mamadisimo',
-    description: 'Capital intergaláctica de la Royal Space Society con instalaciones de investigación avanzada y centro de comercio interestelar.',
-    features: ['Tecnología', 'Comercio', 'Investigación']
+    description:
+      'Capital intergaláctica de la Royal Space Society con instalaciones de investigación avanzada y centro de comercio interestelar.',
+    features: ['Tecnología', 'Comercio', 'Investigación'],
   },
   {
     name: 'RSS UfoPrime',
@@ -29,7 +30,7 @@ const bases = ref([
     location: 'Galaxia Euclides - Sistema Urticalia',
     author: 'Olivello',
     description: 'Nave principal de la Royal Space Society, donde se coordinan todos los movimientos estratégicos.',
-    features: ['Artística', 'Tecnología']
+    features: ['Artística', 'Tecnología'],
   },
   {
     name: 'RSS Santuario de la Progenie Maldita',
@@ -37,7 +38,7 @@ const bases = ref([
     location: 'Galaxia Euclides - Sistema Desconocido',
     author: 'MoonWatcher75',
     description: 'Una ciudad acogedora para los miembros de la Royal Space Society.',
-    features: ['Comunidad', 'Arquitectura']
+    features: ['Comunidad', 'Arquitectura'],
   },
   {
     name: 'Suburbios de Cobaltonia',
@@ -45,31 +46,34 @@ const bases = ref([
     location: 'Galaxia Euclides - Sistema Okubak-Sha VII',
     author: 'Abella_84',
     description: 'Un lugar tranquilo y pacífico para los viajeros intergalácticos.',
-    features: ['Comunidad', 'Arquitectura']
+    features: ['Comunidad', 'Arquitectura'],
   },
   {
     name: 'RSS CrisCrosApleSoS - GOAT',
     image: 'assets/images/basesdestacadas/Ccas01.webp',
     location: 'Galaxia Euclides - RSS Sagittarius',
     author: 'CrisCrosApleSoS',
-    description: 'La base parece un gran carguero, con dos cuernos largos de color azul. También hay acceso al interior.',
-    features: ['Memorial', 'Arquitectura']
+    description:
+      'La base parece un gran carguero, con dos cuernos largos de color azul. También hay acceso al interior.',
+    features: ['Memorial', 'Arquitectura'],
   },
   {
     name: 'RSS Library',
     image: 'assets/images/basesdestacadas/Lib5.webp',
     location: 'Galaxia Euclides - Urticalia',
     author: 'FranCGC',
-    description: 'Un grandioso templo del conocimiento, donde la arquitectura imponente se fusiona con los asombrosos descubrimientos que resguarda en su interior.',
-    features: ['Descanso', 'Arquitectura']
+    description:
+      'Un grandioso templo del conocimiento, donde la arquitectura imponente se fusiona con los asombrosos descubrimientos que resguarda en su interior.',
+    features: ['Descanso', 'Arquitectura'],
   },
   {
     name: 'Iglesia de la Santa Mamadisimidad',
     image: 'assets/images/basesdestacadas/Iglesia.webp',
     location: 'Galaxia Euclides - Urticalia',
     author: 'Olivello',
-    description: 'La Iglesia de la Santa Mamadisimidad es un imponente templo de amplias dimensiones, cuya entrada alargada da la bienvenida a los fieles.',
-    features: ['Historia', 'Arte religioso', 'Ambiente solemne']
+    description:
+      'La Iglesia de la Santa Mamadisimidad es un imponente templo de amplias dimensiones, cuya entrada alargada da la bienvenida a los fieles.',
+    features: ['Historia', 'Arte religioso', 'Ambiente solemne'],
   },
 ]);
 
@@ -114,26 +118,40 @@ const openModal = (image: string) => {
       <div class="space-page-container">
         <div class="flex items-start justify-between mb-6 header-container">
           <div class="flex flex-col">
-            <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank">
+            <a
+              href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society"
+              target="_blank"
+            >
               <div class="rss-logo">
-                <img src="/assets/images/shared/logo-white.png" class="logo-image animate-pulse"
-                  alt="RSS Logo" />
+                <img
+                  src="/assets/images/shared/logo-white.png"
+                  class="logo-image animate-pulse"
+                  alt="RSS Logo"
+                />
               </div>
             </a>
             <h1 class="text-4xl font-bold galactic-title">BASES ESTELARES DESTACADAS</h1>
-            <p class="text-stellar-gray mt-2">
-              Catálogo de las instalaciones más impresionantes del universo conocido
-            </p>
+            <p class="text-stellar-gray mt-2">Catálogo de las instalaciones más impresionantes del universo conocido</p>
           </div>
         </div>
 
-        <Carousel :value="bases" :numVisible="numVisibleBases" :numScroll="1" circular :autoplayInterval="6000"
-          class="galactic-carousel">
+        <Carousel
+          :value="bases"
+          :numVisible="numVisibleBases"
+          :numScroll="1"
+          circular
+          :autoplayInterval="6000"
+          class="galactic-carousel"
+        >
           <template #item="slotProps">
             <div class="base-card relative">
               <div class="image-container">
-                <img :src="slotProps.data.image" :alt="slotProps.data.name"
-                  class="galactic-image object-cover w-full h-full" @click="openModal(slotProps.data.image)" />
+                <img
+                  :src="slotProps.data.image"
+                  :alt="slotProps.data.name"
+                  class="galactic-image object-cover w-full h-full"
+                  @click="openModal(slotProps.data.image)"
+                />
               </div>
               <div class="base-info">
                 <div class="info-content">
@@ -147,8 +165,13 @@ const openModal = (image: string) => {
                     <span>{{ slotProps.data.author }}</span>
                   </div>
                   <div class="flex flex-wrap gap-3 my-4">
-                    <Tag v-for="(feature, index) in slotProps.data.features" :key="index" :value="feature"
-                      icon="pi pi-caret-right" class="feature-tag" />
+                    <Tag
+                      v-for="(feature, index) in slotProps.data.features"
+                      :key="index"
+                      :value="feature"
+                      icon="pi pi-caret-right"
+                      class="feature-tag"
+                    />
                   </div>
                   <p class="description-text">{{ slotProps.data.description }}</p>
                 </div>
@@ -159,16 +182,27 @@ const openModal = (image: string) => {
 
         <Panel class="galactic-panel mt-6">
           <template #header>
-            <h2 class="text-2xl font-bold"
-              style="background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(103, 232, 249, 0.3);">
-              Registro Galáctico</h2>
+            <h2
+              class="text-2xl font-bold"
+              style="
+                background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: 0 0 15px rgba(103, 232, 249, 0.3);
+              "
+            >
+              Registro Galáctico
+            </h2>
           </template>
-          <p class="m-0 text-stellar-gray w-full" :class="{ 'keep-linebreaks': screenWidth >= 768 }">
+          <p
+            class="m-0 text-stellar-gray w-full"
+            :class="{ 'keep-linebreaks': screenWidth >= 768 }"
+          >
             Las bases aquí mostradas han sido certificadas por la Royal Space Society según los criterios de:
             <br />
             <span class="text-cyan-300 font-semibold">
-              <b>Innovación tecnológica, Valor científico y Diseño arquitectónico</b>
-            </span>.
+              <b>Innovación tecnológica, Valor científico y Diseño arquitectónico</b> </span
+            >.
             <br />
             <br />
             Actualización estelar: 18/7/2567 (Ciclo Korvax)
@@ -178,14 +212,31 @@ const openModal = (image: string) => {
     </template>
   </Card>
 
-  <Dialog v-model:visible="isModalOpen" modal :closable="false" class="custom-modal" style="width: 90vw; height: 90vh;">
+  <Dialog
+    v-model:visible="isModalOpen"
+    modal
+    :closable="false"
+    class="custom-modal"
+    style="width: 90vw; height: 90vh"
+  >
     <template #header>
-      <button type="button" class="close-modal" @click="isModalOpen = false">X</button>
+      <button
+        type="button"
+        class="close-modal"
+        @click="isModalOpen = false"
+      >
+        X
+      </button>
     </template>
-    <a :href="modalImage" target="_blank">
+    <a
+      :href="modalImage"
+      target="_blank"
+    >
       <div class="modal-content">
-        <img :src="modalImage" class="modal-image" />
-        </img>
+        <img
+          :src="modalImage"
+          class="modal-image"
+        />
       </div>
     </a>
   </Dialog>
@@ -262,7 +313,6 @@ const openModal = (image: string) => {
   padding: 1.5rem 0;
 }
 
-
 .galactic-card {
   background: var(--background-primary);
   border: 1px solid var(--border-color);
@@ -327,7 +377,6 @@ const openModal = (image: string) => {
   background-color: rgba(103, 232, 249, 0.1) !important;
   border: 1px solid #67e8f9 !important;
 }
-
 
 .image-container {
   height: auto;
@@ -421,7 +470,6 @@ const openModal = (image: string) => {
   position: relative;
   flex-wrap: wrap;
 }
-
 
 .logo-image {
   height: 150px;

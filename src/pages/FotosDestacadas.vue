@@ -9,8 +9,8 @@ import Dialog from 'primevue/dialog';
 const queryParams = new URLSearchParams(window.location.search);
 
 onMounted(() => {
-  if (!queryParams.has("dev")) {
-   window.location.href = "/RSSWikiPageCreator/indextest.html";
+  if (!queryParams.has('dev')) {
+    window.location.href = '/RSSWikiPageCreator/indextest.html';
   }
 });
 
@@ -22,7 +22,7 @@ const photos = ref([
     photographer: 'Fran.Korvax',
     equipment: '',
     technique: 'Exposición prolongada multiespectral',
-    tags: ['Desastres', 'Color cósmico', 'HDRI']
+    tags: ['Desastres', 'Color cósmico', 'HDRI'],
   },
   {
     title: 'Suns Over The Rings',
@@ -31,7 +31,7 @@ const photos = ref([
     photographer: 'MoonWatcher',
     equipment: '',
     technique: 'Captura de triple espectro',
-    tags: ['Exoplanetas', 'Amaneceres', 'Geología alienígena']
+    tags: ['Exoplanetas', 'Amaneceres', 'Geología alienígena'],
   },
   {
     title: 'Cúmulo Estelar Omega Centauri',
@@ -40,7 +40,7 @@ const photos = ref([
     photographer: 'CosmoLens',
     equipment: '',
     technique: 'Stacking de 500 exposiciones',
-    tags: ['Cúmulos estelares', 'Astrofotografía', 'Resolución extrema']
+    tags: ['Cúmulos estelares', 'Astrofotografía', 'Resolución extrema'],
   },
   {
     title: 'Eclipse Cuántico en Persei',
@@ -49,8 +49,8 @@ const photos = ref([
     photographer: 'QuantumSnap',
     equipment: 'Hubble Mark VII',
     technique: 'Captura de evento transitorio',
-    tags: ['Eclipses', 'Fenómenos raros', 'Dinámica orbital']
-  }
+    tags: ['Eclipses', 'Fenómenos raros', 'Dinámica orbital'],
+  },
 ]);
 
 const isModalOpen = ref(false);
@@ -83,24 +83,34 @@ window.addEventListener('resize', () => {
         <div class="flex items-start justify-between mb-6 header-container">
           <div class="flex flex-col">
             <h1 class="text-4xl font-bold galactic-title">GALERÍA INTERGALÁCTICA</h1>
-            <p class="text-stellar-gray mt-2">
-              Colección de las capturas más impresionantes del universo conocido
-            </p>
+            <p class="text-stellar-gray mt-2">Colección de las capturas más impresionantes del universo conocido</p>
           </div>
           <div class="rss-logo">
-            <img src="/assets/images/shared/logo-white.png"
-                 class="logo-image animate-pulse"
-                 alt="AstroCam Logo" />
+            <img
+              src="/assets/images/shared/logo-white.png"
+              class="logo-image animate-pulse"
+              alt="AstroCam Logo"
+            />
           </div>
         </div>
 
-        <Carousel :value="photos" :numVisible="numVisiblePhotos" :numScroll="1" circular :autoplayInterval="6000"
-          class="galactic-carousel">
+        <Carousel
+          :value="photos"
+          :numVisible="numVisiblePhotos"
+          :numScroll="1"
+          circular
+          :autoplayInterval="6000"
+          class="galactic-carousel"
+        >
           <template #item="slotProps">
             <div class="base-card relative">
               <div class="image-container">
-                <img :src="slotProps.data.image" :alt="slotProps.data.title"
-                  class="galactic-image object-cover w-full h-full" @click="openModal(slotProps.data.image)" />
+                <img
+                  :src="slotProps.data.image"
+                  :alt="slotProps.data.title"
+                  class="galactic-image object-cover w-full h-full"
+                  @click="openModal(slotProps.data.image)"
+                />
               </div>
               <div class="base-info">
                 <div class="info-content">
@@ -114,17 +124,23 @@ window.addEventListener('resize', () => {
                       <i class="pi pi-camera mr-2"></i>
                       <span>{{ slotProps.data.photographer }}</span>
                     </div>
-                    <div class="equipment-tag" v-if="slotProps.data.equipment">
+                    <div
+                      class="equipment-tag"
+                      v-if="slotProps.data.equipment"
+                    >
                       <i class="pi pi-microchip mr-2"></i>
                       <span>{{ slotProps.data.equipment }}</span>
                     </div>
                     <div class="flex flex-wrap gap-3 my-4">
-                      <Tag v-for="(tag, index) in slotProps.data.tags" :key="index" :value="tag"
-                        icon="pi pi-tag" class="tag-style" />
+                      <Tag
+                        v-for="(tag, index) in slotProps.data.tags"
+                        :key="index"
+                        :value="tag"
+                        icon="pi pi-tag"
+                        class="tag-style"
+                      />
                     </div>
-                    <p class="technique-text">
-                      <span class="font-bold">Técnica:</span> {{ slotProps.data.technique }}
-                    </p>
+                    <p class="technique-text"><span class="font-bold">Técnica:</span> {{ slotProps.data.technique }}</p>
                   </div>
                 </div>
               </div>
@@ -134,18 +150,29 @@ window.addEventListener('resize', () => {
 
         <Panel class="galactic-panel mt-6">
           <template #header>
-            <h2 class="text-2xl font-bold"
-              style="background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(103, 232, 249, 0.3);">
+            <h2
+              class="text-2xl font-bold"
+              style="
+                background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                text-shadow: 0 0 15px rgba(103, 232, 249, 0.3);
+              "
+            >
               Certificación Astrofotográfica
             </h2>
           </template>
-          <p class="m-0 text-stellar-gray w-full" :class="{ 'keep-linebreaks': screenWidth >= 768 }">
-            Las imágenes aquí exhibidas han sido validadas por el Colegio Intergaláctico de Fotografía Cósmica bajo los criterios de:
+          <p
+            class="m-0 text-stellar-gray w-full"
+            :class="{ 'keep-linebreaks': screenWidth >= 768 }"
+          >
+            Las imágenes aquí exhibidas han sido validadas por el Colegio Intergaláctico de Fotografía Cósmica bajo los
+            criterios de:
             <br />
             <span class="text-cyan-300 font-semibold">
               <b>Composición estética, Valor científico y Dominio técnico.</b>
             </span>
-            <br><br>
+            <br /><br />
             Actualización del catálogo: 2567.8.1 (Ciclo Fotónico)
           </p>
         </Panel>
@@ -153,14 +180,31 @@ window.addEventListener('resize', () => {
     </template>
   </Card>
 
-  <Dialog v-model:visible="isModalOpen" modal :closable="false" class="custom-modal" style="width: 90vw; height: 90vh;">
+  <Dialog
+    v-model:visible="isModalOpen"
+    modal
+    :closable="false"
+    class="custom-modal"
+    style="width: 90vw; height: 90vh"
+  >
     <template #header>
-      <button type="button" class="close-modal" @click="isModalOpen = false">X</button>
+      <button
+        type="button"
+        class="close-modal"
+        @click="isModalOpen = false"
+      >
+        X
+      </button>
     </template>
-    <a :href="modalImage" target="_blank">
+    <a
+      :href="modalImage"
+      target="_blank"
+    >
       <div class="modal-content">
-        <img :src="modalImage" class="modal-image" />
-        </img>
+        <img
+          :src="modalImage"
+          class="modal-image"
+        />
       </div>
     </a>
   </Dialog>
@@ -237,7 +281,6 @@ window.addEventListener('resize', () => {
   padding: 1.5rem 0;
 }
 
-
 .galactic-card {
   background: var(--background-primary);
   border: 1px solid var(--border-color);
@@ -302,7 +345,6 @@ window.addEventListener('resize', () => {
   background-color: rgba(103, 232, 249, 0.1) !important;
   border: 1px solid #67e8f9 !important;
 }
-
 
 .image-container {
   height: auto;
@@ -396,7 +438,6 @@ window.addEventListener('resize', () => {
   position: relative;
   flex-wrap: wrap;
 }
-
 
 .logo-image {
   height: 150px;

@@ -253,7 +253,6 @@ const openModal = (image: string) => {
             <a :href="modalImage" target="_blank">
               <div class="modal-content">
                 <img :src=modalImage class="modal-image" alt="Imagen del modal" loading="lazy" decoding="async" />
-                </img>
               </div>
             </a>
           </Dialog> -->
