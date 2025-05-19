@@ -31,7 +31,7 @@ async function checkForUpdate() {
 
 onMounted(() => {
   checkForUpdate();
-  setInterval(checkForUpdate, 60 * 1000); // Cada 5 minutos
+  setInterval(checkForUpdate, 60 * 1000);
 });
 
 function reloadPage() {

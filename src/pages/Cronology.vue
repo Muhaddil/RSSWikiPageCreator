@@ -60,6 +60,12 @@ const events = ref<TimelineEvent[]>([
   },
 
   {
+    title: '1.0.559',
+    date: '19 / 05 / 2025',
+    description: 'Se actualizaron las dependencias.',
+    category: 'Web',
+  },
+  {
     title: '1.0.558',
     date: '18 / 05 / 2025',
     description: 'Se añadió un nuevo sistema que permite conocer cuando la web se actualizó en tiempo real.',
