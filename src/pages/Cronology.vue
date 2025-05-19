@@ -60,7 +60,13 @@ const events = ref<TimelineEvent[]>([
   },
 
   {
-    title: '1.0.559',
+    title: '1.0.5582',
+    date: '19 / 05 / 2025',
+    description: 'Se arregló un error con el actualizador automático.',
+    category: 'Web',
+  },
+  {
+    title: '1.0.5581',
     date: '19 / 05 / 2025',
     description: 'Se actualizaron las dependencias.',
     category: 'Web',

@@ -35,7 +35,7 @@ onMounted(() => {
 });
 
 function reloadPage() {
-  location.replace(location.href);
+  window.location.reload(true);
 }
 </script>
 
