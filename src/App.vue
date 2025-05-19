@@ -35,7 +35,7 @@ onMounted(() => {
 });
 
 function reloadPage() {
-  window.location.reload(true);
+  window.location.reload();
 }
 </script>
 
