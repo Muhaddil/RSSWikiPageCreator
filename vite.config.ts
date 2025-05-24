@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/RSSWikiPageCreator/',
+  base: process.env.VITE_BASE_URL || '/RSSWikiPageCreator/',
   plugins: [vue()],
   build: {
     chunkSizeWarningLimit: 1600,
