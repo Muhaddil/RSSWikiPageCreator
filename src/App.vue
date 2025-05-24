@@ -84,6 +84,7 @@ function reloadPage() {
       </div>
       <p class="footer-subtitle"></p>
     </div>
+    <SpeedInsights />
   </main>
   <footer
     v-if="componentName !== 'Home'"

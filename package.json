@@ -12,7 +12,7 @@
     "test-ci": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "^22.15.19",
+    "@types/node": "^22.15.21",
     "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vitest/browser": "^3.1.4",
@@ -44,6 +44,7 @@
     "parse-mediawiki-template": "^0.2.2",
     "primeicons": "^7.0.0",
     "primevue": "^4.3.4",
-    "vue-draggable-plus": "^0.6.0"
+    "vue-draggable-plus": "^0.6.0",
+    "vue-router": "^4.5.1"
   }
 }
