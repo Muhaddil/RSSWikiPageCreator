@@ -5,6 +5,7 @@ import { defineAsyncComponent, onMounted, type Component } from 'vue';
 import { usePageDataStore } from './stores/pageData';
 import FooterToolbar from './components/FooterToolbar.vue';
 import { ref } from 'vue';
+import packageJson from '../package.json';
 
 const pageData = usePageDataStore();
 
@@ -15,7 +16,7 @@ const RouteComponent = defineAsyncComponent<Component>({
 });
 
 const updateAvailable = ref(false);
-const currentVersion = import.meta.env.VITE_VERSION;
+const currentVersion = packageJson.version;
 
 async function checkForUpdate() {
   try {
@@ -41,6 +42,9 @@ function reloadPage() {
 
 <template>
   <header class="header">
+    <div style="display: inline-block; text-align: center; width: 100%">
+      <div>Versión {{ currentVersion }}</div>
+    </div>
     <MainToolbar />
   </header>
 
