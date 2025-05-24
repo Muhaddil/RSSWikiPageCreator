@@ -8,11 +8,17 @@ const planetLink = ref('');
 const moonLink = ref('');
 const isIndexPage = ref('');
 
+const isVercel = ref(false);
+
 onMounted(() => {
-  const currentUrl = window.location.pathname;
+  const currentUrl = window.location.href;
 
   if (currentUrl.includes('.html')) {
     isIndexPage.value = 'something';
+  }
+
+  if (currentUrl.includes('.vercel.app')) {
+    isVercel.value = true;
   }
 
   if (currentUrl.includes('fauna.html')) {
@@ -36,7 +42,7 @@ onMounted(() => {
 <template>
   <Button
     v-if="!isIndexPage"
-    :href="'/'"
+    :href="'https://muhaddil.github.io/'"
     as="a"
     icon="pi pi-arrow-left"
     label="Ver Otras Páginas"
@@ -52,7 +58,7 @@ onMounted(() => {
   />
   <Button
     v-if="isIndexPage"
-    :href="'/RSSWikiPageCreator/'"
+    :href="isVercel ? '/RSSWikiPageCreator/' : '/'"
     as="a"
     icon="pi pi-arrow-left"
     label="Volver al Menu Principal"
