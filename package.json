@@ -37,6 +37,7 @@
     "@primevue/core": "^4.3.4",
     "@primevue/icons": "^4.3.4",
     "@primevue/themes": "^4.3.4",
+    "@vercel/speed-insights": "^1.2.0",
     "bulma": "^1.0.4",
     "html2canvas-pro": "^1.5.11",
     "md5-hex": "^5.0.0",

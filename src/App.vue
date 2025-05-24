@@ -6,6 +6,7 @@ import { usePageDataStore } from './stores/pageData';
 import FooterToolbar from './components/FooterToolbar.vue';
 import { ref } from 'vue';
 import packageJson from '../package.json';
+import { SpeedInsights } from "@vercel/speed-insights/vue"
 
 const pageData = usePageDataStore();
 
