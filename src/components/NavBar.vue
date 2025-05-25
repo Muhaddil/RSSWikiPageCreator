@@ -58,7 +58,7 @@ onMounted(() => {
   />
   <Button
     v-if="isIndexPage"
-    :href="isVercel ? '/RSSWikiPageCreator/' : '/'"
+    :href="isVercel ? '/' : '/RSSWikiPageCreator/'"
     as="a"
     icon="pi pi-arrow-left"
     label="Volver al Menu Principal"
