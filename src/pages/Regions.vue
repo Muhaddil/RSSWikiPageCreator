@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
+import Checkbox from 'primevue/checkbox';
 import { fetchRegionsData, fetchRegionImageUrls, getRegionStats } from '@/api/api';
 import type { RegionQueryData, ImageUrls, RegionStats } from '@/api/api';
 
@@ -20,6 +21,7 @@ const isLoading = ref(true);
 const error = ref<string | null>(null);
 const screenWidth = ref(window.innerWidth);
 const CIVILIZATION = 'Royal Space Society';
+const showEnglish = ref(false);
 
 const allowedNames = [
   'Uekenbe Shallows',
@@ -37,7 +39,27 @@ const allowedNames = [
   'Uhcheimri Void',
   'Skitco',
   'Emcalh Nebula',
+  'Guminta Nebula',
 ];
+
+const regionTranslations: Record<string, string> = {
+  'Uekenbe Shallows': 'Bajíos de Uekenbe',
+  'Uklots Shallows': 'Bajíos de Uklots',
+  'Eighba Fringe': 'Frontera de Eighba',
+  Xecroften: 'Xecroften',
+  Areyas: 'Areyas',
+  'Sea of Ticrops': 'Mar de Ticrops',
+  'Udrupi Shallows': 'Bajíos de Udrupi',
+  'Jiessl Shallows': 'Bajíos de Jiessl',
+  'Becheeth Sector': 'Sector Becheeth',
+  'Juhalbe Cluster': 'Cúmulo de Juhalbe',
+  'Larinar Boundary': 'Frontera de Larinar',
+  'Qudsor Void': 'Vacío de Qudsor',
+  'Uhcheimri Void': 'Vacío de Uhcheimri',
+  Skitco: 'Skitco',
+  'Emcalh Nebula': 'Nebulosa Emcalh',
+  'Guminta Nebula': 'Nebulosa Guminta',
+};
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 
@@ -134,6 +156,7 @@ const regionGlyphsMap: Record<string, string> = {
   'Qudsor Void': '007CFF9B4CB0',
   'Uhcheimri Void': '00EAFBF21696',
   Skitco: '00F30266CF95',
+  'Guminta Nebula': '140FF7EBFD23',
 };
 
 function getGlyphs(region: string, coordinates: string): string {
@@ -198,6 +221,10 @@ const regionsNeedingSystems = computed(() =>
     return systems !== undefined && systems < 10;
   })
 );
+
+function translateRegionName(name: string): string {
+  return showEnglish.value ? name : regionTranslations[name] || name;
+}
 </script>
 
 <template>
@@ -226,6 +253,19 @@ const regionsNeedingSystems = computed(() =>
               </div>
             </div>
             <p class="text-stellar-gray mt-2">Explora las regiones de la Royal Space Society</p>
+            <div class="flex items-center gap-2 mt-2">
+              <Checkbox
+                v-model="showEnglish"
+                :binary="true"
+                inputId="toggle-language"
+              />
+              <label
+                for="toggle-language"
+                class="cursor-pointer select-none"
+              >
+                Mostrar nombres de las regiones en inglés
+              </label>
+            </div>
           </div>
         </div>
 
@@ -286,7 +326,7 @@ const regionsNeedingSystems = computed(() =>
               <template #content>
                 <div class="p-4">
                   <h3 class="text-lg font-semibold text-gray-800 mb-1">
-                    {{ region.Region }}
+                    {{ translateRegionName(region.Region) }}
                   </h3>
                   <p class="text-sm text-gray-700"><strong>Galaxia:</strong> {{ region.Galaxy }}</p>
                   <p class="text-sm text-gray-700">Cuadrante: {{ region.Quadrant }}</p>
@@ -383,7 +423,7 @@ const regionsNeedingSystems = computed(() =>
                       <div class="p-4 base-content">
                         <div class="flex flex-column gap-3">
                           <div class="flex align-items-center gap-2">
-                            <h3 class="base-title">{{ region.Region }}</h3>
+                            <h3 class="base-title">{{ translateRegionName(region.Region) }}</h3>
                             <Tag
                               :value="region.Galaxy"
                               severity="info"

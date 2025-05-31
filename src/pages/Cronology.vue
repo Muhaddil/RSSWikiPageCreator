@@ -59,6 +59,14 @@ const events = ref<TimelineEvent[]>([
     category: 'Royal Space Society',
   },
 
+  // Web Updates
+
+  {
+    title: '1.0.56',
+    date: '31 / 05 / 2025',
+    description: 'Se añadió una nueva región compatible con el creador de páginas de la RSS.',
+    category: 'Web',
+  },
   {
     title: '1.0.5582',
     date: '19 / 05 / 2025',

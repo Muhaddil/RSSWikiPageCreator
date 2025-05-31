@@ -37,6 +37,17 @@ onMounted(() => {
 });
 
 function reloadPage() {
+  // if ('caches' in window) {
+  //   caches.keys().then((names) => {
+  //     for (const name of names) {
+  //       caches.delete(name);
+  //     }
+  //   }).finally(() => {
+  //     window.location.href = window.location.pathname + '?nocache=' + new Date().getTime();
+  //   });
+  // } else {
+  //   window.location.href = window.location.pathname + '?nocache=' + new Date().getTime();
+  // }
   window.location.reload();
 }
 </script>
