@@ -14,7 +14,7 @@ export const regions = {
   F7EBFD24: 'Udrupi Shallows',
   F7EBFD25: 'Jiessl Shallows',
   FF9B4CB0: 'Qudsor Void',
-  F7EBFD23: 'Guminta Nebula',
+  F7EBFD23: 'Gumita Nebula',
 } as const;
 
 export const galaxies = {

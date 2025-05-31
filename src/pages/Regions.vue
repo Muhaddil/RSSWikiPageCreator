@@ -39,7 +39,7 @@ const allowedNames = [
   'Uhcheimri Void',
   'Skitco',
   'Emcalh Nebula',
-  'Guminta Nebula',
+  'Gumita Nebula',
 ];
 
 const regionTranslations: Record<string, string> = {
@@ -58,7 +58,7 @@ const regionTranslations: Record<string, string> = {
   'Uhcheimri Void': 'Vacío de Uhcheimri',
   Skitco: 'Skitco',
   'Emcalh Nebula': 'Nebulosa Emcalh',
-  'Guminta Nebula': 'Nebulosa Guminta',
+  'Gumita Nebula': 'Nebulosa Gumita',
 };
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
@@ -156,7 +156,7 @@ const regionGlyphsMap: Record<string, string> = {
   'Qudsor Void': '007CFF9B4CB0',
   'Uhcheimri Void': '00EAFBF21696',
   Skitco: '00F30266CF95',
-  'Guminta Nebula': '140FF7EBFD23',
+  'Gumita Nebula': '140FF7EBFD23',
 };
 
 function getGlyphs(region: string, coordinates: string): string {
