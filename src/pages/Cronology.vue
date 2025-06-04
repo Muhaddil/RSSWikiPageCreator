@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.561',
+    date: '04 / 06 / 2025',
+    description: 'Se han actualizado las dependencias y mejorado la descripción de la página del censo.',
+    category: 'Web',
+  },
+  {
     title: '1.0.56',
     date: '31 / 05 / 2025',
     description: 'Se añadió una nueva región compatible con el creador de páginas de la RSS.',
