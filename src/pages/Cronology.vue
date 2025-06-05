@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.563',
+    date: '05 / 06 / 2025',
+    description: 'Se ha arreglado un pequeño error con un "label" en la interfaz de usuario.',
+    category: 'Web',
+  },
+  {
     title: '1.0.562',
     date: '05 / 06 / 2025',
     description: 'Se han actualizado las dependencias de la web.',

@@ -70,7 +70,7 @@ onMounted(() => {
     :href="sandwormLink"
     as="a"
     icon="pi pi-arrow-right"
-    label="Ir a Sandworm"
+    label="Ir a Gusano de arena"
     link
   />
   <Button
