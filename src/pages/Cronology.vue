@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.564',
+    date: '05 / 06 / 2025',
+    description: 'Se ha añadido la nueva región al apartado del generador de glifos.',
+    category: 'Web',
+  },
+  {
     title: '1.0.563',
     date: '05 / 06 / 2025',
     description: 'Se ha arreglado un pequeño error con un "label" en la interfaz de usuario.',
