@@ -10,7 +10,7 @@ import Dropdown from 'primevue/dropdown';
 import { useToast, POSITION } from 'vue-toastification';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 import Rating from 'primevue/rating';
-const webhook = atob(import.meta.env.DISCORD_WEBHOOK_RATINGS ?? '');
+const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK_RATINGS ?? '');
 
 const toast = useToast();
 
@@ -220,6 +220,8 @@ const submitFeedback = async () => {
     if (!webhook || !webhook.startsWith('https://')) {
       throw new Error('Webhook inválido o no definido.');
     }
+
+    console.log('Enviando feedback a:', webhook);
 
     const messageParts = splitMessage(formData.value.message, MAX_FIELD_LENGTH);
 
