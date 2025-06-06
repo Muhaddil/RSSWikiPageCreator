@@ -17,7 +17,7 @@ function isDestPage() {
 }
 
 function isLinksPage() {
-  return currentUrl.includes('rsslinks.html');
+  return currentUrl.includes('rsslinks.html') || currentUrl.includes('feedback.html');
 }
 </script>
 

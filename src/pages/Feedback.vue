@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
 import Card from 'primevue/card';
-import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Checkbox from 'primevue/checkbox';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import Dropdown from 'primevue/dropdown';
-import { useToast } from 'primevue/usetoast';
+import { useToast, POSITION } from 'vue-toastification';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 import Rating from 'primevue/rating';
+const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK_RATINGS ?? '');
 
 const toast = useToast();
 
@@ -37,6 +37,7 @@ const feedbackTranslations = {
         name: 'Name',
         email: 'Email',
         feedbackType: 'Feedback Type',
+        rating: 'Rating',
         message: 'Message',
         send: 'Send Feedback',
         success: 'Thank you! Your feedback has been submitted.',
@@ -44,21 +45,23 @@ const feedbackTranslations = {
           bug: 'Bug Report',
           suggestion: 'Suggestion',
           praise: 'Praise',
-          other: 'Other'
-        }
-      }
+          other: 'Other',
+        },
+      },
     },
     epic: {
       title: 'Stellar Feedback Hub',
       subtitle: 'Transmit your cosmic contemplations to the Royal Space Society',
       accessTitle: 'Cosmic Communication Protocol',
-      accessText: 'Your astral insights are invaluable to our continuum. Utilize the quantum interface below to enhance our existence.',
+      accessText:
+        'Your astral insights are invaluable to our continuum. Utilize the quantum interface below to enhance our existence.',
       securityLevel: 'Quantum Encryption Level 9',
       systemUpdate: 'All transmissions undergo quantum encryption and exist in superposition until observed.',
       form: {
         name: 'Celestial Designation',
         email: 'Quantum Communication Address',
         feedbackType: 'Cosmic Feedback Classification',
+        rating: 'Stellar Rating',
         message: 'Interstellar Message',
         send: 'Transmit Feedback',
         success: 'Gratitude! Your cosmic transmission has been received across the continuum.',
@@ -66,23 +69,25 @@ const feedbackTranslations = {
           bug: 'Anomaly Report',
           suggestion: 'Temporal Improvement',
           praise: 'Stellar Commendation',
-          other: 'Other Cosmic Phenomenon'
-        }
-      }
-    }
+          other: 'Other Cosmic Phenomenon',
+        },
+      },
+    },
   },
   es: {
     common: {
       title: 'Portal de Comentarios',
-      subtitle: 'Comparte tus pensamientos con la Real Sociedad Espacial',
+      subtitle: 'Comparte tus pensamientos con la Royal Space Society',
       accessTitle: 'Información de Comentarios',
-      accessText: 'Tu feedback es importante para nosotros. Por favor, completa el formulario a continuación para ayudarnos a mejorar.',
+      accessText:
+        'Tu feedback es importante para nosotros. Por favor, completa el formulario a continuación para ayudarnos a mejorar.',
       securityLevel: 'Transmisión Segura',
       systemUpdate: 'Todos los datos están encriptados y serán manejados con confidencialidad.',
       form: {
         name: 'Nombre',
         email: 'Correo Electrónico',
         feedbackType: 'Tipo de Comentario',
+        rating: 'Valoración',
         message: 'Mensaje',
         send: 'Enviar Comentario',
         success: '¡Gracias! Tu comentario ha sido enviado.',
@@ -90,21 +95,24 @@ const feedbackTranslations = {
           bug: 'Reporte de Error',
           suggestion: 'Sugerencia',
           praise: 'Elogio',
-          other: 'Otro'
-        }
-      }
+          other: 'Otro',
+        },
+      },
     },
     epic: {
       title: 'Centro de Comentarios Estelares',
-      subtitle: 'Transmite tus contemplaciones cósmicas a la Real Sociedad Espacial',
+      subtitle: 'Transmite tus contemplaciones cósmicas a la Royal Space Society',
       accessTitle: 'Protocolo de Comunicación Cósmica',
-      accessText: 'Tus percepciones astrales son invaluables para nuestro continuo. Utiliza la interfaz cuántica para mejorar nuestra existencia.',
+      accessText:
+        'Tus percepciones astrales son invaluables para nuestro continuo. Utiliza la interfaz cuántica para mejorar nuestra existencia.',
       securityLevel: 'Nivel de Encriptación Cuántica 9',
-      systemUpdate: 'Todas las transmisiones pasan por encriptación cuántica y existen en superposición hasta ser observadas.',
+      systemUpdate:
+        'Todas las transmisiones pasan por encriptación cuántica y existen en superposición hasta ser observadas.',
       form: {
         name: 'Designación Celestial',
         email: 'Dirección de Comunicación Cuántica',
         feedbackType: 'Clasificación de Comentarios Cósmicos',
+        rating: 'Calificación Estelar',
         message: 'Mensaje Interestelar',
         send: 'Transmitir Comentario',
         success: '¡Gratitud! Tu transmisión cósmica ha sido recibida a través del continuo.',
@@ -112,29 +120,28 @@ const feedbackTranslations = {
           bug: 'Reporte de Anomalía',
           suggestion: 'Mejora Temporal',
           praise: 'Elogio Estelar',
-          other: 'Otro Fenómeno Cósmico'
-        }
-      }
-    }
-  }
+          other: 'Otro Fenómeno Cósmico',
+        },
+      },
+    },
+  },
 };
 
 const t = computed(() => feedbackTranslations[language.value as LanguageKey][isEpicLanguage.value ? 'epic' : 'common']);
 
-// Opciones de tipo de feedback
 const feedbackTypes = computed(() => [
   { name: t.value.form.types.bug, value: 'bug' },
   { name: t.value.form.types.suggestion, value: 'suggestion' },
   { name: t.value.form.types.praise, value: 'praise' },
-  { name: t.value.form.types.other, value: 'other' }
+  { name: t.value.form.types.other, value: 'other' },
 ]);
 
-// Datos del formulario
 const formData = ref({
   name: '',
   email: '',
   feedbackType: null,
-  message: ''
+  rating: 0,
+  message: '',
 });
 
 const screenWidth = ref(window.innerWidth);
@@ -159,39 +166,75 @@ onMounted(() => {
   });
 });
 
-// Envío del formulario
-const submitFeedback = () => {
+const submitFeedback = async () => {
+  if (
+    !formData.value.name.trim() ||
+    !formData.value.email.trim() ||
+    !formData.value.feedbackType ||
+    !formData.value.message.trim() ||
+    formData.value.rating === 0
+  ) {
+    toast.error('Por favor completa todos los campos.', {
+      position: POSITION.BOTTOM_RIGHT,
+    });
+    return;
+  }
+
   isSubmitting.value = true;
 
-  // Simular envío a servidor
-  setTimeout(() => {
-    isSubmitting.value = false;
-    submitted.value = true;
+  try {
+    const payload = {
+      embeds: [
+        {
+          title: '🛰️ Nuevo Feedback recibido',
+          color: 5814783,
+          fields: [
+            { name: '👤 Nombre', value: formData.value.name, inline: true },
+            // { name: "📧 Email", value: formData.value.email, inline: true },
+            { name: '📂 Tipo', value: formData.value.feedbackType, inline: true },
+            { name: '⭐ Valoración', value: `${formData.value.rating}/5`, inline: true },
+            { name: '📝 Mensaje', value: formData.value.message },
+          ],
+          timestamp: new Date().toISOString(),
+        },
+      ],
+    };
 
-    // Mostrar notificación
-    toast.add({
-      severity: 'success',
-      summary: t.value.form.success,
-      life: 5000
+    await fetch(webhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
     });
 
-    // Resetear formulario después de éxito
+    submitted.value = true;
+
+    toast.success(t.value.form.success, {
+      position: POSITION.BOTTOM_RIGHT,
+    });
+
     formData.value = {
       name: '',
       email: '',
       feedbackType: null,
-      message: ''
+      rating: 0,
+      message: '',
     };
 
-    // Volver al formulario después de 5 segundos
     setTimeout(() => {
       submitted.value = false;
     }, 5000);
-  }, 1500);
+  } catch (error) {
+    toast.error('Error al enviar el feedback.', {
+      position: POSITION.BOTTOM_RIGHT,
+    });
+  } finally {
+    isSubmitting.value = false;
+  }
 };
 </script>
 
 <template>
+  <Toast />
   <Card class="p-0 galactic-card">
     <template #content>
       <div class="space-page-container">
@@ -249,10 +292,12 @@ const submitFeedback = () => {
           </div>
         </div>
 
-        <!-- Formulario de Feedback -->
         <Card class="feedback-form-card">
           <template #content>
-            <div v-if="!submitted" class="feedback-form">
+            <div
+              v-if="!submitted"
+              class="feedback-form"
+            >
               <div class="form-grid">
                 <div class="form-group">
                   <label>{{ t.form.name }}</label>
@@ -263,15 +308,10 @@ const submitFeedback = () => {
                   />
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label>{{ t.form.email }}</label>
-                  <InputText
-                    v-model="formData.email"
-                    type="email"
-                    class="form-input"
-                    :placeholder="t.form.email"
-                  />
-                </div>
+                  <InputText v-model="formData.email" type="email" class="form-input" :placeholder="t.form.email" />
+                </div> -->
 
                 <div class="form-group">
                   <label>{{ t.form.feedbackType }}</label>
@@ -296,6 +336,18 @@ const submitFeedback = () => {
                 />
               </div>
 
+              <div class="rating-container form-group">
+                <label>{{ t.form.rating }}</label>
+                <div class="rating-wrapper">
+                  <Rating
+                    v-model="formData.rating"
+                    :stars="5"
+                    :cancel="false"
+                    class="form-rating"
+                  />
+                </div>
+              </div>
+
               <div class="form-actions">
                 <Button
                   :label="t.form.send"
@@ -307,8 +359,10 @@ const submitFeedback = () => {
               </div>
             </div>
 
-            <!-- Mensaje de éxito -->
-            <div v-if="submitted" class="success-message">
+            <div
+              v-if="submitted"
+              class="success-message"
+            >
               <i class="pi pi-check-circle success-icon"></i>
               <h3>{{ t.form.success }}</h3>
               <p>{{ t.subtitle }}</p>
@@ -324,7 +378,8 @@ const submitFeedback = () => {
           </template>
           <p class="panel-content">
             {{ t.accessText }}<br /><br />
-            <span class="security-level">{{ t.securityLevel }}</span><br />
+            <span class="security-level">{{ t.securityLevel }}</span
+            ><br />
             {{ t.systemUpdate }}
           </p>
         </Panel>
@@ -476,9 +531,11 @@ const submitFeedback = () => {
   0% {
     box-shadow: 0 0 0 0 rgba(103, 232, 249, 0.5);
   }
+
   50% {
     box-shadow: 0 0 10px 3px rgba(103, 232, 249, 0.5);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(103, 232, 249, 0);
   }
@@ -493,14 +550,17 @@ const submitFeedback = () => {
     transform: scale(1);
     background: var(--background-primary);
   }
+
   25% {
     transform: scale(1.005);
     background: linear-gradient(45deg, var(--background-primary) 0%, rgba(103, 232, 249, 0.1) 100%);
   }
+
   50% {
     transform: scale(1);
     box-shadow: 0 0 30px rgba(103, 232, 249, 0.2);
   }
+
   100% {
     background: var(--background-primary);
   }
@@ -529,7 +589,6 @@ const submitFeedback = () => {
   transform: scaleX(1);
 }
 
-/* Formulario de feedback */
 .feedback-form-card {
   background: var(--background-secondary) !important;
   border: 1px solid var(--border-color) !important;
@@ -565,7 +624,8 @@ const submitFeedback = () => {
   font-weight: 500;
 }
 
-.form-input, .form-textarea {
+.form-input,
+.form-textarea {
   width: 100%;
   background: var(--background-primary);
   border: 1px solid var(--border-color);
@@ -575,7 +635,8 @@ const submitFeedback = () => {
   transition: all 0.3s ease;
 }
 
-.form-input:focus, .form-textarea:focus {
+.form-input:focus,
+.form-textarea:focus {
   border-color: var(--tag-border);
   box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
   outline: none;
@@ -584,6 +645,31 @@ const submitFeedback = () => {
 .form-textarea {
   min-height: 120px;
   resize: vertical;
+}
+
+.rating-container {
+  display: block;
+  width: 100%;
+}
+
+.rating-wrapper {
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.form-rating .pi-star,
+.form-rating .pi-star-fill {
+  font-size: 1.5rem;
+  color: var(--border-color);
+}
+
+.form-rating .pi-star-fill {
+  color: var(--tag-border) !important;
 }
 
 .form-actions {
@@ -643,8 +729,15 @@ const submitFeedback = () => {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .success-icon {
@@ -655,9 +748,17 @@ const submitFeedback = () => {
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .success-message h3 {

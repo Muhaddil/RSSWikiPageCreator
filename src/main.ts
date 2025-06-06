@@ -9,12 +9,14 @@ import { Colours } from './css/stylePreset';
 import Toast, { POSITION } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import ConfirmationService from 'primevue/confirmationservice';
+import ToastService from 'primevue/toastservice';
 
 const app = createApp(App);
 const pinia = createPinia();
 
 app.use(pinia);
 app.use(ConfirmationService);
+app.use(ToastService);
 app.use(PrimeVue, {
   theme: {
     preset: Colours,
