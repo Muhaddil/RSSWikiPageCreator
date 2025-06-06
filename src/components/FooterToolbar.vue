@@ -38,7 +38,8 @@ function isFAQPage() {
     currentUrl.includes('regions.html') ||
     currentUrl.includes('cronology.html') ||
     currentUrl.includes('rssfriends.html') ||
-    currentUrl.includes('guias.html')
+    currentUrl.includes('guias.html') ||
+    currentUrl.includes('feedback.html')
   );
 }
 
