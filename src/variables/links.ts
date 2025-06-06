@@ -78,7 +78,7 @@ export const linkData = {
         category: 'Archivos de la Singularidad',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/censustable.html',
         description: 'Matriz holográfica de verificación biométrica para registro interdimensional de miembros RSS',
-        icon: 'pi pi-id-card',
+        icon: 'pi pi-home',
       },
       {
         title: 'Nexo Cartográfico Galáctico RSS',
@@ -130,7 +130,7 @@ export const linkData = {
         title: 'Registro de Miembros',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/census.html',
         category: 'Censo',
-        description: 'Sistema de verificación para membresía RSS',
+        description: 'Sistema de creación de membresías para el censo de miembros de la RSS.',
         icon: 'pi pi-id-card',
       },
       {
@@ -176,11 +176,11 @@ export const linkData = {
         icon: 'pi pi-microchip',
       },
       {
-        title: 'Registro de Miembros',
+        title: 'Registro de Bases',
         category: 'Censo Oficial',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/censustable.html',
-        description: 'Sistema de verificación y registro actualizado de todos los miembros activos de la RSS',
-        icon: 'pi pi-id-card',
+        description: 'Sistema de verificación y registro actualizado de todas las bases censadas de la RSS',
+        icon: 'pi pi-home',
       },
       {
         title: 'Directorio de Regiones RSS',
@@ -283,7 +283,7 @@ export const linkData = {
         category: 'Singularity Archives',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/censustable.html',
         description: 'Holographic biometric verification matrix for interdimensional RSS operatives registry',
-        icon: 'pi pi-id-card',
+        icon: 'pi pi-home',
       },
       {
         title: 'RSS Galactic Cartographic Nexus',
@@ -380,11 +380,11 @@ export const linkData = {
         icon: 'pi pi-microchip',
       },
       {
-        title: 'Member Registry',
+        title: 'Base Registry',
         category: 'Official Census',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/censustable.html',
         description: 'Updated verification and registration system for all active RSS members',
-        icon: 'pi pi-id-card',
+        icon: 'pi pi-home',
       },
       {
         title: 'RSS Regions Directory',
