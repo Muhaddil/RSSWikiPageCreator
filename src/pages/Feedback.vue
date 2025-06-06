@@ -217,6 +217,10 @@ const submitFeedback = async () => {
   isSubmitting.value = true;
 
   try {
+    if (!webhook || !webhook.startsWith('https://')) {
+      throw new Error('Webhook inválido o no definido.');
+    }
+
     const messageParts = splitMessage(formData.value.message, MAX_FIELD_LENGTH);
 
     const fields = [
@@ -235,6 +239,8 @@ const submitFeedback = async () => {
     });
 
     const payload = {
+      username: 'Muhaddil Wiki Page Creator',
+      avatar_url: 'https://github.com/Muhaddil/simple-form-sender/blob/main/src/images/muha2.png?raw=true',
       embeds: [
         {
           title: '🛰️ Nuevo Feedback recibido',
@@ -268,7 +274,8 @@ const submitFeedback = async () => {
       message: '',
     };
   } catch (error) {
-    toast.error('Error al enviar el feedback.', {
+    console.error('Error al enviar feedback:', error);
+    toast.error('Error al enviar el feedback. ¿Está configurado el webhook?', {
       position: POSITION.BOTTOM_RIGHT,
     });
   } finally {
