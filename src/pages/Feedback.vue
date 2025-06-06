@@ -23,7 +23,31 @@ const isEpicLanguage = ref<boolean>(false);
 const isSubmitting = ref<boolean>(false);
 const submitted = ref<boolean>(false);
 
-// Traducciones para la página de feedback
+onMounted(() => {
+  watch(isEpicLanguage, () => {
+    const card = document.querySelector('.galactic-card');
+    if (card) {
+      card.classList.add('epic-transition');
+      setTimeout(() => card.classList.remove('epic-transition'), 1000);
+    }
+  });
+
+  const lastSubmittedAt = localStorage.getItem('feedback-submitted-at');
+  if (lastSubmittedAt) {
+    const elapsed = Date.now() - parseInt(lastSubmittedAt, 10);
+    if (elapsed < 24 * 60 * 60 * 1000) {
+      submitted.value = true;
+      setTimeout(
+        () => {
+          submitted.value = false;
+          localStorage.removeItem('feedback-submitted-at');
+        },
+        24 * 60 * 60 * 1000 - elapsed
+      );
+    }
+  }
+});
+
 const feedbackTranslations = {
   en: {
     common: {
@@ -166,10 +190,20 @@ onMounted(() => {
   });
 });
 
+const MAX_FIELD_LENGTH = 1024;
+
+const splitMessage = (message: string, maxLength: number): string[] => {
+  const parts: string[] = [];
+  for (let i = 0; i < message.length; i += maxLength) {
+    parts.push(message.substring(i, i + maxLength));
+  }
+  return parts;
+};
+
 const submitFeedback = async () => {
   if (
     !formData.value.name.trim() ||
-    !formData.value.email.trim() ||
+    // !formData.value.email.trim() ||
     !formData.value.feedbackType ||
     !formData.value.message.trim() ||
     formData.value.rating === 0
@@ -183,18 +217,29 @@ const submitFeedback = async () => {
   isSubmitting.value = true;
 
   try {
+    const messageParts = splitMessage(formData.value.message, MAX_FIELD_LENGTH);
+
+    const fields = [
+      { name: '👤 Nombre', value: formData.value.name, inline: true },
+      // { name: "📧 Email", value: formData.value.email, inline: true },
+      { name: '📂 Tipo', value: formData.value.feedbackType, inline: true },
+      { name: '⭐ Valoración', value: `${formData.value.rating}/5`, inline: true },
+    ];
+
+    messageParts.forEach((part: string, index: number) => {
+      fields.push({
+        name: index === 0 ? '📝 Mensaje' : `📝 Mensaje (parte ${index + 1})`,
+        value: part,
+        inline: false,
+      });
+    });
+
     const payload = {
       embeds: [
         {
           title: '🛰️ Nuevo Feedback recibido',
           color: 5814783,
-          fields: [
-            { name: '👤 Nombre', value: formData.value.name, inline: true },
-            // { name: "📧 Email", value: formData.value.email, inline: true },
-            { name: '📂 Tipo', value: formData.value.feedbackType, inline: true },
-            { name: '⭐ Valoración', value: `${formData.value.rating}/5`, inline: true },
-            { name: '📝 Mensaje', value: formData.value.message },
-          ],
+          fields,
           timestamp: new Date().toISOString(),
         },
       ],
@@ -207,6 +252,7 @@ const submitFeedback = async () => {
     });
 
     submitted.value = true;
+    localStorage.setItem('feedback-submitted-at', Date.now().toString());
 
     toast.success(t.value.form.success, {
       position: POSITION.BOTTOM_RIGHT,
@@ -221,7 +267,8 @@ const submitFeedback = async () => {
     };
 
     setTimeout(() => {
-      submitted.value = false;
+      submitted.value = true;
+      localStorage.removeItem('feedbackSubmitted');
     }, 5000);
   } catch (error) {
     toast.error('Error al enviar el feedback.', {
