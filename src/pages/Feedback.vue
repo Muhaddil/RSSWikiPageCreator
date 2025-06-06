@@ -245,7 +245,7 @@ const submitFeedback = async () => {
       avatar_url: 'https://github.com/Muhaddil/simple-form-sender/blob/main/src/images/muha2.png?raw=true',
       embeds: [
         {
-          title: '🛰️ Nuevo Feedback recibido',
+          title: '🛰️ ¡Nuevo Feedback recibido!',
           color: 5814783,
           fields,
           timestamp: new Date().toISOString(),
