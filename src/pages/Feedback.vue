@@ -215,13 +215,13 @@ const submitFeedback = async () => {
   }
 
   isSubmitting.value = true;
+  console.log('Enviando feedback a:', webhook);
 
   try {
     if (!webhook || !webhook.startsWith('https://')) {
       throw new Error('Webhook inválido o no definido.');
     }
 
-    console.log('Enviando feedback a:', webhook);
 
     const messageParts = splitMessage(formData.value.message, MAX_FIELD_LENGTH);
 
