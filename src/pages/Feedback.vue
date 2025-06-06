@@ -251,6 +251,8 @@ const submitFeedback = async () => {
       body: JSON.stringify(payload),
     });
 
+    console.log('Feedback enviado:', payload);
+
     submitted.value = true;
     localStorage.setItem('feedback-submitted-at', Date.now().toString());
 
@@ -265,11 +267,6 @@ const submitFeedback = async () => {
       rating: 0,
       message: '',
     };
-
-    setTimeout(() => {
-      submitted.value = true;
-      localStorage.removeItem('feedbackSubmitted');
-    }, 5000);
   } catch (error) {
     toast.error('Error al enviar el feedback.', {
       position: POSITION.BOTTOM_RIGHT,
