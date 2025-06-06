@@ -10,7 +10,7 @@ import Dropdown from 'primevue/dropdown';
 import { useToast, POSITION } from 'vue-toastification';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 import Rating from 'primevue/rating';
-const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK_RATINGS ?? '');
+const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK_RATINGS ?? 'No hay Webhook configurado');
 
 const toast = useToast();
 
