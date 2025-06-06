@@ -221,7 +221,6 @@ const submitFeedback = async () => {
       throw new Error('Webhook inválido o no definido.');
     }
 
-
     const messageParts = splitMessage(formData.value.message, MAX_FIELD_LENGTH);
 
     const fields = [
