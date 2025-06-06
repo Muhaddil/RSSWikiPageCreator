@@ -17,10 +17,13 @@ concurrency:
 env:
   buildCommand: |
     npm ci
-    echo -n 'VITE_DISCORD_WEBHOOK=' >> .env
-    echo '${{ secrets.DISCORD_WEBHOOK }}' | base64 | tr -d "\n\r" >> .env
-    echo -n 'VITE_DISCORD_WEBHOOK_RATINGS=' >> .env
-    echo '${{ secrets.DISCORD_WEBHOOK_RATINGS }}' | base64 | tr -d "\n\r" >> .env
+    {
+      echo -n 'VITE_DISCORD_WEBHOOK='
+      echo '${{ secrets.DISCORD_WEBHOOK }}' | base64 | tr -d "\n\r"
+      echo -n 'VITE_DISCORD_WEBHOOK_RATINGS='
+      echo '${{ secrets.DISCORD_WEBHOOK_RATINGS }}' | base64 | tr -d "\n\r"
+    } >> .env
+    echo >> .env
     npm run build
   buildOutput: dist # optionally "dist" if build step is needed
 
