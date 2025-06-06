@@ -103,6 +103,13 @@ export const linkData = {
         description: 'Registro unificado de viajeros que forman parte de la RSS',
         icon: 'pi pi-link',
       },
+      {
+        title: 'Nexo de Opiniones Estelares de la RSS',
+        category: 'Protocolo de Viajeros Estelares',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/feedback.html',
+        description: 'Registro unificado para que los viajeros de la RSS puedan dejar sus opiniones sobre la RSS',
+        icon: 'pi pi-reply',
+      },
     ],
     common: [
       {
@@ -203,6 +210,13 @@ export const linkData = {
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html',
         description: 'Registro unificado de viajeros que forman parte de la RSS',
         icon: 'pi pi-link',
+      },
+      {
+        title: 'Feedback',
+        category: 'Protocolo de Viajeros Estelares',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/feedback.html',
+        description: 'Registro unificado para que los viajeros de la RSS puedan dejar sus opiniones sobre la RSS',
+        icon: 'pi pi-reply',
       },
     ],
   },
@@ -307,6 +321,13 @@ export const linkData = {
         description: 'Unified registry of travelers who are part of the RSS',
         icon: 'pi pi-link',
       },
+      {
+        title: 'RSS Star Opinion Nexus',
+        category: 'Star Travelers Protocol',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/feedback.html',
+        description: 'Unified registry for RSS travelers to leave their opinions about the RSS',
+        icon: 'pi pi-reply',
+      },
     ],
     common: [
       {
@@ -407,6 +428,13 @@ export const linkData = {
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html',
         description: 'Unified registry of travelers who are part of the RSS',
         icon: 'pi pi-link',
+      },
+      {
+        title: 'Feedback',
+        category: 'Star Travelers Protocol',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/feedback.html',
+        description: 'Unified registry for RSS travelers to leave their opinions about the RSS',
+        icon: 'pi pi-reply',
       },
     ],
   },

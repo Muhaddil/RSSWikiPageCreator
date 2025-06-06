@@ -62,6 +62,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.57',
+    date: '06 / 06 / 2025',
+    description:
+      'Se ha añadido una nueva página de feedback para que los Viajeros de la RSS puedan dejar sus comentarios y feedback.',
+    category: 'Web',
+  },
+  {
     title: '1.0.564',
     date: '05 / 06 / 2025',
     description: 'Se ha añadido la nueva región al apartado del generador de glifos.',
