@@ -10,7 +10,7 @@ import Dropdown from 'primevue/dropdown';
 import { useToast, POSITION } from 'vue-toastification';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 import Rating from 'primevue/rating';
-const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK_RATINGS ?? '');
+const webhook = atob(import.meta.env.DISCORD_WEBHOOK_RATINGS ?? '');
 
 const toast = useToast();
 
@@ -256,8 +256,6 @@ const submitFeedback = async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-
-    console.log('Feedback enviado:', payload);
 
     submitted.value = true;
     localStorage.setItem('feedback-submitted-at', Date.now().toString());
