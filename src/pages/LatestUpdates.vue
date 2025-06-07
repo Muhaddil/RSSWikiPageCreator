@@ -233,7 +233,7 @@ const formatDate = (dateString: string) => {
         <div class="flex items-start justify-between mb-6 header-container">
           <div class="flex flex-col">
             <a
-              href="https://nomanssky.fandom.com/es/wiki/No_Man%27s_Sky_Wiki"
+              href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society"
               target="_blank"
             >
               <div class="wiki-logo">
