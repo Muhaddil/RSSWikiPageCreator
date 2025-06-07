@@ -63,12 +63,26 @@ function reloadPage() {
     v-if="updateAvailable"
     class="update-banner"
   >
-    <span class="banner-text"> <i class="pi pi-refresh"></i> ¡Nueva versión disponible! </span>
+    <div class="banner-content">
+      <p class="banner-text"><i class="pi pi-refresh"></i> ¡Nueva versión disponible!</p>
+      <p class="banner-text">
+        <i class="pi pi-info-circle"></i>
+        Consulta los cambios:
+        <a
+          href="https://muhaddil.github.io/RSSWikiPageCreator/cronology.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="update-link"
+        >
+          Ver cambios
+        </a>
+      </p>
+    </div>
     <button
-      class="p-button p-button-sm p-button-outlined"
+      class="p-button p-button-sm p-button-outlined update-btn"
       @click="reloadPage"
     >
-      Actualizar
+      Actualizar ahora
     </button>
   </div>
 
@@ -254,5 +268,18 @@ footer {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.banner-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.update-link {
+  color: var(--primary-color);
+  font-weight: 500;
+  text-decoration: underline;
+  margin-left: 0.25rem;
 }
 </style>
