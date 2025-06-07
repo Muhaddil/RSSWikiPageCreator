@@ -1,6 +1,7 @@
 export const linkData = {
   es: {
     epic: [
+      // 1. Información y documentación
       {
         title: 'Archivos HoloWiki RSS',
         url: 'https://nomanssky.fandom.com/es/wiki/Royal_Space_Society',
@@ -9,6 +10,89 @@ export const linkData = {
           'Núcleo central de conocimiento con registros históricos, protocolos de flota y mapas estelares actualizados',
         icon: 'pi pi-globe',
       },
+      {
+        title: 'Protocolos de la Flota',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/faq.html',
+        category: 'Directrices Omega',
+        description: 'Algoritmos de inteligencia artificial para resolución de incidencias y protocolos de emergencia',
+        icon: 'pi pi-question-circle',
+      },
+      {
+        title: 'Nexo Cronológico Galáctico RSS',
+        category: 'Protocolo de Registro Temporal',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/cronology.html',
+        description:
+          'Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la Royal Space Society',
+        icon: 'pi pi-sort-amount-up',
+      },
+      {
+        title: 'Nexo Cartográfico Galáctico RSS',
+        category: 'Protocolo de Acceso Estelar',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/regions.html',
+        description:
+          'Registro galáctico unificado de todas las regiones cartografiadas bajo soberanía de la Royal Space Society',
+        icon: 'pi pi-prime',
+      },
+      {
+        title: 'Matriz de Logros',
+        category: 'Reconocimiento Singularidad',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/basesdestacadas.html',
+        description: 'Base de datos con verificación holográfica de operaciones estelares destacadas',
+        icon: 'pi pi-microchip',
+      },
+      {
+        title: 'Red Comando Estelar',
+        url: 'https://x.com/RoyalSpaceHub',
+        category: 'Comunicaciones Tácticas',
+        description: 'Canal prioritario de transmisiones hiperlumínicas desde el Cuartel General de la RSS',
+        icon: 'pi pi-sort-alt-slash',
+      },
+      {
+        title: 'Holored Cuántica',
+        url: 'https://discord.gg/oskar1up',
+        category: 'Comunicación FTL',
+        description: 'Matriz FTL (más rápida que la luz) para coordinación de flotas y eventos multigalácticos',
+        icon: 'pi pi-bolt',
+      },
+      {
+        title: 'Foro Estelar',
+        url: 'https://www.reddit.com/r/NMS_RSS/',
+        category: 'Inteligencia Colectiva',
+        description: 'Base de conocimiento actualizado en tiempo cuántico',
+        icon: 'pi pi-comments',
+      },
+      {
+        title: 'Nexo de Opiniones Estelares de la RSS',
+        category: 'Protocolo de Viajeros Estelares',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/feedback.html',
+        description: 'Registro unificado para que los viajeros de la RSS puedan dejar sus opiniones sobre la RSS',
+        icon: 'pi pi-reply',
+      },
+
+      // 2. Gestión de miembros
+      {
+        title: 'Registro Identidad Galáctica',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/census.html',
+        category: 'Censo Estelar',
+        description: 'Sistema de verificación biométrica para membresía RSS y credenciales interestelares',
+        icon: 'pi pi-id-card',
+      },
+      {
+        title: 'Nexo Viajeros Estelares RSS',
+        category: 'Protocolo de Viajeros Estelares',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html',
+        description: 'Registro unificado de viajeros que forman parte de la RSS',
+        icon: 'pi pi-link',
+      },
+      {
+        title: 'Núcleo del Censo Cuántico',
+        category: 'Archivos de la Singularidad',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/censustable.html',
+        description: 'Matriz holográfica de verificación biométrica para registro interdimensional de miembros RSS',
+        icon: 'pi pi-home',
+      },
+
+      // 3. Exploración y herramientas
       {
         title: 'Núcleo de Comando',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/',
@@ -25,90 +109,11 @@ export const linkData = {
         icon: 'pi pi-cloud-download',
       },
       {
-        title: 'Registro Identidad Galáctica',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/census.html',
-        category: 'Censo Estelar',
-        description: 'Sistema de verificación biométrica para membresía RSS y credenciales interestelares',
-        icon: 'pi pi-id-card',
-      },
-      {
-        title: 'Protocolos de la Flota',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/faq.html',
-        category: 'Directrices Omega',
-        description: 'Algoritmos de inteligencia artificial para resolución de incidencias y protocolos de emergencia',
-        icon: 'pi pi-question-circle',
-      },
-      {
         title: 'Matriz de Portal Cuántico',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgeneratorV2.html',
         category: 'Tecnología Alienígena',
         description: 'Sistema de decodificación de coordenadas interdimensionales basado en artefactos de los Antiguos',
         icon: 'pi pi-map-marker',
-      },
-      {
-        title: 'Holored Cuántica',
-        url: 'https://discord.gg/oskar1up',
-        category: 'Comunicación FTL',
-        description: 'Matriz FTL (más rápida que la luz) para coordinación de flotas y eventos multigalácticos',
-        icon: 'pi pi-bolt',
-      },
-      {
-        title: 'Red Comando Estelar',
-        url: 'https://x.com/RoyalSpaceHub',
-        category: 'Comunicaciones Tácticas',
-        description: 'Canal prioritario de transmisiones hiperlumínicas desde el Cuartel General de la RSS',
-        icon: 'pi pi-sort-alt-slash',
-      },
-      {
-        title: 'Foro Estelar',
-        url: 'https://www.reddit.com/r/NMS_RSS/',
-        category: 'Inteligencia Colectiva',
-        description: 'Base de conocimiento actualizado en tiempo cuántico',
-        icon: 'pi pi-comments',
-      },
-      {
-        title: 'Matriz de Logros',
-        category: 'Reconocimiento Singularidad',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/basesdestacadas.html',
-        description: 'Base de datos con verificación holográfica de operaciones estelares destacadas',
-        icon: 'pi pi-microchip',
-      },
-      {
-        title: 'Núcleo del Censo Cuántico',
-        category: 'Archivos de la Singularidad',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/censustable.html',
-        description: 'Matriz holográfica de verificación biométrica para registro interdimensional de miembros RSS',
-        icon: 'pi pi-home',
-      },
-      {
-        title: 'Nexo Cartográfico Galáctico RSS',
-        category: 'Protocolo de Acceso Estelar',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/regions.html',
-        description:
-          'Registro galáctico unificado de todas las regiones cartografiadas bajo soberanía de la Royal Space Society',
-        icon: 'pi pi-prime',
-      },
-      {
-        title: 'Nexo Cronológico Galáctico RSS',
-        category: 'Protocolo de Registro Temporal',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/cronology.html',
-        description:
-          'Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la Royal Space Society',
-        icon: 'pi pi-sort-amount-up',
-      },
-      {
-        title: 'Nexo Viajeros Estelares RSS',
-        category: 'Protocolo de Viajeros Estelares',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html',
-        description: 'Registro unificado de viajeros que forman parte de la RSS',
-        icon: 'pi pi-link',
-      },
-      {
-        title: 'Nexo de Opiniones Estelares de la RSS',
-        category: 'Protocolo de Viajeros Estelares',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/feedback.html',
-        description: 'Registro unificado para que los viajeros de la RSS puedan dejar sus opiniones sobre la RSS',
-        icon: 'pi pi-reply',
       },
       {
         title: 'Archivo Galáctico de Actualizaciones',
@@ -128,6 +133,7 @@ export const linkData = {
       },
     ],
     common: [
+      // 1. Información y documentación
       {
         title: 'Wiki RSS',
         url: 'https://nomanssky.fandom.com/es/wiki/Royal_Space_Society',
@@ -135,6 +141,80 @@ export const linkData = {
         description: 'Base de conocimiento con documentación y mapas estelares',
         icon: 'pi pi-globe',
       },
+      {
+        title: 'Preguntas frecuentes',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/faq.html',
+        category: 'Protocolos',
+        description: 'Un recopilatorio de muchas de las preguntas que se hacen con frecuencia',
+        icon: 'pi pi-question-circle',
+      },
+      {
+        title: 'Cronología de la RSS y de la Web',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/cronology.html',
+        category: 'Protocolo de Registro Temporal',
+        description: 'Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la RSS',
+        icon: 'pi pi-sort-amount-up',
+      },
+      {
+        title: 'Directorio de Regiones RSS',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/regions.html',
+        category: 'Protocolo de Acceso Estelar',
+        description: 'Directorio central de todas las regiones RSS reconocidas oficialmente',
+        icon: 'pi pi-prime',
+      },
+      {
+        title: 'Bases Destacadas',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/basesdestacadas.html',
+        category: 'Logros',
+        description: 'Directorio de bases destacadas de miembros RSS',
+        icon: 'pi pi-microchip',
+      },
+      {
+        title: 'Redes Sociales',
+        url: 'https://x.com/RoyalSpaceHub',
+        category: 'Noticias',
+        description: 'Cuenta oficial en Twitter/X de la RSS',
+        icon: 'pi pi-sort-alt-slash',
+      },
+      {
+        title: 'Chat de Discord',
+        url: 'https://discord.gg/oskar1up',
+        category: 'Comunicación',
+        description: 'Canal principal de comunicación de la comunidad',
+        icon: 'pi pi-bolt',
+      },
+      {
+        title: 'Foro Reddit',
+        url: 'https://www.reddit.com/r/NMS_RSS/',
+        category: 'Discusiones',
+        description: 'Foro comunitario para debates y sugerencias',
+        icon: 'pi pi-comments',
+      },
+
+      // 2. Gestión de Miembros
+      {
+        title: 'Registro de miembros',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/census.html',
+        category: 'Censo',
+        description: 'Sistema de creación de membresías para el censo de miembros de la RSS.',
+        icon: 'pi pi-id-card',
+      },
+      {
+        title: 'Creador de tarjeta de Miembro',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html',
+        category: 'Protocolo de Viajeros Estelares',
+        description: 'Registro unificado de viajeros que forman parte de la RSS',
+        icon: 'pi pi-link',
+      },
+      {
+        title: 'Censo oficial de miembros de la RSS',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/censustable.html',
+        category: 'Censo Oficial',
+        description: 'Sistema de verificación y registro actualizado de todas las bases censadas de la RSS',
+        icon: 'pi pi-home',
+      },
+
+      // 3. Exploración y herramientas
       {
         title: 'Centro de Control',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/',
@@ -150,83 +230,13 @@ export const linkData = {
         icon: 'pi pi-cloud-download',
       },
       {
-        title: 'Registro de Miembros',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/census.html',
-        category: 'Censo',
-        description: 'Sistema de creación de membresías para el censo de miembros de la RSS.',
-        icon: 'pi pi-id-card',
-      },
-      {
-        title: 'Preguntas frecuentes',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/faq.html',
-        category: 'Protocolos',
-        description: 'Un recopilatorio de muchas de las preguntas que se hacen con frecuencia',
-        icon: 'pi pi-question-circle',
-      },
-      {
-        title: 'Generador de Portales',
+        title: 'Generador de portales',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgeneratorV2.html',
         category: 'Herramientas',
         description: 'Generador de coordenadas para portales estelares',
         icon: 'pi pi-map-marker',
       },
-      {
-        title: 'Chat de Discord',
-        url: 'https://discord.gg/oskar1up',
-        category: 'Comunicación',
-        description: 'Canal principal de comunicación de la comunidad',
-        icon: 'pi pi-bolt',
-      },
-      {
-        title: 'Redes Sociales',
-        url: 'https://x.com/RoyalSpaceHub',
-        category: 'Noticias',
-        description: 'Cuenta oficial en Twitter/X de la RSS',
-        icon: 'pi pi-sort-alt-slash',
-      },
-      {
-        title: 'Foro Reddit',
-        url: 'https://www.reddit.com/r/NMS_RSS/',
-        category: 'Discusiones',
-        description: 'Foro comunitario para debates y sugerencias',
-        icon: 'pi pi-comments',
-      },
-      {
-        title: 'Bases Destacadas',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/basesdestacadas.html',
-        category: 'Logros',
-        description: 'Directorio de bases destacadas de miembros RSS',
-        icon: 'pi pi-microchip',
-      },
-      {
-        title: 'Registro de Bases',
-        category: 'Censo Oficial',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/censustable.html',
-        description: 'Sistema de verificación y registro actualizado de todas las bases censadas de la RSS',
-        icon: 'pi pi-home',
-      },
-      {
-        title: 'Directorio de Regiones RSS',
-        category: 'Protocolo de Acceso Estelar',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/regions.html',
-        description: 'Directorio central de todas las regiones RSS reconocidas oficialmente',
-        icon: 'pi pi-prime',
-      },
-      {
-        title: 'Cronología de la RSS y de la Web',
-        category: 'Protocolo de Registro Temporal',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/cronology.html',
-        description:
-          'Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la Royal Space Society',
-        icon: 'pi pi-sort-amount-up',
-      },
-      {
-        title: 'Creador de tarjetas de amigo',
-        category: 'Protocolo de Viajeros Estelares',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html',
-        description: 'Registro unificado de viajeros que forman parte de la RSS',
-        icon: 'pi pi-link',
-      },
+
       {
         title: 'Feedback',
         category: 'Protocolo de Viajeros Estelares',

@@ -64,7 +64,8 @@ const events = ref<TimelineEvent[]>([
   {
     title: '1.0.6241',
     date: '08 / 06 / 2025',
-    description: 'Se ha añadido un nuevo parametro faltante para el sistema de minificado de la web al momento de subirse a GHub Pages.',
+    description:
+      'Se ha añadido un nuevo parametro faltante para el sistema de minificado de la web al momento de subirse a GHub Pages.',
     category: 'Web',
   },
   {
