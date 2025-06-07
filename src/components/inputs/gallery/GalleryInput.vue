@@ -8,10 +8,14 @@ import FileUpload, { type FileUploadSelectEvent } from 'primevue/fileupload';
 import { ref } from 'vue';
 import GalleryPreview from './GalleryPreview.vue';
 import ExternalLink from '../../ExternalLink.vue';
+import Dialog from 'primevue/dialog';
+import WikiLink from '@/helpers/WikiLink.vue';
 
 const pageData = usePageDataStore();
 const { galleryFiles } = storeToRefs(pageData);
 const tooLargeFiles = ref<string[]>([]);
+const showInfoModal = ref(false);
+const hasSeenInfoModal = ref(localStorage.getItem('hasSeenInfoModal-Gallery') === 'true');
 
 let id = 0;
 
@@ -36,6 +40,12 @@ function onUpload(e: FileUploadSelectEvent) {
       desc: '',
     }));
 
+  if (!hasSeenInfoModal.value && validFiles.length) {
+    showInfoModal.value = true;
+    hasSeenInfoModal.value = true;
+    localStorage.setItem('hasSeenInfoModal-Gallery', 'true');
+  }
+
   if (validFiles.length) {
     galleryFiles.value.unshift(...validFiles);
   }
@@ -59,6 +69,12 @@ function onDrop(files: File[] | null) {
       id: id++,
       desc: '',
     }));
+
+  if (!hasSeenInfoModal.value && validFiles.length) {
+    showInfoModal.value = true;
+    hasSeenInfoModal.value = true;
+    localStorage.setItem('hasSeenInfoModal-Gallery', 'true');
+  }
 
   if (validFiles.length) {
     galleryFiles.value.unshift(...validFiles);
@@ -139,6 +155,30 @@ const { isOverDropZone } = useDropZone(dropzone, {
         </div>
       </template>
     </FileUpload>
+
+    <Dialog
+      v-model:visible="showInfoModal"
+      modal
+      header="Atención"
+      :closable="true"
+    >
+      <span>
+        Las imágenes seleccionadas <strong>no se subirán automáticamente</strong> a la wiki. Este selector solo agrega
+        las imágenes al formulario actual.
+      </span>
+      <div class="mt-3">
+        Para subir imágenes a la wiki, ve a
+        <WikiLink
+          link="Special:Upload?multiple=true"
+          text="Especial:Subir"
+        />
+        y súbelas manualmente.
+      </div>
+      <div class="mt-3">
+        <span class="has-text-weight-bold">NOTA</span>: Las imágenes agregadas aquí deben el mismo nombre que las que
+        subas a la wiki. Si no, el formulario completará automáticamente el nombre de la imagen incorrectamente.
+      </div>
+    </Dialog>
 
     <GalleryPreview />
   </div>

@@ -12,6 +12,8 @@ import Explainer from '../Explainer.vue';
 import { debounceDelay } from '@/variables/debounce';
 import ExternalLink from '../ExternalLink.vue';
 import InvalidInput from '../InvalidInput.vue';
+import Dialog from 'primevue/dialog';
+import WikiLink from '@/helpers/WikiLink.vue';
 
 defineProps<{
   label: string;
@@ -21,7 +23,7 @@ defineProps<{
 }>();
 
 const model = defineModel<string>({ required: true });
-
+const showInfoModal = ref(false);
 const isTooLarge = ref(false);
 const hasFileEnding = ref(true);
 
@@ -33,9 +35,18 @@ watchDebounced(model, (newVal) => (hasFileEnding.value = !newVal || newVal.inclu
   debounce: debounceDelay,
 });
 
+const hasSeenInfoModal = ref(localStorage.getItem('hasSeenInfoModal') === 'true');
+
 function onUpload(e: FileUploadSelectEvent) {
   const file = e.files[0];
   if (!(file instanceof File)) return;
+
+  if (!hasSeenInfoModal.value) {
+    showInfoModal.value = true;
+    hasSeenInfoModal.value = true;
+    localStorage.setItem('hasSeenInfoModal', 'true');
+  }
+
   updateFile([file]);
 }
 
@@ -93,6 +104,26 @@ const isSmallScreen = computed(() => width.value <= smallContainerWidth);
 
       <template #input>
         <div ref="inputWrapper">
+          <Dialog
+            v-model:visible="showInfoModal"
+            modal
+            header="Atención"
+            :closable="true"
+          >
+            <span>
+              No olvides subir tu foto a la wiki en
+              <WikiLink
+                link="Special:Upload?multiple=true"
+                text="Especial:Subir"
+              />. El botón de carga solo completa automáticamente el nombre de la imagen en el código, no se carga
+              automáticamente en la wiki.
+            </span>
+            <div class="mt-3">
+              <span class="has-text-weight-bold">NOTA</span>: Puede acceder a esta ventana emergente en cualquier
+              momento haciendo clic en "?" junto al botón de carga de la imagen principal.
+            </div>
+          </Dialog>
+
           <InvalidInput
             :invalid="isInvalid"
             :top="`${halfHeight}px`"

@@ -62,6 +62,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.623',
+    date: '08 / 06 / 2025',
+    description:
+      'Se ha implementado un modal la primera vez que se suba una foto a la web, para que el usuario sepa que la imagen no se subirá a la wiki.',
+    category: 'Web',
+  },
+  {
     title: '1.0.622',
     date: '07 / 06 / 2025',
     description:
