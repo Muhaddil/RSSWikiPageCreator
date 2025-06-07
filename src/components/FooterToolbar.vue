@@ -95,6 +95,14 @@ async function handleSubmit() {
 
   const formattedName = pageData.name.replace(/\s+/g, '_');
 
+  if (!webhook) {
+    console.error('❌ Webhook no configurado.');
+    toast.error('Webhook no configurado.', {
+      position: POSITION.BOTTOM_RIGHT,
+    });
+    return;
+  }
+
   const payloadSections = [
     `- **Página en la wiki creada:** ${pageData.name}`,
     `- https://nomanssky.fandom.com/wiki/${formattedName}`,
@@ -103,10 +111,11 @@ async function handleSubmit() {
 
   try {
     await sendToDiscord(payloadSections);
-    setTimeout(() => {}, 5000);
   } catch (error) {
-    setTimeout(() => {}, 5000);
-    console.error(error);
+    console.error('❌ Error al enviar a Discord:', error);
+    toast.error('Error al enviar a Discord. Revisa la consola para más detalles.', {
+      position: POSITION.BOTTOM_RIGHT,
+    });
   }
 }
 
@@ -116,49 +125,52 @@ async function sendToDiscord(sections: string[]): Promise<void> {
   const avatar_url = 'https://github.com/Muhaddil/simple-form-sender/blob/main/src/images/muha2.png?raw=true';
 
   for (const section of sections) {
-    if (section.startsWith('```') && section.endsWith('```')) {
-      const firstLineEnd = section.indexOf('\n');
-      const openingLine = section.slice(0, firstLineEnd);
-      const language = openingLine.replace('```', '').trim();
+    try {
+      if (section.startsWith('```') && section.endsWith('```')) {
+        const firstLineEnd = section.indexOf('\n');
+        const openingLine = section.slice(0, firstLineEnd);
+        const language = openingLine.replace('```', '').trim();
+        const content = section.slice(firstLineEnd + 1, section.lastIndexOf('\n'));
+        const reserved = language ? openingLine.length + 4 : 6;
 
-      const content = section.slice(firstLineEnd + 1, section.lastIndexOf('\n'));
+        let index = 0;
+        while (index < content.length) {
+          const chunk = content.substring(index, index + (maxMessageLength - reserved));
+          index += chunk.length;
+          const messageChunk = `${openingLine}\n${chunk}\n\`\`\``;
+          await sendMessageToWebhook(messageChunk.trim(), username, avatar_url);
+        }
+      } else {
+        let messageBuffer = '';
+        let remainingSection = section + '\n';
 
-      const reserved = language ? openingLine.length + 4 : 6;
+        while (remainingSection.length > 0) {
+          const available = maxMessageLength - messageBuffer.length;
 
-      let index = 0;
-      while (index < content.length) {
-        const chunk = content.substring(index, index + (maxMessageLength - reserved));
-        index += chunk.length;
-        const messageChunk = `${openingLine}\n${chunk}\n\`\`\``;
-        await sendMessageToWebhook(messageChunk.trim(), username, avatar_url);
-      }
-    } else {
-      let messageBuffer = '';
-      let remainingSection = section + '\n';
+          if (available <= 0) {
+            await sendMessageToWebhook(messageBuffer.trim(), username, avatar_url);
+            messageBuffer = '';
+            continue;
+          }
 
-      while (remainingSection.length > 0) {
-        const available = maxMessageLength - messageBuffer.length;
-
-        if (available <= 0) {
-          await sendMessageToWebhook(messageBuffer.trim(), username, avatar_url);
-          messageBuffer = '';
-          continue;
+          if (remainingSection.length <= available) {
+            messageBuffer += remainingSection;
+            remainingSection = '';
+          } else {
+            messageBuffer += remainingSection.slice(0, available);
+            remainingSection = remainingSection.slice(available);
+            await sendMessageToWebhook(messageBuffer.trim(), username, avatar_url);
+            messageBuffer = '';
+          }
         }
 
-        if (remainingSection.length <= available) {
-          messageBuffer += remainingSection;
-          remainingSection = '';
-        } else {
-          messageBuffer += remainingSection.slice(0, available);
-          remainingSection = remainingSection.slice(available);
+        if (messageBuffer.trim().length > 0) {
           await sendMessageToWebhook(messageBuffer.trim(), username, avatar_url);
-          messageBuffer = '';
         }
       }
-
-      if (messageBuffer.trim().length > 0) {
-        await sendMessageToWebhook(messageBuffer.trim(), username, avatar_url);
-      }
+    } catch (error) {
+      console.error('❌ Error al procesar/enviar sección a Discord:', section, error);
+      throw error; // Propaga el error para que `handleSubmit` también lo capture
     }
   }
 }
@@ -167,7 +179,9 @@ async function sendMessageToWebhook(content: string, username: string, avatar_ur
   await delay(200);
 
   if (!content.trim()) {
-    throw new Error('El contenido del mensaje está vacío.');
+    const err = new Error('El contenido del mensaje está vacío.');
+    console.error('❌', err.message);
+    throw err;
   }
 
   const payload = {
@@ -186,7 +200,9 @@ async function sendMessageToWebhook(content: string, username: string, avatar_ur
 
   const responseText = await response.text();
   if (!response.ok) {
-    throw new Error(`Error en la respuesta del servidor: ${response.status} - ${responseText}`);
+    const err = new Error(`Error en la respuesta del servidor: ${response.status} - ${responseText}`);
+    console.error('❌', err.message);
+    throw err;
   }
 }
 
