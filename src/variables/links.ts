@@ -227,11 +227,11 @@ export const linkData = {
         icon: 'pi pi-reply',
       },
       {
-        title: 'Historial de Actualizaciones de la RSS',
+        title: 'Historial de Actualizaciones del NMS',
         category: 'Sistema',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/latestupdates.html',
         description:
-          'Consulta todas las actualizaciones recientes de la RSS con detalles, imágenes y enlaces directos a las versiones.',
+          'Consulta todas las actualizaciones recientes del NMS con detalles, imágenes y enlaces directos a las versiones.',
         icon: 'pi pi-history',
       },
     ],
@@ -461,10 +461,10 @@ export const linkData = {
         icon: 'pi pi-reply',
       },
       {
-        title: 'RSS Update History',
+        title: 'NMS Update History',
         category: 'System',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/latestupdates.html',
-        description: 'Check out all the recent RSS updates with details, images, and direct links to the versions.',
+        description: 'Check out all the recent NMS updates with details, images, and direct links to the versions.',
         icon: 'pi pi-history',
       },
     ],
