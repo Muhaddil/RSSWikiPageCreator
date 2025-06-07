@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.61',
+    date: '07 / 06 / 2025',
+    description: 'Se ha corregido el nombre en español de las regiones Nebulosa de Gumita y Nebulosa de Emcalh.',
+    category: 'Web',
+  },
+  {
     title: '1.0.6',
     date: '07 / 06 / 2025',
     description: 'Se ha añadido una nueva página para ver las últimas actualizaciones del NMS.',

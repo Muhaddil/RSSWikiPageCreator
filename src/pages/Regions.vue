@@ -57,8 +57,8 @@ const regionTranslations: Record<string, string> = {
   'Qudsor Void': 'Vacío de Qudsor',
   'Uhcheimri Void': 'Vacío de Uhcheimri',
   Skitco: 'Skitco',
-  'Emcalh Nebula': 'Nebulosa Emcalh',
-  'Gumita Nebula': 'Nebulosa Gumita',
+  'Emcalh Nebula': 'Nebulosa de Emcalh',
+  'Gumita Nebula': 'Nebulosa de Gumita',
 };
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
