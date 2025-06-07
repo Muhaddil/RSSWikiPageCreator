@@ -38,6 +38,8 @@ jobs:
         with:
           directory: ${{ env.buildOutput }}
           overwrite: true
+        env:
+          DRY_RUN: "false"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
