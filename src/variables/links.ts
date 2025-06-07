@@ -118,6 +118,14 @@ export const linkData = {
           'Accede al compendio estelar de modificaciones implementadas en la Red de Sinapsis Stellaris. Cada registro incluye detalles visuales y cronológicos de las iteraciones del sistema.',
         icon: 'pi pi-history',
       },
+      {
+        title: 'Archivo Galáctico de Cambios',
+        category: 'Protocolo de Cronología Estelar',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/wikiupdates.html',
+        description:
+          'Accede al compendio estelar de cambios realizados en la Red de Sinapsis Stellaris. Cada registro incluye detalles visuales y cronológicos de las iteraciones del sistema.',
+        icon: 'pi pi-history',
+      },
     ],
     common: [
       {
@@ -232,6 +240,14 @@ export const linkData = {
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/latestupdates.html',
         description:
           'Consulta todas las actualizaciones recientes del NMS con detalles, imágenes y enlaces directos a las versiones.',
+        icon: 'pi pi-history',
+      },
+      {
+        title: 'Historial de Cambios de la Wiki',
+        category: 'Sistema',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/wikiupdates.html',
+        description:
+          'Consulta todas las actualizaciones recientes de la Wiki con detalles, imágenes y enlaces directos a las versiones.',
         icon: 'pi pi-history',
       },
     ],
@@ -352,6 +368,14 @@ export const linkData = {
           'Access the stellar compendium of modifications implemented in the Stellaris Synapse Network. Each log includes visual and chronological details of the systems iterations.',
         icon: 'pi pi-history',
       },
+      {
+        title: 'Galactic Archive of Changes',
+        category: 'Stellar Chronology Protocol',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/wikiupdates.html',
+        description:
+          'Access the stellar compendium of changes implemented in the Stellaris Synapse Network. Each log includes visual and chronological details of the systems iterations.',
+        icon: 'pi pi-history',
+      },
     ],
     common: [
       {
@@ -465,6 +489,14 @@ export const linkData = {
         category: 'System',
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/latestupdates.html',
         description: 'Check out all the recent NMS updates with details, images, and direct links to the versions.',
+        icon: 'pi pi-history',
+      },
+      {
+        title: 'NMS Wiki Changes History',
+        category: 'System',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/wikiupdates.html',
+        description:
+          'Check out all the recent NMS Wiki changes with details, images, and direct links to the versions.',
         icon: 'pi pi-history',
       },
     ],

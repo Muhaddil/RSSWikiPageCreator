@@ -20,7 +20,8 @@ function isLinksPage() {
   return (
     currentUrl.includes('rsslinks.html') ||
     currentUrl.includes('feedback.html') ||
-    currentUrl.includes('latestupdates.html')
+    currentUrl.includes('latestupdates.html') ||
+    currentUrl.includes('wikiupdates.html')
   );
 }
 </script>

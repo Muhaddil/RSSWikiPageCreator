@@ -62,6 +62,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.622',
+    date: '07 / 06 / 2025',
+    description:
+      'Se ha implementado un nuevo sistema que permite visualizar la actividad más reciente en la wiki, tanto en su versión inglesa como en la española.',
+    category: 'Web',
+  },
+  {
     title: '1.0.621',
     date: '07 / 06 / 2025',
     description: 'Se ha mejorado el mensaje de error al mandar los logs a discord.',

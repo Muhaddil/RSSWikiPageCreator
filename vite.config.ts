@@ -49,6 +49,7 @@ export default defineConfig({
         'guias.html',
         'feedback.html',
         'latestupdates.html',
+        'wikiupdates.html',
       ],
     },
   },

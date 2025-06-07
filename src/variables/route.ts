@@ -31,6 +31,7 @@ export const router: Record<string, string> = {
   guias: 'Guias',
   feedback: 'Feedback',
   latestupdates: 'LatestUpdates',
+  wikiupdates: 'WikiUpdates',
 };
 
 export const route = getCurrentRoute();
@@ -118,6 +119,9 @@ switch (route) {
     exportName = 'Feedback';
     break;
   case 'latestupdates':
+    exportName = 'Últimas Actualizaciones';
+    break;
+  case 'wikiupdates':
     exportName = 'Últimas Actualizaciones';
     break;
   case '':
