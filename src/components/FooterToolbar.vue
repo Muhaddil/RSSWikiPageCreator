@@ -39,7 +39,8 @@ function isFAQPage() {
     currentUrl.includes('cronology.html') ||
     currentUrl.includes('rssfriends.html') ||
     currentUrl.includes('guias.html') ||
-    currentUrl.includes('feedback.html')
+    currentUrl.includes('feedback.html') ||
+    currentUrl.includes('latestupdates.html')
   );
 }
 

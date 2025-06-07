@@ -110,6 +110,14 @@ export const linkData = {
         description: 'Registro unificado para que los viajeros de la RSS puedan dejar sus opiniones sobre la RSS',
         icon: 'pi pi-reply',
       },
+      {
+        title: 'Archivo Galáctico de Actualizaciones',
+        category: 'Protocolo de Cronología Estelar',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/latestupdates.html',
+        description:
+          'Accede al compendio estelar de modificaciones implementadas en la Red de Sinapsis Stellaris. Cada registro incluye detalles visuales y cronológicos de las iteraciones del sistema.',
+        icon: 'pi pi-history',
+      },
     ],
     common: [
       {
@@ -217,6 +225,14 @@ export const linkData = {
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/feedback.html',
         description: 'Registro unificado para que los viajeros de la RSS puedan dejar sus opiniones sobre la RSS',
         icon: 'pi pi-reply',
+      },
+      {
+        title: 'Historial de Actualizaciones de la RSS',
+        category: 'Sistema',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/latestupdates.html',
+        description:
+          'Consulta todas las actualizaciones recientes de la RSS con detalles, imágenes y enlaces directos a las versiones.',
+        icon: 'pi pi-history',
       },
     ],
   },
@@ -328,6 +344,14 @@ export const linkData = {
         description: 'Unified registry for RSS travelers to leave their opinions about the RSS',
         icon: 'pi pi-reply',
       },
+      {
+        title: 'Galactic Archive of Updates',
+        category: 'Stellar Chronology Protocol',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/latestupdates.html',
+        description:
+          'Access the stellar compendium of modifications implemented in the Stellaris Synapse Network. Each log includes visual and chronological details of the systems iterations.',
+        icon: 'pi pi-history',
+      },
     ],
     common: [
       {
@@ -435,6 +459,13 @@ export const linkData = {
         url: 'https://muhaddil.github.io/RSSWikiPageCreator/feedback.html',
         description: 'Unified registry for RSS travelers to leave their opinions about the RSS',
         icon: 'pi pi-reply',
+      },
+      {
+        title: 'RSS Update History',
+        category: 'System',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/latestupdates.html',
+        description: 'Check out all the recent RSS updates with details, images, and direct links to the versions.',
+        icon: 'pi pi-history',
       },
     ],
   },

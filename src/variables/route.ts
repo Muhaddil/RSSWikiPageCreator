@@ -30,6 +30,7 @@ export const router: Record<string, string> = {
   rssfriends: 'RSSFriends',
   guias: 'Guias',
   feedback: 'Feedback',
+  latestupdates: 'LatestUpdates',
 };
 
 export const route = getCurrentRoute();
@@ -115,6 +116,9 @@ switch (route) {
     break;
   case 'feedback':
     exportName = 'Feedback';
+    break;
+  case 'latestupdates':
+    exportName = 'Últimas Actualizaciones';
     break;
   case '':
     exportName = 'Home';

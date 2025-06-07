@@ -1,5 +1,7 @@
 export const wikiLink = 'https://nomanssky.fandom.com/wiki/';
 export const apiPath = 'https://nomanssky.fandom.com/api.php';
+export const wikiLinkES = 'https://nomanssky.fandom.com/es/wiki/';
+export const apiPathES = 'https://nomanssky.fandom.com/es/api.php';
 
 export type BasicQueryData = {
   format: 'json';

@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.6',
+    date: '07 / 06 / 2025',
+    description: 'Se ha añadido una nueva página para ver las últimas actualizaciones del NMS.',
+    category: 'Web',
+  },
+  {
     title: '1.0.57',
     date: '06 / 06 / 2025',
     description:

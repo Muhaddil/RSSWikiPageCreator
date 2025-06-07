@@ -48,6 +48,7 @@ export default defineConfig({
         'rssfriends.html',
         'guias.html',
         'feedback.html',
+        'latestupdates.html',
       ],
     },
   },
