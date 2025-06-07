@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.624',
+    date: '08 / 06 / 2025',
+    description: 'Se ha sustituido el sistema de minificado de la web a la hora de subirse a GHub Pages.',
+    category: 'Web',
+  },
+  {
     title: '1.0.623',
     date: '08 / 06 / 2025',
     description:
