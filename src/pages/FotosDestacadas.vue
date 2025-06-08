@@ -33,24 +33,6 @@ const photos = ref([
     technique: 'Captura de triple espectro',
     tags: ['Exoplanetas', 'Amaneceres', 'Geología alienígena'],
   },
-  {
-    title: 'Cúmulo Estelar Omega Centauri',
-    image: 'assets/images/fotosdestacadas/cluster1.webp',
-    location: 'Vía Láctea - Brazo de Sagitario',
-    photographer: 'CosmoLens',
-    equipment: '',
-    technique: 'Stacking de 500 exposiciones',
-    tags: ['Cúmulos estelares', 'Astrofotografía', 'Resolución extrema'],
-  },
-  {
-    title: 'Eclipse Cuántico en Persei',
-    image: 'assets/images/fotosdestacadas/eclipse1.webp',
-    location: 'Sistema Algol - Planeta Secundario',
-    photographer: 'QuantumSnap',
-    equipment: 'Hubble Mark VII',
-    technique: 'Captura de evento transitorio',
-    tags: ['Eclipses', 'Fenómenos raros', 'Dinámica orbital'],
-  },
 ]);
 
 const isModalOpen = ref(false);
