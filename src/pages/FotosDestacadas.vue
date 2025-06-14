@@ -22,7 +22,7 @@ const photos = ref([
     photographer: 'Fran.Korvax',
     equipment: '',
     technique: 'Exposición prolongada multiespectral',
-    tags: ['Desastres', 'Color cósmico', 'HDRI'],
+    tags: ['Accidentes espaciales', 'Colores cósmicos', 'HDR multiespectral'],
   },
   {
     title: 'Suns Over The Rings',
@@ -31,7 +31,25 @@ const photos = ref([
     photographer: 'MoonWatcher',
     equipment: '',
     technique: 'Captura de triple espectro',
-    tags: ['Exoplanetas', 'Amaneceres', 'Geología alienígena'],
+    tags: ['Anillos planetarios', 'Amanecer binario', 'Formaciones geológicas'],
+  },
+  {
+    title: 'Levitation',
+    image: 'assets/images/fotosdestacadas/Elba03.webp',
+    location: 'Galaxia Euclides - Sistema Desconocido',
+    photographer: 'ElbaFuria',
+    equipment: '',
+    technique: 'Captura instantánea de levitación',
+    tags: ['Gravedad cero', 'Amanecer alienígena', 'Superficies exoplanetarias'],
+  },
+  {
+    title: 'The Ring',
+    image: 'assets/images/fotosdestacadas/MoonW02.webp',
+    location: 'Galaxia Desconocida - Sistema Desconocido',
+    photographer: 'MoonWatcher',
+    equipment: '',
+    technique: 'Composición espectral con reconstrucción volumétrica',
+    tags: ['Ojo del cosmos', 'Simetría alienígena', 'Horizontes imposibles'],
   },
 ]);
 
