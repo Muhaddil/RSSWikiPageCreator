@@ -22,45 +22,52 @@ const events = ref<TimelineEvent[]>([
   },
   {
     title: 'Censo',
-    date: '12 / 31 / 2024',
+    date: '31 / 12 / 2024',
     description: 'Se consigue el máximo número de bases censadas, 58 bases.',
     category: 'Royal Space Society',
   },
   {
     title: 'Méritos',
-    date: '02 / 08 / 2022',
+    date: '08 / 02 / 2022',
     description:
       'La Royal Space Society obtiene su segunda estrella y obtiene el titulo de HUB-R al tener registradas 20 bases.',
     category: 'Royal Space Society',
   },
   {
     title: 'Méritos',
-    date: '09 / 08 / 2021',
+    date: '08 / 09 / 2021',
     description:
       'La Royal Space Society obtiene el titulo de HUB al alcanzar mas de 20 miembros y tener registrados mas de 20 sistemas en la wiki.',
     category: 'Royal Space Society',
   },
   {
     title: 'Capital',
-    date: '06 / 01 / 2021',
+    date: '01 / 06 / 2021',
     description: 'Construción de Mamadisimo City, capital de la RSS.',
     category: 'Royal Space Society',
   },
   {
     title: 'Fundación',
-    date: '02 / 08 / 2020 ',
+    date: '08 / 02 / 2020',
     description: 'Fundación de la Royal Space Society.',
     category: 'Royal Space Society',
   },
   {
     title: 'Descubrimiento',
-    date: '01 / 25 / 2020',
+    date: '25 / 01 / 2020',
     description: 'Descubrimiento de Urticalia por Kaos193, sistema elegido para ser la sede de la RSS.',
     category: 'Royal Space Society',
   },
 
   // Web Updates
 
+  {
+    title: '1.0.6242',
+    date: '15 / 06 / 2025',
+    description:
+      'Se han actualizado las dependencias necesarias de la web.',
+    category: 'Web',
+  },
   {
     title: '1.0.6241',
     date: '08 / 06 / 2025',
