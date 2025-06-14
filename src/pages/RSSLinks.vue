@@ -8,12 +8,6 @@ import InputText from 'primevue/inputtext';
 import { translations, linkData } from '@/variables/links';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 
-// onMounted(() => {
-//   if (!queryParams.has('dev')) {
-//     window.location.href = '/RSSWikiPageCreator/indextest.html';
-//   }
-// });
-
 const queryParams = new URLSearchParams(window.location.search);
 const language = ref<'en' | 'es'>(queryParams.get('lang') === 'en' ? 'en' : 'es');
 
