@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.0.6242",
+  "version": "1.0.63",
   "type": "module",
   "scripts": {
     "dev": "vite",
