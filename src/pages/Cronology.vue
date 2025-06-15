@@ -62,6 +62,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.631',
+    date: '15 / 06 / 2025',
+    description:
+      'Se han actualizado las dependencias necesarias de la web y se ha mejorado el sistema encargado de los labels del apartado de RSSLinks.',
+    category: 'Web',
+  },
+  {
     title: '1.0.63',
     date: '15 / 06 / 2025',
     description: 'Se ha realizado un lavado de cara al apartado de recursos estrategicos de la RSS.',

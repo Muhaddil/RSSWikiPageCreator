@@ -43,9 +43,7 @@ const updateScreenWidth = () => {
   screenWidth.value = window.innerWidth;
 };
 
-const getLabel = (language: 'en' | 'es'): string => {
-  return language === 'es' ? 'Lenguaje Sofisticado' : 'Sophisticated Language';
-};
+const languageLabel = computed(() => (language.value === 'es' ? 'Lenguaje Sofisticado' : 'Sophisticated Language'));
 
 window.addEventListener('resize', updateScreenWidth);
 
@@ -167,10 +165,10 @@ onUnmounted(() => {
               mode="out-in"
             >
               <label
-                :key="getLabel(language)"
+                :key="languageLabel"
                 class="epic-label"
               >
-                {{ getLabel(language) }}
+                {{ languageLabel }}
               </label>
             </transition>
           </div>
@@ -185,7 +183,7 @@ onUnmounted(() => {
         >
           <Card
             v-for="(link, index) in filteredLinks"
-            :key="index"
+            :key="link.url"
             class="link-card"
             :style="{ '--i': index }"
           >
