@@ -15,6 +15,7 @@ export const regions = {
   F7EBFD25: 'Jiessl Shallows',
   FF9B4CB0: 'Qudsor Void',
   F7EBFD23: 'Gumita Nebula',
+  FE388B4E: 'Jajaja Cluster',
 } as const;
 
 export const galaxies = {
@@ -34,4 +35,5 @@ export const galaxies = {
   F7EBFD25: 'Euclid',
   FF9B4CB0: 'Eissentam',
   F7EBFD23: 'Euclid',
+  FE388B4E: 'Budullangr',
 } as const;

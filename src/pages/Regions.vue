@@ -40,6 +40,7 @@ const allowedNames = [
   'Skitco',
   'Emcalh Nebula',
   'Gumita Nebula',
+  'Jajaja Cluster'
 ];
 
 const regionTranslations: Record<string, string> = {
@@ -59,6 +60,7 @@ const regionTranslations: Record<string, string> = {
   Skitco: 'Skitco',
   'Emcalh Nebula': 'Nebulosa de Emcalh',
   'Gumita Nebula': 'Nebulosa de Gumita',
+  'Jajaja Cluster': 'Cúmulo de Jajaja'
 };
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));

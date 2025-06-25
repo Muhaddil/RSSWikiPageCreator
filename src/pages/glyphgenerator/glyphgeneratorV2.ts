@@ -15,6 +15,7 @@ const regions: { [key: string]: string } = {
   F7EBFD25: 'Bajíos de Jiessl',
   FF9B4CB0: 'Vacío de Qudsor',
   F7EBFD23: 'Nebulosa de Gumita',
+  FE388B4E: 'Cúmulo de Jajaja',
 };
 
 const galaxies: { [key: string]: string } = {
@@ -34,6 +35,7 @@ const galaxies: { [key: string]: string } = {
   F7EBFD25: 'Euclides',
   FF9B4CB0: 'Eissentam',
   F7EBFD23: 'Euclides',
+  FE388B4E: 'Budullangr',
 };
 
 export function fillRegionSelect(): void {
