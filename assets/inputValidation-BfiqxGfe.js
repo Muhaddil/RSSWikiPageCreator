@@ -1,1 +1,0 @@
-"use strict";function r(n,t){var o;const e=RegExp(t).exec(n);return e?.length===1&&((o=e[0])==null?void 0:o.length)===n.length}function c(n){const t=new RegExp(/[+-](?:[0-9]{1,3})\.(?:[0-9]{2}), [+-](?:[0-9]{1,3})\.(?:[0-9]{2})/);return!n||r(n,t)}function l(n){try{const t=new URL(n);return t.protocol==="http:"||t.protocol==="https:"}catch{return!1}}export{l as i,r,c as v};
