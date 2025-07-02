@@ -17,12 +17,14 @@ const RouteComponent = defineAsyncComponent<Component>({
 
 const updateAvailable = ref(false);
 const currentVersion = packageJson.version;
+const remoteVersion = ref('');
 
 async function checkForUpdate() {
   try {
     const response = await fetch('https://muhaddil.github.io/RSSWikiPageCreator/version.json', { cache: 'no-store' });
     const remote = await response.json();
     if (remote.version && remote.version !== currentVersion) {
+      remoteVersion.value = remote.version;
       updateAvailable.value = true;
     }
   } catch (e) {
@@ -64,7 +66,16 @@ function reloadPage() {
     class="update-banner"
   >
     <div class="banner-content">
-      <p class="banner-text"><i class="pi pi-refresh"></i> ¡Nueva versión disponible!</p>
+      <p class="banner-text">
+        <i class="pi pi-refresh"></i>
+        ¡Nueva versión disponible! ({{ currentVersion }} → {{ remoteVersion }})
+      </p>
+
+      <!-- <p class="banner-text">
+        <i class="pi pi-refresh"></i>
+        Se ha lanzado la versión {{ remoteVersion }}. ¡Actualiza ahora!
+      </p> -->
+
       <p class="banner-text">
         <i class="pi pi-info-circle"></i>
         Consulta los cambios:

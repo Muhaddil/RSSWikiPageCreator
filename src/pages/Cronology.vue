@@ -62,6 +62,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.638',
+    date: '03 / 07 / 2025',
+    description:
+      'Se ha mejorado el mensaje de actualización de la web, detallando de que versión se pasa y a cual se va a ir.',
+    category: 'Web',
+  },
+  {
     title: '1.0.637',
     date: '03 / 07 / 2025',
     description:
