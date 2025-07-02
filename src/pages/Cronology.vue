@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.636',
+    date: '03 / 07 / 2025',
+    description: 'Se han actualizado varias dependencias de la web para mejorar su estabilidad y velocidad.',
+    category: 'Web',
+  },
+  {
     title: '1.0.635',
     date: '01 / 07 / 2025',
     description: 'Se han actualizado dos dependencias de la web (node y vue-tsc).',
