@@ -62,6 +62,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.637',
+    date: '03 / 07 / 2025',
+    description:
+      'Se ha modificado la fecha de la última actualización en el apartado de actualizaciones del NMS, ahora mostrará la fecha de la última actualización.',
+    category: 'Web',
+  },
+  {
     title: '1.0.636',
     date: '03 / 07 / 2025',
     description: 'Se han actualizado varias dependencias de la web para mejorar su estabilidad y velocidad.',

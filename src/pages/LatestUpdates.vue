@@ -224,6 +224,13 @@ const formatDate = (dateString: string) => {
   }
   return dateString;
 };
+
+const lastUpdateDate = computed(() => {
+  if (newsItems.value.length > 0) {
+    return formatDate(newsItems.value[0].date);
+  }
+  return 'N/A';
+});
 </script>
 
 <template>
@@ -290,7 +297,8 @@ const formatDate = (dateString: string) => {
             <p>
               Total de actualizaciones recientes: <strong>{{ newsItems.length }}</strong>
             </p>
-            <p class="update-info">Última actualización: {{ new Date().toLocaleDateString('es-ES') }}</p>
+            <!-- <p class="update-info">Última actualización: {{ new Date().toLocaleDateString('es-ES') }}</p> -->
+            <p class="update-info">Última actualización: {{ lastUpdateDate }}</p>
           </div>
         </Panel>
 
