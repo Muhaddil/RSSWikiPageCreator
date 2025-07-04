@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.639',
+    date: '05 / 07 / 2025',
+    description: 'Se ha una de las depencias más importantes de la web (vite).',
+    category: 'Web',
+  },
+  {
     title: '1.0.638',
     date: '03 / 07 / 2025',
     description:
