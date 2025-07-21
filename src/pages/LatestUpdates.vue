@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
@@ -34,6 +34,7 @@ const error = ref<string | null>(null);
 const screenWidth = ref(window.innerWidth);
 const maxUpdates = ref(10);
 const allNewsItems = ref<NewsItem[]>([]);
+const showScrollButton = ref<boolean>(false);
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 
@@ -231,6 +232,25 @@ const lastUpdateDate = computed(() => {
   }
   return 'N/A';
 });
+
+const handleScroll = () => {
+  showScrollButton.value = window.scrollY > 300;
+};
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
@@ -410,6 +430,16 @@ const lastUpdateDate = computed(() => {
       </div>
     </template>
   </Card>
+
+  <transition name="fade">
+    <button
+      v-if="showScrollButton"
+      @click="scrollToTop"
+      class="scroll-top-button"
+    >
+      <i class="pi pi-arrow-up"></i>
+    </button>
+  </transition>
 </template>
 
 <style scoped>
@@ -625,5 +655,29 @@ const lastUpdateDate = computed(() => {
   .detail-label {
     min-width: auto;
   }
+}
+
+.scroll-top-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.scroll-top-button:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
 }
 </style>
