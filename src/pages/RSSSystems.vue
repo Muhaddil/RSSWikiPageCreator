@@ -163,12 +163,14 @@ const error = ref<string | null>(null);
 const searchText = ref('');
 const filterGalaxy = ref('');
 const filterUser = ref('');
+const filterRegion = ref('');
 
 const applyFilters = () => {
   filtered.value = systems.value.filter(
     (s) =>
       (!searchText.value || s.SystemName.toLowerCase().includes(searchText.value.toLowerCase())) &&
       (!filterGalaxy.value || s.Galaxy === filterGalaxy.value) &&
+      (!filterRegion.value || s.Region === filterRegion.value) &&
       (!filterUser.value ||
         (s.DiscoveredLink && s.DiscoveredLink.toLowerCase().includes(filterUser.value.toLowerCase())) ||
         (s.Discovered && s.Discovered.toLowerCase().includes(filterUser.value.toLowerCase())) ||
@@ -177,6 +179,8 @@ const applyFilters = () => {
 };
 
 const uniqueGalaxies = computed(() => [...new Set(systems.value.map((s) => s.Galaxy))].sort());
+
+const uniqueRegions = computed(() => [...new Set(systems.value.map((s) => s.Region))].sort());
 
 const uniqueUsers = computed(() => {
   const users = new Set<string>();
@@ -198,7 +202,7 @@ const uniqueUsers = computed(() => {
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 
-watch([searchText, filterGalaxy, filterUser], applyFilters);
+watch([searchText, filterGalaxy, filterUser, filterRegion], applyFilters);
 
 onMounted(async () => {
   window.addEventListener('resize', () => (screenWidth.value = window.innerWidth));
@@ -307,6 +311,16 @@ function getGlyphs(coordinates: string): string {
                 v-model="filterGalaxy"
                 :options="uniqueGalaxies"
                 placeholder="Todas las galaxias"
+                showClear
+                class="w-full"
+              />
+            </div>
+            <div>
+              <label class="block mb-2">Filtrar región:</label>
+              <Dropdown
+                v-model="filterRegion"
+                :options="uniqueRegions"
+                placeholder="Todas las regiones"
                 showClear
                 class="w-full"
               />
@@ -484,6 +498,13 @@ function getGlyphs(coordinates: string): string {
   border: 1px solid var(--border-color);
 }
 
+label.block {
+  display: block;
+  min-height: 1.5em;
+  white-space: normal;
+  line-height: 1.2;
+}
+
 .galactic-title {
   background: var(--primary-gradient);
   -webkit-background-clip: text;
@@ -520,6 +541,10 @@ function getGlyphs(coordinates: string): string {
   color: var(--text-primary);
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
+  word-break: break-word;
+  white-space: normal;
+  min-height: 3rem;
+  display: block;
 }
 
 .detail-item {
