@@ -32,6 +32,7 @@ export const router: Record<string, string> = {
   feedback: 'Feedback',
   latestupdates: 'LatestUpdates',
   wikiupdates: 'WikiUpdates',
+  rsssystems: 'RSSSystems',
 };
 
 export const route = getCurrentRoute();
@@ -123,6 +124,9 @@ switch (route) {
     break;
   case 'wikiupdates':
     exportName = 'Últimas Actualizaciones';
+    break;
+  case 'rsssystems':
+    exportName = 'Sistemas RSS';
     break;
   case '':
     exportName = 'Home';

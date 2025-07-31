@@ -42,6 +42,7 @@ export default defineConfig({
         'feedback.html',
         'latestupdates.html',
         'wikiupdates.html',
+        'rsssystems.html',
       ],
     },
   },
