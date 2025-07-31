@@ -272,7 +272,7 @@ function getGlyphs(coordinates: string): string {
         <div class="flex items-start justify-between mb-6 header-container">
           <div class="flex flex-col">
             <a
-              href="https://nomanssky.fandom.com/es/wiki/Systems"
+              href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society"
               target="_blank"
             >
               <div class="wiki-logo">
