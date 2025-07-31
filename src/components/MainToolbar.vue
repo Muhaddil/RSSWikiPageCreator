@@ -21,7 +21,8 @@ function isLinksPage() {
     currentUrl.includes('rsslinks.html') ||
     currentUrl.includes('feedback.html') ||
     currentUrl.includes('latestupdates.html') ||
-    currentUrl.includes('wikiupdates.html')
+    currentUrl.includes('wikiupdates.html') ||
+    currentUrl.includes('rsssystems.html')
   );
 }
 </script>

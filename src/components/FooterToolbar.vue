@@ -42,7 +42,8 @@ function isFAQPage() {
     currentUrl.includes('feedback.html') ||
     currentUrl.includes('latestupdates.html') ||
     currentUrl.includes('wikiupdates.html') ||
-    currentUrl.includes('indextest.html')
+    currentUrl.includes('indextest.html') ||
+    currentUrl.includes('rsssystems.html')
   );
 }
 
