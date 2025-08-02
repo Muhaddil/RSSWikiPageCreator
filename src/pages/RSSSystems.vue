@@ -5,6 +5,7 @@ import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Dropdown from 'primevue/dropdown';
 import InputText from 'primevue/inputtext';
+import Paginator from 'primevue/paginator';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 
 interface SystemQueryData {
@@ -50,6 +51,10 @@ type CargoResponse<T> = {
 const basicQueryData = { origin: '*', format: 'json', limit: '500' };
 const screenWidth = ref(window.innerWidth);
 const showScrollButton = ref<boolean>(false);
+
+const first = ref(0);
+const rows = ref(12);
+const totalRecords = ref(0);
 
 const buildQueryUrl = (queryObject: Record<string, any>) => {
   const params = new URLSearchParams();
@@ -165,6 +170,10 @@ const filterGalaxy = ref('');
 const filterUser = ref('');
 const filterRegion = ref('');
 
+const paginatedSystems = computed(() => {
+  return filtered.value.slice(first.value, first.value + rows.value);
+});
+
 const applyFilters = () => {
   filtered.value = systems.value.filter(
     (s) =>
@@ -176,6 +185,8 @@ const applyFilters = () => {
         (s.Discovered && s.Discovered.toLowerCase().includes(filterUser.value.toLowerCase())) ||
         (s.ResearchTeam && s.ResearchTeam.toLowerCase().includes(filterUser.value.toLowerCase())))
   );
+  totalRecords.value = filtered.value.length;
+  first.value = 0;
 };
 
 const uniqueGalaxies = computed(() => [...new Set(systems.value.map((s) => s.Galaxy))].sort());
@@ -356,6 +367,16 @@ function getGlyphs(coordinates: string): string {
 
         <br />
 
+        <Paginator
+          v-model:first="first"
+          v-model:rows="rows"
+          :totalRecords="totalRecords"
+          :rowsPerPageOptions="[6, 12, 18, 24, 30, 36, 48]"
+          class="mt-4"
+        />
+
+        <br />
+
         <div
           v-if="isLoading"
           class="loading-message"
@@ -368,83 +389,84 @@ function getGlyphs(coordinates: string): string {
         >
           <i class="pi pi-exclamation-triangle"></i> {{ error }}
         </div>
-        <div
-          v-else
-          class="grid gap-4"
-          :style="`grid-template-columns: repeat(${gridColumns}, 1fr)`"
-        >
-          <Card
-            v-for="(s, i) in filtered"
-            :key="i"
-            class="update-card"
+        <template v-else>
+          <div
+            class="grid gap-4"
+            :style="`grid-template-columns: repeat(${gridColumns}, 1fr)`"
           >
-            <template #content>
-              <div class="p-4">
-                <div class="flex flex-column gap-3">
-                  <h3 class="update-title">{{ s.SystemName }}</h3>
-                  <div class="update-details">
-                    <div class="detail-item">
-                      <span class="detail-label">Región:</span
-                      ><Tag
-                        :value="s.Region"
-                        class="category-tag"
-                      />
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Galaxia:</span
-                      ><Tag
-                        :value="s.Galaxy"
-                        class="category-tag"
-                      />
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Coordenadas:</span
-                      ><span class="detail-value">{{ s.Coordinates }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Glifos:</span
-                      ><span class="glyph-value">{{ getGlyphs(s.Coordinates) }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Clase:</span><span class="detail-value">{{ s.Class }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Color:</span><span class="detail-value">{{ s.Color }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Facción:</span><span class="detail-value">{{ s.Faction }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Planetas:</span><span class="detail-value">{{ s.Planets }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Lunas:</span><span class="detail-value">{{ s.Moons }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Descubridor:</span
-                      ><span class="detail-value">{{
-                        s.Discovered && s.Discovered !== 'Desconocido' ? s.Discovered : s.DiscoveredLink
-                      }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Equipo investigación:</span
-                      ><span class="detail-value">{{ s.ResearchTeam }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Economía:</span><span class="detail-value">{{ s.Economy }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Riqueza:</span><span class="detail-value">{{ s.Wealth }}</span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="detail-label">Conflictos:</span><span class="detail-value">{{ s.Conflict }}</span>
+            <Card
+              v-for="(s, i) in paginatedSystems"
+              :key="i"
+              class="update-card"
+            >
+              <template #content>
+                <div class="p-4">
+                  <div class="flex flex-column gap-3">
+                    <h3 class="update-title">{{ s.SystemName }}</h3>
+                    <div class="update-details">
+                      <div class="detail-item">
+                        <span class="detail-label">Región:</span
+                        ><Tag
+                          :value="s.Region"
+                          class="category-tag"
+                        />
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Galaxia:</span
+                        ><Tag
+                          :value="s.Galaxy"
+                          class="category-tag"
+                        />
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Coordenadas:</span
+                        ><span class="detail-value">{{ s.Coordinates }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Glifos:</span
+                        ><span class="glyph-value">{{ getGlyphs(s.Coordinates) }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Clase:</span><span class="detail-value">{{ s.Class }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Color:</span><span class="detail-value">{{ s.Color }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Facción:</span><span class="detail-value">{{ s.Faction }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Planetas:</span><span class="detail-value">{{ s.Planets }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Lunas:</span><span class="detail-value">{{ s.Moons }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Descubridor:</span
+                        ><span class="detail-value">{{
+                          s.Discovered && s.Discovered !== 'Desconocido' ? s.Discovered : s.DiscoveredLink
+                        }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Equipo investigación:</span
+                        ><span class="detail-value">{{ s.ResearchTeam }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Economía:</span><span class="detail-value">{{ s.Economy }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Riqueza:</span><span class="detail-value">{{ s.Wealth }}</span>
+                      </div>
+                      <div class="detail-item">
+                        <span class="detail-label">Conflictos:</span><span class="detail-value">{{ s.Conflict }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </template>
-          </Card>
-        </div>
+              </template>
+            </Card>
+          </div>
+        </template>
       </div>
     </template>
   </Card>
