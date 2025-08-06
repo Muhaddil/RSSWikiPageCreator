@@ -22,7 +22,7 @@
     "happy-dom": "^18.0.1",
     "pinia": "^3.0.3",
     "prettier": "^3.6.2",
-    "sass-embedded": "^1.89.2",
+    "sass-embedded": "^1.90.0",
     "typescript": "^5.9.2",
     "vite": "^7.0.6",
     "vitest": "^3.2.4",
@@ -44,6 +44,7 @@
     "parse-mediawiki-template": "^0.2.2",
     "primeicons": "^7.0.0",
     "primevue": "^4.3.7",
+    "tesseract.js": "^6.0.1",
     "vue-draggable-plus": "^0.6.0",
     "vue-router": "^4.5.1"
   }
