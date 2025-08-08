@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
+import Paginator from 'primevue/paginator';
+import Dropdown from 'primevue/dropdown';
 import { fetchCensusData, fetchBaseImageUrls } from '@/api/api';
 import type { CensusQueryData, ImageUrls } from '@/api/api';
 import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 
 interface ExtendedCensusQueryData extends CensusQueryData {
   imageUrl?: ImageUrls | null;
@@ -21,21 +24,39 @@ const error = ref<string | null>(null);
 const screenWidth = ref(window.innerWidth);
 const CIVILIZATION = 'Royal Space Society';
 const selectedYear = ref<string>('');
+const usePagination = ref(true);
+const first = ref(0);
+const rows = ref(10);
+const showScrollButton = ref<boolean>(false);
+
+const rowsOptions = [
+  { label: '5 por página', value: 5 },
+  { label: '10 por página', value: 10 },
+  { label: '25 por página', value: 25 },
+  { label: '50 por página', value: 50 },
+];
+
+const paginatedBases = computed(() => {
+  if (!usePagination.value) return bases.value;
+  return bases.value.slice(first.value, first.value + rows.value);
+});
+
+const paginationOptions = [
+  { label: 'Sí, usar paginación', value: true },
+  { label: 'No, mostrar todo', value: false },
+];
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 
 const fetchBases = async (offset = 0, year?: string) => {
   try {
     const newBases = (await fetchCensusData(CIVILIZATION, offset, year)) as ExtendedCensusQueryData[];
-
     await Promise.all(
       newBases.map(async (base) => {
         base.imageUrl = await fetchBaseImageUrls(base._pageName);
       })
     );
-
     bases.value = [...bases.value, ...newBases];
-
     if (newBases.length === 500) {
       await fetchBases(offset + 500, year);
     }
@@ -78,6 +99,29 @@ const formatWikiLink = (name: string) => {
 const openModal = (image: string) => {
   window.open(image, '_blank');
 };
+
+const onRowsChange = () => {
+  first.value = 0;
+};
+
+const handleScroll = () => {
+  showScrollButton.value = window.scrollY > 300;
+};
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
@@ -109,26 +153,99 @@ const openModal = (image: string) => {
           </div>
         </div>
 
-        <div class="filter-container mb-4 flex items-center">
-          <label
-            for="yearInput"
-            class="mr-2"
-            >Selecciona el año del censo:</label
+        <!-- Sección de filtros simple y limpia -->
+        <div class="filter-container mb-6">
+          <div class="filter-row">
+            <div class="year-filter">
+              <label
+                for="yearInput"
+                class="filter-label"
+              >
+                <i class="pi pi-calendar mr-2"></i>
+                Año del censo:
+              </label>
+              <div class="input-group">
+                <InputText
+                  id="yearInput"
+                  type="number"
+                  v-model="selectedYear"
+                  placeholder="Ej. 2023"
+                  class="year-input"
+                />
+                <Button
+                  @click="updateBases"
+                  icon="pi pi-search"
+                  label="Filtrar"
+                  class="filter-btn"
+                  :loading="isLoading"
+                />
+              </div>
+            </div>
+
+            <div class="pagination-filter">
+              <label class="filter-label">
+                <i class="pi pi-list mr-2"></i>
+                Paginación:
+              </label>
+              <Dropdown
+                v-model="usePagination"
+                :options="paginationOptions"
+                optionLabel="label"
+                optionValue="value"
+                class="pagination-dropdown"
+              />
+            </div>
+
+            <div
+              class="rows-filter"
+              v-if="usePagination"
+            >
+              <label class="filter-label">
+                <i class="pi pi-th-large mr-2"></i>
+                Elementos:
+              </label>
+              <Dropdown
+                v-model="rows"
+                :options="rowsOptions"
+                optionLabel="label"
+                optionValue="value"
+                class="rows-dropdown"
+                @change="onRowsChange"
+              />
+            </div>
+          </div>
+
+          <div
+            class="filter-info"
+            v-if="bases.length > 0"
           >
-          <InputText
-            id="yearInput"
-            type="number"
-            v-model="selectedYear"
-            placeholder="Ej. 2023"
-            class="p-inputtext"
-          />
-          <button
-            @click="updateBases"
-            class="p-button p-component ml-2"
-          >
-            Filtrar
-          </button>
+            <span class="info-text">
+              <i class="pi pi-database mr-1"></i>
+              Total: {{ bases.length }} bases
+            </span>
+            <span
+              class="info-text"
+              v-if="usePagination"
+            >
+              <i class="pi pi-eye mr-1"></i>
+              Mostrando: {{ Math.min(first + rows, bases.length) }} de {{ bases.length }}
+            </span>
+          </div>
         </div>
+
+        <Paginator
+          v-if="usePagination && bases.length > rows"
+          :first="first"
+          :rows="rows"
+          :totalRecords="bases.length"
+          @page="
+            (e) => {
+              first = e.first;
+              rows = e.rows;
+            }
+          "
+          class="mb-4"
+        />
 
         <Panel class="galactic-panel mt-6">
           <template #header>
@@ -158,6 +275,7 @@ const openModal = (image: string) => {
         >
           <i class="pi pi-spinner pi-spin"></i> Cargando bases espaciales...
         </div>
+
         <div
           v-else-if="error"
           class="error-message p-error"
@@ -171,7 +289,7 @@ const openModal = (image: string) => {
           :style="`grid-template-columns: repeat(${gridColumns}, 1fr)`"
         >
           <Card
-            v-for="(base, index) in bases"
+            v-for="(base, index) in paginatedBases"
             :key="index"
             class="link-card"
           >
@@ -186,18 +304,15 @@ const openModal = (image: string) => {
                       class="category-tag"
                     />
                   </div>
-
                   <div class="base-details">
                     <div class="detail-item">
                       <span class="detail-label">Jugador:</span>
                       <span class="detail-value">{{ base.CensusPlayer }}</span>
                     </div>
-
                     <div class="detail-item">
                       <span class="detail-label">Sistema:</span>
                       <span class="detail-value">{{ base.System }}</span>
                     </div>
-
                     <div class="flex gap-2">
                       <Tag
                         :value="base.Mode"
@@ -216,7 +331,6 @@ const openModal = (image: string) => {
                       />
                     </div>
                   </div>
-
                   <Panel
                     v-if="base.Name"
                     class="builder-panel mt-3"
@@ -260,6 +374,17 @@ const openModal = (image: string) => {
       </div>
     </template>
   </Card>
+
+    <transition name="fade">
+    <button
+      v-if="showScrollButton"
+      @click="scrollToTop"
+      class="scroll-top-button"
+    >
+      <i class="pi pi-arrow-up"></i>
+    </button>
+  </transition>
+
 </template>
 
 <style scoped>
@@ -305,6 +430,117 @@ const openModal = (image: string) => {
   line-height: 1.2;
 }
 
+.filter-card {
+  background: var(--background-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 2px 8px var(--hover-effect) !important;
+}
+
+.filter-content {
+  padding: 1.5rem;
+}
+
+.filter-title {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.filter-label {
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+}
+
+.filter-input-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.filter-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.filter-button {
+  white-space: nowrap;
+}
+
+.pagination-dropdown {
+  width: 100%;
+  min-width: 200px;
+}
+
+.dropdown-value,
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  color: var(--text-primary);
+}
+
+.filter-info {
+  display: flex;
+  gap: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.paginator-container {
+  display: flex;
+  justify-content: center;
+}
+
+.custom-paginator {
+  background: var(--background-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .filter-input-group {
+    flex-direction: column;
+  }
+
+  .filter-info {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pagination-dropdown {
+    min-width: unset;
+  }
+}
+
 .link-card {
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
@@ -334,37 +570,6 @@ const openModal = (image: string) => {
 .panel-base-image:hover {
   transform: scale(1.02);
 }
-
-/* .custom-modal {
-  width: 90vw !important;
-  height: 90vh !important;
-}
-
-.custom-modal .p-dialog-content {
-  background: transparent;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  height: 100%;
-}
-
-.modal-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-.modal-image {
-  width: 90%;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  image-rendering: crisp-edges;
-} */
 
 .category-tag {
   background: var(--tag-background) !important;
@@ -446,13 +651,13 @@ const openModal = (image: string) => {
   align-items: flex-start;
   justify-content: flex-end;
   right: 5%;
-  top: 2rem;
+  top: 1rem;
   height: auto;
   width: auto;
 }
 
 .logo-image {
-  height: 11rem;
+  height: 9rem;
   transition: transform 0.3s ease;
   filter: brightness(var(--logo-brightness, 1));
 }
@@ -488,6 +693,145 @@ const openModal = (image: string) => {
 
   .header-container {
     text-align: center;
+  }
+}
+
+.filter-container {
+  background: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.filter-row {
+  display: flex;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+
+.year-filter,
+.pagination-filter {
+  flex: 1;
+}
+
+.filter-label {
+  display: block;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.year-input {
+  flex: 1;
+  min-width: 120px;
+}
+
+.filter-btn {
+  white-space: nowrap;
+}
+
+.pagination-dropdown {
+  width: 100%;
+  min-width: 180px;
+}
+
+.filter-info {
+  display: flex;
+  gap: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.info-text {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+}
+
+.scroll-top-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.scroll-top-button:hover {
+  transform: translateY(-5px) scale(1.1);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .filter-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .filter-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .pagination-dropdown {
+    min-width: unset;
+  }
+}
+
+.rows-filter {
+  flex: 1;
+}
+
+.rows-dropdown {
+  width: 100%;
+  min-width: 140px;
+}
+
+.filter-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 2rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .filter-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .rows-filter {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 </style>

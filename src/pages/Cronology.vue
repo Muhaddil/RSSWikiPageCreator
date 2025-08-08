@@ -62,6 +62,16 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.646',
+    date: '08 / 08 / 2025',
+    description: `Se actualizó la dependencia Vite a su versión 7.1.1.
+    El resto de mejoras son para el apartado del censo de la RSS:
+    • Se añadió paginación con opción de configurar el número de filas por página.
+    • Se incorporó un botón para volver al inicio que aparece al hacer scroll.
+    • Se mejoró el diseño y la disposición de la sección de filtros.`,
+    category: 'Web',
+  },
+  {
     title: '1.0.645',
     date: '07 / 08 / 2025',
     description: 'Se ha actualizado una dependencia a su última versión (vite).',
@@ -540,6 +550,18 @@ const groupedEvents = computed(() => {
 
   return categories;
 });
+
+// function formatDescription(event: TimelineEvent) {
+//   const lines = event.description.trim().split('\n').map(line => line.trim());
+
+//   if (lines.length > 1) {
+//     return `<strong>${event.title}</strong> - <ul>${lines
+//       .map(line => `<li>${line}</li>`)
+//       .join('')}</ul>`;
+//   }
+
+//   return `<strong>${event.title}</strong> - ${lines[0]}`;
+// }
 </script>
 
 <template>
@@ -601,9 +623,8 @@ const groupedEvents = computed(() => {
                         v-for="event in item[1]"
                         :key="event.title"
                         class="event-item"
-                      >
-                        <strong>{{ event.title }}</strong> - {{ event.description }}
-                      </li>
+                        v-html="`<strong>${event.title}</strong> - ${event.description.replace(/\n/g, '<br>')}`"
+                      ></li>
                     </ul>
                   </template>
                 </Card>
@@ -758,6 +779,7 @@ const groupedEvents = computed(() => {
   color: var(--text-primary);
   line-height: 1.6;
   margin-bottom: 1rem;
+  white-space: pre-line;
 }
 
 .category-tag {
