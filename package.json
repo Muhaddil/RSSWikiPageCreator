@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.0.646",
+  "version": "1.0.6461",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,7 @@
     "test-ci": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "^24.2.0",
+    "@types/node": "^24.2.1",
     "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitest/browser": "^3.2.4",

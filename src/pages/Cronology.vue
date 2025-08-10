@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.6461',
+    date: '10 / 08 / 2025',
+    description: 'Se ha actualizado una dependencia a su última versión (node).',
+    category: 'Web',
+  },
+  {
     title: '1.0.646',
     date: '08 / 08 / 2025',
     description: `Se actualizó la dependencia Vite a su versión 7.1.1.
