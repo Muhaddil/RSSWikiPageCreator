@@ -375,7 +375,7 @@ onUnmounted(() => {
     </template>
   </Card>
 
-    <transition name="fade">
+  <transition name="fade">
     <button
       v-if="showScrollButton"
       @click="scrollToTop"
@@ -384,7 +384,6 @@ onUnmounted(() => {
       <i class="pi pi-arrow-up"></i>
     </button>
   </transition>
-
 </template>
 
 <style scoped>
