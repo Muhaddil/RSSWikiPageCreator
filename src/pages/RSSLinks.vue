@@ -74,7 +74,6 @@ const scrollToTop = () => {
 
 const showRickRollModal = ref(false);
 const videoUrl = ref('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1');
-const preloadedIframe = ref<HTMLIFrameElement | null>(null);
 
 const openRickRoll = () => {
   showRickRollModal.value = true;
@@ -83,21 +82,6 @@ const openRickRoll = () => {
 const closeRickRoll = () => {
   showRickRollModal.value = false;
 };
-
-onMounted(() => {
-  const iframe = document.createElement('iframe');
-  iframe.src = videoUrl.value;
-  iframe.style.display = 'none';
-  document.body.appendChild(iframe);
-  preloadedIframe.value = iframe;
-});
-
-onUnmounted(() => {
-  if (preloadedIframe.value) {
-    document.body.removeChild(preloadedIframe.value);
-    preloadedIframe.value = null;
-  }
-});
 
 // const createParticles = () => {
 //   const container = document.querySelector('.particles-container');
