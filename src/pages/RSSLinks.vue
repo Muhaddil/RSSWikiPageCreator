@@ -4,6 +4,7 @@ import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Checkbox from 'primevue/checkbox';
+import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import { translations, linkData } from '@/variables/links';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
@@ -70,6 +71,33 @@ const scrollToTop = () => {
     behavior: 'smooth',
   });
 };
+
+const showRickRollModal = ref(false);
+const videoUrl = ref('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1');
+const preloadedIframe = ref<HTMLIFrameElement | null>(null);
+
+const openRickRoll = () => {
+  showRickRollModal.value = true;
+};
+
+const closeRickRoll = () => {
+  showRickRollModal.value = false;
+};
+
+onMounted(() => {
+  const iframe = document.createElement('iframe');
+  iframe.src = videoUrl.value;
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+  preloadedIframe.value = iframe;
+});
+
+onUnmounted(() => {
+  if (preloadedIframe.value) {
+    document.body.removeChild(preloadedIframe.value);
+    preloadedIframe.value = null;
+  }
+});
 
 // const createParticles = () => {
 //   const container = document.querySelector('.particles-container');
@@ -239,6 +267,40 @@ onUnmounted(() => {
       </div>
     </template>
   </Card>
+
+  <transition name="fade">
+    <button
+      @click="openRickRoll"
+      class="scroll-top-button top-right-button"
+    >
+      <i class="pi pi-wrench"></i>
+    </button>
+  </transition>
+
+  <Dialog
+    v-model:visible="showRickRollModal"
+    header="¡Rick Rolleado!"
+    :modal="true"
+    :closable="true"
+    @hide="closeRickRoll"
+    :style="{ width: '100vw', height: '100vh' }"
+    :content-class="'flex justify-center items-center bg-black'"
+  >
+    <div
+      class="video-wrapper"
+      style="position: relative; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center"
+    >
+      <iframe
+        v-if="showRickRollModal"
+        :src="videoUrl"
+        title="Rick Roll"
+        frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+        style="max-width: 100%; max-height: 100%; aspect-ratio: 16 / 9; width: 100%; height: 100%"
+      ></iframe>
+    </div>
+  </Dialog>
 
   <transition name="fade">
     <button
@@ -571,6 +633,12 @@ body {
   transition: all 0.3s ease;
 }
 
+.top-right-button {
+  top: 2rem;
+  right: 2rem;
+  bottom: auto;
+}
+
 .link-icon {
   color: var(--tag-text);
   font-size: 2.2rem;
@@ -733,7 +801,6 @@ body {
   color: var(--text-secondary);
 }
 
-/* Botón de scroll */
 .scroll-top-button {
   position: fixed;
   bottom: 2rem;
