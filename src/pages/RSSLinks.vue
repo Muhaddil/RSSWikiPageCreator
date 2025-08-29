@@ -73,7 +73,7 @@ const scrollToTop = () => {
 };
 
 const showRickRollModal = ref(false);
-const videoUrl = ref('https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1');
+const videoUrl = ref('https://streamable.com/e/qk0vn1?autoplay=1');
 
 const openRickRoll = () => {
   showRickRollModal.value = true;
