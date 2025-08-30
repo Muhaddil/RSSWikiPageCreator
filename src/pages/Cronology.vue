@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.647',
+    date: '29 / 08 / 2025',
+    description: 'Se ha añadido un nuevo tipo de filtro al apartado de sistemas de la RSS.',
+    category: 'Web',
+  },
+  {
     title: '1.0.6464',
     date: '29 / 08 / 2025',
     description: 'Se han actualizado varias dependencias a sus últimas versiones.',

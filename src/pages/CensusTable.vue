@@ -30,10 +30,10 @@ const rows = ref(10);
 const showScrollButton = ref<boolean>(false);
 
 const rowsOptions = [
-  { label: '5 por página', value: 5 },
-  { label: '10 por página', value: 10 },
-  { label: '25 por página', value: 25 },
-  { label: '50 por página', value: 50 },
+  { label: '6 por página', value: 6 },
+  { label: '12 por página', value: 12 },
+  { label: '27 por página', value: 27 },
+  { label: '48 por página', value: 48 },
 ];
 
 const paginatedBases = computed(() => {

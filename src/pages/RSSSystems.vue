@@ -5,6 +5,7 @@ import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Dropdown from 'primevue/dropdown';
 import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
 import Paginator from 'primevue/paginator';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 
@@ -56,6 +57,80 @@ const first = ref(0);
 const rows = ref(12);
 const totalRecords = ref(0);
 
+const wikiSearchText = ref('');
+const isSearchingWiki = ref(false);
+const wikiSearchResults = ref(new Set<string>());
+const searchProgress = ref({ current: 0, total: 0 });
+
+const wikiSearchOptionsSpanish = ref([
+  { label: 'Indio Activado', value: 'Activated Indium' },
+  { label: 'Chatarra Recuperable', value: 'Salvageable Scrap' },
+  { label: 'Bulbo Estelar', value: 'Star Bulb' },
+  { label: 'Parafinio', value: 'Paraffinium' },
+  { label: 'Cadmio', value: 'Cadmium' },
+  { label: 'Emerilio', value: 'Emeril' },
+  { label: 'Indio', value: 'Indium' },
+  { label: 'Cobre', value: 'Copper' },
+  { label: 'Oro', value: 'Gold' },
+  { label: 'Plata', value: 'Silver' },
+  { label: 'Platino', value: 'Platinum' },
+  { label: 'Metal Cromático', value: 'Chromatic Metal' },
+  { label: 'Polvo de Ferrita', value: 'Ferrite Dust' },
+  { label: 'Ferrita Pura', value: 'Pure Ferrite' },
+  { label: 'Ferrita Magnetizada', value: 'Magnetised Ferrite' },
+  { label: 'Sodio', value: 'Sodium' },
+  { label: 'Oxígeno', value: 'Oxygen' },
+  { label: 'Carbono', value: 'Carbon' },
+  { label: 'Carbono Condensado', value: 'Condensed Carbon' },
+  { label: 'Cobalto', value: 'Cobalt' },
+  { label: 'Cobalto Ionizado', value: 'Ionised Cobalt' },
+  { label: 'Sal', value: 'Salt' },
+  { label: 'Cloro', value: 'Chlorine' },
+  { label: 'Amoníaco', value: 'Ammonia' },
+  { label: 'Uranio', value: 'Uranium' },
+  { label: 'Radón', value: 'Radon' },
+  { label: 'Sulfurina', value: 'Sulphurine' },
+  { label: 'Nitrógeno', value: 'Nitrogen' },
+
+  { label: 'Seda estelar', value: 'Star Silk' },
+  { label: 'Gotas de cometa', value: 'Comet Droplets' },
+  { label: 'Esfera de iones', value: 'Ion Sphere' },
+  { label: 'Datos de usuario desencriptados', value: 'Decrypted User Data' },
+  { label: 'Coordinadores de teletransporte', value: 'Teleport Coordinators' },
+  { label: 'Caja de nanotubos', value: 'Nanotube Crate' },
+  { label: 'Heridio autorreparable', value: 'Self-Repairing Heridium' },
+  { label: 'Disolvente óptico', value: 'Optical Solvent' },
+  { label: 'Toro 5D', value: '5D Torus' },
+  { label: 'Fibra superconductora', value: 'Superconducting Fibre' },
+  { label: 'Botellas sin aroma', value: 'De-Scented Bottles' },
+  { label: 'Microscopio de neutrones', value: 'Neutron Microscope' },
+  { label: 'Inyector de inestabilidad', value: 'Instability Injector' },
+  { label: 'Canalización orgánica', value: 'Organic Piping' },
+  { label: 'Conducto neuronal', value: 'Neural Duct' },
+  { label: 'Suciedad', value: 'Dirt' },
+  { label: 'Grasa de pirita sin refinar', value: 'Unrefined Pyrite Grease' },
+  { label: 'Sal de bromuro', value: 'Bromide Salt' },
+  { label: 'Circonio policromo', value: 'Polychromatic Zirconium' },
+  { label: 'Cristal de doble arco reticular', value: 'Re-latticed Arc Crystal' },
+  { label: 'Diente metálico enorme', value: 'Enormous Metal Cog' },
+  { label: 'Pistón antiadherente', value: 'Non-Stick Piston' },
+  { label: 'Desacopladores de malla', value: 'Mesh Decouplers' },
+  { label: 'Cigüeñal holográfico', value: 'Holographic Crankshaft' },
+  { label: 'Compresores vectoriales', value: 'Vector Compressors' },
+  { label: 'Circuitos desguazados', value: 'Decommissioned Circuits' },
+  { label: 'Tiza para soldadura', value: 'Welding Soap' },
+  { label: 'Condensador de iones', value: 'Ion Capacitor' },
+  { label: 'Unidad de posicionamiento autónoma', value: 'Autonomous Positioning Unit' },
+  { label: 'Acelerador de cuantos', value: 'Quantum Accelerator' },
+  { label: 'Bote de chispas', value: 'Spark Canister' },
+  { label: 'Batería industrial', value: 'Industrial-Grade Battery' },
+  { label: 'Gel óhmico', value: 'Ohmic Gel' },
+  { label: 'Fluido de energía experimental', value: 'Experimental Power Fluid' },
+  { label: 'Núcleo de fusión', value: 'Fusion Core' },
+]);
+
+const selectedWikiOption = ref('');
+
 const buildQueryUrl = (queryObject: Record<string, any>) => {
   const params = new URLSearchParams();
   Object.entries(queryObject).forEach(([k, v]) => {
@@ -104,6 +179,128 @@ const getSystemsQueryDataUrl = (offset = 0) =>
     where: `Systems.Civilized='Royal Space Society'`,
     offset,
   });
+
+const getWikiPageContent = async (pageName: string): Promise<string> => {
+  const url = buildQueryUrl({
+    ...basicQueryData,
+    action: 'query',
+    prop: 'revisions',
+    rvprop: 'content',
+    rvslots: 'main',
+    titles: pageName,
+    formatversion: '2',
+  });
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.query && data.query.pages && data.query.pages.length > 0) {
+      const page = data.query.pages[0];
+      if (page.revisions && page.revisions.length > 0) {
+        const content = page.revisions[0].slots.main.content;
+        return content.toLowerCase();
+      }
+    }
+  } catch (error) {
+    console.warn(`Error fetching content for ${pageName}:`, error);
+  }
+
+  const fallbackUrl = buildQueryUrl({
+    ...basicQueryData,
+    action: 'query',
+    prop: 'extracts',
+    exintro: false,
+    explaintext: true,
+    exsectionformat: 'plain',
+    titles: pageName,
+  });
+
+  try {
+    const response = await fetch(fallbackUrl);
+    const data = await response.json();
+
+    if (data.query && data.query.pages) {
+      const pages = Object.values(data.query.pages) as any[];
+      if (pages.length > 0 && pages[0].extract) {
+        return pages[0].extract.toLowerCase();
+      }
+    }
+  } catch (error) {
+    console.warn(`Fallback extract also failed for ${pageName}:`, error);
+  }
+
+  return '';
+};
+
+const cancelWikiSearch = () => {
+  isSearchingWiki.value = false;
+  searchProgress.value = { current: 0, total: 0 };
+  wikiSearchResults.value.clear();
+  wikiSearchText.value = '';
+  selectedWikiOption.value = '';
+  applyFilters();
+};
+
+const searchInWikiPages = async () => {
+  const searchTerm = wikiSearchText.value.trim() || selectedWikiOption.value;
+  if (!searchTerm) return;
+
+  isSearchingWiki.value = true;
+  wikiSearchResults.value.clear();
+
+  const baseFiltered = systems.value.filter(
+    (s) =>
+      (!searchText.value || s.SystemName.toLowerCase().includes(searchText.value.toLowerCase())) &&
+      (!filterGalaxy.value || s.Galaxy === filterGalaxy.value) &&
+      (!filterRegion.value || s.Region === filterRegion.value) &&
+      (!filterUser.value ||
+        (s.DiscoveredLink && s.DiscoveredLink.toLowerCase().includes(filterUser.value.toLowerCase())) ||
+        (s.Discovered && s.Discovered.toLowerCase().includes(filterUser.value.toLowerCase())) ||
+        (s.ResearchTeam && s.ResearchTeam.toLowerCase().includes(filterUser.value.toLowerCase())))
+  );
+
+  searchProgress.value = { current: 0, total: baseFiltered.length };
+
+  const searchTermLower = searchTerm.toLowerCase();
+  const batchSize = 5;
+  const delayBetweenBatches = 2000;
+
+  try {
+    for (let i = 0; i < baseFiltered.length; i += batchSize) {
+      if (!isSearchingWiki.value) {
+        break;
+      }
+
+      const batch = baseFiltered.slice(i, i + batchSize);
+
+      const batchPromises = batch.map(async (system) => {
+        try {
+          const content = await getWikiPageContent(system.SystemName);
+          if (content.includes(searchTermLower)) {
+            wikiSearchResults.value.add(system.SystemName);
+          }
+          searchProgress.value.current++;
+        } catch (error) {
+          console.warn(`Error searching in ${system.SystemName}:`, error);
+          searchProgress.value.current++;
+        }
+      });
+
+      await Promise.all(batchPromises);
+
+      if (i + batchSize < baseFiltered.length) {
+        await new Promise((resolve) => setTimeout(resolve, delayBetweenBatches));
+      }
+    }
+
+    applyFilters();
+  } catch (error) {
+    console.error('Error during wiki search:', error);
+  } finally {
+    isSearchingWiki.value = false;
+  }
+};
 
 const mapSystemsData = (data: CargoResponse<SystemQueryData>) => {
   if (!data?.cargoquery) {
@@ -175,7 +372,7 @@ const paginatedSystems = computed(() => {
 });
 
 const applyFilters = () => {
-  filtered.value = systems.value.filter(
+  let base = systems.value.filter(
     (s) =>
       (!searchText.value || s.SystemName.toLowerCase().includes(searchText.value.toLowerCase())) &&
       (!filterGalaxy.value || s.Galaxy === filterGalaxy.value) &&
@@ -185,6 +382,12 @@ const applyFilters = () => {
         (s.Discovered && s.Discovered.toLowerCase().includes(filterUser.value.toLowerCase())) ||
         (s.ResearchTeam && s.ResearchTeam.toLowerCase().includes(filterUser.value.toLowerCase())))
   );
+
+  if (wikiSearchResults.value.size > 0) {
+    base = base.filter((s) => wikiSearchResults.value.has(s.SystemName));
+  }
+
+  filtered.value = base;
   totalRecords.value = filtered.value.length;
   first.value = 0;
 };
@@ -213,7 +416,7 @@ const uniqueUsers = computed(() => {
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 
-watch([searchText, filterGalaxy, filterUser, filterRegion], applyFilters);
+watch([searchText, filterGalaxy, filterUser, filterRegion, wikiSearchResults], applyFilters, { deep: true });
 
 onMounted(async () => {
   window.addEventListener('resize', () => (screenWidth.value = window.innerWidth));
@@ -235,11 +438,38 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
 
+let scrollTimeout: number | null = null;
+
 const handleScroll = () => {
-  showScrollButton.value = window.scrollY > 300;
+  if (scrollTimeout) return;
+
+  scrollTimeout = requestAnimationFrame(() => {
+    showScrollButton.value = window.scrollY > 300;
+    scrollTimeout = null;
+  });
 };
+
 const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const start = window.scrollY;
+  const duration = 600;
+  let startTime: number | null = null;
+
+  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+  const animate = (currentTime: number) => {
+    if (!startTime) startTime = currentTime;
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easedProgress = easeOutCubic(progress);
+
+    window.scrollTo(0, start * (1 - easedProgress));
+
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    }
+  };
+
+  requestAnimationFrame(animate);
 };
 
 function coords2Glyphs(coordinates: string): string {
@@ -306,49 +536,137 @@ function getGlyphs(coordinates: string): string {
           <ThemeSwitch />
         </div>
 
-        <div class="filter-container mb-6 p-4 bg-space-dark rounded-lg">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label class="block mb-2">Buscar nombre:</label>
-              <InputText
-                v-model="searchText"
-                placeholder="Buscar sistema..."
-                class="w-full"
-              />
+        <div class="filter-container mb-6">
+          <div class="filter-header mb-4">
+            <h3 class="filter-title">
+              <i class="pi pi-filter mr-2"></i>
+              Filtros de Búsqueda
+            </h3>
+          </div>
+
+          <div class="filter-section mb-4">
+            <h4 class="filter-section-title">Filtros Básicos</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div class="filter-field">
+                <label class="filter-label">
+                  <i class="pi pi-search mr-1"></i>
+                  Buscar nombre:
+                </label>
+                <InputText
+                  v-model="searchText"
+                  placeholder="Buscar sistema..."
+                  class="w-full filter-input"
+                />
+              </div>
+              <div class="filter-field">
+                <label class="filter-label">
+                  <i class="pi pi-globe mr-1"></i>
+                  Galaxia:
+                </label>
+                <Dropdown
+                  v-model="filterGalaxy"
+                  :options="uniqueGalaxies"
+                  placeholder="Todas las galaxias"
+                  showClear
+                  class="w-full filter-dropdown"
+                />
+              </div>
+              <div class="filter-field">
+                <label class="filter-label">
+                  <i class="pi pi-map-marker mr-1"></i>
+                  Región:
+                </label>
+                <Dropdown
+                  v-model="filterRegion"
+                  :options="uniqueRegions"
+                  placeholder="Todas las regiones"
+                  showClear
+                  class="w-full filter-dropdown"
+                />
+              </div>
+              <div class="filter-field">
+                <label class="filter-label">
+                  <i class="pi pi-user mr-1"></i>
+                  Usuario:
+                </label>
+                <InputText
+                  v-model="filterUser"
+                  placeholder="Buscar descubridor..."
+                  class="w-full filter-input"
+                />
+              </div>
             </div>
-            <div>
-              <label class="block mb-2">Filtrar galaxia:</label>
-              <Dropdown
-                v-model="filterGalaxy"
-                :options="uniqueGalaxies"
-                placeholder="Todas las galaxias"
-                showClear
-                class="w-full"
-              />
-            </div>
-            <div>
-              <label class="block mb-2">Filtrar región:</label>
-              <Dropdown
-                v-model="filterRegion"
-                :options="uniqueRegions"
-                placeholder="Todas las regiones"
-                showClear
-                class="w-full"
-              />
-            </div>
-            <div>
-              <label class="block mb-2">Filtrar por usuario:</label>
-              <InputText
-                v-model="filterUser"
-                placeholder="Buscar descubridor o equipo..."
-                class="w-full"
-              />
+          </div>
+
+          <div class="filter-section">
+            <h4 class="filter-section-title">
+              <i class="pi pi-book mr-1"></i>
+              Búsqueda en Páginas Wiki
+            </h4>
+            <div class="wiki-search-container">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="filter-field">
+                  <label class="filter-label">Texto personalizado:</label>
+                  <InputText
+                    v-model="wikiSearchText"
+                    placeholder="Escribe aquí..."
+                    class="w-full filter-input"
+                    :disabled="isSearchingWiki"
+                  />
+                </div>
+                <div class="filter-field">
+                  <label class="filter-label">Recursos predefinidos:</label>
+                  <Dropdown
+                    v-model="selectedWikiOption"
+                    filter
+                    :options="wikiSearchOptionsSpanish"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="Selecciona un recurso..."
+                    showClear
+                    class="w-full filter-dropdown"
+                    :disabled="isSearchingWiki"
+                  />
+                </div>
+                <div class="filter-field search-button-container">
+                  <label class="filter-label">&nbsp;</label>
+                  <div class="flex gap-2">
+                    <Button
+                      @click="searchInWikiPages"
+                      :disabled="(!wikiSearchText.trim() && !selectedWikiOption) || isSearchingWiki"
+                      :loading="isSearchingWiki"
+                      class="search-wiki-button flex-1"
+                    >
+                      <i class="pi pi-search mr-2"></i>
+                      Buscar en Wiki
+                    </Button>
+                    <Button
+                      v-if="isSearchingWiki || wikiSearchResults.size > 0"
+                      @click="cancelWikiSearch"
+                      severity="danger"
+                      class="cancel-search-button flex-1"
+                    >
+                      <i class="pi pi-times mr-2"></i>
+                      Cancelar
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              <div class="wiki-search-help mt-2">
+                <small class="help-text">
+                  <i class="pi pi-info-circle mr-1"></i>
+                  Busca texto específico en las páginas wiki de los sistemas. Puedes escribir texto personalizado o
+                  seleccionar un recurso de la lista.
+                </small>
+              </div>
             </div>
           </div>
         </div>
 
         <Panel class="galactic-panel">
-          <template #header><h2 class="panel-title">Estadísticas</h2></template>
+          <template #header>
+            <h2 class="panel-title">Estadísticas</h2>
+          </template>
           <div class="panel-content">
             <p>
               🌐 Sistemas totales: <strong>{{ systems.length }}</strong>
@@ -362,26 +680,23 @@ function getGlyphs(coordinates: string): string {
             <p>
               👤 Usuarios únicos: <strong>{{ uniqueUsers.length }}</strong>
             </p>
+            <p v-if="wikiSearchResults.size > 0">
+              📄 Con texto encontrado: <strong>{{ wikiSearchResults.size }}</strong>
+            </p>
           </div>
         </Panel>
 
         <br />
 
-        <Paginator
-          v-model:first="first"
-          v-model:rows="rows"
-          :totalRecords="totalRecords"
-          :rowsPerPageOptions="[6, 12, 18, 24, 30, 36, 48]"
-          class="mt-4"
-        />
-
-        <br />
-
         <div
-          v-if="isLoading"
+          v-if="isLoading || isSearchingWiki"
           class="loading-message"
         >
-          <i class="pi pi-spinner pi-spin"></i> Cargando sistemas...
+          <i class="pi pi-spinner pi-spin"></i>
+          <span v-if="isLoading">Cargando sistemas...</span>
+          <span v-else-if="isSearchingWiki"
+            >Buscando en páginas wiki... ({{ searchProgress.current }}/{{ searchProgress.total }})</span
+          >
         </div>
         <div
           v-else-if="error"
@@ -389,7 +704,15 @@ function getGlyphs(coordinates: string): string {
         >
           <i class="pi pi-exclamation-triangle"></i> {{ error }}
         </div>
-        <template v-else>
+        <template v-else-if="!isLoading && !isSearchingWiki">
+          <Paginator
+            v-model:first="first"
+            v-model:rows="rows"
+            :totalRecords="totalRecords"
+            :rowsPerPageOptions="[6, 12, 18, 24, 30, 36, 48]"
+            class="mb-4"
+          />
+
           <div
             class="grid gap-4"
             :style="`grid-template-columns: repeat(${gridColumns}, 1fr)`"
@@ -402,18 +725,26 @@ function getGlyphs(coordinates: string): string {
               <template #content>
                 <div class="p-4">
                   <div class="flex flex-column gap-3">
-                    <h3 class="update-title">{{ s.SystemName }}</h3>
+                    <div class="flex items-center justify-between">
+                      <a
+                        :href="`https://nomanssky.fandom.com/wiki/${s.SystemName}`"
+                        target="_blank"
+                        class="system-link"
+                      >
+                        <h3 class="update-title">{{ s.SystemName }}</h3>
+                      </a>
+                    </div>
                     <div class="update-details">
                       <div class="detail-item">
-                        <span class="detail-label">Región:</span
-                        ><Tag
+                        <span class="detail-label">Región:</span>
+                        <Tag
                           :value="s.Region"
                           class="category-tag"
                         />
                       </div>
                       <div class="detail-item">
-                        <span class="detail-label">Galaxia:</span
-                        ><Tag
+                        <span class="detail-label">Galaxia:</span>
+                        <Tag
                           :value="s.Galaxy"
                           class="category-tag"
                         />
@@ -462,10 +793,27 @@ function getGlyphs(coordinates: string): string {
                       </div>
                     </div>
                   </div>
+                  <div class="mt-4 flex justify-center">
+                    <a
+                      :href="`https://nomanssky.fandom.com/wiki/${s.SystemName}`"
+                      target="_blank"
+                      class="wiki-card-button"
+                    >
+                      🔗 Ver en la Wiki
+                    </a>
+                  </div>
                 </div>
               </template>
             </Card>
           </div>
+
+          <Paginator
+            v-model:first="first"
+            v-model:rows="rows"
+            :totalRecords="totalRecords"
+            :rowsPerPageOptions="[6, 12, 18, 24, 30, 36, 48]"
+            class="mt-4"
+          />
         </template>
       </div>
     </template>
@@ -497,6 +845,8 @@ function getGlyphs(coordinates: string): string {
   --tag-text: #4f46e5;
   --space-dark: #c3d4ff;
   --space-light: #e2e3e4;
+  --success-color: #10b981;
+  --success-background: rgba(16, 185, 129, 0.1);
 }
 
 .theme-dark .galactic-card {
@@ -513,6 +863,8 @@ function getGlyphs(coordinates: string): string {
   --tag-text: #67e8f9;
   --space-dark: #0f172a;
   --space-light: #1e293b;
+  --success-color: #34d399;
+  --success-background: rgba(52, 211, 153, 0.1);
 }
 
 .galactic-card {
@@ -553,6 +905,16 @@ label.block {
   background: var(--tag-background) !important;
   border: 1px solid var(--tag-border) !important;
   color: var(--tag-text) !important;
+}
+
+.search-wiki-button {
+  background: var(--primary-gradient) !important;
+  border: none !important;
+  color: white !important;
+}
+
+.search-wiki-button:hover {
+  opacity: 0.9;
 }
 
 .text-stellar-gray {
@@ -627,56 +989,6 @@ label.block {
   --logo-brightness: 0.9;
 }
 
-.logo-image:hover {
-  transform: rotate(-5deg) scale(1.05);
-}
-
-.filter-container {
-  background: var(--space-dark);
-  border: 1px solid var(--border-color);
-}
-
-.galactic-panel {
-  background: var(--background-secondary);
-  border: 1px solid var(--border-color);
-}
-
-.panel-title {
-  color: var(--text-primary);
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.panel-content {
-  color: var(--text-secondary);
-}
-
-@media (max-width: 768px) {
-  .wiki-logo {
-    position: absolute;
-    right: 0.1rem;
-    top: 0.5rem;
-    margin-top: 1rem;
-    width: 0px;
-    height: 0px;
-  }
-
-  .logo-image {
-    height: auto;
-    transition: transform 0.3s ease;
-    filter: brightness(var(--logo-brightness, 1));
-  }
-
-  .galactic-title {
-    font-size: 1.5rem;
-    text-align: center;
-  }
-
-  .header-container {
-    text-align: center;
-  }
-}
-
 .scroll-top-button {
   position: fixed;
   bottom: 2rem;
@@ -701,12 +1013,181 @@ label.block {
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
 }
 
+.logo-image:hover {
+  transform: rotate(-5deg) scale(1.05);
+}
+
+.filter-container {
+  background: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.75rem;
+}
+
+.filter-title {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.filter-section {
+  background: var(--space-light);
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.filter-section-title {
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-label {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  min-height: 1.25rem;
+}
+
+.filter-input,
+.filter-dropdown {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.filter-input:focus,
+.filter-dropdown:focus-within {
+  border-color: var(--tag-border);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+.wiki-search-container {
+  background: var(--background-primary);
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.search-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.search-wiki-button {
+  background: var(--primary-gradient) !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.search-wiki-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.search-wiki-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.wiki-search-help {
+  background: var(--space-dark);
+  border-radius: 6px;
+  padding: 0.75rem;
+  border-left: 3px solid var(--tag-border);
+}
+
+.help-text {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: flex-start;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .filter-container {
+    padding: 1rem;
+  }
+
+  .filter-section {
+    padding: 0.75rem;
+  }
+
+  .wiki-search-container {
+    padding: 0.75rem;
+  }
+}
+
+.cancel-search-button {
+  min-width: 44px;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.cancel-search-button:hover {
+  background-color: var(--red-50);
+  border-color: var(--red-300);
+  color: var(--red-600);
+}
+
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
-.fade-enter,
+.fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+  transform: translateY(20px);
+}
+
+.wiki-card-button {
+  background: var(--primary-gradient);
+  color: white;
+  font-weight: 400;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.wiki-card-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.6);
+  opacity: 1;
 }
 </style>
