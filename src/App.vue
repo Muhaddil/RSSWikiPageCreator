@@ -58,11 +58,14 @@ async function checkForUpdate() {
 async function checkForAnnouncements() {
   try {
     const response = await fetch(
-      'https://raw.githubusercontent.com/Muhaddil/rsswikipagecreatorannouncements/refs/heads/main/announcements.json?ts=' +
-        Date.now(),
-      { cache: 'no-store' }
+      'https://api.github.com/repos/Muhaddil/rsswikipagecreatorannouncements/contents/announcements.json',
+      { headers: { Accept: 'application/vnd.github.v3.raw' } }
     );
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    if (!response.ok) {
+      console.error('❌ Error HTTP:', response.status, response.statusText);
+      throw new Error(`HTTP ${response.status}`);
+    }
 
     const data = await response.json();
 
@@ -479,6 +482,7 @@ footer {
     opacity: 0;
     transform: translateY(-1rem);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
