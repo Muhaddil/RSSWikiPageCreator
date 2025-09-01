@@ -62,6 +62,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.65',
+    date: '02 / 09 / 2025',
+    description:
+      'Se le ha realizado un lavado de cara al componente principal para que los anuncios, versión y actualización tengan una estética mejor, además de mejorar el funcionamiento del mismo.',
+    category: 'Web',
+  },
+  {
     title: '1.0.6492',
     date: '01 / 09 / 2025',
     description: 'Se ha mejorado el sistema de obtención de anuncios.',
