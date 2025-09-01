@@ -9,6 +9,10 @@ import Button from 'primevue/button';
 import Paginator from 'primevue/paginator';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 
+// onMounted(() => {
+//   window.location.href = "/RSSWikiPageCreator/indextest.html";
+// });
+
 interface SystemQueryData {
   SystemName: string;
   SystemTitle: string;

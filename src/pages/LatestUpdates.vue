@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted, computed } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
+import Dialog from 'primevue/dialog';
 import InputNumber from 'primevue/inputnumber';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 import { getRegionImageUrls } from '@/api/api';
@@ -35,6 +36,7 @@ const screenWidth = ref(window.innerWidth);
 const maxUpdates = ref(10);
 const allNewsItems = ref<NewsItem[]>([]);
 const showScrollButton = ref<boolean>(false);
+const showFixesDialog = ref<{ [version: string]: boolean }>({});
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 
@@ -174,7 +176,9 @@ const parseUpdateDetails = async (wikitext: string, _pagename: string): Promise<
     details.summary = cleanWikitext(resumenSection[1].trim());
   }
 
-  const fixesSection = wikitext.match(/==\s*corre(?:cción|cciones)\s+de\s+errores?\s*==\s*\n([\s\S]*?)(?=\n==|$)/i);
+  const fixesSection = wikitext.match(
+    /==\s*(?:corre(?:cci[oó]n(?:es)?\s+de\s+errores?|cciones\s+de\s+errores?)|notas?\s+del\s+parche)\s*==\s*\n([\s\S]*?)(?=\n==|$)/i
+  );
   if (fixesSection) {
     const fixesText = fixesSection[1];
     const fixMatches = fixesText.matchAll(/\*\s*(.+?)(?=\n\*|\n$)/g);
@@ -251,6 +255,14 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
+
+const openFixesDialog = (version: string) => {
+  showFixesDialog.value[version] = true;
+};
+
+const closeFixesDialog = (version: string) => {
+  showFixesDialog.value[version] = false;
+};
 </script>
 
 <template>
@@ -279,7 +291,9 @@ onUnmounted(() => {
               </div>
             </div>
             <p class="text-stellar-gray mt-2">Últimas actualizaciones del juego desde la wiki oficial</p>
-            <p class="text-stellar-gray mt-2"><ThemeSwitch style="margin-right: 2rem" /></p>
+            <p class="text-stellar-gray mt-2">
+              <ThemeSwitch style="margin-right: 2rem" />
+            </p>
           </div>
         </div>
 
@@ -393,15 +407,72 @@ onUnmounted(() => {
                       v-if="updateDetails[item.version]?.fixes && updateDetails[item.version]?.fixes!.length > 0"
                       class="fixes-box"
                     >
-                      <span class="detail-label">Principales correcciones:</span>
-                      <ul>
-                        <li
+                      <div class="fixes-header">
+                        <i class="pi pi-wrench fixes-icon"></i>
+                        <span class="detail-label">Correcciones principales:</span>
+                      </div>
+
+                      <div class="fixes-preview">
+                        <div
                           v-for="(fix, fixIndex) in updateDetails[item.version]?.fixes?.slice(0, 3)"
                           :key="fixIndex"
+                          class="fix-item"
                         >
-                          {{ fix }}
-                        </li>
-                      </ul>
+                          <div class="fix-bullet"></div>
+                          <span class="fix-text">{{ fix }}</span>
+                        </div>
+                      </div>
+
+                      <div
+                        v-if="updateDetails[item.version]?.fixes!.length > 3"
+                        class="fixes-actions"
+                      >
+                        <Button
+                          :label="`Ver todas (${updateDetails[item.version]?.fixes!.length})`"
+                          icon="pi pi-list"
+                          class="p-button-text p-button-sm view-all-btn"
+                          @click="openFixesDialog(item.version)"
+                        />
+                      </div>
+
+                      <Dialog
+                        v-model:visible="showFixesDialog[item.version]"
+                        :header="`Correcciones completas - Versión ${item.version}`"
+                        modal
+                        :closable="false"
+                        dismissableMask
+                        class="fixes-dialog"
+                        :style="{ width: '90vw', maxWidth: '800px' }"
+                      >
+                        <div class="dialog-content">
+                          <div class="fixes-count">
+                            <i class="pi pi-info-circle"></i>
+                            <span>Total de correcciones: {{ updateDetails[item.version]?.fixes?.length }}</span>
+                          </div>
+
+                          <div class="fixes-list-container">
+                            <div
+                              v-for="(fix, fixIndex) in updateDetails[item.version]?.fixes"
+                              :key="fixIndex"
+                              class="dialog-fix-item"
+                            >
+                              <div class="fix-number">{{ fixIndex + 1 }}</div>
+                              <div class="fix-content">{{ fix }}</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <template #footer>
+                          <div class="dialog-footer">
+                            <Button
+                              label="Cerrar"
+                              icon="pi pi-times"
+                              class="p-button-outlined"
+                              @click="closeFixesDialog(item.version)"
+                            />
+                          </div>
+                        </template>
+                      </Dialog>
                     </div>
 
                     <div class="mt-3 flex justify-between">
@@ -457,6 +528,9 @@ onUnmounted(() => {
   --tag-text: #4f46e5;
   --space-dark: #c3d4ff;
   --space-light: #e2e3e4;
+  --fix-bg: rgba(79, 70, 229, 0.05);
+  --fix-border: rgba(79, 70, 229, 0.2);
+  --fix-bullet: #4f46e5;
 }
 
 .theme-dark .galactic-card {
@@ -473,6 +547,9 @@ onUnmounted(() => {
   --tag-text: #67e8f9;
   --space-dark: #0f172a;
   --space-light: #1e293b;
+  --fix-bg: rgba(103, 232, 249, 0.05);
+  --fix-border: rgba(103, 232, 249, 0.2);
+  --fix-bullet: #67e8f9;
 }
 
 .galactic-card {
@@ -567,14 +644,145 @@ onUnmounted(() => {
   border-left: 3px solid var(--tag-border);
 }
 
-.fixes-box ul {
-  padding-left: 1.5rem;
-  margin-top: 0.5rem;
+.fixes-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.fixes-box li {
-  margin-bottom: 0.5rem;
+.fixes-icon {
+  color: var(--tag-text);
+  font-size: 1.1rem;
+}
+
+.fixes-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.fix-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: var(--fix-bg);
+  border-radius: 6px;
+  border-left: 2px solid var(--fix-border);
+  transition: all 0.2s ease;
+}
+
+.fix-item:hover {
+  background: var(--hover-effect);
+  transform: translateX(2px);
+}
+
+.fix-bullet {
+  width: 6px;
+  height: 6px;
+  background: var(--fix-bullet);
+  border-radius: 50%;
+  margin-top: 0.5rem;
+  flex-shrink: 0;
+}
+
+.fix-text {
+  color: var(--text-primary);
   font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.fixes-actions {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--fix-border);
+}
+
+.view-all-btn {
+  color: var(--tag-text) !important;
+  font-weight: 500;
+}
+
+.fixes-dialog {
+  --dialog-bg: var(--background-secondary);
+  --dialog-border: var(--border-color);
+}
+
+.dialog-content {
+  max-height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.fixes-count {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--fix-bg);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.fixes-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dialog-fix-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--fix-bg);
+  border-radius: 8px;
+  border-left: 3px solid var(--tag-border);
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.dialog-fix-item:hover {
+  background: var(--hover-effect);
+  transform: translateX(3px);
+}
+
+.fix-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--tag-background);
+  color: var(--tag-text);
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.fix-content {
+  color: var(--text-primary);
+  line-height: 1.5;
+  font-size: 0.95rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  flex: 1;
+  min-width: 0;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.75rem;
+  /* border-top: 1px solid var(--border-color); */
 }
 
 .wiki-link,
@@ -655,6 +863,29 @@ onUnmounted(() => {
   .detail-label {
     min-width: auto;
   }
+
+  .fixes-dialog {
+    width: 95vw !important;
+  }
+
+  .dialog-fix-item {
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.5rem;
+  }
+
+  .fix-number {
+    align-self: flex-start;
+  }
+
+  .fixes-count {
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .fixes-list-container {
+    gap: 0.375rem;
+  }
 }
 
 .scroll-top-button {
@@ -679,5 +910,15 @@ onUnmounted(() => {
 .scroll-top-button:hover {
   transform: translateY(-5px) scale(1.1);
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
