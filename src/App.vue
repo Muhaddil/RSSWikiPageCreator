@@ -19,6 +19,29 @@ const updateAvailable = ref(false);
 const currentVersion = packageJson.version;
 const remoteVersion = ref('');
 
+type RawAnnouncement = {
+  active?: boolean;
+  priority?: number;
+  type?: 'info' | 'warning' | 'error' | 'success';
+  title?: string;
+  message?: string;
+  link?: { text: string; url: string } | null;
+  dismissible?: boolean;
+};
+
+type Announcement =
+  | {
+      show: true;
+      type: 'info' | 'warning' | 'error' | 'success';
+      title: string;
+      message: string;
+      link: { text: string; url: string } | null;
+      dismissible: boolean;
+    }
+  | { show: false };
+
+const announcement = ref<Announcement>({ show: false });
+
 async function checkForUpdate() {
   try {
     const response = await fetch('https://muhaddil.github.io/RSSWikiPageCreator/version.json', { cache: 'no-store' });
@@ -28,13 +51,67 @@ async function checkForUpdate() {
       updateAvailable.value = true;
     }
   } catch (e) {
-    // Manejo de error opcional
+    console.warn('Error comprobando actualizaciones:', e);
   }
+}
+
+async function checkForAnnouncements() {
+  try {
+    const response = await fetch(
+      'https://raw.githubusercontent.com/Muhaddil/rsswikipagecreatorannouncements/refs/heads/main/announcements.json?ts=' +
+        Date.now(),
+      { cache: 'no-store' }
+    );
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const data = await response.json();
+
+    const list: RawAnnouncement[] = Array.isArray(data.announcements) ? data.announcements : [];
+    const active = list.filter((a): a is RawAnnouncement => !!a?.active);
+
+    const chosen = active.sort(
+      (a: RawAnnouncement, b: RawAnnouncement) => (a.priority ?? 9999) - (b.priority ?? 9999)
+    )[0];
+
+    if (chosen) {
+      announcement.value = {
+        show: true,
+        type: chosen.type || 'info',
+        title: chosen.title || '',
+        message: chosen.message || '',
+        link: chosen.link || null,
+        dismissible: chosen.dismissible !== false,
+      };
+    } else {
+      announcement.value = { show: false };
+    }
+  } catch (e) {
+    console.error('Error cargando anuncios:', e);
+    announcement.value = { show: false };
+  }
+}
+
+function dismissAnnouncement() {
+  if (announcement.value.show) {
+    announcement.value = { show: false };
+  }
+}
+
+function getAnnouncementIcon(type: string) {
+  const icons: Record<string, string> = {
+    info: 'pi pi-info-circle',
+    warning: 'pi pi-exclamation-triangle',
+    error: 'pi pi-times-circle',
+    success: 'pi pi-check-circle',
+  };
+  return icons[type] || icons.info;
 }
 
 onMounted(() => {
   checkForUpdate();
+  checkForAnnouncements();
   setInterval(checkForUpdate, 60 * 1000);
+  setInterval(checkForAnnouncements, 5 * 60 * 1000);
 });
 
 function reloadPage() {
@@ -60,6 +137,43 @@ function reloadPage() {
     </div>
     <MainToolbar />
   </header>
+
+  <div
+    v-if="announcement.show"
+    :class="['announcement-banner', `announcement-${announcement.type}`]"
+  >
+    <div class="announcement-content">
+      <div class="announcement-icon">
+        <i :class="getAnnouncementIcon(announcement.type)"></i>
+      </div>
+      <div class="announcement-text">
+        <h4
+          v-if="announcement.title"
+          class="announcement-title"
+        >
+          {{ announcement.title }}
+        </h4>
+        <p class="announcement-message">{{ announcement.message }}</p>
+        <a
+          v-if="announcement.link"
+          :href="announcement.link.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="announcement-link"
+        >
+          {{ announcement.link.text }}
+        </a>
+      </div>
+    </div>
+    <button
+      v-if="announcement.dismissible"
+      class="announcement-dismiss"
+      @click="dismissAnnouncement"
+      aria-label="Cerrar anuncio"
+    >
+      <i class="pi pi-times"></i>
+    </button>
+  </div>
 
   <div
     v-if="updateAvailable"
@@ -234,6 +348,96 @@ footer {
   .author-name {
     font-size: 1.2rem;
   }
+}
+
+.announcement-banner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  margin: 1rem auto;
+  max-width: 960px;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: slide-fade-in 0.4s ease-out;
+  transition: var(--theme-transition);
+}
+
+.announcement-info {
+  background-color: #e3f2fd;
+  border-left: 4px solid #2196f3;
+  color: #1565c0;
+}
+
+.announcement-warning {
+  background-color: #fff3e0;
+  border-left: 4px solid #ff9800;
+  color: #e65100;
+}
+
+.announcement-error {
+  background-color: #ffebee;
+  border-left: 4px solid #f44336;
+  color: #c62828;
+}
+
+.announcement-success {
+  background-color: #e8f5e8;
+  border-left: 4px solid #4caf50;
+  color: #2e7d32;
+}
+
+.announcement-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.announcement-icon {
+  font-size: 1.25rem;
+  margin-top: 0.125rem;
+}
+
+.announcement-text {
+  flex: 1;
+}
+
+.announcement-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.announcement-message {
+  margin: 0 0 0.5rem 0;
+  line-height: 1.5;
+}
+
+.announcement-link {
+  font-weight: 500;
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.announcement-link:hover {
+  opacity: 1;
+}
+
+.announcement-dismiss {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  opacity: 0.7;
+  transition: all 0.2s ease;
+  margin-left: 1rem;
+}
+
+.announcement-dismiss:hover {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .update-banner {
