@@ -103,6 +103,12 @@ const links: PageLinkProps[] = [
     img: './assets/images/buttons/1_011.png',
     imgAlt: 'Lunas',
   },
+  {
+    text: '',
+    url: './corvette.html',
+    img: './assets/images/buttons/1_016.png',
+    imgAlt: 'Corbetas',
+  },
 ];
 
 function getCssVarValue(varName: string) {

@@ -43,6 +43,7 @@ export default defineConfig({
         'latestupdates.html',
         'wikiupdates.html',
         'rsssystems.html',
+        'corvette.html',
       ],
     },
   },

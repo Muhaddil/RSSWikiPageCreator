@@ -33,6 +33,7 @@ export const router: Record<string, string> = {
   latestupdates: 'LatestUpdates',
   wikiupdates: 'WikiUpdates',
   rsssystems: 'RSSSystems',
+  corvette: 'Corvette',
 };
 
 export const route = getCurrentRoute();
@@ -127,6 +128,9 @@ switch (route) {
     break;
   case 'rsssystems':
     exportName = 'Sistemas RSS';
+    break;
+  case 'corvette':
+    exportName = 'Corbetas';
     break;
   case '':
     exportName = 'Home';

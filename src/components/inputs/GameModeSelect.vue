@@ -18,11 +18,11 @@ const id = useId('gamemode-');
       <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
         <label :id>Modo de juego</label>
         <Explainer
-          tooltip="Modo de juego de la partida en la que se construyó esta base."
+          tooltip="Modo de juego de la partida."
           help-img="shared/gamemode"
           help-title="Modo de juego"
         >
-          Modo de juego de la partida en la que se construyó esta base.<br />Encontrado en el menú principal:
+          Modo de juego de la partida.<br />Encontrado en el menú principal:
         </Explainer>
       </div>
     </template>
