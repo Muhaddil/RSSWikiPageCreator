@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.662',
+    date: '07 / 09 / 2025',
+    description: 'Se ha solucionado un problema con los paneles de los cuadrantes de las regiones.',
+    category: 'Web',
+  },
+  {
     title: '1.0.661',
     date: '07 / 09 / 2025',
     description: 'Se ha solucionado un problema con el nuevo apartado de corbetas.',

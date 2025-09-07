@@ -823,6 +823,7 @@ function translateRegionName(name: string): string {
   border: 1px solid var(--border-color) !important;
   border-radius: 10px !important;
   transition: transform 0.2s ease;
+  width: 100%;
 }
 
 .quadrant-panel:hover {
