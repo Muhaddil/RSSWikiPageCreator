@@ -33,13 +33,13 @@ jobs:
       - name: Build App
         run: ${{ env.buildCommand }}
 
-      - name: Minify Code
-        uses: Muhaddil/minify-js@main
-        with:
-          directory: ${{ env.buildOutput }}
-          overwrite: true
-        env:
-          DRY_RUN: "false"
+      # - name: Minify Code
+      #   uses: Muhaddil/minify-js@main
+      #   with:
+      #     directory: ${{ env.buildOutput }}
+      #     overwrite: true
+      #   env:
+      #     DRY_RUN: "false"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
