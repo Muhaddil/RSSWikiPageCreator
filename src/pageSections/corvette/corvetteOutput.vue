@@ -47,10 +47,10 @@ const {
   <br />
   <br />
   <div>==Corvette Overview==</div>
-  <div class="keep-linebreaks">{{ appearance }}</div>
+  <div>{{ appearance }}</div>
   <br />
   <div>==Features==</div>
-  <div class="keep-linebreaks">{{ features2 }}</div>
+  <div>{{ features2 }}</div>
   <br />
   <div>==Additional Information==</div>
   <div>{{ additionalInfo }}</div>

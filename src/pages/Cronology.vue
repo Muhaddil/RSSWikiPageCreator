@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.661',
+    date: '07 / 09 / 2025',
+    description: 'Se ha solucionado un problema con el nuevo apartado de corbetas.',
+    category: 'Web',
+  },
+  {
     title: '1.0.66',
     date: '07 / 09 / 2025',
     description: 'Se ha añadido un nuevo apartado para poder subir las corbetas a la wiki.',

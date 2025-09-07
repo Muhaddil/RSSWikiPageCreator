@@ -29,6 +29,10 @@ function isCensusPage() {
   return currentUrl.includes('census.html');
 }
 
+function isCorvettePage() {
+  return currentUrl.includes('corvette.html');
+}
+
 function isFAQPage() {
   return (
     currentUrl.includes('faq.html') ||
@@ -61,6 +65,12 @@ async function copyPage() {
       { field: pageData.platform, message: '¡Falta tu plataforma!' },
       { field: pageData.mode, message: '¡Falta tu modo de juego!' },
       { field: pageData.discDate, message: '¡Falta tu fecha de unión!' },
+    ];
+  } else if (isCorvettePage()) {
+    requiredFields = [
+      { field: pageData.name, message: '¡Falta el nombre!' },
+      { field: pageData.platform, message: '¡Falta tu plataforma!' },
+      { field: pageData.mode, message: '¡Falta tu modo de juego!' },
     ];
   } else {
     requiredFields = [
@@ -214,40 +224,39 @@ async function delay(ms: number) {
 }
 
 function createPage() {
+  let requiredFields = [];
+
   if (isCensusPage()) {
-    const requiredFields = [
+    requiredFields = [
       { field: pageData.playername, message: '¡Falta tu nombre!' },
       { field: pageData.platform, message: '¡Falta tu plataforma!' },
       { field: pageData.mode, message: '¡Falta tu modo de juego!' },
       { field: pageData.discDate, message: '¡Falta tu fecha de unión!' },
     ];
-
-    for (const { field, message } of requiredFields) {
-      if (!field) {
-        showError(message);
-        return;
-      } else {
-        window.open(
-          `https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society?action=edit&section=9#editform`,
-          '_blank'
-        );
-        return;
-      }
-    }
-  }
-
-  if (!isBaseRenewalPage()) {
-    const requiredFields = [
+  } else if (isBaseRenewalPage()) {
+    requiredFields = [
+      { field: pageData.name, message: '¡Falta el nombre!' },
+      { field: pageData.censusrenewal, message: '¿Qué quieres copiar? Rellena los datos' },
+    ];
+  } else if (isCorvettePage()) {
+    requiredFields = [
+      { field: pageData.name, message: '¡Falta el nombre!' },
+      { field: pageData.platform, message: '¡Falta tu plataforma!' },
+      { field: pageData.mode, message: '¡Falta tu modo de juego!' },
+    ];
+  } else {
+    requiredFields = [
+      { field: pageData.outputContent, message: 'ERROR 404' },
       { field: pageData.name, message: '¡Falta el nombre!' },
       { field: pageData.glyphs, message: '¡Faltan los Glifos!' },
       { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' },
     ];
+  }
 
-    for (const { field, message } of requiredFields) {
-      if (!field) {
-        showError(message);
-        return;
-      }
+  for (const { field, message } of requiredFields) {
+    if (!field) {
+      showError(message);
+      return;
     }
   }
 
@@ -257,22 +266,35 @@ function createPage() {
 
   handleSubmit();
 
-  window.open(`https://nomanssky.fandom.com/wiki/${pageData.name}?action=edit`, '_blank');
+  if (isCensusPage()) {
+    window.open(
+      'https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society?action=edit&section=9#editform',
+      '_blank'
+    );
+  } else {
+    window.open(`https://nomanssky.fandom.com/wiki/${pageData.name}?action=edit`, '_blank');
+  }
 }
 
 function downloadCode() {
   let requiredFields;
-  if (isBaseRenewalPage()) {
-    requiredFields = [
-      { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.censusrenewal, message: '¿Qué quieres copiar? Rellena los datos' },
-    ];
-  } else if (isCensusPage()) {
+  if (isCensusPage()) {
     requiredFields = [
       { field: pageData.playername, message: '¡Falta tu nombre!' },
       { field: pageData.platform, message: '¡Falta tu plataforma!' },
       { field: pageData.mode, message: '¡Falta tu modo de juego!' },
       { field: pageData.discDate, message: '¡Falta tu fecha de unión!' },
+    ];
+  } else if (isBaseRenewalPage()) {
+    requiredFields = [
+      { field: pageData.name, message: '¡Falta el nombre!' },
+      { field: pageData.censusrenewal, message: '¿Qué quieres copiar? Rellena los datos' },
+    ];
+  } else if (isCorvettePage()) {
+    requiredFields = [
+      { field: pageData.name, message: '¡Falta el nombre!' },
+      { field: pageData.platform, message: '¡Falta tu plataforma!' },
+      { field: pageData.mode, message: '¡Falta tu modo de juego!' },
     ];
   } else {
     requiredFields = [
