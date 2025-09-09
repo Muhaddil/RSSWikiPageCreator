@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import Card from 'primevue/card';
 import Panel from 'primevue/panel';
 import Checkbox from 'primevue/checkbox';
@@ -10,44 +10,22 @@ import Dropdown from 'primevue/dropdown';
 import { useToast, POSITION } from 'vue-toastification';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
 import Rating from 'primevue/rating';
-const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK ?? '');
 
 const toast = useToast();
 
 const queryParams = new URLSearchParams(window.location.search);
 const language = ref<'en' | 'es'>(queryParams.get('lang') === 'en' ? 'en' : 'es');
+const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK ?? '');
 
 type LanguageKey = 'en' | 'es';
 
 const isEpicLanguage = ref<boolean>(false);
 const isSubmitting = ref<boolean>(false);
-const submitted = ref<boolean>(false);
+const submitted = ref(false);
+const showSuccessFirst = ref(true);
+const cooldownTimeLeft = ref('');
 
-onMounted(() => {
-  watch(isEpicLanguage, () => {
-    const card = document.querySelector('.galactic-card');
-    if (card) {
-      card.classList.add('epic-transition');
-      setTimeout(() => card.classList.remove('epic-transition'), 1000);
-    }
-  });
-
-  const lastSubmittedAt = localStorage.getItem('feedback-submitted-at');
-  if (lastSubmittedAt) {
-    const elapsed = Date.now() - parseInt(lastSubmittedAt, 10);
-    if (elapsed < 24 * 60 * 60 * 1000) {
-      submitted.value = true;
-      setTimeout(
-        () => {
-          submitted.value = false;
-          localStorage.removeItem('feedback-submitted-at');
-        },
-        24 * 60 * 60 * 1000 - elapsed
-      );
-    }
-  }
-});
-
+let cooldownInterval: ReturnType<typeof setInterval> | null = null;
 const feedbackTranslations = {
   en: {
     common: {
@@ -57,6 +35,11 @@ const feedbackTranslations = {
       accessText: 'Your feedback is important to us. Please fill out the form below to help us improve.',
       securityLevel: 'Secure Transmission',
       systemUpdate: 'All data is encrypted and will be handled with confidentiality.',
+      cooldown: {
+        title: 'Cooldown Active',
+        message: 'You can submit new feedback in:',
+        description: 'This helps us manage feedback efficiently and prevents spam.',
+      },
       form: {
         name: 'Name',
         email: 'Email',
@@ -81,6 +64,12 @@ const feedbackTranslations = {
         'Your astral insights are invaluable to our continuum. Utilize the quantum interface below to enhance our existence.',
       securityLevel: 'Quantum Encryption Level 9',
       systemUpdate: 'All transmissions undergo quantum encryption and exist in superposition until observed.',
+      cooldown: {
+        title: 'Temporal Restriction Active',
+        message: 'Next cosmic transmission available in:',
+        description:
+          'The quantum field requires stabilization between transmissions to maintain dimensional integrity.',
+      },
       form: {
         name: 'Celestial Designation',
         email: 'Quantum Communication Address',
@@ -107,6 +96,11 @@ const feedbackTranslations = {
         'Tu feedback es importante para nosotros. Por favor, completa el formulario a continuación para ayudarnos a mejorar.',
       securityLevel: 'Transmisión Segura',
       systemUpdate: 'Todos los datos están encriptados y serán manejados con confidencialidad.',
+      cooldown: {
+        title: 'Cooldown Activo',
+        message: 'Puedes enviar nuevo feedback en:',
+        description: 'Esto nos ayuda a gestionar el feedback de manera eficiente y previene spam.',
+      },
       form: {
         name: 'Nombre',
         email: 'Correo Electrónico',
@@ -132,6 +126,12 @@ const feedbackTranslations = {
       securityLevel: 'Nivel de Encriptación Cuántica 9',
       systemUpdate:
         'Todas las transmisiones pasan por encriptación cuántica y existen en superposición hasta ser observadas.',
+      cooldown: {
+        title: 'Restricción Temporal Activa',
+        message: 'Próxima transmisión cósmica disponible en:',
+        description:
+          'El campo cuántico requiere estabilización entre transmisiones para mantener la integridad dimensional.',
+      },
       form: {
         name: 'Designación Celestial',
         email: 'Dirección de Comunicación Cuántica',
@@ -180,16 +180,6 @@ const getLabel = (language: 'en' | 'es'): string => {
 
 window.addEventListener('resize', updateScreenWidth);
 
-onMounted(() => {
-  watch(isEpicLanguage, () => {
-    const card = document.querySelector('.galactic-card');
-    if (card) {
-      card.classList.add('epic-transition');
-      setTimeout(() => card.classList.remove('epic-transition'), 1000);
-    }
-  });
-});
-
 const MAX_FIELD_LENGTH = 1024;
 
 const splitMessage = (message: string, maxLength: number): string[] => {
@@ -226,7 +216,7 @@ const submitFeedback = async () => {
     const fields = [
       { name: '👤 Nombre', value: formData.value.name, inline: true },
       // { name: "📧 Email", value: formData.value.email, inline: true },
-      { name: '📂 Tipo', value: formData.value.feedbackType, inline: true },
+      { name: '📂 Tipo', value: t.value.form.types[formData.value.feedbackType], inline: true },
       { name: '⭐ Valoración', value: `${formData.value.rating}/5`, inline: true },
     ];
 
@@ -258,11 +248,18 @@ const submitFeedback = async () => {
     });
 
     submitted.value = true;
+    showSuccessFirst.value = true;
     localStorage.setItem('feedback-submitted-at', Date.now().toString());
 
     toast.success(t.value.form.success, {
       position: POSITION.BOTTOM_RIGHT,
     });
+
+    startCooldownTimer(Date.now().toString());
+
+    setTimeout(() => {
+      showSuccessFirst.value = false;
+    }, 3000);
 
     formData.value = {
       name: '',
@@ -280,6 +277,64 @@ const submitFeedback = async () => {
     isSubmitting.value = false;
   }
 };
+
+const startCooldownTimer = (lastSubmittedAt: string) => {
+  const cooldownDuration = 24 * 60 * 60 * 1000; // 24 horas
+
+  const updateCooldown = () => {
+    const currentElapsed = Date.now() - parseInt(lastSubmittedAt, 10);
+    const remaining = cooldownDuration - currentElapsed;
+
+    if (remaining <= 0) {
+      submitted.value = false;
+      localStorage.removeItem('feedback-submitted-at');
+      cooldownTimeLeft.value = '';
+      if (cooldownInterval) clearInterval(cooldownInterval);
+      cooldownInterval = null;
+      return;
+    }
+
+    const hours = Math.floor(remaining / (1000 * 60 * 60));
+    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+    cooldownTimeLeft.value =
+      `${hours.toString().padStart(2, '0')}:` +
+      `${minutes.toString().padStart(2, '0')}:` +
+      `${seconds.toString().padStart(2, '0')}`;
+  };
+
+  updateCooldown();
+  cooldownInterval = setInterval(updateCooldown, 1000);
+};
+
+onMounted(() => {
+  watch(isEpicLanguage, () => {
+    const card = document.querySelector('.galactic-card');
+    if (card) {
+      card.classList.add('epic-transition');
+      setTimeout(() => card.classList.remove('epic-transition'), 1000);
+    }
+  });
+
+  const lastSubmittedAt = localStorage.getItem('feedback-submitted-at');
+  if (lastSubmittedAt) {
+    const elapsed = Date.now() - parseInt(lastSubmittedAt, 10);
+    const cooldownDuration = 24 * 60 * 60 * 1000;
+
+    if (elapsed < cooldownDuration) {
+      submitted.value = true;
+      showSuccessFirst.value = false;
+      startCooldownTimer(lastSubmittedAt);
+    }
+  }
+});
+
+onUnmounted(() => {
+  if (cooldownInterval) {
+    clearInterval(cooldownInterval);
+  }
+});
 </script>
 
 <template>
@@ -357,11 +412,6 @@ const submitFeedback = async () => {
                   />
                 </div>
 
-                <!-- <div class="form-group">
-                  <label>{{ t.form.email }}</label>
-                  <InputText v-model="formData.email" type="email" class="form-input" :placeholder="t.form.email" />
-                </div> -->
-
                 <div class="form-group">
                   <label>{{ t.form.feedbackType }}</label>
                   <Dropdown
@@ -409,12 +459,23 @@ const submitFeedback = async () => {
             </div>
 
             <div
-              v-if="submitted"
+              v-if="submitted && showSuccessFirst"
               class="success-message"
             >
               <i class="pi pi-check-circle success-icon"></i>
               <h3>{{ t.form.success }}</h3>
               <p>{{ t.subtitle }}</p>
+            </div>
+
+            <div
+              v-if="submitted && !showSuccessFirst"
+              class="cooldown-message"
+            >
+              <i class="pi pi-clock cooldown-icon"></i>
+              <h3>{{ t.cooldown.title }}</h3>
+              <p class="cooldown-text">{{ t.cooldown.message }}</p>
+              <div class="cooldown-timer">{{ cooldownTimeLeft }}</div>
+              <p class="cooldown-description">{{ t.cooldown.description }}</p>
             </div>
           </template>
         </Card>
@@ -451,6 +512,7 @@ const submitFeedback = async () => {
   --tag-border: #4f46e5;
   --tag-text: #4f46e5;
   --success-color: #10b981;
+  --cooldown-color: #f59e0b;
 }
 
 .theme-dark .galactic-card {
@@ -466,6 +528,7 @@ const submitFeedback = async () => {
   --tag-border: #67e8f9;
   --tag-text: #67e8f9;
   --success-color: #10b981;
+  --cooldown-color: #fbbf24;
 }
 
 .galactic-card {
@@ -768,12 +831,12 @@ const submitFeedback = async () => {
   transform: rotate(30deg) translate(100%, 0);
 }
 
-.success-message {
+.cooldown-message {
   text-align: center;
   padding: 3rem 2rem;
-  background: rgba(16, 185, 129, 0.05);
+  background: rgba(245, 158, 11, 0.05);
   border-radius: 8px;
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(245, 158, 11, 0.2);
   animation: fadeIn 0.6s ease;
 }
 
@@ -787,6 +850,68 @@ const submitFeedback = async () => {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.cooldown-icon {
+  font-size: 4rem;
+  color: var(--cooldown-color);
+  margin-bottom: 1.5rem;
+  animation: tick 1s infinite;
+}
+
+@keyframes tick {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cooldown-message h3 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  color: var(--cooldown-color);
+}
+
+.cooldown-text {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.cooldown-timer {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--cooldown-color);
+  font-family: 'Courier New', monospace;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(245, 158, 11, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.cooldown-description {
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin: 0 auto;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.success-message {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: rgba(16, 185, 129, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  animation: fadeIn 0.6s ease;
 }
 
 .success-icon {
