@@ -26,7 +26,7 @@ const CIVILIZATION = 'Royal Space Society';
 const selectedYear = ref<string>('');
 const usePagination = ref(true);
 const first = ref(0);
-const rows = ref(10);
+const rows = ref(12);
 const showScrollButton = ref<boolean>(false);
 
 const rowsOptions = [
