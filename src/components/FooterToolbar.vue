@@ -116,11 +116,21 @@ async function handleSubmit() {
     return;
   }
 
-  const payloadSections = [
-    `- **Página en la wiki creada:** ${pageData.name}`,
-    `- https://nomanssky.fandom.com/wiki/${formattedName}`,
-    `\`\`\`html\n${processedContent}\n\`\`\``,
-  ];
+  let payloadSections;
+
+  if (isCensusPage()) {
+    payloadSections = [
+      `- **Nueva entrada en el censo creada:** ${pageData.playername}`,
+      `- https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society#RSS_Members`,
+      `\`\`\`html\n${processedContent}\n\`\`\``,
+    ];
+  } else {
+    payloadSections = [
+      `- **Nueva página creada:** ${pageData.name}`,
+      `- https://nomanssky.fandom.com/wiki/${formattedName}`,
+      `\`\`\`html\n${processedContent}\n\`\`\``,
+    ];
+  }
 
   try {
     await sendToDiscord(payloadSections);
