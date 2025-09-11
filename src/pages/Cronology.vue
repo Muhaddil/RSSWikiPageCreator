@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.666',
+    date: '11 / 09 / 2025',
+    description: 'Se ha actualizado una acción vital de la web.',
+    category: 'Web',
+  },
+  {
     title: '1.0.665',
     date: '11 / 09 / 2025',
     description: 'Se ha arreglado un problema con el componente que manda los logs al discord.',
