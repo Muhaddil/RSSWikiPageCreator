@@ -181,7 +181,7 @@ const parseUpdateDetails = async (wikitext: string, _pagename: string): Promise<
   );
   if (fixesSection) {
     const fixesText = fixesSection[1];
-    const fixMatches = fixesText.matchAll(/\*\s*(.+?)(?=\n\*|\n$)/g);
+    const fixMatches = fixesText.matchAll(/^\*\s*(.+)$/gm);
     for (const match of fixMatches) {
       const fixClean = match[1].replace(/\s+/g, ' ').trim();
       details.fixes?.push(fixClean);
