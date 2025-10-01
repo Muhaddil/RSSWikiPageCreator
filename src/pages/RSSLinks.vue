@@ -4,7 +4,7 @@ import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Checkbox from 'primevue/checkbox';
-import Dialog from 'primevue/dialog';
+// import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
 import { translations, linkData } from '@/variables/links';
 import ThemeSwitch from '@/components/ThemeSwitch.vue';
@@ -72,16 +72,16 @@ const scrollToTop = () => {
   });
 };
 
-const showRickRollModal = ref(false);
-const videoUrl = ref('https://streamable.com/e/qk0vn1?autoplay=1');
+// const showRickRollModal = ref(false);
+// const videoUrl = ref('https://streamable.com/e/qk0vn1?autoplay=1');
 
-const openRickRoll = () => {
-  showRickRollModal.value = true;
-};
+// const openRickRoll = () => {
+//   showRickRollModal.value = true;
+// };
 
-const closeRickRoll = () => {
-  showRickRollModal.value = false;
-};
+// const closeRickRoll = () => {
+//   showRickRollModal.value = false;
+// };
 
 // const createParticles = () => {
 //   const container = document.querySelector('.particles-container');
@@ -152,7 +152,6 @@ onUnmounted(() => {
             <p class="text-stellar-gray">{{ t.subtitle }}</p>
           </div>
 
-          <!-- Buscador -->
           <div class="search-container">
             <div class="p-inputgroup">
               <span class="p-inputgroup-addon">
@@ -252,16 +251,16 @@ onUnmounted(() => {
     </template>
   </Card>
 
-  <transition name="fade">
+  <!-- <transition name="fade">
     <button
       @click="openRickRoll"
       class="scroll-top-button top-right-button"
     >
       <i class="pi pi-wrench"></i>
     </button>
-  </transition>
+  </transition> -->
 
-  <Dialog
+  <!-- <Dialog
     v-model:visible="showRickRollModal"
     header="¡Rick Rolleado!"
     :modal="true"
@@ -284,7 +283,7 @@ onUnmounted(() => {
         style="max-width: 100%; max-height: 100%; aspect-ratio: 16 / 9; width: 100%; height: 100%"
       ></iframe>
     </div>
-  </Dialog>
+  </Dialog> -->
 
   <transition name="fade">
     <button
