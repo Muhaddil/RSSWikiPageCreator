@@ -43,6 +43,7 @@ watchEffect(() => {
         pt:inputIconContainer:class="mt-0"
         pt:inputIconContainer:style="top: 5px"
         show-icon
+        update-model-type="date"
       />
     </template>
   </InputTableItem>
