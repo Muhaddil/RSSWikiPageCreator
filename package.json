@@ -12,7 +12,7 @@
     "test-ci": "vitest run"
   },
   "devDependencies": {
-    "@types/node": "^24.6.1",
+    "@types/node": "^24.6.2",
     "@types/sortablejs": "^1.15.8",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitest/browser": "^3.2.4",
@@ -24,7 +24,7 @@
     "prettier": "^3.6.2",
     "sass-embedded": "^1.93.2",
     "typescript": "^5.9.3",
-    "vite": "^7.1.7",
+    "vite": "npm:rolldown-vite@latest",
     "vitest": "^3.2.4",
     "vue": "^3.5.22",
     "vue-toastification": "^2.0.0-rc.5",
@@ -47,5 +47,8 @@
     "tesseract.js": "^6.0.1",
     "vue-draggable-plus": "^0.6.0",
     "vue-router": "^4.5.1"
+  },
+  "overrides": {
+    "vite": "npm:rolldown-vite@latest"
   }
 }

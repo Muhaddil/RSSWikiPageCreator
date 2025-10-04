@@ -369,22 +369,9 @@ window.addEventListener('resize', () => {
   margin: 0 auto;
 }
 
-.location-tag {
-  @apply text-blue-300 font-mono text-sm mb-3 flex items-center;
-}
-
 .feature-tag {
-  @apply bg-transparent border border-cyan-400 text-cyan-300 rounded-full;
   transition: all 0.3s ease;
   margin-right: 1%;
-}
-
-.feature-tag:hover {
-  @apply bg-cyan-900 border-cyan-300;
-}
-
-.description-text {
-  @apply text-gray-200 text-lg max-w-2xl leading-relaxed;
 }
 
 .galactic-carousel :deep(.p-carousel-viewport) {
