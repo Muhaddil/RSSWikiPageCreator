@@ -154,7 +154,7 @@ window.addEventListener('resize', () => {
               class="text-2xl font-bold"
               style="
                 background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-                background-clip: text;
+                -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 text-shadow: 0 0 15px rgb(103 232 249 / 30%);
               "
@@ -288,7 +288,7 @@ window.addEventListener('resize', () => {
 
 .galactic-title {
   background: var(--primary-gradient);
-  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 15px var(--hover-effect);
   font-size: 2rem;
@@ -444,7 +444,7 @@ window.addEventListener('resize', () => {
   font-size: 2rem;
   line-height: 1.2;
   background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 

@@ -538,7 +538,7 @@ onUnmounted(() => {
 
 .galactic-title {
   background: var(--primary-gradient);
-  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 15px var(--hover-effect);
   font-size: 2rem;
@@ -556,7 +556,7 @@ onUnmounted(() => {
 
 .panel-title {
   background: var(--secondary-gradient);
-  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 

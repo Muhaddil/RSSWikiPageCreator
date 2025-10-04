@@ -113,40 +113,40 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
 
-const prewarmLink = (url: string) => {
-  try {
-    const origin = new URL(url).origin;
-    const isSameOrigin = origin === window.location.origin;
+// const prewarmLink = (url: string) => {
+//   try {
+//     const origin = new URL(url).origin;
+//     const isSameOrigin = origin === window.location.origin;
 
-    if (document.querySelector(`link[data-prewarm="${url}"]`)) return;
+//     if (document.querySelector(`link[data-prewarm="${url}"]`)) return;
 
-    if (isSameOrigin) {
-      const prerender = document.createElement('link');
-      prerender.rel = 'prerender';
-      prerender.href = url;
-      prerender.dataset.prewarm = url;
-      document.head.appendChild(prerender);
-      console.log(`Prerendering: ${url}`);
-    }
+//     if (isSameOrigin) {
+//       const prerender = document.createElement('link');
+//       prerender.rel = 'prerender';
+//       prerender.href = url;
+//       prerender.dataset.prewarm = url;
+//       document.head.appendChild(prerender);
+//       console.log(`Prerendering: ${url}`);
+//     }
 
-    else {
-      if (!document.querySelector(`link[data-preconnect="${origin}"]`)) {
-        const preconnect = document.createElement('link');
-        preconnect.rel = 'preconnect';
-        preconnect.href = origin;
-        preconnect.dataset.preconnect = origin;
-        document.head.appendChild(preconnect);
-        console.log(`Preconnecting: ${origin}`);
-      }
+//     else {
+//       if (!document.querySelector(`link[data-preconnect="${origin}"]`)) {
+//         const preconnect = document.createElement('link');
+//         preconnect.rel = 'preconnect';
+//         preconnect.href = origin;
+//         preconnect.dataset.preconnect = origin;
+//         document.head.appendChild(preconnect);
+//         console.log(`Preconnecting: ${origin}`);
+//       }
 
-      fetch(url, { mode: 'no-cors' })
-        .then(() => console.log(`Prefetching (no-cors): ${url}`))
-        .catch(() => {});
-    }
-  } catch (err) {
-    console.warn('Error en prewarmLink:', err);
-  }
-};
+//       fetch(url, { mode: 'no-cors' })
+//         .then(() => console.log(`Prefetching (no-cors): ${url}`))
+//         .catch(() => {});
+//     }
+//   } catch (err) {
+//     console.warn('Error en prewarmLink:', err);
+//   }
+// };
 </script>
 
 <template>
@@ -238,7 +238,6 @@ const prewarmLink = (url: string) => {
                 :href="link.url"
                 target="_blank"
                 class="link-content"
-                @mouseenter="prewarmLink(link.url)"
               >
                 <div class="flex items-start gap-4">
                   <i
@@ -483,7 +482,7 @@ body {
 
 .galactic-title {
   background: var(--primary-gradient);
-  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 15px var(--hover-effect);
   font-family: Orbitron, sans-serif;
@@ -757,7 +756,7 @@ body {
 
 .panel-title {
   background: var(--secondary-gradient);
-  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 1.6rem;
   font-weight: 600;

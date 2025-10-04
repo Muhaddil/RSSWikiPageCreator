@@ -415,7 +415,7 @@ footer {
 .author-name {
   background: linear-gradient(45deg, #4f46e5 0%, #1e40af 50%, #7c3aed 100%);
   background-size: 200% 200%;
-  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 600;
   font-size: 1.4rem;
