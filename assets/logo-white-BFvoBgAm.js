@@ -1,0 +1,1 @@
+var e=`/RSSWikiPageCreator/assets/images/shared/logo-white.png`;export{e as t};

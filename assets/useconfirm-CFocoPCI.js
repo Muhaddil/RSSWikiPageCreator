@@ -1,0 +1,1 @@
+import{S as e}from"./runtime-core.esm-bundler-CNadvJx8.js";var t=Symbol();function n(){var n=e(t);if(!n)throw Error(`No PrimeVue Confirmation provided!`);return n}export{n,t};

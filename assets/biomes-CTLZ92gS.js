@@ -1,0 +1,1 @@
+var e=[`Lush`,`Barren`,`Dead`,`Exotic`,`Mega Exotic`,`Scorched`,`Frozen`,`Toxic`,`Irradiated`,`Marsh`,`Volcanic`,`Gas Giant`];const t=[`Rico`,`Estéril`,`Muerto`,`Exótico`,`Mega Exótico`,`Quemado`,`Congelado`,`Tóxico`,`Irradiado`,`Cenagal`,`Volcánico`,`Gigante Gaseoso`].map((t,n)=>({label:t,value:e[n]}));export{t};
