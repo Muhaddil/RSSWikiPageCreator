@@ -26,7 +26,9 @@ const searchUser = ref<string>('');
 const useEnglishWiki = ref(false);
 const showScrollButton = ref<boolean>(false);
 
-const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
+let isChromium = navigator.userAgent.includes('Chrome');
+
+let gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 
 const apiBaseUrl = computed(() =>
   useEnglishWiki.value ? 'https://nomanssky.fandom.com/api.php' : 'https://nomanssky.fandom.com/es/api.php'
@@ -262,6 +264,7 @@ onUnmounted(() => {
             v-for="(update, index) in updates"
             :key="index"
             class="update-card"
+            :style="isChromium ? { width: '32.5vh' } : {}"
           >
             <template #content>
               <div class="p-4">

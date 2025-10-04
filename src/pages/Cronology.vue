@@ -62,6 +62,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.7-a',
+    date: '05 / 10 / 2025',
+    description: 'Se ha solucionado un problema específico para navegadores basados en Chromium.',
+    category: 'Web',
+  },
+  {
     title: '1.0.7',
     date: '04 / 10 / 2025',
     description: `En esta versión se ha reemplazado la dependencia Vite por Rolldown-Vite, lo que mejora significativamente la velocidad de compilación. Además, se ha modernizado la sintaxis del CSS y mejorado su consistencia:
