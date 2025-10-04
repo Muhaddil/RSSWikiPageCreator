@@ -112,6 +112,41 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
+
+const prewarmLink = (url: string) => {
+  try {
+    const origin = new URL(url).origin;
+    const isSameOrigin = origin === window.location.origin;
+
+    if (document.querySelector(`link[data-prewarm="${url}"]`)) return;
+
+    if (isSameOrigin) {
+      const prerender = document.createElement('link');
+      prerender.rel = 'prerender';
+      prerender.href = url;
+      prerender.dataset.prewarm = url;
+      document.head.appendChild(prerender);
+      console.log(`Prerendering: ${url}`);
+    }
+
+    else {
+      if (!document.querySelector(`link[data-preconnect="${origin}"]`)) {
+        const preconnect = document.createElement('link');
+        preconnect.rel = 'preconnect';
+        preconnect.href = origin;
+        preconnect.dataset.preconnect = origin;
+        document.head.appendChild(preconnect);
+        console.log(`Preconnecting: ${origin}`);
+      }
+
+      fetch(url, { mode: 'no-cors' })
+        .then(() => console.log(`Prefetching (no-cors): ${url}`))
+        .catch(() => {});
+    }
+  } catch (err) {
+    console.warn('Error en prewarmLink:', err);
+  }
+};
 </script>
 
 <template>
@@ -203,6 +238,7 @@ onUnmounted(() => {
                 :href="link.url"
                 target="_blank"
                 class="link-content"
+                @mouseenter="prewarmLink(link.url)"
               >
                 <div class="flex items-start gap-4">
                   <i
