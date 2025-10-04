@@ -521,12 +521,12 @@ function translateRegionName(name: string): string {
   --background-primary: #f8fafc;
   --background-secondary: #e2e8f0;
   --background-terciary: #cbd5e1;
-  --border-color: rgba(99, 102, 241, 0.15);
-  --hover-effect: rgba(99, 102, 241, 0.1);
-  --tag-background: rgba(79, 70, 229, 0.1);
+  --border-color: rgb(99 102 241 / 15%);
+  --hover-effect: rgb(99 102 241 / 10%);
+  --tag-background: rgb(79 70 229 / 10%);
   --tag-border: #4f46e5;
   --tag-text: #4f46e5;
-  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%);
 }
 
 .theme-dark .galactic-card {
@@ -537,12 +537,12 @@ function translateRegionName(name: string): string {
   --background-primary: #0f172a;
   --background-secondary: #1e293b;
   --background-terciary: #334155;
-  --border-color: rgba(103, 232, 249, 0.15);
-  --hover-effect: rgba(103, 232, 249, 0.2);
-  --tag-background: rgba(103, 232, 249, 0.1);
+  --border-color: rgb(103 232 249 / 15%);
+  --hover-effect: rgb(103 232 249 / 20%);
+  --tag-background: rgb(103 232 249 / 10%);
   --tag-border: #67e8f9;
   --tag-text: #67e8f9;
-  --card-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+  --card-shadow: 0 4px 6px -1px rgb(255 255 255 / 10%);
 }
 
 .galactic-card {
@@ -568,7 +568,7 @@ function translateRegionName(name: string): string {
 
 .galactic-title {
   background: var(--primary-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 15px var(--hover-effect);
   font-size: 2rem;
@@ -592,11 +592,10 @@ function translateRegionName(name: string): string {
   max-width: 100%;
   height: auto;
   min-width: 90%;
-  align-items: center;
-  justify-items: center;
+  place-items: center center;
   margin-top: 1rem;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
   transition: transform 0.3s ease;
   cursor: pointer;
 }
@@ -790,7 +789,7 @@ function translateRegionName(name: string): string {
   background: var(--background-terciary) !important;
   border-radius: 12px !important;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 20px rgb(79 70 229 / 10%);
 }
 
 .galaxy-header {
@@ -798,7 +797,7 @@ function translateRegionName(name: string): string {
   align-items: center;
   gap: 1.5rem;
   padding: 1.5rem;
-  background: linear-gradient(45deg, rgba(79, 70, 229, 0.05), transparent);
+  background: linear-gradient(45deg, rgb(79 70 229 / 5%), transparent);
 }
 
 .galaxy-image {
@@ -807,14 +806,14 @@ function translateRegionName(name: string): string {
   border-radius: 12px;
   object-fit: cover;
   border: 2px solid var(--tag-border);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%);
 }
 
 .quadrants-grid {
   display: grid;
   gap: 2rem;
   padding: 1.5rem;
-  grid-template-columns: 1;
+  grid-template-columns: 1fr;
   overflow-x: auto;
 }
 
@@ -877,7 +876,7 @@ function translateRegionName(name: string): string {
   text-align: center;
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .space-page-container {
     padding: 1.5rem 1rem;
   }
@@ -887,7 +886,7 @@ function translateRegionName(name: string): string {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .header-container {
     flex-direction: column;
     align-items: flex-start;
@@ -895,7 +894,7 @@ function translateRegionName(name: string): string {
   }
 
   .logo-image {
-    height: 0px;
+    height: 0;
   }
 
   .galactic-title {
@@ -927,7 +926,7 @@ function translateRegionName(name: string): string {
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .galactic-title {
     font-size: 1.5rem;
   }

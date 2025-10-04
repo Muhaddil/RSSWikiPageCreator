@@ -506,9 +506,9 @@ onUnmounted(() => {
   --text-secondary: #475569;
   --background-primary: #d3d3d3;
   --background-secondary: #f1f1f1;
-  --border-color: rgba(99, 102, 241, 0.15);
-  --hover-effect: rgba(99, 102, 241, 0.1);
-  --tag-background: rgba(79, 70, 229, 0.1);
+  --border-color: rgb(99 102 241 / 15%);
+  --hover-effect: rgb(99 102 241 / 10%);
+  --tag-background: rgb(79 70 229 / 10%);
   --tag-border: #4f46e5;
   --tag-text: #4f46e5;
   --success-color: #10b981;
@@ -522,9 +522,9 @@ onUnmounted(() => {
   --text-secondary: #cbd5e1;
   --background-primary: #0a0e1a;
   --background-secondary: #1a1f2d;
-  --border-color: rgba(103, 232, 249, 0.15);
-  --hover-effect: rgba(103, 232, 249, 0.2);
-  --tag-background: rgba(103, 232, 249, 0.1);
+  --border-color: rgb(103 232 249 / 15%);
+  --hover-effect: rgb(103 232 249 / 20%);
+  --tag-background: rgb(103 232 249 / 10%);
   --tag-border: #67e8f9;
   --tag-text: #67e8f9;
   --success-color: #10b981;
@@ -538,7 +538,7 @@ onUnmounted(() => {
 
 .galactic-title {
   background: var(--primary-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 15px var(--hover-effect);
   font-size: 2rem;
@@ -556,7 +556,7 @@ onUnmounted(() => {
 
 .panel-title {
   background: var(--secondary-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -590,14 +590,14 @@ onUnmounted(() => {
   transform: rotate(-5deg) scale(1.05);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .rss-logo {
     position: absolute;
     right: 0.1rem;
     top: 0.5rem;
     margin-top: 1rem;
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
   }
 
   .logo-image {
@@ -641,15 +641,15 @@ onUnmounted(() => {
 
 @keyframes checkbox-glow {
   0% {
-    box-shadow: 0 0 0 0 rgba(103, 232, 249, 0.5);
+    box-shadow: 0 0 0 0 rgb(103 232 249 / 50%);
   }
 
   50% {
-    box-shadow: 0 0 10px 3px rgba(103, 232, 249, 0.5);
+    box-shadow: 0 0 10px 3px rgb(103 232 249 / 50%);
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgba(103, 232, 249, 0);
+    box-shadow: 0 0 0 0 rgb(103 232 249 / 0%);
   }
 }
 
@@ -665,12 +665,12 @@ onUnmounted(() => {
 
   25% {
     transform: scale(1.005);
-    background: linear-gradient(45deg, var(--background-primary) 0%, rgba(103, 232, 249, 0.1) 100%);
+    background: linear-gradient(45deg, var(--background-primary) 0%, rgb(103 232 249 / 10%) 100%);
   }
 
   50% {
     transform: scale(1);
-    box-shadow: 0 0 30px rgba(103, 232, 249, 0.2);
+    box-shadow: 0 0 30px rgb(103 232 249 / 20%);
   }
 
   100% {
@@ -719,7 +719,7 @@ onUnmounted(() => {
   margin-bottom: 1.5rem;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .form-grid {
     grid-template-columns: 1fr;
   }
@@ -750,7 +750,7 @@ onUnmounted(() => {
 .form-input:focus,
 .form-textarea:focus {
   border-color: var(--tag-border);
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 0 0 2px rgb(79 70 229 / 20%);
   outline: none;
 }
 
@@ -803,7 +803,7 @@ onUnmounted(() => {
 
 .submit-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 5px 15px rgb(79 70 229 / 30%);
 }
 
 .submit-button:active {
@@ -819,9 +819,9 @@ onUnmounted(() => {
   height: 200%;
   background: linear-gradient(
     to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0) 100%
+    rgb(255 255 255 / 0%) 0%,
+    rgb(255 255 255 / 20%) 50%,
+    rgb(255 255 255 / 0%) 100%
   );
   transform: rotate(30deg);
   transition: all 0.6s ease;
@@ -834,9 +834,9 @@ onUnmounted(() => {
 .cooldown-message {
   text-align: center;
   padding: 3rem 2rem;
-  background: rgba(245, 158, 11, 0.05);
+  background: rgb(245 158 11 / 5%);
   border-radius: 8px;
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  border: 1px solid rgb(245 158 11 / 20%);
   animation: fadeIn 0.6s ease;
 }
 
@@ -892,9 +892,9 @@ onUnmounted(() => {
   font-family: 'Courier New', monospace;
   margin: 1.5rem 0;
   padding: 1rem;
-  background: rgba(245, 158, 11, 0.1);
+  background: rgb(245 158 11 / 10%);
   border-radius: 8px;
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  border: 1px solid rgb(245 158 11 / 30%);
 }
 
 .cooldown-description {
@@ -908,9 +908,9 @@ onUnmounted(() => {
 .success-message {
   text-align: center;
   padding: 3rem 2rem;
-  background: rgba(16, 185, 129, 0.05);
+  background: rgb(16 185 129 / 5%);
   border-radius: 8px;
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  border: 1px solid rgb(16 185 129 / 20%);
   animation: fadeIn 0.6s ease;
 }
 

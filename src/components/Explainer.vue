@@ -80,6 +80,7 @@ const helperImage = computed(() => `/RSSWikiPageCreator/assets/images/${props.he
 .tooltip {
   overflow: visible;
   aspect-ratio: 1;
+
   /* This is the highest value I can go with the padding before changing the box size */
   padding: 0.46rem;
 
@@ -102,8 +103,8 @@ const helperImage = computed(() => `/RSSWikiPageCreator/assets/images/${props.he
     --p-tooltip-border-radius: var(--p-overlay-popover-border-radius);
     --p-tooltip-color: var(--p-surface-0);
     --p-tooltip-padding: 0.5rem 0.75rem;
-
     --width: var(--p-tooltip-max-width);
+
     background: var(--p-tooltip-background);
     box-shadow: var(--p-tooltip-shadow);
     border-radius: var(--p-tooltip-border-radius);
@@ -123,6 +124,7 @@ const helperImage = computed(() => `/RSSWikiPageCreator/assets/images/${props.he
 
     &::after {
       --arrow-width: 6px;
+
       border: var(--arrow-width) solid transparent;
       border-block-start-color: var(--p-tooltip-background);
       content: '';

@@ -842,15 +842,15 @@ function getGlyphs(coordinates: string): string {
   --text-secondary: #475569;
   --background-primary: #d3d3d3;
   --background-secondary: #f1f1f1;
-  --border-color: rgba(99, 102, 241, 0.15);
-  --hover-effect: rgba(99, 102, 241, 0.1);
-  --tag-background: rgba(79, 70, 229, 0.1);
+  --border-color: rgb(99 102 241 / 15%);
+  --hover-effect: rgb(99 102 241 / 10%);
+  --tag-background: rgb(79 70 229 / 10%);
   --tag-border: #4f46e5;
   --tag-text: #4f46e5;
   --space-dark: #c3d4ff;
   --space-light: #e2e3e4;
   --success-color: #10b981;
-  --success-background: rgba(16, 185, 129, 0.1);
+  --success-background: rgb(16 185 129 / 10%);
 }
 
 .theme-dark .galactic-card {
@@ -860,15 +860,15 @@ function getGlyphs(coordinates: string): string {
   --text-secondary: #cbd5e1;
   --background-primary: #0a0e1a;
   --background-secondary: #1a1f2d;
-  --border-color: rgba(103, 232, 249, 0.15);
-  --hover-effect: rgba(103, 232, 249, 0.2);
-  --tag-background: rgba(103, 232, 249, 0.1);
+  --border-color: rgb(103 232 249 / 15%);
+  --hover-effect: rgb(103 232 249 / 20%);
+  --tag-background: rgb(103 232 249 / 10%);
   --tag-border: #67e8f9;
   --tag-text: #67e8f9;
   --space-dark: #0f172a;
   --space-light: #1e293b;
   --success-color: #34d399;
-  --success-background: rgba(52, 211, 153, 0.1);
+  --success-background: rgb(52 211 153 / 10%);
 }
 
 .galactic-card {
@@ -885,7 +885,7 @@ label.block {
 
 .galactic-title {
   background: var(--primary-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 15px var(--hover-effect);
   font-size: 2rem;
@@ -1004,7 +1004,7 @@ label.block {
   color: white;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgb(0 0 0 / 20%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1014,7 +1014,7 @@ label.block {
 
 .scroll-top-button:hover {
   transform: translateY(-5px) scale(1.1);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 25px rgb(0 0 0 / 30%);
 }
 
 .logo-image:hover {
@@ -1026,7 +1026,7 @@ label.block {
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
 }
 
 .filter-header {
@@ -1054,7 +1054,7 @@ label.block {
   color: var(--text-primary);
   font-size: 1rem;
   font-weight: 500;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1rem;
   display: flex;
   align-items: center;
 }
@@ -1086,7 +1086,7 @@ label.block {
 .filter-input:focus,
 .filter-dropdown:focus-within {
   border-color: var(--tag-border);
-  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 2px rgb(79 70 229 / 10%);
 }
 
 .wiki-search-container {
@@ -1113,7 +1113,7 @@ label.block {
 
 .search-wiki-button:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+  box-shadow: 0 4px 12px rgb(79 70 229 / 30%);
 }
 
 .search-wiki-button:disabled {
@@ -1135,7 +1135,7 @@ label.block {
   line-height: 1.4;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .filter-container {
     padding: 1rem;
   }
@@ -1168,6 +1168,7 @@ label.block {
     opacity 0.3s ease,
     transform 0.3s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
@@ -1180,18 +1181,18 @@ label.block {
   font-weight: 400;
   padding: 0.5rem 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+  box-shadow: 0 4px 12px rgb(79 70 229 / 40%);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 50%);
 }
 
 .wiki-card-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.6);
+  box-shadow: 0 6px 16px rgb(79 70 229 / 60%);
   opacity: 1;
 }
 </style>

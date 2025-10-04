@@ -13,6 +13,6 @@ const { censusrenewal } = storeToRefs(pageData);
 <style scoped>
 .formatted-text {
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 </style>

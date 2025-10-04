@@ -80,11 +80,11 @@ onUnmounted(() => {
   --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
   --text-primary: #1e293b;
   --text-secondary: #475569;
-  --background-primary: #ffffff;
+  --background-primary: #fff;
   --background-secondary: #f8fafc;
-  --border-color: rgba(99, 102, 241, 0.15);
-  --hover-effect: rgba(99, 102, 241, 0.1);
-  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --border-color: rgb(99 102 241 / 15%);
+  --hover-effect: rgb(99 102 241 / 10%);
+  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%);
 
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
@@ -100,7 +100,7 @@ onUnmounted(() => {
   --text-secondary: #cbd5e1;
   --background-primary: #0a0e1a;
   --background-secondary: #1a1f2d;
-  --border-color: rgba(103, 232, 249, 0.15);
+  --border-color: rgb(103 232 249 / 15%);
 }
 
 .grid-container {
@@ -133,7 +133,7 @@ onUnmounted(() => {
   pointer-events: none;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .grid-container {
     grid-template-columns: 1fr;
     gap: 1rem;

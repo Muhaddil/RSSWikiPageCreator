@@ -239,7 +239,7 @@ watch(wealth, (newwealth) => {
   <div>! Fauna</div>
   <div v-if="generatedOutput">
     <div>
-      <pre style="white-space: pre-wrap; word-wrap: break-word">{{ generatedOutput }}</pre>
+      <pre style="white-space: pre-wrap; overflow-wrap: break-word">{{ generatedOutput }}</pre>
     </div>
   </div>
   <div>|<span v-pre>}</span></div>

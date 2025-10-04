@@ -293,6 +293,6 @@ const faunaVerb = computed(() => {
 <style>
 .pre-wrap {
   white-space: pre-wrap;
-  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 </style>

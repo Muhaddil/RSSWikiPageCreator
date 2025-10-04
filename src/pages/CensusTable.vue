@@ -394,9 +394,9 @@ onUnmounted(() => {
   --text-secondary: #475569;
   --background-primary: #d3d3d3;
   --background-secondary: #f1f1f1;
-  --border-color: rgba(99, 102, 241, 0.15);
-  --hover-effect: rgba(99, 102, 241, 0.1);
-  --tag-background: rgba(79, 70, 229, 0.1);
+  --border-color: rgb(99 102 241 / 15%);
+  --hover-effect: rgb(99 102 241 / 10%);
+  --tag-background: rgb(79 70 229 / 10%);
   --tag-border: #4f46e5;
   --tag-text: #4f46e5;
 }
@@ -408,9 +408,9 @@ onUnmounted(() => {
   --text-secondary: #cbd5e1;
   --background-primary: #0a0e1a;
   --background-secondary: #1a1f2d;
-  --border-color: rgba(103, 232, 249, 0.15);
-  --hover-effect: rgba(103, 232, 249, 0.2);
-  --tag-background: rgba(103, 232, 249, 0.1);
+  --border-color: rgb(103 232 249 / 15%);
+  --hover-effect: rgb(103 232 249 / 20%);
+  --tag-background: rgb(103 232 249 / 10%);
   --tag-border: #67e8f9;
   --tag-text: #67e8f9;
 }
@@ -422,7 +422,7 @@ onUnmounted(() => {
 
 .galactic-title {
   background: var(--primary-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 15px var(--hover-effect);
   font-size: 2rem;
@@ -520,7 +520,7 @@ onUnmounted(() => {
   border-radius: 8px;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .filter-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -557,11 +557,10 @@ onUnmounted(() => {
   max-width: 100%;
   height: auto;
   min-width: 90%;
-  align-items: center;
-  justify-items: center;
+  place-items: center center;
   margin-top: 1rem;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
   transition: transform 0.3s ease;
   cursor: pointer;
 }
@@ -669,14 +668,14 @@ onUnmounted(() => {
   transform: rotate(-5deg) scale(1.05);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .rss-logo {
     position: absolute;
     right: 0.1rem;
     top: 0.5rem;
     margin-top: 1rem;
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
   }
 
   .logo-image {
@@ -766,7 +765,7 @@ onUnmounted(() => {
   color: white;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgb(0 0 0 / 20%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -776,10 +775,10 @@ onUnmounted(() => {
 
 .scroll-top-button:hover {
   transform: translateY(-5px) scale(1.1);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 25px rgb(0 0 0 / 30%);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .filter-row {
     flex-direction: column;
     gap: 1rem;
@@ -816,7 +815,7 @@ onUnmounted(() => {
   margin-bottom: 1rem;
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
   .filter-row {
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
@@ -827,7 +826,7 @@ onUnmounted(() => {
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .filter-row {
     grid-template-columns: 1fr;
     gap: 1rem;

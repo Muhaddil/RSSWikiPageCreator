@@ -491,7 +491,7 @@ export default defineComponent({
   background-color: var(--input-background);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
   transition:
     var(--theme-transition),
     transform 0.5s ease;
@@ -500,7 +500,7 @@ export default defineComponent({
 .box.faq-item:hover {
   border-color: var(--border-color-hover);
   transform: scale(1.01);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 6px rgb(0 0 0 / 15%);
 }
 
 details {
@@ -604,7 +604,7 @@ code {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (width <= 768px) {
   .container {
     padding: 10px;
   }
@@ -634,7 +634,7 @@ footer p {
 .no-results-message {
   text-align: center;
   font-size: 1.3rem;
-  color: #ff0000;
+  color: #f00;
   margin-top: 1rem;
   padding: 10px;
 }
@@ -663,9 +663,10 @@ footer p {
   color: var(--text-color);
   background-color: var(--input-background);
   padding: 15px;
+
   /* margin-top: 5px; */
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 }
 </style>

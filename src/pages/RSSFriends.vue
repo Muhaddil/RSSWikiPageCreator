@@ -394,7 +394,7 @@ watchDebounced(
   border: 2px solid #e00;
   border-radius: 65px;
   overflow: hidden;
-  font-family: 'NMSFuturaProBook';
+  font-family: NMSFuturaProBook;
 }
 
 .card-image-marco {
@@ -418,7 +418,7 @@ watchDebounced(
   left: 300px;
   width: 200px;
   font-size: 1.8rem;
-  font-family: 'NMSFuturaProBook';
+  font-family: NMSFuturaProBook;
 }
 
 .card-name-title {
@@ -426,8 +426,8 @@ watchDebounced(
   top: 205px;
   left: 300px;
   font-size: 2.2rem;
-  font-family: 'NMSFuturaProBook';
-  color: rgb(168, 0, 0);
+  font-family: NMSFuturaProBook;
+  color: rgb(168 0 0);
 }
 
 .card-glyphs-field {
@@ -435,7 +435,7 @@ watchDebounced(
   top: 440px;
   left: 300px;
   font-size: 1.3rem;
-  font-family: 'NMS-Glyphs-Mono';
+  font-family: NMS-Glyphs-Mono;
 }
 
 .card-location-field {
@@ -444,7 +444,7 @@ watchDebounced(
   left: 290px;
   font-size: 0.9rem;
   max-width: 180px;
-  font-family: 'NMSFuturaProBook';
+  font-family: NMSFuturaProBook;
 }
 
 .card-race-title {
@@ -452,8 +452,8 @@ watchDebounced(
   top: 305px;
   left: 300px;
   font-size: 2.2rem;
-  font-family: 'NMSFuturaProBook';
-  color: rgb(168, 0, 0);
+  font-family: NMSFuturaProBook;
+  color: rgb(168 0 0);
 }
 
 .card-race-field {
@@ -462,7 +462,7 @@ watchDebounced(
   left: 300px;
   width: 200px;
   font-size: 1.8rem;
-  font-family: 'NMSFuturaProBook';
+  font-family: NMSFuturaProBook;
 }
 
 .card-race-icon-field {
@@ -477,7 +477,7 @@ watchDebounced(
   bottom: 20px;
   left: 60px;
   font-size: 2rem;
-  font-family: 'NMSFuturaProBook';
+  font-family: NMSFuturaProBook;
 }
 
 .input-text {
@@ -516,7 +516,7 @@ watchDebounced(
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 40%), transparent);
   animation: shimmer 1.5s infinite;
 }
 

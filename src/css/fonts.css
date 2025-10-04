@@ -1,7 +1,8 @@
 /* Nunito */
+
 /* latin */
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-weight: 400 700;
   src:
     local('Nunito'),
@@ -9,9 +10,10 @@
 }
 
 /* Roboto */
+
 /* latin */
 @font-face {
-  font-family: 'Roboto';
+  font-family: Roboto;
   font-weight: 400;
   src:
     local('Roboto'),
@@ -20,14 +22,14 @@
 
 /* glyph font */
 @font-face {
-  font-family: 'NMS-Glyphs-Mono';
+  font-family: NMS-Glyphs-Mono;
   src:
     local('NMS-Glyphs-Mono'),
     url('/src/assets/fonts/NMS-Glyphs-Mono.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'NMSFuturaProBook';
+  font-family: NMSFuturaProBook;
   src: url('https://font.nmscd.com/assets/font/NMSFuturaProBook_Kerned/Web-TT/NMSFuturaProBook_Kerned.eot');
   src:
     url('https://font.nmscd.com/assets/font/NMSFuturaProBook_Kerned/Web-TT/NMSFuturaProBook_Kerned.eot?#iefix')

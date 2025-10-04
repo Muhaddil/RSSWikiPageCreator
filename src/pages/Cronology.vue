@@ -62,6 +62,23 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.7',
+    date: '04 / 10 / 2025',
+    description: `En esta versión se ha reemplazado la dependencia Vite por Rolldown-Vite, lo que mejora significativamente la velocidad de compilación. Además, se ha modernizado la sintaxis del CSS y mejorado su consistencia:
+• Se eliminaron las comillas innecesarias en las declaraciones de font-family.
+• Se estandarizaron los colores, usando formatos cortos como #fff en lugar de #ffffff.
+• Se reorganizaron y agruparon mejor las propiedades CSS para facilitar su lectura.
+• Se actualizaron los prefijos de los proveedores a los estándares actuales.
+• Se optimizaron las animaciones y los fotogramas clave para un mejor rendimiento.
+• Se corrigieron errores en valores y sintaxis de propiedades CSS.
+• Se añadió configuración de stylelint para una validación más rigurosa del CSS.
+• Se actualizó la compilación para usar lightningcss en la minimización.
+• Se reemplazaron las funciones rgba() por la sintaxis moderna rgb().
+• Se consolidaron las consultas de medios usando la sintaxis '<='.
+• Se mejoró el diseño y la disposición de la sección de filtros para una experiencia más clara y consistente.`,
+    category: 'Web',
+  },
+  {
     title: '1.0.669-e',
     date: '01 / 10 / 2025',
     description: 'Se ha retirado un easter-egg.',
@@ -799,11 +816,12 @@ const groupedEvents = computed(() => {
   --background-primary: #d3d3d3;
   --background-secondary: #f1f1f1;
   --background-terciary: #cbd5e1;
-  --border-color: rgba(99, 102, 241, 0.15);
-  --hover-effect: rgba(99, 102, 241, 0.1);
-  --tag-background: rgba(79, 70, 229, 0.1);
+  --border-color: rgb(99 102 241 / 15%);
+  --hover-effect: rgb(99 102 241 / 10%);
+  --tag-background: rgb(79 70 229 / 10%);
   --tag-border: #4f46e5;
   --tag-text: #4f46e5;
+
   background: var(--background-primary);
   border: 1px solid var(--border-color);
   border-radius: 12px;
@@ -818,11 +836,12 @@ const groupedEvents = computed(() => {
   --background-primary: #0a0e1a;
   --background-secondary: #1a1f2d;
   --background-terciary: #334155;
-  --border-color: rgba(103, 232, 249, 0.15);
-  --hover-effect: rgba(103, 232, 249, 0.2);
-  --tag-background: rgba(103, 232, 249, 0.1);
+  --border-color: rgb(103 232 249 / 15%);
+  --hover-effect: rgb(103 232 249 / 20%);
+  --tag-background: rgb(103 232 249 / 10%);
   --tag-border: #67e8f9;
   --tag-text: #67e8f9;
+
   background: var(--background-primary);
   border: 1px solid var(--border-color);
 }
@@ -878,7 +897,7 @@ const groupedEvents = computed(() => {
 
 .galactic-title {
   background: var(--primary-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 2rem;
   line-height: 1.2;
@@ -943,7 +962,7 @@ const groupedEvents = computed(() => {
   margin-left: 0.2rem;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .header-content {
     flex-direction: column;
     align-items: flex-start;

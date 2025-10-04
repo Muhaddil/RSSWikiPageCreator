@@ -154,9 +154,9 @@ window.addEventListener('resize', () => {
               class="text-2xl font-bold"
               style="
                 background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-                -webkit-background-clip: text;
+                background-clip: text;
                 -webkit-text-fill-color: transparent;
-                text-shadow: 0 0 15px rgba(103, 232, 249, 0.3);
+                text-shadow: 0 0 15px rgb(103 232 249 / 30%);
               "
             >
               Certificación Astrofotográfica
@@ -218,11 +218,11 @@ window.addEventListener('resize', () => {
   --background-secondary: #f1f1f1;
   --text-primary: #1e293b;
   --text-secondary: #475569;
-  --border-color: rgba(99, 102, 241, 0.2);
+  --border-color: rgb(99 102 241 / 20%);
   --accent-color: #4f46e5;
-  --hover-effect: rgba(79, 70, 229, 0.1);
-  --card-shadow: 0 0 20px rgba(79, 70, 229, 0.1);
-  --panel-background: rgba(255, 255, 255, 0.9);
+  --hover-effect: rgb(79 70 229 / 10%);
+  --card-shadow: 0 0 20px rgb(79 70 229 / 10%);
+  --panel-background: rgb(255 255 255 / 90%);
 }
 
 .theme-dark .galactic-card {
@@ -232,11 +232,11 @@ window.addEventListener('resize', () => {
   --background-secondary: #1a1f2d;
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
-  --border-color: rgba(103, 232, 249, 0.2);
+  --border-color: rgb(103 232 249 / 20%);
   --accent-color: #67e8f9;
-  --hover-effect: rgba(103, 232, 249, 0.3);
-  --card-shadow: 0 0 20px rgba(103, 232, 249, 0.3);
-  --panel-background: rgba(16, 23, 42, 0.8);
+  --hover-effect: rgb(103 232 249 / 30%);
+  --card-shadow: 0 0 20px rgb(103 232 249 / 30%);
+  --panel-background: rgb(16 23 42 / 80%);
 }
 
 .space-page-container {
@@ -288,7 +288,7 @@ window.addEventListener('resize', () => {
 
 .galactic-title {
   background: var(--primary-gradient);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 15px var(--hover-effect);
   font-size: 2rem;
@@ -308,7 +308,7 @@ window.addEventListener('resize', () => {
 .base-info {
   backdrop-filter: blur(5px);
   padding: 2rem;
-  background: linear-gradient(0deg, rgba(var(--background-primary-rgb), 0.95) 30%, transparent 100%);
+  background: linear-gradient(0deg, rgb(var(--background-primary-rgb), 0.95) 30%, transparent 100%);
   flex: 1;
 }
 
@@ -316,7 +316,7 @@ window.addEventListener('resize', () => {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: rgba(103, 232, 249, 0.4);
+  background-color: rgb(103 232 249 / 40%);
   transition: all 0.3s ease;
 }
 
@@ -342,7 +342,7 @@ window.addEventListener('resize', () => {
 }
 
 .custom-tag {
-  background-color: rgba(103, 232, 249, 0.1) !important;
+  background-color: rgb(103 232 249 / 10%) !important;
   border: 1px solid #67e8f9 !important;
 }
 
@@ -444,7 +444,7 @@ window.addEventListener('resize', () => {
   font-size: 2rem;
   line-height: 1.2;
   background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -464,7 +464,7 @@ window.addEventListener('resize', () => {
   width: auto;
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .header-container {
     flex-direction: column;
     text-align: center;
