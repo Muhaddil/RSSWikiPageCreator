@@ -18,6 +18,13 @@ interface ExtendedCensusQueryData extends CensusQueryData {
 //   window.location.href = "/RSSWikiPageCreator/indextest.html";
 // });
 
+const API_COOLDOWN_MS = 30000;
+const STORAGE_KEYS = {
+  BASES: 'rss_census_bases',
+  LAST_FETCH: 'rss_last_fetch_timestamp',
+  YEAR_FILTER: 'rss_year_filter',
+};
+
 const bases = ref<ExtendedCensusQueryData[]>([]);
 const isLoading = ref(true);
 const error = ref<string | null>(null);
@@ -28,6 +35,8 @@ const usePagination = ref(true);
 const first = ref(0);
 const rows = ref(12);
 const showScrollButton = ref<boolean>(false);
+const canUpdate = ref(true);
+const cooldownTimer = ref(0);
 
 const rowsOptions = [
   { label: '6 por página', value: 6 },
@@ -48,15 +57,83 @@ const paginationOptions = [
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
 
+const loadFromLocalStorage = () => {
+  try {
+    const storedBases = localStorage.getItem(STORAGE_KEYS.BASES);
+    // const storedYear = localStorage.getItem(STORAGE_KEYS.YEAR_FILTER);
+    const lastFetch = localStorage.getItem(STORAGE_KEYS.LAST_FETCH);
+
+    if (storedBases) {
+      bases.value = JSON.parse(storedBases);
+    }
+
+    // if (storedYear) {
+    //   selectedYear.value = storedYear;
+    // }
+
+    selectedYear.value = '';
+
+    if (lastFetch) {
+      const timeSinceLastFetch = Date.now() - parseInt(lastFetch);
+      if (timeSinceLastFetch < API_COOLDOWN_MS) {
+        canUpdate.value = false;
+        startCooldownTimer(API_COOLDOWN_MS - timeSinceLastFetch);
+      }
+    }
+  } catch (err) {
+    console.error('Error loading from localStorage:', err);
+  }
+};
+
+const saveToLocalStorage = () => {
+  try {
+    localStorage.setItem(STORAGE_KEYS.BASES, JSON.stringify(bases.value));
+    localStorage.setItem(STORAGE_KEYS.LAST_FETCH, Date.now().toString());
+  } catch (err) {
+    console.error('Error saving to localStorage:', err);
+  }
+};
+
+const startCooldownTimer = (duration: number) => {
+  canUpdate.value = false;
+  cooldownTimer.value = Math.ceil(duration / 1000);
+
+  const timer = setInterval(() => {
+    cooldownTimer.value--;
+
+    if (cooldownTimer.value <= 0) {
+      clearInterval(timer);
+      canUpdate.value = true;
+      cooldownTimer.value = 0;
+    }
+  }, 1000);
+};
+
 const fetchBases = async (offset = 0, year?: string) => {
   try {
     const newBases = (await fetchCensusData(CIVILIZATION, offset, year)) as ExtendedCensusQueryData[];
+
+    const basesToProcess = newBases;
+
     await Promise.all(
-      newBases.map(async (base) => {
-        base.imageUrl = await fetchBaseImageUrls(base._pageName);
+      basesToProcess.map(async (base) => {
+        try {
+          base.imageUrl = await fetchBaseImageUrls(base._pageName);
+        } catch (err) {
+          console.warn(`No se pudo cargar imagen para ${base._pageName}`);
+          base.imageUrl = null;
+        }
       })
     );
-    bases.value = [...bases.value, ...newBases];
+
+    if (offset === 0) {
+      bases.value = newBases;
+    } else {
+      bases.value = [...bases.value, ...newBases];
+    }
+
+    saveToLocalStorage();
+
     if (newBases.length === 500) {
       await fetchBases(offset + 500, year);
     }
@@ -69,32 +146,39 @@ const fetchBases = async (offset = 0, year?: string) => {
 };
 
 const updateBases = async () => {
+  if (!canUpdate.value) {
+    error.value = `Espera ${cooldownTimer.value} segundos antes de actualizar`;
+    return;
+  }
+
   bases.value = [];
   isLoading.value = true;
   error.value = null;
+
+  startCooldownTimer(API_COOLDOWN_MS);
+
   await fetchBases(0, selectedYear.value);
 };
 
 onMounted(async () => {
   window.addEventListener('resize', () => (screenWidth.value = window.innerWidth));
-  await fetchBases(0, selectedYear.value);
+  window.addEventListener('scroll', handleScroll);
+
+  isLoading.value = true;
+
+  loadFromLocalStorage();
+
+  if (bases.value.length === 0 || canUpdate.value) {
+    console.log('Fetched bases from wiki');
+    await fetchBases(0);
+  }
+
+  isLoading.value = false;
 });
 
 const formatWikiLink = (name: string) => {
   return name.trim().replace(/\s+/g, '_').replace(/\//g, '_');
 };
-
-// const isModalOpen = ref(false);
-// const modalImage = ref('');
-
-// const openModal = (image: string) => {
-//   if (screenWidth.value <= 768) {
-//     window.open(image, '_blank');
-//   } else {
-//     modalImage.value = image;
-//     isModalOpen.value = true;
-//   }
-// };
 
 const openModal = (image: string) => {
   window.open(image, '_blank');
@@ -114,6 +198,16 @@ const scrollToTop = () => {
     behavior: 'smooth',
   });
 };
+
+// const clearLocalStorage = () => {
+//   localStorage.removeItem(STORAGE_KEYS.BASES);
+//   localStorage.removeItem(STORAGE_KEYS.LAST_FETCH);
+//   localStorage.removeItem(STORAGE_KEYS.YEAR_FILTER);
+//   bases.value = [];
+//   selectedYear.value = '';
+//   canUpdate.value = true;
+//   cooldownTimer.value = 0;
+// };
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
@@ -153,7 +247,6 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <!-- Sección de filtros simple y limpia -->
         <div class="filter-container mb-6">
           <div class="filter-row">
             <div class="year-filter">
@@ -178,6 +271,7 @@ onUnmounted(() => {
                   label="Filtrar"
                   class="filter-btn"
                   :loading="isLoading"
+                  :disabled="!canUpdate"
                 />
               </div>
             </div>
@@ -215,21 +309,47 @@ onUnmounted(() => {
             </div>
           </div>
 
-          <div
-            class="filter-info"
-            v-if="bases.length > 0"
-          >
-            <span class="info-text">
-              <i class="pi pi-database mr-1"></i>
-              Total: {{ bases.length }} bases
-            </span>
-            <span
-              class="info-text"
-              v-if="usePagination"
+          <div class="flex justify-between items-center mt-3">
+            <div
+              class="filter-info"
+              v-if="bases.length > 0"
             >
-              <i class="pi pi-eye mr-1"></i>
-              Mostrando: {{ Math.min(first + rows, bases.length) }} de {{ bases.length }}
-            </span>
+              <span class="info-text">
+                <i class="pi pi-database mr-1"></i>
+                Total: {{ bases.length }} bases
+                <i class="pi pi-cloud ml-2 mr-1"></i>
+                <span>(Guardadas localmente)</span>
+              </span>
+            </div>
+
+            <div class="flex">
+              <Button
+                @click="updateBases"
+                icon="pi pi-refresh"
+                label="Actualizar"
+                class="update-btn mr-2 mt-2 last:mr-0 last:mt-0"
+                :loading="isLoading"
+                :disabled="!canUpdate"
+                severity="help"
+              />
+
+              <Button
+                v-if="!canUpdate"
+                :label="`Esperar ${cooldownTimer}s`"
+                class="cooldown-btn last:mr-0 last:mt-0"
+                severity="secondary"
+                disabled
+              />
+
+              <!-- <Button
+                @click="clearLocalStorage"
+                icon="pi pi-trash"
+                label="Limpiar Cache"
+                class="clear-btn"
+                severity="danger"
+                outlined
+              /> -->
+            </div>
           </div>
         </div>
 
@@ -254,6 +374,12 @@ onUnmounted(() => {
           <div class="panel-content">
             <p>
               Total de bases registradas: <strong>{{ bases.length }}</strong>
+              <span
+                v-if="bases.length > 0"
+                class="storage-indicator"
+              >
+                <i class="pi pi-cloud ml-2"></i> Datos en cache
+              </span>
             </p>
             <p class="security-level mt-2">
               Nivel de seguridad:
@@ -263,7 +389,11 @@ onUnmounted(() => {
                 class="category-tag"
               />
             </p>
-            <p class="update-info">Última actualización: {{ new Date().toLocaleDateString() }}</p>
+            <p class="update-info">
+              Última actualización: {{ new Date().toLocaleDateString() }}
+              <br />
+              <small>Límite API: 2 consultas por minuto</small>
+            </p>
           </div>
         </Panel>
 
@@ -281,6 +411,13 @@ onUnmounted(() => {
           class="error-message p-error"
         >
           <i class="pi pi-exclamation-triangle"></i> {{ error }}
+        </div>
+
+        <div
+          v-else-if="bases.length === 0"
+          class="empty-message"
+        >
+          <i class="pi pi-info-circle"></i> No se encontraron bases
         </div>
 
         <div
@@ -359,17 +496,6 @@ onUnmounted(() => {
               </div>
             </template>
           </Card>
-          <!-- <Dialog v-model:visible="isModalOpen" modal :closable="false" class="custom-modal"
-            style="width: 90vw; height: 90vh;">
-            <template #header>
-              <button type="button" class="close-modal" @click="isModalOpen = false">X</button>
-            </template>
-            <a :href="modalImage" target="_blank">
-              <div class="modal-content">
-                <img :src=modalImage class="modal-image" alt="Imagen del modal" loading="lazy" decoding="async" />
-              </div>
-            </a>
-          </Dialog> -->
         </div>
       </div>
     </template>
@@ -692,6 +818,40 @@ onUnmounted(() => {
   .header-container {
     text-align: center;
   }
+}
+
+.update-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cooldown-btn {
+  background-color: #6c757d !important;
+  border-color: #6c757d !important;
+}
+
+.clear-btn {
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+}
+
+.storage-indicator {
+  color: #10b981;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.empty-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+  background: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
 }
 
 .filter-container {

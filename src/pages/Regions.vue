@@ -1,27 +1,74 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, nextTick } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Checkbox from 'primevue/checkbox';
-import { fetchRegionsData, fetchRegionImageUrls, getRegionStats } from '@/api/api';
+import ProgressBar from 'primevue/progressbar';
+// import Button from 'primevue/button';
+import {
+  fetchRegionsData,
+  // fetchRegionImageUrls,
+  // getRegionStats,
+  getRegionImageName,
+  getRegionImageUrls,
+} from '@/api/api';
 import type { RegionQueryData, ImageUrls, RegionStats } from '@/api/api';
-
-// onMounted(() => {
-//   window.location.href = "/RSSWikiPageCreator/indextest.html";
-// });
 
 interface ExtendedRegionsQueryData extends RegionQueryData {
   imageUrl?: ImageUrls | null;
   stats?: RegionStats | null;
+  statsLoaded?: boolean;
+  statsLoading?: boolean;
 }
 
-const bases = ref<ExtendedRegionsQueryData[]>([]);
+interface LoadingProgress {
+  current: number;
+  total: number;
+  status: string;
+  percentage: number;
+  estimatedMinutes: number;
+}
+
+// const reloadAllStats = async () => {
+//   regions.value.forEach((region) => {
+//     region.statsLoaded = false;
+//     region.stats = null;
+//   });
+
+//   await loadAllStatsBackground();
+// };
+
+const regions = ref<ExtendedRegionsQueryData[]>([]);
 const isLoading = ref(true);
 const error = ref<string | null>(null);
 const screenWidth = ref(window.innerWidth);
 const CIVILIZATION = 'Royal Space Society';
 const showEnglish = ref(false);
+const loadingProgress = ref<LoadingProgress>({
+  current: 0,
+  total: 0,
+  status: 'Iniciando...',
+  percentage: 0,
+  estimatedMinutes: 0,
+});
+
+interface QueryTask {
+  id: string;
+  execute: () => Promise<any>;
+  resolve: (value: any) => void;
+  reject: (reason: any) => void;
+  priority?: number;
+}
+
+const queryQueue: QueryTask[] = [];
+let isProcessingQueue = false;
+const QUERIES_PER_MINUTE = 4;
+const QUERY_INTERVAL = (60 * 1000) / QUERIES_PER_MINUTE;
+const activeQueries = new Set<string>();
+
+const queryCache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000;
 
 const allowedNames = [
   'Uekenbe Shallows',
@@ -63,46 +110,307 @@ const regionTranslations: Record<string, string> = {
   'Jajaja Cluster': 'Cúmulo de Jajaja',
 };
 
-const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
-
-const mergeAndRemoveDuplicates = (
-  existing: ExtendedRegionsQueryData[],
-  newItems: ExtendedRegionsQueryData[]
-): ExtendedRegionsQueryData[] => {
-  const merged = [...existing, ...newItems];
-  return merged.filter((item, index, self) => index === self.findIndex((t) => t.Region === item.Region));
+const regionGlyphsMap: Record<string, string> = {
+  'Uekenbe Shallows': '2141F7EC0D24',
+  'Uklots Shallows': '01B8032FE9B0',
+  Xecroften: '01B8F7EC0D25',
+  Areyas: '0080F8EBDD24',
+  'Udrupi Shallows': '10BCF7EBFD24',
+  'Jiessl Shallows': '01A7F7EBFD25',
+  'Becheeth Sector': '00E6F7EC1D24',
+  'Juhalbe Cluster': '01B6F6EC0D23',
+  'Sea of Ticrops': '007A0EEC7D10',
+  'Larinar Boundary': '010F0AAEBB96',
+  'Eighba Fringe': '0133FEA34C10',
+  'Emcalh Nebula': '0041F9F846D8',
+  'Qudsor Void': '007CFF9B4CB0',
+  'Uhcheimri Void': '00EAFBF21696',
+  Skitco: '00F30266CF95',
+  'Gumita Nebula': '140FF7EBFD23',
 };
 
-const fetchBases = async (offset: number = 0) => {
+const itemNameTranslations: Record<string, string> = {
+  Cross: 'Cruzado',
+  'Star systems': 'Sistemas',
+  Planets: 'Planetas',
+  Starships: 'Naves',
+  'Multi-Tools': 'Multiherramientas',
+  Euclid: 'Euclides',
+  'Hilbert Dimension': 'Dimensión de Hilbert',
+};
+
+const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
+
+const processQueryQueue = async () => {
+  if (isProcessingQueue || queryQueue.length === 0) return;
+
+  isProcessingQueue = true;
+
+  while (queryQueue.length > 0 && activeQueries.size < QUERIES_PER_MINUTE) {
+    const task = queryQueue.shift();
+    if (!task) break;
+
+    if (activeQueries.has(task.id)) {
+      queryQueue.push({ ...task, priority: (task.priority || 0) - 1 });
+      continue;
+    }
+
+    activeQueries.add(task.id);
+
+    try {
+      const result = await task.execute();
+      task.resolve(result);
+    } catch (err) {
+      task.reject(err);
+    } finally {
+      activeQueries.delete(task.id);
+
+      if (queryQueue.length > 0) {
+        await new Promise((resolve) => setTimeout(resolve, QUERY_INTERVAL));
+      }
+    }
+  }
+
+  isProcessingQueue = false;
+
+  if (queryQueue.length > 0) {
+    setTimeout(() => processQueryQueue(), QUERY_INTERVAL);
+  }
+};
+
+const queueQuery = <T,>(id: string, execute: () => Promise<T>, priority = 0): Promise<T> => {
+  return new Promise((resolve, reject) => {
+    const cacheKey = `query-${id}`;
+    const cached = queryCache.get(cacheKey);
+
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      resolve(cached.data);
+      return;
+    }
+
+    const task: QueryTask = {
+      id,
+      execute: async () => {
+        const result = await execute();
+        queryCache.set(cacheKey, { data: result, timestamp: Date.now() });
+        return result;
+      },
+      resolve,
+      reject,
+      priority,
+    };
+
+    const index = queryQueue.findIndex((q) => (q.priority || 0) < priority);
+    if (index === -1) {
+      queryQueue.push(task);
+    } else {
+      queryQueue.splice(index, 0, task);
+    }
+
+    if (!isProcessingQueue) {
+      processQueryQueue();
+    }
+  });
+};
+
+const fetchRegionImageUrlsQueued = async (pageName: string): Promise<ImageUrls | null> => {
+  return queueQuery(
+    `image-${pageName}`,
+    async () => {
+      const imageName = await getRegionImageName(pageName);
+      if (!imageName) return null;
+      return await getRegionImageUrls(imageName);
+    },
+    1
+  );
+};
+
+// const getRegionStatsQueued = async (pageName: string): Promise<RegionStats | null> => {
+//   return queueQuery(
+//     `stats-${pageName}`,
+//     async () => {
+//       return await getRegionStats(pageName);
+//     },
+//     0
+//   );
+// };
+
+// const loadRegionStats = async (region: ExtendedRegionsQueryData) => {
+//   if (region.statsLoading || region.statsLoaded) return;
+
+//   region.statsLoading = true;
+
+//   try {
+//     const stats = await getRegionStatsQueued(region.Region);
+//     region.stats = stats;
+//     region.statsLoaded = true;
+
+//     const index = regions.value.findIndex((r) => r.Region === region.Region);
+//     if (index !== -1) {
+//       regions.value[index] = { ...region };
+//     }
+
+//     await saveCacheToStorage(regions.value);
+//   } catch (err) {
+//     console.error(`Error cargando stats para ${region.Region}:`, err);
+//     region.stats = null;
+//   } finally {
+//     region.statsLoading = false;
+//   }
+// };
+
+// const loadMultipleRegionsStats = async (regionNames: string[]) => {
+//   const total = regionNames.length;
+//   let completed = 0;
+
+//   for (const regionName of regionNames) {
+//     const region = regions.value.find((r) => r.Region === regionName);
+//     if (region && !region.statsLoaded && !region.statsLoading) {
+//       try {
+//         await loadRegionStats(region);
+//         completed++;
+
+//         updateProgress(
+//           loadingProgress.value.current + 1,
+//           loadingProgress.value.total,
+//           `Cargando estadísticas (${completed}/${total})`
+//         );
+
+//         await new Promise((resolve) => setTimeout(resolve, 1000));
+//       } catch (err) {
+//         console.error(`Error en carga batch para ${regionName}:`, err);
+//       }
+//     }
+//   }
+// };
+
+const saveCacheToStorage = async (data: ExtendedRegionsQueryData[]) => {
   try {
-    const newBases = (await fetchRegionsData(CIVILIZATION, offset)) as ExtendedRegionsQueryData[];
+    const cacheData = {
+      regions: data.map((region) => ({
+        ...region,
+        statsLoading: false,
+      })),
+      timestamp: Date.now(),
+      version: '1.1',
+    };
+    localStorage.setItem('rss-regions-cache', JSON.stringify(cacheData));
+  } catch (err) {
+    console.error('Error guardando caché:', err);
+  }
+};
 
-    const filteredBases = newBases.filter((base) => allowedNames.some((name) => base.Region.includes(name)));
+const loadCacheFromStorage = async (): Promise<ExtendedRegionsQueryData[] | null> => {
+  try {
+    const result = localStorage.getItem('rss-regions-cache');
+    if (result) {
+      const cacheData = JSON.parse(result);
+      const cacheAge = Date.now() - cacheData.timestamp;
+      const maxAge = 24 * 60 * 60 * 1000 * 7; // 1 semana
 
-    await Promise.all(
-      filteredBases.map(async (base) => {
-        base.imageUrl = await fetchRegionImageUrls(base.Region);
-        base.stats = await getRegionStats(base.Region);
-        // console.log(base);
-      })
-    );
-
-    bases.value = mergeAndRemoveDuplicates(bases.value, filteredBases);
-
-    if (newBases.length === 500) {
-      await fetchBases(offset + 500);
+      if (cacheAge < maxAge && cacheData.version === '1.1') {
+        console.log('✅ Datos cargados desde caché');
+        return cacheData.regions;
+      } else {
+        console.log('⚠️ Caché expirada o versión antigua, recargando...');
+      }
     }
   } catch (err) {
-    error.value = 'Error al cargar las bases';
+    console.log('ℹ️ No hay caché disponible');
+  }
+  return null;
+};
+
+const updateProgress = (current: number, total: number, status: string) => {
+  const percentage = total > 0 ? Math.round((current / total) * 100) : 0;
+  const remaining = total - current;
+  const estimatedMinutes = Math.ceil((remaining * QUERY_INTERVAL) / (60 * 1000));
+
+  loadingProgress.value = {
+    current,
+    total,
+    status,
+    percentage,
+    estimatedMinutes,
+  };
+};
+
+const loadRegionsProgressive = async () => {
+  try {
+    const cachedData = await loadCacheFromStorage();
+
+    if (cachedData && cachedData.length > 0) {
+      regions.value = cachedData;
+      updateProgress(cachedData.length, cachedData.length, 'Datos cargados desde caché');
+      isLoading.value = false;
+      return;
+    }
+
+    updateProgress(0, 0, 'Obteniendo lista de regiones...');
+
+    const allRegions = await fetchRegionsData(CIVILIZATION, 0);
+    const filteredRegions = allRegions.filter((region: RegionQueryData) =>
+      allowedNames.some((name) => region.Region.includes(name))
+    ) as ExtendedRegionsQueryData[];
+
+    const totalQueries = filteredRegions.length;
+    updateProgress(0, totalQueries, 'Cargando imágenes de regiones...');
+
+    const enrichedRegions: ExtendedRegionsQueryData[] = [];
+
+    for (let i = 0; i < filteredRegions.length; i++) {
+      const region = filteredRegions[i];
+
+      try {
+        updateProgress(i + 1, totalQueries, `Cargando imagen de ${region.Region}...`);
+        region.imageUrl = await fetchRegionImageUrlsQueued(region.Region);
+
+        region.stats = null;
+        region.statsLoaded = false;
+        region.statsLoading = false;
+
+        enrichedRegions.push(region);
+        regions.value = [...enrichedRegions];
+        await nextTick();
+
+        if ((i + 1) % 2 === 0) {
+          await saveCacheToStorage(enrichedRegions);
+        }
+      } catch (err) {
+        console.error(`Error procesando región ${region.Region}:`, err);
+        region.imageUrl = null;
+        region.stats = null;
+        region.statsLoaded = false;
+        region.statsLoading = false;
+        enrichedRegions.push(region);
+      }
+    }
+
+    await saveCacheToStorage(enrichedRegions);
+
+    updateProgress(totalQueries, totalQueries, '¡Imágenes cargadas! Las estadísticas se cargarán bajo demanda.');
+    isLoading.value = false;
+  } catch (err) {
+    error.value = 'Error al cargar las regiones';
     console.error(err);
-  } finally {
     isLoading.value = false;
   }
 };
 
+// const loadAllStatsBackground = async () => {
+//   const regionNames = regions.value
+//     .filter((region) => !region.statsLoaded && !region.statsLoading)
+//     .map((region) => region.Region);
+
+//   if (regionNames.length === 0) return;
+
+//   updateProgress(0, regionNames.length, 'Cargando todas las estadísticas en segundo plano...');
+//   await loadMultipleRegionsStats(regionNames);
+// };
+
 onMounted(async () => {
   window.addEventListener('resize', () => (screenWidth.value = window.innerWidth));
-  await fetchBases(0);
+  await loadRegionsProgressive();
 });
 
 const formatWikiLink = (name: string) => {
@@ -123,7 +431,6 @@ function coords2Glyphs(coordinates: string): string {
   const coords_z = parseInt(zStr, 16);
 
   const system_idx = '000';
-
   const X_Z_POS_SHIFT = 2049;
   const X_Z_NEG_SHIFT = 2047;
   const Y_POS_SHIFT = 129;
@@ -138,42 +445,12 @@ function coords2Glyphs(coordinates: string): string {
   const zGlyphHex = z_glyph.toString(16).toUpperCase().padStart(3, '0');
 
   const prefix = '0';
-
   return prefix + system_idx + yGlyphHex + zGlyphHex + xGlyphHex;
 }
-
-const regionGlyphsMap: Record<string, string> = {
-  'Uekenbe Shallows': '2141F7EC0D24',
-  'Uklots Shallows': '01B8032FE9B0',
-  Xecroften: '01B8F7EC0D25',
-  Areyas: '0080F8EBDD24',
-  'Udrupi Shallows': '10BCF7EBFD24',
-  'Jiessl Shallows': '01A7F7EBFD25',
-  'Becheeth Sector': '00E6F7EC1D24',
-  'Juhalbe Cluster': '01B6F6EC0D23',
-  'Sea of Ticrops': '007A0EEC7D10',
-  'Larinar Boundary': '010F0AAEBB96',
-  'Eighba Fringe': '0133FEA34C10',
-  'Emcalh Nebula': '0041F9F846D8',
-  'Qudsor Void': '007CFF9B4CB0',
-  'Uhcheimri Void': '00EAFBF21696',
-  Skitco: '00F30266CF95',
-  'Gumita Nebula': '140FF7EBFD23',
-};
 
 function getGlyphs(region: string, coordinates: string): string {
   return regionGlyphsMap[region] || coords2Glyphs(coordinates);
 }
-
-const itemNameTranslations: Record<string, string> = {
-  Cross: 'Cruzado',
-  'Star systems': 'Sistemas',
-  Planets: 'Planetas',
-  Starships: 'Naves',
-  'Multi-Tools': 'Multiherramientas',
-  Euclid: 'Euclides',
-  'Hilbert Dimension': 'Dimensión de Hilbert',
-};
 
 function translateItemName(itemName: string | number): string {
   const key = itemName.toString();
@@ -194,7 +471,7 @@ interface Galaxy {
 const groupedGalaxies = computed(() => {
   const galaxiesMap = new Map<string, Galaxy>();
 
-  bases.value.forEach((region) => {
+  regions.value.forEach((region) => {
     if (!galaxiesMap.has(region.Galaxy)) {
       galaxiesMap.set(region.Galaxy, {
         name: region.Galaxy,
@@ -217,12 +494,12 @@ const groupedGalaxies = computed(() => {
   return Array.from(galaxiesMap.values());
 });
 
-const regionsNeedingSystems = computed(() =>
-  bases.value.filter((region) => {
-    const systems = region.stats?.['Star systems']?.CrossPlatform;
-    return systems !== undefined && systems < 10;
-  })
-);
+// const regionsNeedingSystems = computed(() =>
+//   regions.value.filter((region) => {
+//     const systems = region.stats?.['Star systems']?.CrossPlatform;
+//     return systems !== undefined && systems < 10;
+//   })
+// );
 
 function translateRegionName(name: string): string {
   return showEnglish.value ? name : regionTranslations[name] || name;
@@ -271,13 +548,50 @@ function translateRegionName(name: string): string {
           </div>
         </div>
 
-        <Panel class="galactic-panel mt-6">
+        <Panel
+          v-if="isLoading"
+          class="galactic-panel mt-6 loading-panel"
+        >
+          <template #header>
+            <h2 class="panel-title"><i class="pi pi-spin pi-spinner"></i> Cargando datos...</h2>
+          </template>
+          <div class="panel-content">
+            <p class="loading-status">{{ loadingProgress.status }}</p>
+            <ProgressBar
+              :value="loadingProgress.percentage"
+              class="mt-3"
+            />
+            <div class="loading-stats mt-3">
+              <p>
+                Progreso: <strong>{{ loadingProgress.current }}</strong> de
+                <strong>{{ loadingProgress.total }}</strong> consultas completadas
+                <span v-if="loadingProgress.percentage > 0"> ({{ loadingProgress.percentage }}%) </span>
+              </p>
+              <p
+                v-if="loadingProgress.estimatedMinutes > 0"
+                class="text-sm text-stellar-gray"
+              >
+                Tiempo estimado restante: ~{{ loadingProgress.estimatedMinutes }} minuto{{
+                  loadingProgress.estimatedMinutes !== 1 ? 's' : ''
+                }}
+              </p>
+              <!-- <p class="text-xs text-stellar-gray mt-2">
+                ℹ️ Las estadísticas se cargarán bajo demanda para optimizar el rendimiento
+              </p> -->
+            </div>
+          </div>
+        </Panel>
+
+        <Panel
+          v-if="!isLoading"
+          class="galactic-panel mt-6"
+        >
           <template #header>
             <h2 class="panel-title">Información de las regiones</h2>
           </template>
           <div class="panel-content">
             <p>
-              Total de regiones registradas: <strong>{{ bases.length }}</strong>
+              Total de regiones registradas: <strong>{{ regions.length }}</strong>
             </p>
             <p class="security-level mt-2">
               Nivel de seguridad:
@@ -288,87 +602,28 @@ function translateRegionName(name: string): string {
               />
             </p>
             <p class="update-info">Última actualización: {{ new Date().toLocaleDateString() }}</p>
+            <!-- <div class="flex gap-5 mt-3 mr-3">
+              <Button
+                @click="loadAllStatsBackground"
+                label="Cargar todas las estadísticas"
+                icon="pi pi-chart-line"
+                size="small"
+              />
+              <Button
+                @click="reloadAllStats"
+                label="Recargar todas las estadísticas"
+                icon="pi pi-refresh"
+                size="small"
+                class="p-button-secondary"
+              />
+            </div> -->
           </div>
         </Panel>
 
         <br />
 
-        <Panel
-          v-if="regionsNeedingSystems.length > 0"
-          class="galaxy-panel shadow-md rounded-xl border border-yellow-300"
-          toggleable
-          collapsed
-        >
-          <template #header>
-            <div class="galaxy-header flex items-start gap-4 p-4 bg-yellow-50 rounded-t-xl">
-              <i class="pi pi-exclamation-triangle text-yellow-600 text-2xl"></i>
-              <div class="flex flex-col">
-                <h2 class="text-lg font-semibold text-yellow-800">Regiones con pocos sistemas descubiertos</h2>
-                <p class="text-sm text-yellow-700">
-                  Estas regiones tienen menos de 10 sistemas registrados y requieren exploración.
-                </p>
-              </div>
-              <Tag
-                :value="`${regionsNeedingSystems.length} region${regionsNeedingSystems.length === 1 ? '' : 'es'}`"
-                severity="warning"
-                class="ml-auto font-medium text-sm"
-              />
-            </div>
-          </template>
-
-          <div
-            class="regions-grid grid gap-4 p-4 bg-white rounded-b-xl"
-            :style="`grid-template-columns: repeat(${gridColumns}, minmax(250px, 1fr))`"
-          >
-            <Card
-              v-for="(region, index) in regionsNeedingSystems"
-              :key="index"
-              class="region-card border border-gray-200 shadow-sm rounded-lg"
-            >
-              <template #content>
-                <div class="p-4">
-                  <h3 class="text-lg font-semibold text-gray-800 mb-1">
-                    {{ translateRegionName(region.Region) }}
-                  </h3>
-                  <p class="text-sm text-gray-700"><strong>Galaxia:</strong> {{ region.Galaxy }}</p>
-                  <p class="text-sm text-gray-700">Cuadrante: {{ region.Quadrant }}</p>
-                  <p class="text-sm text-gray-700">Coordenadas: {{ region.Coordinates }}</p>
-                  <p class="text-sm text-gray-700">
-                    <strong>Sistemas descubiertos:</strong>
-                    {{ region.stats?.['Star systems']?.CrossPlatform }}
-                  </p>
-                  <p class="text-sm text-gray-700">
-                    Glifos:
-                    <span class="glyph-value font-mono bg-gray-100 px-2 py-0.5 rounded">
-                      {{ getGlyphs(region.Region, region.Coordinates) }}
-                    </span>
-                  </p>
-                  <Tag
-                    value="Menos de 10 sistemas"
-                    severity="danger"
-                    class="mt-3 text-xs px-2 py-1 rounded"
-                  />
-                </div>
-              </template>
-            </Card>
-          </div>
-        </Panel>
-
         <div
-          v-if="isLoading"
-          class="loading-message"
-        >
-          <i class="pi pi-spinner pi-spin"></i> Cargando regiones...
-        </div>
-        <div
-          v-else-if="error"
-          class="error-message p-error"
-        >
-          <i class="pi pi-exclamation-triangle"></i> {{ error }}
-        </div>
-
-        <div
-          v-else
+          v-if="!isLoading && !error"
           class="galaxy-container"
         >
           <Panel
@@ -450,29 +705,61 @@ function translateRegionName(name: string): string {
                             </div>
                           </div>
 
-                          <Panel
-                            v-if="region.stats"
-                            class="stats-panel mt-3"
-                          >
+                          <!-- <Panel class="stats-panel mt-3">
                             <template #header>
-                              <span class="stats-header">Estadísticas de la Región</span>
+                              <div class="flex align-items-center justify-between w-full">
+                                <span class="stats-header">Estadísticas de la Región</span>
+                                <Button
+                                  v-if="!region.statsLoaded && !region.statsLoading"
+                                  @click="loadRegionStats(region)"
+                                  label="Cargar"
+                                  icon="pi pi-chart-line"
+                                  size="small"
+                                />
+                                <i
+                                  v-else-if="region.statsLoading"
+                                  class="pi pi-spin pi-spinner"
+                                />
+                                <Tag
+                                  v-else
+                                  value="Cargado"
+                                  severity="success"
+                                  class="text-xs"
+                                />
+                              </div>
                             </template>
                             <div class="stats-content">
-                              <div
-                                v-for="(item, itemName) in region.stats"
-                                :key="itemName"
-                                class="stat-item"
-                              >
-                                <span class="stat-label">{{ translateItemName(itemName) }}</span>
-                                <Tag
-                                  class="stat-tag"
-                                  severity="info"
+                              <div v-if="region.statsLoaded && region.stats">
+                                <div
+                                  v-for="(item, itemName) in region.stats"
+                                  :key="itemName"
+                                  class="stat-item"
                                 >
-                                  Cantidad: {{ item.CrossPlatform }}
-                                </Tag>
+                                  <span class="stat-label">{{ translateItemName(itemName) }}</span>
+                                  <Tag
+                                    class="stat-tag"
+                                    severity="info"
+                                  >
+                                    Cantidad: {{ item.CrossPlatform }}
+                                  </Tag>
+                                </div>
+                              </div>
+                              <div
+                                v-else-if="region.statsLoading"
+                                class="text-center py-2"
+                              >
+                                <i class="pi pi-spin pi-spinner mr-2"></i>
+                                Cargando estadísticas...
+                              </div>
+                              <div
+                                v-else
+                                class="text-center py-2 text-gray-500"
+                              >
+                                <i class="pi pi-chart-line mr-2"></i>
+                                Haz clic en "Cargar" para ver las estadísticas
                               </div>
                             </div>
-                          </Panel>
+                          </Panel> -->
 
                           <Panel
                             v-if="region.Region"
@@ -573,6 +860,39 @@ function translateRegionName(name: string): string {
   text-shadow: 0 0 15px var(--hover-effect);
   font-size: 2rem;
   line-height: 1.2;
+}
+
+.loading-panel {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: 2px solid var(--tag-border);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(79, 70, 229, 0.6);
+  }
+}
+
+.loading-status {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.loading-stats {
+  background: var(--background-secondary);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.loading-stats p {
+  margin: 0.5rem 0;
 }
 
 .link-card {

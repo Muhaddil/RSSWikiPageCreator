@@ -389,6 +389,8 @@ const fetchCategoryStats = async (
   }
 };
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const getRegionStats = async (pageName: string): Promise<RegionStats | null> => {
   const stats: RegionStats = {
     'Star systems': { CrossPlatform: 0 },
@@ -408,11 +410,14 @@ export const getRegionStats = async (pageName: string): Promise<RegionStats | nu
     'Multi-Tools': { tableClass: 'Multitools', tableFields: 'Civilized' },
   };
 
+  const cooldownMs = 15000;
+
   for (const [categoryName, { tableClass, tableFields }] of Object.entries(categories)) {
     const categoryStats = await fetchCategoryStats(pageName, tableClass, tableFields);
     if (categoryStats !== null) {
       stats[categoryName] = { CrossPlatform: categoryStats };
     }
+    await sleep(cooldownMs);
   }
 
   return Object.keys(stats).length > 0 ? stats : null;
