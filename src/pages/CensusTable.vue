@@ -87,8 +87,10 @@ const loadFromLocalStorage = () => {
 
 const saveToLocalStorage = () => {
   try {
-    localStorage.setItem(STORAGE_KEYS.BASES, JSON.stringify(bases.value));
-    localStorage.setItem(STORAGE_KEYS.LAST_FETCH, Date.now().toString());
+    if (!selectedYear.value) {
+      localStorage.setItem(STORAGE_KEYS.BASES, JSON.stringify(bases.value));
+      localStorage.setItem(STORAGE_KEYS.LAST_FETCH, Date.now().toString());
+    }
   } catch (err) {
     console.error('Error saving to localStorage:', err);
   }
