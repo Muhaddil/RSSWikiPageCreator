@@ -169,7 +169,6 @@ onMounted(async () => {
   loadFromLocalStorage();
 
   if (bases.value.length === 0 || canUpdate.value) {
-    console.log('Fetched bases from wiki');
     await fetchBases(0);
   }
 
