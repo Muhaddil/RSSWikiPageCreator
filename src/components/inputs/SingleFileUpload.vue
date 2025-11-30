@@ -31,9 +31,15 @@ const isInvalid = computed(() => isTooLarge.value || !hasFileEnding.value);
 
 useEventListener(document, 'reset', () => (isTooLarge.value = false));
 
-watchDebounced(model, (newVal) => (hasFileEnding.value = !newVal || newVal.includes('.')), {
-  debounce: debounceDelay,
-});
+watchDebounced(
+  model,
+  (newVal: string) => {
+    hasFileEnding.value = !newVal || newVal.includes('.');
+  },
+  {
+    debounce: debounceDelay,
+  }
+);
 
 const hasSeenInfoModal = ref(localStorage.getItem('hasSeenInfoModal') === 'true');
 

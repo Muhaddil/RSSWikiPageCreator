@@ -9,7 +9,13 @@ const model = defineModel<string>({ required: true });
 
 const invalid = ref(false);
 
-watchDebounced(model, (newVal) => (invalid.value = !validateCoords(newVal)), { debounce: debounceDelay });
+watchDebounced(
+  model,
+  (newVal: string) => {
+    invalid.value = !validateCoords(newVal);
+  },
+  { debounce: debounceDelay }
+);
 </script>
 
 <template>
