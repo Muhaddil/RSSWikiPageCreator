@@ -62,6 +62,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.8',
+    date: '30 / 11 / 2025',
+    description:
+      'Se han actualizado diversas dependencias de la web y se ha mejorado el diseño del landing page de la web.',
+    category: 'Web',
+  },
+  {
     title: '1.0.734',
     date: '26 / 11 / 2025',
     description: 'Se han actualizado diversas dependencias de la web.',
@@ -1016,7 +1023,7 @@ const groupedEvents = computed(() => {
   margin-left: 0.2rem;
 }
 
-@media (width <= 768px) {
+@media (width <=768px) {
   .header-content {
     flex-direction: column;
     align-items: flex-start;
