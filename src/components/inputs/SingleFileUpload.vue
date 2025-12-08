@@ -72,6 +72,7 @@ const id = useId('file-upload-');
 const dropzone = ref<HTMLDivElement | null>(null);
 const inputWrapper = ref<HTMLDivElement | null>(null);
 const textInput = ref();
+const InputGroupComp = InputGroup;
 
 const { isOverDropZone } = useDropZone(dropzone, {
   onDrop: updateFile,
@@ -137,7 +138,7 @@ const isSmallScreen = computed(() => width.value <= smallContainerWidth);
           >
             <component
               :class="{ 'is-flex is-flex-direction-column is-gap-1': isSmallScreen }"
-              :is="isSmallScreen ? 'div' : InputGroup"
+              :is="isSmallScreen ? 'div' : InputGroupComp"
             >
               <InputText
                 v-model="model"
