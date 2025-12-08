@@ -69,6 +69,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.805',
+    date: '08 / 12 / 2025',
+    description: 'Se ha reemplazado el logo de la RSS por el nuevo.',
+    category: 'Web',
+  },
+  {
     title: '1.0.804',
     date: '08 / 12 / 2025',
     description: 'Se ha añadido un nuevo mérito de la RSS.',
