@@ -14,6 +14,13 @@ interface TimelineEvent {
 
 const events = ref<TimelineEvent[]>([
   {
+    title: 'Méritos',
+    date: '08 / 12 / 2025',
+    description:
+      'La Royal Space Society obtiene su tercera estrella y obtiene el titulo de NEXUS-R al tener registradas más de 100 bases',
+    category: 'Royal Space Society',
+  },
+  {
     title: 'Futuro',
     date: '01 / 01 / 2025',
     description:
@@ -61,6 +68,12 @@ const events = ref<TimelineEvent[]>([
 
   // Web Updates
 
+  {
+    title: '1.0.804',
+    date: '08 / 12 / 2025',
+    description: 'Se ha añadido un nuevo mérito de la RSS.',
+    category: 'Web',
+  },
   {
     title: '1.0.803',
     date: '08 / 12 / 2025',
