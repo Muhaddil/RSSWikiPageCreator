@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.0.805",
+  "version": "1.0.806",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,7 @@
     "lint:css": "stylelint \"src/**/*.{css,scss,vue,html}\" --allow-empty-input"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
+    "@types/node": "^24.10.2",
     "@types/sortablejs": "^1.15.9",
     "@vitejs/plugin-vue": "^6.0.2",
     "@vitest/browser": "^4.0.15",
@@ -34,7 +34,7 @@
     "vitest": "^4.0.15",
     "vue": "^3.5.25",
     "vue-toastification": "^2.0.0-rc.5",
-    "vue-tsc": "^3.1.7",
+    "vue-tsc": "^3.1.8",
     "webdriverio": "^9.21.0"
   },
   "dependencies": {
