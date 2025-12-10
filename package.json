@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.0.806",
+  "version": "1.0.807",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,7 @@
     "lint:css": "stylelint \"src/**/*.{css,scss,vue,html}\" --allow-empty-input"
   },
   "devDependencies": {
-    "@types/node": "^24.10.2",
+    "@types/node": "^25.0.0",
     "@types/sortablejs": "^1.15.9",
     "@vitejs/plugin-vue": "^6.0.2",
     "@vitest/browser": "^4.0.15",
@@ -25,7 +25,7 @@
     "pinia": "^3.0.4",
     "postcss-html": "^1.8.0",
     "prettier": "^3.7.4",
-    "sass-embedded": "^1.93.3",
+    "sass-embedded": "^1.95.1",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1",
     "typescript": "^5.9.3",
@@ -40,17 +40,17 @@
   "dependencies": {
     "@formkit/auto-animate": "^0.9.0",
     "@primeuix/utils": "^0.6.3",
-    "@primevue/core": "^4.5.2",
-    "@primevue/forms": "^4.5.2",
-    "@primevue/icons": "^4.5.2",
-    "@primevue/themes": "^4.5.2",
+    "@primevue/core": "^4.5.3",
+    "@primevue/forms": "^4.5.3",
+    "@primevue/icons": "^4.5.3",
+    "@primevue/themes": "^4.5.3",
     "bulma": "^1.0.4",
     "html2canvas-pro": "^1.5.13",
-    "lucide-vue-next": "^0.556.0",
+    "lucide-vue-next": "^0.559.0",
     "md5-hex": "^5.0.0",
     "parse-mediawiki-template": "^0.2.2",
     "primeicons": "^7.0.0",
-    "primevue": "^4.5.2",
+    "primevue": "^4.5.3",
     "tesseract.js": "^6.0.1",
     "vue-draggable-plus": "^0.6.0",
     "vue-router": "^4.6.3"
