@@ -1,8 +1,10 @@
 :root {
+  /* Tema claro - mantenido original */
   --body-backgroundcolor: hsl(0deg 0% 100%);
   --select2-backgroundcolor: hsl(0deg 9% 59%);
   --footer-backgroundcolor: hsl(0deg 0% 98%);
   --tooltip-background: hsl(0deg 0% 85%);
+  --input-section-background: hsl(0deg 0% 97%);
   --input-background: hsl(0deg 0% 100%);
   --input-background-faq: hsl(0deg 0% 70%);
   --input-background-hover: hsl(0deg 0% 90%);
@@ -30,32 +32,32 @@
   --hublogo: url('/assets/images/shared/logo-white.png');
 }
 
-/* Dark Theme */
 html.theme-dark {
-  --body-backgroundcolor: hsl(228deg 10% 10%);
-  --select2-backgroundcolor: hsl(0deg 16% 30%);
-  --footer-backgroundcolor: hsl(0deg 0% 7%);
-  --tooltip-background: hsl(0deg 0% 30%);
-  --input-background: hsl(0deg 0% 10%);
-  --input-background-faq: hsl(228deg 10% 8%);
-  --input-background-hover: hsl(0deg 0% 20%);
+  --body-backgroundcolor: hsl(240deg 5% 14%);
+  --select2-backgroundcolor: hsl(240deg 5% 25%);
+  --footer-backgroundcolor: hsl(240deg 5% 12%);
+  --tooltip-background: hsl(240deg 4% 30%);
+  --input-section-background: hsl(240deg 6% 10%);
+  --input-background: hsl(240deg 5% 11.5%);
+  --input-background-faq: hsl(240deg 5% 13%);
+  --input-background-hover: hsl(240deg 5% 20%);
   --text-color: hsl(0deg 0% 85%);
   --heading-color: hsl(0deg 0% 90%);
   --code-color: hsl(0deg 0% 80%);
-  --placeholder-color: hsl(0deg 0% 70%);
+  --placeholder-color: hsl(0deg 0% 65%);
   --link-color: hsl(217deg 65% 57%);
   --link-hover-color: hsl(217deg 65% 70%);
-  --border-color: hsl(0deg 0% 40%);
-  --border-color-hover: hsl(0deg 0% 70%);
+  --border-color: hsl(240deg 4% 35%);
+  --border-color-hover: hsl(240deg 5% 50%);
   --border-color-focus: hsl(0deg 0% 85%);
   --border-color-focus-hover: hsl(0deg 0% 100%);
   --table-border-color: hsl(0deg 0% 80% / 10%);
-  --column-divider-color: hsl(0deg 0% 20%);
-  --is-even-background-color: hsl(228deg 10% 16%);
-  --is-odd-background-color: hsl(228deg 10% 13%);
+  --column-divider-color: hsl(240deg 4% 25%);
+  --is-even-background-color: hsl(240deg 5% 18%);
+  --is-odd-background-color: hsl(240deg 5% 15%);
   --invert: 90%;
   --body-backgroundimage: url('/assets/images/buttons/nave-mamadisima-royal-space-society_opacity10.gif');
-  --boton-backgoundcolor: #000;
+  --boton-backgoundcolor: hsl(240deg 5% 16%);
   --boton-fontcolor: #fff;
   --hublogo: url('/assets/images/shared/logo-black.png');
 }

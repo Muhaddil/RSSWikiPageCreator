@@ -11,6 +11,7 @@ import { watchDebounced } from '@vueuse/core';
 import { debounceDelay } from '@/variables/debounce';
 import { isValidHttpUrl, regexMatch } from '@/helpers/inputValidation';
 import TextInput from './TextInput.vue';
+import Explainer from '@/components/Explainer.vue';
 
 const pageData = usePageDataStore();
 const { censusplayer, censussocial, censusreddit, censusdiscord, censusfriend, censusarrival, censusshow } =
@@ -117,10 +118,22 @@ watchDebounced(
     <DateSelect
       v-model="censusarrival"
       label="Fecha de llegada a la RSS"
+      tooltip="La fecha en la que te uniste a la Royal Space Society"
     />
     <InputTableItem class="census-row">
       <template #label>
-        <label for="census-checkbox">Crear entrada de censo</label>
+        <div class="is-flex is-justify-content-space-between is-align-items-center full-width">
+          <label for="census-checkbox">Crear entrada de censo</label>
+          <Explainer
+            tooltip="Si se quiere crear una entrada en el censo para esta base, marque esta casilla."
+            help-title="¿Añadir al censo?"
+          >
+            Marque la casilla si quiere que esta base aparezca en el censo de la RSS.
+            <br />
+            <br />
+            <strong>Nota importante:</strong> Solo se puede tener una base en el censo por cuenta de jugador.
+          </Explainer>
+        </div>
       </template>
       <template #input>
         <Checkbox

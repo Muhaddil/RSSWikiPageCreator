@@ -78,6 +78,7 @@ async function copyPage() {
       { field: pageData.name, message: '¡Falta el nombre!' },
       { field: pageData.glyphs, message: '¡Faltan los Glifos!' },
       { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' },
+      { field: pageData.image, message: '¡Falta la Imágen!' },
     ];
   }
 
@@ -260,6 +261,7 @@ function createPage() {
       { field: pageData.name, message: '¡Falta el nombre!' },
       { field: pageData.glyphs, message: '¡Faltan los Glifos!' },
       { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' },
+      { field: pageData.image, message: '¡Falta la Imágen!' },
     ];
   }
 
