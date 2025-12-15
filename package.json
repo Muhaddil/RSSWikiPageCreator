@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.0.81",
+  "version": "1.0.82",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -44,6 +44,7 @@
     "@primevue/forms": "^4.5.3",
     "@primevue/icons": "^4.5.3",
     "@primevue/themes": "^4.5.3",
+    "@vueuse/head": "^2.0.0",
     "animate.css": "^4.1.1",
     "bulma": "^1.0.4",
     "html2canvas-pro": "^1.5.13",
@@ -52,7 +53,7 @@
     "parse-mediawiki-template": "^0.2.2",
     "primeicons": "^7.0.0",
     "primevue": "^4.5.3",
-    "tesseract.js": "^6.0.1",
+    "tesseract.js": "^7.0.0",
     "vue-draggable-plus": "^0.6.0",
     "vue-router": "^4.6.4"
   },

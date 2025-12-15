@@ -6,8 +6,12 @@ import { usePageDataStore } from './stores/pageData';
 import FooterToolbar from './components/FooterToolbar.vue';
 import { ref } from 'vue';
 import packageJson from '../package.json';
+import { useSEO } from '@/composables/useSEO';
+import { route } from '@/variables/route';
 
 const pageData = usePageDataStore();
+
+useSEO(route);
 
 onMounted(async () => pageData.initStore());
 
@@ -868,7 +872,7 @@ footer {
   }
 }
 
-@media (width <= 768px) {
+@media (width <=768px) {
   .footer-content {
     flex-direction: column;
     gap: 0.5rem;
@@ -901,7 +905,7 @@ footer {
   }
 }
 
-@media (width <= 480px) {
+@media (width <=480px) {
   .announcement-banner {
     flex-direction: column;
     gap: 0.75rem;

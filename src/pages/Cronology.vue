@@ -69,6 +69,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.82',
+    date: '15 / 12 / 2025',
+    description:
+      'Se han actualizado diversas dependencias de la web y se ha añadido un sistema de SEO para mejorar la visibilidad de la web.',
+    category: 'Web',
+  },
+  {
     title: '1.0.81',
     date: '14 / 12 / 2025',
     description:
