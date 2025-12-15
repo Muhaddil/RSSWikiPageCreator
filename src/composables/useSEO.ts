@@ -1,4 +1,4 @@
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import { seoConfig, defaultSEO } from '@/variables/seo';
 import { computed } from 'vue';
 

@@ -69,6 +69,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.821',
+    date: '15 / 12 / 2025',
+    description:
+      'Se ha reemplazado la dependencia @vueuse/head por @unhead/vue ya que la primera se encuentra obsoleta.',
+    category: 'Web',
+  },
+  {
     title: '1.0.82',
     date: '15 / 12 / 2025',
     description:

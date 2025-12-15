@@ -9,7 +9,7 @@ import { Colours } from './css/stylePreset';
 import Toast, { POSITION } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import ConfirmationService from 'primevue/confirmationservice';
-import { createHead } from '@vueuse/head';
+import { createHead } from '@unhead/vue/client';
 
 const app = createApp(App);
 const pinia = createPinia();
