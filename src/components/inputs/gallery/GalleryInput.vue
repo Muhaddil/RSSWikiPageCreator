@@ -67,25 +67,47 @@ function onFileInputChange(e: Event) {
 
 <template>
   <div class="is-flex is-flex-direction-column is-gap-2 mt-5">
-    <p v-if="tooLargeFiles.length" class="error-message">
+    <p
+      v-if="tooLargeFiles.length"
+      class="error-message"
+    >
       <template v-if="tooLargeFiles.length === 1">
         El archivo <strong>{{ tooLargeFiles[0] }}</strong> es demasiado grande para subirlo (máx. 10MB).
       </template>
       <template v-else>
         Los siguientes archivos son demasiado grandes para subirlos (máx. 10MB):
         <ul>
-          <li v-for="file in tooLargeFiles" :key="file">
+          <li
+            v-for="file in tooLargeFiles"
+            :key="file"
+          >
             {{ file }}
           </li>
         </ul>
       </template>
       Comprime tu archivo aquí:
-      <ExternalLink link="https://nmscd.com/Image-Compressor/" text="Compresor de imágenes" />
+      <ExternalLink
+        link="https://nmscd.com/Image-Compressor/"
+        text="Compresor de imágenes"
+      />
     </p>
 
-    <div ref="dropzone" :class="['upload-container', { 'is-over': isOverDropZone }]">
-      <input type="file" id="file-input" accept="image/*" multiple @change="onFileInputChange" style="display: none" />
-      <label for="file-input" class="upload-button">
+    <div
+      ref="dropzone"
+      :class="['upload-container', { 'is-over': isOverDropZone }]"
+    >
+      <input
+        type="file"
+        id="file-input"
+        accept="image/*"
+        multiple
+        @change="onFileInputChange"
+        style="display: none"
+      />
+      <label
+        for="file-input"
+        class="upload-button"
+      >
         <i class="pi pi-plus"></i>
         Añadir archivos
       </label>
@@ -95,14 +117,22 @@ function onFileInputChange(e: Event) {
       </div>
     </div>
 
-    <Dialog v-model:visible="showInfoModal" modal header="Atención" :closable="true">
+    <Dialog
+      v-model:visible="showInfoModal"
+      modal
+      header="Atención"
+      :closable="true"
+    >
       <span>
         Las imágenes seleccionadas <strong>no se subirán automáticamente</strong> a la wiki. Este selector solo agrega
         las imágenes al formulario actual.
       </span>
       <div class="mt-3">
         Para subir imágenes a la wiki, ve a
-        <WikiLink link="Special:Upload?multiple=true" text="Especial:Subir" />
+        <WikiLink
+          link="Special:Upload?multiple=true"
+          text="Especial:Subir"
+        />
         y súbelas manualmente.
       </div>
       <div class="mt-3">
