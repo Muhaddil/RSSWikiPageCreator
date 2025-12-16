@@ -16,7 +16,7 @@ const isPreviewHidden = ref(false);
   <Panel
     v-if="galleryFiles.length"
     v-model:collapsed="isPreviewHidden"
-    header="Vistra Previa"
+    header="Vista Previa"
     toggleable
   >
     <VueDraggable

@@ -69,6 +69,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.822',
+    date: '16 / 12 / 2025',
+    description:
+      'Se ha reemplazado el sistema de galeria para satisfacer las necesidades de la web.',
+    category: 'Web',
+  },
+  {
     title: '1.0.821',
     date: '15 / 12 / 2025',
     description:
@@ -872,16 +879,8 @@ const groupedEvents = computed(() => {
       <div class="timeline-page-container">
         <div class="header-section">
           <div class="header-content">
-            <a
-              href="https://example.com"
-              target="_blank"
-              class="logo-link"
-            >
-              <img
-                src="/assets/images/shared/logo-white.png"
-                class="logo-image"
-                alt="Logo"
-              />
+            <a href="https://example.com" target="_blank" class="logo-link">
+              <img src="/assets/images/shared/logo-white.png" class="logo-image" alt="Logo" />
             </a>
             <div class="text-content">
               <h1 class="galactic-title">
@@ -894,16 +893,8 @@ const groupedEvents = computed(() => {
 
         <br />
 
-        <div
-          v-for="(categoryEvents, categoryName) in groupedEvents"
-          :key="categoryName"
-          class="galaxy-panel"
-        >
-          <Panel
-            class="quadrant-panel"
-            toggleable
-            collapsed
-          >
+        <div v-for="(categoryEvents, categoryName) in groupedEvents" :key="categoryName" class="galaxy-panel">
+          <Panel class="quadrant-panel" toggleable collapsed>
             <template #header>
               <h3 class="quadrant-title">
                 <i class="pi pi-th-large"></i>
@@ -911,22 +902,14 @@ const groupedEvents = computed(() => {
               </h3>
             </template>
 
-            <Timeline
-              :value="Object.entries(categoryEvents)"
-              align="alternate"
-              class="custom-timeline"
-            >
+            <Timeline :value="Object.entries(categoryEvents)" align="alternate" class="custom-timeline">
               <template #content="{ item }">
                 <Card class="event-card separated-card">
                   <template #title>{{ item[0] }}</template>
                   <template #content>
                     <ul class="event-list">
-                      <li
-                        v-for="event in item[1]"
-                        :key="event.title"
-                        class="event-item"
-                        v-html="`<strong>${event.title}</strong> - ${event.description.replace(/\n/g, '<br>')}`"
-                      ></li>
+                      <li v-for="event in item[1]" :key="event.title" class="event-item"
+                        v-html="`<strong>${event.title}</strong> - ${event.description.replace(/\n/g, '<br>')}`"></li>
                     </ul>
                   </template>
                 </Card>
