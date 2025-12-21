@@ -1,0 +1,1 @@
+import{T as e}from"./runtime-dom.esm-bundler-Dfo37R9z.js";var t=Symbol();function n(){var n=e(t);if(!n)throw Error(`No PrimeVue Confirmation provided!`);return n}export{n,t};
