@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.0.824",
+  "version": "1.0.825",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -34,7 +34,7 @@
     "vitest": "^4.0.16",
     "vue": "^3.5.26",
     "vue-toastification": "^2.0.0-rc.5",
-    "vue-tsc": "^3.2.0",
+    "vue-tsc": "^3.2.1",
     "webdriverio": "^9.21.0"
   },
   "dependencies": {
