@@ -69,6 +69,12 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.826',
+    date: '23 / 12 / 2025',
+    description: 'Se ha añadido que por defecto la opción de mostrar la entrada en el censo está activada.',
+    category: 'Web',
+  },
+  {
     title: '1.0.825',
     date: '23 / 12 / 2025',
     description:

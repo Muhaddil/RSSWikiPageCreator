@@ -4,7 +4,7 @@ import Panel from 'primevue/panel';
 import DateSelect from '@/components/inputs/DateSelect.vue';
 import { usePageDataStore } from '@/stores/pageData';
 import { storeToRefs } from 'pinia';
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref, watchEffect, onMounted } from 'vue';
 import InputTableItem from '@/components/InputTableItem.vue';
 import SanitisedTextInput from './SanitisedTextInput.vue';
 import { watchDebounced } from '@vueuse/core';
@@ -29,6 +29,12 @@ watchDebounced(
   },
   { debounce: debounceDelay }
 );
+
+onMounted(() => {
+  if (!censusshow.value) {
+    censusshow.value = 'Y';
+  }
+});
 
 // fix reddit input (remove leading 'u/')
 watchEffect(() => {
