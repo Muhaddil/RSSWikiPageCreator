@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.0.828",
+  "version": "1.0.829",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +13,7 @@
     "lint:css": "stylelint \"src/**/*.{css,scss,vue,html}\" --allow-empty-input"
   },
   "devDependencies": {
-    "@types/node": "^25.0.3",
+    "@types/node": "^25.0.6",
     "@types/sortablejs": "^1.15.9",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vitest/browser": "^4.0.16",
@@ -44,7 +44,7 @@
     "@primevue/forms": "^4.5.4",
     "@primevue/icons": "^4.5.4",
     "@primevue/themes": "^4.5.4",
-    "@unhead/vue": "^2.1.1",
+    "@unhead/vue": "^2.1.2",
     "animate.css": "^4.1.1",
     "bulma": "^1.0.4",
     "html2canvas-pro": "^1.6.4",
@@ -54,7 +54,7 @@
     "primeicons": "^7.0.0",
     "primevue": "^4.5.4",
     "tesseract.js": "^7.0.0",
-    "vue-draggable-plus": "^0.6.0",
+    "vue-draggable-plus": "^0.6.1",
     "vue-router": "^4.6.4"
   },
   "overrides": {

@@ -14,6 +14,12 @@ interface TimelineEvent {
 
 const events = ref<TimelineEvent[]>([
   {
+    title: 'Censo',
+    date: '31 / 12 / 2025',
+    description: 'Se consigue el máximo número de bases censadas, 196 bases.',
+    category: 'Royal Space Society',
+  },
+  {
     title: 'Méritos',
     date: '08 / 12 / 2025',
     description:
@@ -68,6 +74,13 @@ const events = ref<TimelineEvent[]>([
 
   // Web Updates
 
+  {
+    title: '1.0.829',
+    date: '11 / 01 / 2026',
+    description:
+      'Se han actualizado diversas dependencias de la web y se ha añadido una nueva entrada a la linea temporal de la RSS.',
+    category: 'Web',
+  },
   {
     title: '1.0.828',
     date: '09 / 01 / 2026',
