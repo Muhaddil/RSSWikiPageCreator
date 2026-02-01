@@ -312,7 +312,7 @@ function reloadPage() {
         <div class="footer-text">
           <span class="footer-title">Creado con pasión y dedicación por</span>
           <a
-            href="https://github.com/Muhaddil"
+            href="https://muhaddil.github.io/"
             target="_blank"
             rel="noopener noreferrer"
           >
