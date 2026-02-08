@@ -45,7 +45,7 @@ export default defineConfig({
         'starship.html',
         'system.html',
         'faq.html',
-        'glyphgeneratorV2.html',
+        'glyphgenerator.html',
         'baserenewal.html',
         'census.html',
         'basesdestacadas.html',

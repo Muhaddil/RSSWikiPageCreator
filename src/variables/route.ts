@@ -34,6 +34,7 @@ export const router: Record<string, string> = {
   wikiupdates: 'WikiUpdates',
   rsssystems: 'RSSSystems',
   corvette: 'Corvette',
+  glyphgenerator: 'GlyphGenerator',
 };
 
 export const route = getCurrentRoute();
@@ -131,6 +132,9 @@ switch (route) {
     break;
   case 'corvette':
     exportName = 'Corbetas';
+    break;
+  case 'glyphgenerator':
+    exportName = 'Generador de Glifos';
     break;
   case '':
     exportName = 'Home';

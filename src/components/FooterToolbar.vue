@@ -47,7 +47,8 @@ function isFAQPage() {
     currentUrl.includes('latestupdates.html') ||
     currentUrl.includes('wikiupdates.html') ||
     currentUrl.includes('indextest.html') ||
-    currentUrl.includes('rsssystems.html')
+    currentUrl.includes('rsssystems.html') ||
+    currentUrl.includes('glyphgenerator.html')
   );
 }
 

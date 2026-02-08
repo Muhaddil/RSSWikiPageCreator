@@ -23,7 +23,7 @@ const items = [
       },
       {
         label: 'Generador de Glifos de la RSS',
-        url: '/RSSWikiPageCreator/glyphgeneratorV2.html',
+        url: '/RSSWikiPageCreator/glyphgenerator.html',
       },
       {
         label: 'Compresor de imágenes',

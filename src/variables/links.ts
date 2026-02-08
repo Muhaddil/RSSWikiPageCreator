@@ -110,7 +110,7 @@ export const linkData = {
       },
       {
         title: 'Matriz de Portal Cuántico',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgeneratorV2.html',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgenerator.html',
         category: 'Tecnología Alienígena',
         description: 'Sistema de decodificación de coordenadas interdimensionales basado en artefactos de los Antiguos',
         icon: 'pi pi-map-marker',
@@ -231,7 +231,7 @@ export const linkData = {
       },
       {
         title: 'Generador de portales',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgeneratorV2.html',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgenerator.html',
         category: 'Herramientas',
         description: 'Generador de coordenadas para portales estelares',
         icon: 'pi pi-map-marker',
@@ -301,7 +301,7 @@ export const linkData = {
       },
       {
         title: 'Quantum Portal Matrix',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgeneratorV2.html',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgenerator.html',
         category: 'Alien Technology',
         description: 'Interdimensional coordinate decoding system based on Ancient artifacts',
         icon: 'pi pi-map-marker',
@@ -425,7 +425,7 @@ export const linkData = {
       },
       {
         title: 'Portal Generator',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgeneratorV2.html',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgenerator.html',
         category: 'Tools',
         description: 'Coordinate generator for star portals',
         icon: 'pi pi-map-marker',

@@ -38,7 +38,7 @@ export const linkData = {
       },
       {
         title: 'Skitco',
-        url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgeneratorV2.html',
+        url: 'https://muhaddil.github.io/RSSWikiPageCreator/glyphgenerator.html',
         category: 'Dimensión de Hilbert',
         description: 'Acceso al sistema 0266CF95 en Dimensión de Hilbert',
         icon: 'pi pi-star',
