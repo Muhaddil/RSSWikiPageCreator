@@ -38,9 +38,7 @@ export const SystemTradeables: readonly (readonly [string, string])[] = [
   ['Fusion Core', 'Núcleo de fusión'],
 ] as const;
 
-export const mappedSystemTradeables: SelectOption[] = SystemTradeables.map(
-  ([value, label]) => ({
-    label,
-    value,
-  })
-);
+export const mappedSystemTradeables: SelectOption[] = SystemTradeables.map(([value, label]) => ({
+  label,
+  value,
+}));

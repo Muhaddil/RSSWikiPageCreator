@@ -58,9 +58,7 @@ export const PlanetFauna: readonly (readonly [string, string])[] = [
   ['Synthetic', 'Sintética'],
 ] as const;
 
-export const mappedPlanetFauna: SelectOption[] = PlanetFauna.map(
-  ([value, label]) => ({
-    label,
-    value,
-  })
-);
+export const mappedPlanetFauna: SelectOption[] = PlanetFauna.map(([value, label]) => ({
+  label,
+  value,
+}));

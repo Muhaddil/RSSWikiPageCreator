@@ -297,9 +297,7 @@ export const PlanetWeather: readonly (readonly [string, string])[] = [
   ['Coastal Storms', 'Tormentas costeras'],
 ] as const;
 
-export const mappedPlanetWeather: SelectOption[] = PlanetWeather.map(
-  ([value, label]) => ({
-    label,
-    value,
-  })
-);
+export const mappedPlanetWeather: SelectOption[] = PlanetWeather.map(([value, label]) => ({
+  label,
+  value,
+}));

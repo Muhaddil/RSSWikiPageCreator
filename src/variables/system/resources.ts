@@ -41,9 +41,7 @@ export const ResourcesOptions: readonly (readonly [string, string])[] = [
   ['Sulphurine', 'Sulfurina'],
 ] as const;
 
-export const mappedResourcesOptions: SelectOption[] = ResourcesOptions.map(
-  ([value, label]) => ({
-    label,
-    value,
-  })
-);
+export const mappedResourcesOptions: SelectOption[] = ResourcesOptions.map(([value, label]) => ({
+  label,
+  value,
+}));

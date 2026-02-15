@@ -57,9 +57,7 @@ export const PlanetFlora: readonly (readonly [string, string])[] = [
   ['Synthetic', 'Sintética'],
 ] as const;
 
-export const mappedPlanetFlora: SelectOption[] = PlanetFlora.map(
-  ([value, label]) => ({
-    label,
-    value,
-  })
-);
+export const mappedPlanetFlora: SelectOption[] = PlanetFlora.map(([value, label]) => ({
+  label,
+  value,
+}));

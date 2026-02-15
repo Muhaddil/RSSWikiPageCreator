@@ -640,23 +640,17 @@ export const GiantDescriptors: readonly (readonly [string, string])[] = [
   ['Abandoned Gigant', 'Desierto abandonado'],
 ] as const;
 
-export const mappedPlanetDescriptors: SelectOption[] = PlanetDescriptors.map(
-  ([value, label]) => ({
-    label,
-    value,
-  })
-);
+export const mappedPlanetDescriptors: SelectOption[] = PlanetDescriptors.map(([value, label]) => ({
+  label,
+  value,
+}));
 
-export const mappedMoonDescriptors: SelectOption[] = MoonDescriptors.map(
-  ([value, label]) => ({
-    label,
-    value,
-  })
-);
+export const mappedMoonDescriptors: SelectOption[] = MoonDescriptors.map(([value, label]) => ({
+  label,
+  value,
+}));
 
-export const mappedGiantDescriptors: SelectOption[] = GiantDescriptors.map(
-  ([value, label]) => ({
-    label,
-    value,
-  })
-);
+export const mappedGiantDescriptors: SelectOption[] = GiantDescriptors.map(([value, label]) => ({
+  label,
+  value,
+}));

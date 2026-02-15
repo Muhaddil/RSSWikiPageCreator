@@ -75,6 +75,25 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.92',
+    date: '15 / 02 / 2026',
+    description: 'Se han añadido las entradas faltantes de la cronología.',
+    category: 'Web',
+  },
+  {
+    title: '1.0.91',
+    date: '15 / 02 / 2026',
+    description:
+      'Se han actualizado diversas dependencias y se ha mejorado el sistema de mapeos de los datos del apartado de subida de sistemas.',
+    category: 'Web',
+  },
+  {
+    title: '1.0.9',
+    date: '10 / 02 / 2026',
+    description: 'Se ha portado y mejorado el apartado de generación de glifos de la RSS.',
+    category: 'Web',
+  },
+  {
     title: '1.0.8294',
     date: '01 / 02 / 2026',
     description: 'Se ha hecho un pequeño rediseño al apartado de FAQs.',

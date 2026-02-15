@@ -403,8 +403,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="landing-page" :class="{ visible: isVisible }">
-    <section class="hero-section" data-section="hero">
+  <div
+    class="landing-page"
+    :class="{ visible: isVisible }"
+  >
+    <section
+      class="hero-section"
+      data-section="hero"
+    >
       <!-- <div class="hero-background">
         <div class="gradient-orb orb-1"></div>
         <div class="gradient-orb orb-2"></div>
@@ -413,9 +419,18 @@ onUnmounted(() => {
 
       <div class="hero-content">
         <div class="logo-container">
-          <a v-if="images.length > 0" :href="images[0].link" target="_blank" rel="noopener noreferrer"
-            class="hero-logo-link">
-            <img :src="images[0].img" :alt="images[0].imgAlt" class="hero-logo" />
+          <a
+            v-if="images.length > 0"
+            :href="images[0].link"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hero-logo-link"
+          >
+            <img
+              :src="images[0].img"
+              :alt="images[0].imgAlt"
+              class="hero-logo"
+            />
           </a>
         </div>
 
@@ -429,25 +444,41 @@ onUnmounted(() => {
           Genera fácilmente el código wiki para crear páginas de descubrimiento en No Man's Sky Wiki
         </p>
 
-        <div class="hero-cta" @click="scrollToNextSection">
+        <div
+          class="hero-cta"
+          @click="scrollToNextSection"
+        >
           <i class="pi pi-arrow-down pulse-icon"></i>
         </div>
       </div>
     </section>
 
-    <section class="features-section" data-section="features">
+    <section
+      class="features-section"
+      data-section="features"
+    >
       <h2 class="section-title animate-on-scroll">
         <span class="title-accent">Crea</span> páginas para tus descubrimientos
       </h2>
 
       <div class="features-grid">
-        <a v-for="(link, index) in links" :key="index" :href="link.url" class="feature-card animate-on-scroll"
-          :style="{ transitionDelay: `${index * 0.03}s` }" @mouseenter="schedulePrefetch(link.url)"
-          @mouseleave="cancelPrefetch(link.url)">
+        <a
+          v-for="(link, index) in links"
+          :key="index"
+          :href="link.url"
+          class="feature-card animate-on-scroll"
+          :style="{ transitionDelay: `${index * 0.03}s` }"
+          @mouseenter="schedulePrefetch(link.url)"
+          @mouseleave="cancelPrefetch(link.url)"
+        >
           <div class="card-glow"></div>
           <div class="card-content">
             <div class="card-image-wrapper">
-              <img :src="link.img" :alt="link.imgAlt" class="card-image" />
+              <img
+                :src="link.img"
+                :alt="link.imgAlt"
+                class="card-image"
+              />
             </div>
             <h3 class="card-title">{{ link.text }}</h3>
           </div>
@@ -456,18 +487,33 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="tools-section" data-section="tools">
+    <section
+      class="tools-section"
+      data-section="tools"
+    >
       <h2 class="section-title animate-on-scroll">
         <span class="title-accent tools-accent">Herramientas</span> esenciales
       </h2>
 
       <div class="tools-grid">
-        <a v-for="(tool, index) in tools" :key="index" :href="tool.url" :target="tool.external ? '_blank' : '_self'"
-          :rel="tool.external ? 'noopener noreferrer' : ''" class="tool-card animate-on-scroll"
-          :style="{ transitionDelay: `${index * 0.04}s` }">
+        <a
+          v-for="(tool, index) in tools"
+          :key="index"
+          :href="tool.url"
+          :target="tool.external ? '_blank' : '_self'"
+          :rel="tool.external ? 'noopener noreferrer' : ''"
+          class="tool-card animate-on-scroll"
+          :style="{ transitionDelay: `${index * 0.04}s` }"
+        >
           <div class="tool-icon-wrapper">
-            <i :class="tool.icon" class="tool-icon"></i>
-            <span v-if="tool.external" class="external-badge">
+            <i
+              :class="tool.icon"
+              class="tool-icon"
+            ></i>
+            <span
+              v-if="tool.external"
+              class="external-badge"
+            >
               <i class="pi pi-external-link"></i>
             </span>
           </div>
@@ -477,17 +523,29 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="resources-section" data-section="resources">
+    <section
+      class="resources-section"
+      data-section="resources"
+    >
       <h2 class="section-title animate-on-scroll">
         <span class="title-accent resources-accent">Recursos</span> de la comunidad
       </h2>
 
       <div class="resources-grid">
-        <a v-for="(resource, index) in resources" :key="index" :href="resource.url" target="_blank"
-          rel="noopener noreferrer" class="resource-card animate-on-scroll"
-          :style="{ transitionDelay: `${index * 0.03}s` }">
+        <a
+          v-for="(resource, index) in resources"
+          :key="index"
+          :href="resource.url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="resource-card animate-on-scroll"
+          :style="{ transitionDelay: `${index * 0.03}s` }"
+        >
           <div class="resource-header">
-            <i :class="resource.icon" class="resource-icon"></i>
+            <i
+              :class="resource.icon"
+              class="resource-icon"
+            ></i>
             <span class="resource-category">{{ resource.category }}</span>
           </div>
           <h3 class="resource-title">{{ resource.title }}</h3>
@@ -496,30 +554,47 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="community-section" data-section="community">
+    <section
+      class="community-section"
+      data-section="community"
+    >
       <h2 class="section-title animate-on-scroll">
         <span class="title-accent community-accent">Únete</span> a la comunidad
       </h2>
 
       <div class="community-grid">
-        <a href="https://discord.gg/oskar1up" target="_blank" rel="noopener noreferrer"
-          class="community-card discord-card animate-on-scroll">
+        <a
+          href="https://discord.gg/oskar1up"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="community-card discord-card animate-on-scroll"
+        >
           <i class="pi pi-bolt community-icon"></i>
           <h3>Discord</h3>
           <p>Únete a nuestro servidor de Discord para chatear con otros exploradores</p>
           <span class="community-badge">Más activo</span>
         </a>
 
-        <a href="https://x.com/RoyalSpaceHub" target="_blank" rel="noopener noreferrer"
-          class="community-card twitter-card animate-on-scroll" style="transition-delay: 0.05s">
+        <a
+          href="https://x.com/RoyalSpaceHub"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="community-card twitter-card animate-on-scroll"
+          style="transition-delay: 0.05s"
+        >
           <i class="pi pi-sort-alt-slash community-icon"></i>
           <h3>Twitter/X</h3>
           <p>Síguenos para las últimas noticias y actualizaciones de la RSS</p>
           <span class="community-badge">Noticias</span>
         </a>
 
-        <a href="https://www.reddit.com/r/NMS_RSS/" target="_blank" rel="noopener noreferrer"
-          class="community-card reddit-card animate-on-scroll" style="transition-delay: 0.1s">
+        <a
+          href="https://www.reddit.com/r/NMS_RSS/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="community-card reddit-card animate-on-scroll"
+          style="transition-delay: 0.1s"
+        >
           <i class="pi pi-comments community-icon"></i>
           <h3>Reddit</h3>
           <p>Participa en discusiones y comparte tus descubrimientos</p>
@@ -537,8 +612,12 @@ onUnmounted(() => {
         <p class="about-text">
           Una civilización dedicada a explorar y documentar los descubrimientos en el universo de No Man's Sky
         </p>
-        <a href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society" target="_blank" rel="noopener noreferrer"
-          class="about-link">
+        <a
+          href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="about-link"
+        >
           Visitar Wiki
           <i class="pi pi-external-link"></i>
         </a>
@@ -608,7 +687,12 @@ onUnmounted(() => {
     </div> -->
 
     <transition name="fade-scale">
-      <button v-if="showScrollTop" @click="scrollToTop" class="scroll-to-top" aria-label="Volver arriba">
+      <button
+        v-if="showScrollTop"
+        @click="scrollToTop"
+        class="scroll-to-top"
+        aria-label="Volver arriba"
+      >
         <i class="pi pi-arrow-up"></i>
       </button>
     </transition>
@@ -690,7 +774,6 @@ onUnmounted(() => {
 }
 
 @keyframes float {
-
   0%,
   100% {
     transform: translate(0, 0) scale(1);
@@ -735,7 +818,6 @@ onUnmounted(() => {
 }
 
 @keyframes glow-pulse {
-
   0%,
   100% {
     filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.5));
@@ -764,7 +846,6 @@ onUnmounted(() => {
 }
 
 @keyframes gradient-shift {
-
   0%,
   100% {
     background-position: 0% 50%;
@@ -823,7 +904,6 @@ onUnmounted(() => {
 }
 
 @keyframes bounce {
-
   0%,
   100% {
     transform: translateY(0);
@@ -1467,7 +1547,6 @@ onUnmounted(() => {
 }
 
 @keyframes bounce-arrow {
-
   0%,
   100% {
     transform: translateY(0);
@@ -1600,7 +1679,6 @@ onUnmounted(() => {
 }
 
 @media (max-width: 480px) {
-
   .features-grid,
   .tools-grid,
   .resources-grid {
