@@ -1,1 +1,0 @@
-const e=e=>Object.entries(e).map(e=>({label:e[0],value:e[1]}));export{e as t};
