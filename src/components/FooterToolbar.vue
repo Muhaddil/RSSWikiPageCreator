@@ -1,106 +1,62 @@
 <script setup lang="ts">
-// import { ref } from 'vue';
 import Toolbar from 'primevue/toolbar';
 import Button from 'primevue/button';
 import ConfirmDialog from 'primevue/confirmdialog';
 import { usePageDataStore } from '@/stores/pageData';
+import { useValidationStore } from '@/stores/validation';
 import { useToast, POSITION } from 'vue-toastification';
 import { useConfirm } from 'primevue/useconfirm';
+import { getCurrentRoute } from '@/helpers/router';
 
 const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK ?? '');
 
 const pageData = usePageDataStore();
+const validation = useValidationStore();
 const toast = useToast();
 const confirm = useConfirm();
 
+const route = getCurrentRoute();
+
+const isBaseRenewalPage = route === 'baserenewal';
+const isCensusPage = route === 'census';
+// const isCorvettePage = route === 'corvette';
+const isFAQPage = [
+  'faq',
+  'basesdestacadas',
+  'rsslinks',
+  'censustable',
+  'regions',
+  'cronology',
+  'rssfriends',
+  'guias',
+  'feedback',
+  'latestupdates',
+  'wikiupdates',
+  'indextest',
+  'rsssystems',
+  'glyphgenerator',
+].includes(route);
+
 function showError(message: string) {
-  toast.error(message, {
-    position: POSITION.BOTTOM_RIGHT,
-  });
+  toast.error(message, { position: POSITION.BOTTOM_RIGHT });
 }
 
-const currentUrl = window.location.pathname;
-
-function isBaseRenewalPage() {
-  return currentUrl.includes('baserenewal.html');
-}
-
-function isCensusPage() {
-  return currentUrl.includes('census.html');
-}
-
-function isCorvettePage() {
-  return currentUrl.includes('corvette.html');
-}
-
-function isFAQPage() {
-  return (
-    currentUrl.includes('faq.html') ||
-    currentUrl.includes('basesdestacadas.html') ||
-    currentUrl.includes('rsslinks.html') ||
-    currentUrl.includes('censustable.html') ||
-    currentUrl.includes('regions.html') ||
-    currentUrl.includes('cronology.html') ||
-    currentUrl.includes('rssfriends.html') ||
-    currentUrl.includes('guias.html') ||
-    currentUrl.includes('feedback.html') ||
-    currentUrl.includes('latestupdates.html') ||
-    currentUrl.includes('wikiupdates.html') ||
-    currentUrl.includes('indextest.html') ||
-    currentUrl.includes('rsssystems.html') ||
-    currentUrl.includes('glyphgenerator.html')
-  );
+function checkValid(): boolean {
+  if (validation.isValid) return true;
+  const error = validation.firstError();
+  if (error) showError(error);
+  return false;
 }
 
 async function copyPage() {
-  let requiredFields;
+  if (!checkValid()) return;
 
-  if (isBaseRenewalPage()) {
-    requiredFields = [
-      { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.censusrenewal, message: '¿Qué quieres copiar? Rellena los datos' },
-    ];
-  } else if (isCensusPage()) {
-    requiredFields = [
-      { field: pageData.playername, message: '¡Falta tu nombre!' },
-      { field: pageData.platform, message: '¡Falta tu plataforma!' },
-      { field: pageData.mode, message: '¡Falta tu modo de juego!' },
-      { field: pageData.discDate, message: '¡Falta tu fecha de unión!' },
-    ];
-  } else if (isCorvettePage()) {
-    requiredFields = [
-      { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.platform, message: '¡Falta tu plataforma!' },
-      { field: pageData.mode, message: '¡Falta tu modo de juego!' },
-    ];
-  } else {
-    requiredFields = [
-      { field: pageData.outputContent, message: 'ERROR 404' },
-      { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.glyphs, message: '¡Faltan los Glifos!' },
-      { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' },
-      { field: pageData.image, message: '¡Falta la Imágen!' },
-    ];
-  }
-
-  for (const { field, message } of requiredFields) {
-    if (!field) {
-      showError(message);
-      return;
-    }
-  }
-
-  const processedContent = pageData.outputContent
-    // .replace(/<br\s*\/?>/g, '\n')
-    .replace(/\n{2,}/g, '\n\n')
-    .trim();
+  const processedContent = pageData.outputContent.replace(/\n{2,}/g, '\n\n').trim();
 
   try {
     await navigator.clipboard.writeText(processedContent);
-    toast.success('¡Copiado con éxito!', {
-      position: POSITION.BOTTOM_RIGHT,
-    });
-  } catch (error) {
+    toast.success('¡Copiado con éxito!', { position: POSITION.BOTTOM_RIGHT });
+  } catch {
     showError('Error al copiar el contenido.');
   }
 }
@@ -111,36 +67,27 @@ async function handleSubmit() {
   const formattedName = pageData.name.replace(/\s+/g, '_');
 
   if (!webhook) {
-    console.error('❌ Webhook no configurado.');
-    toast.error('Webhook no configurado.', {
-      position: POSITION.BOTTOM_RIGHT,
-    });
+    showError('Webhook no configurado.');
     return;
   }
 
-  let payloadSections;
-
-  if (isCensusPage()) {
-    payloadSections = [
-      `- **Nueva entrada en el censo creada:** ${pageData.playername}`,
-      `- https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society#RSS_Members`,
-      `\`\`\`html\n${processedContent}\n\`\`\``,
-    ];
-  } else {
-    payloadSections = [
-      `- **Nueva página creada:** ${pageData.name}`,
-      `- https://nomanssky.fandom.com/wiki/${formattedName}`,
-      `\`\`\`html\n${processedContent}\n\`\`\``,
-    ];
-  }
+  const payloadSections = isCensusPage
+    ? [
+        `- **Nueva entrada en el censo creada:** ${pageData.playername}`,
+        `- https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society#RSS_Members`,
+        `\`\`\`html\n${processedContent}\n\`\`\``,
+      ]
+    : [
+        `- **Nueva página creada:** ${pageData.name}`,
+        `- https://nomanssky.fandom.com/wiki/${formattedName}`,
+        `\`\`\`html\n${processedContent}\n\`\`\``,
+      ];
 
   try {
     await sendToDiscord(payloadSections);
   } catch (error) {
     console.error('❌ Error al enviar a Discord:', error);
-    toast.error('Error al enviar a Discord. Revisa la consola para más detalles.', {
-      position: POSITION.BOTTOM_RIGHT,
-    });
+    showError('Error al enviar a Discord. Revisa la consola para más detalles.');
   }
 }
 
@@ -162,8 +109,7 @@ async function sendToDiscord(sections: string[]): Promise<void> {
         while (index < content.length) {
           const chunk = content.substring(index, index + (maxMessageLength - reserved));
           index += chunk.length;
-          const messageChunk = `${openingLine}\n${chunk}\n\`\`\``;
-          await sendMessageToWebhook(messageChunk.trim(), username, avatar_url);
+          await sendMessageToWebhook(`${openingLine}\n${chunk}\n\`\`\``.trim(), username, avatar_url);
         }
       } else {
         let messageBuffer = '';
@@ -195,7 +141,7 @@ async function sendToDiscord(sections: string[]): Promise<void> {
       }
     } catch (error) {
       console.error('❌ Error al procesar/enviar sección a Discord:', section, error);
-      throw error; // Propaga el error para que `handleSubmit` también lo capture
+      throw error;
     }
   }
 }
@@ -203,83 +149,29 @@ async function sendToDiscord(sections: string[]): Promise<void> {
 async function sendMessageToWebhook(content: string, username: string, avatar_url: string) {
   await delay(200);
 
-  if (!content.trim()) {
-    const err = new Error('El contenido del mensaje está vacío.');
-    console.error('❌', err.message);
-    throw err;
-  }
-
-  const payload = {
-    username: username,
-    avatar_url: avatar_url,
-    content: content,
-  };
+  if (!content.trim()) throw new Error('El contenido del mensaje está vacío.');
 
   const response = await fetch(webhook, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, avatar_url, content }),
   });
 
   const responseText = await response.text();
-  if (!response.ok) {
-    const err = new Error(`Error en la respuesta del servidor: ${response.status} - ${responseText}`);
-    console.error('❌', err.message);
-    throw err;
-  }
+  if (!response.ok) throw new Error(`Error en la respuesta del servidor: ${response.status} - ${responseText}`);
 }
 
-async function delay(ms: number) {
+function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function createPage() {
-  let requiredFields = [];
+  if (!checkValid()) return;
 
-  if (isCensusPage()) {
-    requiredFields = [
-      { field: pageData.playername, message: '¡Falta tu nombre!' },
-      { field: pageData.platform, message: '¡Falta tu plataforma!' },
-      { field: pageData.mode, message: '¡Falta tu modo de juego!' },
-      { field: pageData.discDate, message: '¡Falta tu fecha de unión!' },
-    ];
-  } else if (isBaseRenewalPage()) {
-    requiredFields = [
-      { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.censusrenewal, message: '¿Qué quieres copiar? Rellena los datos' },
-    ];
-  } else if (isCorvettePage()) {
-    requiredFields = [
-      { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.platform, message: '¡Falta tu plataforma!' },
-      { field: pageData.mode, message: '¡Falta tu modo de juego!' },
-    ];
-  } else {
-    requiredFields = [
-      { field: pageData.outputContent, message: 'ERROR 404' },
-      { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.glyphs, message: '¡Faltan los Glifos!' },
-      { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' },
-      { field: pageData.image, message: '¡Falta la Imágen!' },
-    ];
-  }
-
-  for (const { field, message } of requiredFields) {
-    if (!field) {
-      showError(message);
-      return;
-    }
-  }
-
-  toast.success('¡Creada!', {
-    position: POSITION.BOTTOM_RIGHT,
-  });
-
+  toast.success('¡Creada!', { position: POSITION.BOTTOM_RIGHT });
   handleSubmit();
 
-  if (isCensusPage()) {
+  if (isCensusPage) {
     window.open(
       'https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society?action=edit&section=9#editform',
       '_blank'
@@ -290,40 +182,7 @@ function createPage() {
 }
 
 function downloadCode() {
-  let requiredFields;
-  if (isCensusPage()) {
-    requiredFields = [
-      { field: pageData.playername, message: '¡Falta tu nombre!' },
-      { field: pageData.platform, message: '¡Falta tu plataforma!' },
-      { field: pageData.mode, message: '¡Falta tu modo de juego!' },
-      { field: pageData.discDate, message: '¡Falta tu fecha de unión!' },
-    ];
-  } else if (isBaseRenewalPage()) {
-    requiredFields = [
-      { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.censusrenewal, message: '¿Qué quieres copiar? Rellena los datos' },
-    ];
-  } else if (isCorvettePage()) {
-    requiredFields = [
-      { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.platform, message: '¡Falta tu plataforma!' },
-      { field: pageData.mode, message: '¡Falta tu modo de juego!' },
-    ];
-  } else {
-    requiredFields = [
-      { field: pageData.outputContent, message: 'ERROR 404' },
-      { field: pageData.name, message: '¡Falta el nombre!' },
-      { field: pageData.glyphs, message: '¡Faltan los Glifos!' },
-      { field: pageData.regionData.region, message: '¡Glifos Incorrectos!' },
-    ];
-  }
-
-  for (const { field, message } of requiredFields) {
-    if (!field) {
-      showError(message);
-      return;
-    }
-  }
+  if (!checkValid()) return;
 
   const blob = new Blob([pageData.outputContent], { type: 'text/plain' });
   const url = URL.createObjectURL(blob);
@@ -335,38 +194,22 @@ function downloadCode() {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 
-  toast.success('¡Descargado con éxito!', {
-    position: POSITION.BOTTOM_RIGHT,
-  });
+  toast.success('¡Descargado con éxito!', { position: POSITION.BOTTOM_RIGHT });
 }
 
 function uploadFiles() {
-  if (!isBaseRenewalPage()) {
-    const requiredFields = [
-      { field: pageData.image, message: '¿Que quieres subir sin foto principal?' },
-      // { field: pageData.galleryFiles, message: '¿Que quieres subir sin fotos en la galería?' },
-    ];
-
-    for (const { field, message } of requiredFields) {
-      if (!field) {
-        showError(message);
-        return;
-      }
-    }
+  if (!isBaseRenewalPage && !pageData.image) {
+    showError('¿Qué quieres subir sin foto principal?');
+    return;
   }
 
-  toast.success('¡Vamos!', {
-    position: POSITION.BOTTOM_RIGHT,
-  });
-
-  window.open(`https://nomanssky.fandom.com/wiki/Special:Upload?multiple=true`, '_blank');
+  toast.success('¡Vamos!', { position: POSITION.BOTTOM_RIGHT });
+  window.open('https://nomanssky.fandom.com/wiki/Special:Upload?multiple=true', '_blank');
 }
 
 function confirmReset() {
   pageData.resetStore();
-  toast.success('¡Restablecido con éxito!', {
-    position: POSITION.BOTTOM_RIGHT,
-  });
+  toast.success('¡Restablecido con éxito!', { position: POSITION.BOTTOM_RIGHT });
 }
 
 function showConfirmDialog() {
@@ -375,13 +218,9 @@ function showConfirmDialog() {
     header: 'Confirmar Restablecer',
     icon: 'pi pi-exclamation-triangle',
     accept: confirmReset,
-    acceptProps: {
-      class: 'p-button-danger',
-    },
+    acceptProps: { class: 'p-button-danger' },
     reject: () => {
-      toast.info('Restablecimiento cancelado.', {
-        position: POSITION.BOTTOM_RIGHT,
-      });
+      toast.info('Restablecimiento cancelado.', { position: POSITION.BOTTOM_RIGHT });
     },
   });
 }
@@ -390,7 +229,7 @@ function showConfirmDialog() {
 <template>
   <Toolbar
     class="is-borderless is-radiusless"
-    v-if="!isFAQPage()"
+    v-if="!isFAQPage"
   >
     <template #center>
       <div class="is-gap-1 is-flex is-justify-content-center footer-toolbar">
@@ -400,7 +239,7 @@ function showConfirmDialog() {
         />
 
         <Button
-          v-if="!isBaseRenewalPage()"
+          v-if="!isBaseRenewalPage"
           as="a"
           label="Crear"
           severity="warn"
@@ -408,12 +247,13 @@ function showConfirmDialog() {
         />
 
         <Button
-          v-if="!isBaseRenewalPage()"
+          v-if="!isBaseRenewalPage"
           label="Descargar Código"
           @click="downloadCode"
         />
+
         <Button
-          v-if="!isBaseRenewalPage()"
+          v-if="!isBaseRenewalPage"
           label="Subir Archivos"
           @click="uploadFiles"
         />
@@ -438,10 +278,4 @@ function showConfirmDialog() {
   justify-content: center;
   gap: 10px;
 }
-
-/* .footer-toolbar > .p-button {
-  flex: 1 1 20%;
-  max-width: 30%;
-  max-height: 10%;
-} */
 </style>

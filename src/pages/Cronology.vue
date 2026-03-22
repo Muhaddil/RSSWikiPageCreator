@@ -75,6 +75,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.95',
+    date: '22 / 03 / 2026',
+    description:
+      'Se ha rehecho el sistema de validación de datos requeridos para poder configurarlo más fácilmente en cada apartado de la web.',
+    category: 'Web',
+  },
+  {
     title: '1.0.94',
     date: '22 / 03 / 2026',
     description: 'Se han actualizado diversas dependencias de la web.',
