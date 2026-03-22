@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import MainToolbar from '@/components/MainToolbar.vue';
-import { componentName } from '@/variables/route';
+import { componentName, route } from '@/variables/route';
 import { defineAsyncComponent, onMounted, type Component } from 'vue';
 import { usePageDataStore } from './stores/pageData';
 import FooterToolbar from './components/FooterToolbar.vue';
 import { ref } from 'vue';
 import packageJson from '../package.json';
 import { useSEO } from '@/composables/useSEO';
-import { route } from '@/variables/route';
+import { Analytics } from "@vercel/analytics/vue"
 
 const pageData = usePageDataStore();
 
@@ -330,6 +330,7 @@ function reloadPage() {
   >
     <FooterToolbar />
   </footer>
+  <Analytics/>
 </template>
 
 <style scoped>

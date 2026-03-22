@@ -45,6 +45,7 @@
     "@primevue/forms": "^4.5.4",
     "@primevue/icons": "^4.5.4",
     "@unhead/vue": "^2.1.12",
+    "@vercel/analytics": "^2.0.1",
     "animate.css": "^4.1.1",
     "bulma": "^1.0.4",
     "html2canvas-pro": "^2.0.2",
