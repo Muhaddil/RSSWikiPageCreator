@@ -56,7 +56,7 @@
     "primevue": "^4.5.4",
     "tesseract.js": "^7.0.0",
     "vue-draggable-plus": "^0.6.1",
-    "vue-router": "^5.0.4"
+    "vue-router": "^4.6.4"
   },
   "overrides": {
     "yauzl": "^3.2.1",
