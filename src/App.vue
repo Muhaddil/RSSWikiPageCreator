@@ -7,7 +7,6 @@ import FooterToolbar from './components/FooterToolbar.vue';
 import { ref } from 'vue';
 import packageJson from '../package.json';
 import { useSEO } from '@/composables/useSEO';
-import { Analytics } from "@vercel/analytics/vue"
 
 const pageData = usePageDataStore();
 
@@ -330,7 +329,6 @@ function reloadPage() {
   >
     <FooterToolbar />
   </footer>
-  <Analytics/>
 </template>
 
 <style scoped>
