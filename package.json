@@ -29,7 +29,7 @@
     "stylelint": "^17.6.0",
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^6.0.2",
-    "vite": "^8.0.3",
+    "vite": "^8.0.5",
     "vite-plugin-lightningcss": "^0.0.5",
     "vitest": "^4.1.2",
     "vue": "^3.5.31",
