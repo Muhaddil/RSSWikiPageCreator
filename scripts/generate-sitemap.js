@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { execSync } from 'node:child_process';
 
 const CONFIG = {
   baseUrl: 'https://muhaddil.github.io/RSSWikiPageCreator/',
@@ -51,6 +52,29 @@ function getPriorityAndFreq(fileName) {
   return CONFIG.defaultPageConfig;
 }
 
+function getFileLastModifiedDate(filePath) {
+  try {
+    const stdout = execSync(`git log -1 --format=%cs -- "${filePath}"`, {
+      encoding: 'utf8',
+      stdio: ['pipe', 'pipe', 'ignore'],
+    }).trim();
+    if (stdout && /^\d{4}-\d{2}-\d{2}$/.test(stdout)) {
+      return stdout;
+    }
+  } catch (error) {
+    // Fallback
+  }
+
+  try {
+    const stats = fs.statSync(filePath);
+    return stats.mtime.toISOString().split('T')[0];
+  } catch (error) {
+    // Fallback
+  }
+
+  return new Date().toISOString().split('T')[0];
+}
+
 function generateSitemap() {
   try {
     const rootDir = path.resolve('.');
@@ -68,8 +92,6 @@ function generateSitemap() {
       htmlFiles.unshift('index.html');
     }
 
-    const today = new Date().toISOString().split('T')[0];
-
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
     xml += '<?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>\n';
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
@@ -77,10 +99,11 @@ function generateSitemap() {
     for (const file of htmlFiles) {
       const urlPath = file === 'index.html' ? '' : file;
       const { priority, changefreq } = getPriorityAndFreq(file);
+      const lastmod = getFileLastModifiedDate(file);
 
       xml += '  <url>\n';
       xml += `    <loc>${CONFIG.baseUrl}${urlPath}</loc>\n`;
-      xml += `    <lastmod>${today}</lastmod>\n`;
+      xml += `    <lastmod>${lastmod}</lastmod>\n`;
       xml += `    <changefreq>${changefreq}</changefreq>\n`;
       xml += `    <priority>${priority}</priority>\n`;
       xml += '  </url>\n';
