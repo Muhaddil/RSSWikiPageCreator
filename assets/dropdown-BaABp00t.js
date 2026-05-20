@@ -1,1 +1,0 @@
-import{f as e}from"./main-C1YiLsg3.js";var t={name:`Dropdown`,extends:e,mounted:function(){console.warn(`Deprecated since v4. Use Select component instead.`)}};export{t};
