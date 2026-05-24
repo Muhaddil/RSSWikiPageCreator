@@ -487,6 +487,22 @@ onUnmounted(() => {
       </div>
     </section>
 
+    <section class="credits-section">
+      <div class="credits-card animate-on-scroll">
+        <!-- <h3>Créditos</h3> -->
+        <p>
+          Iconos diseñados por
+          <strong
+            ><a
+              href="https://bit0esp.duckdns.org/quien-soy.html"
+              target="_blank"
+              >Bit_0</a
+            ></strong
+          >
+        </p>
+      </div>
+    </section>
+
     <section
       class="tools-section"
       data-section="tools"
@@ -1696,5 +1712,22 @@ onUnmounted(() => {
     height: 44px;
     font-size: 1.125rem;
   }
+}
+
+.credits-section {
+  max-width: 800px;
+  margin: -10rem auto 4rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.credits-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  color: var(--text-color-secondary);
+  font-size: 0.95rem;
 }
 </style>

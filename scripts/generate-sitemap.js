@@ -4,20 +4,13 @@ import { execSync } from 'node:child_process';
 
 const CONFIG = {
   baseUrl: 'https://muhaddil.github.io/RSSWikiPageCreator/',
-
   exclude: ['indextest.html'],
-
   pages: {
-    // Home Page
     'index.html': { priority: '1.0', changefreq: 'weekly' },
-
-    // Core Tools
     'census.html': { priority: '0.9', changefreq: 'weekly' },
     'baserenewal.html': { priority: '0.9', changefreq: 'weekly' },
     'faq.html': { priority: '0.9', changefreq: 'weekly' },
     'glyphgenerator.html': { priority: '0.9', changefreq: 'weekly' },
-
-    // Discovery Creators
     'base.html': { priority: '0.8', changefreq: 'weekly' },
     'basecensusno.html': { priority: '0.8', changefreq: 'weekly' },
     'biofrig.html': { priority: '0.8', changefreq: 'weekly' },
@@ -35,7 +28,6 @@ const CONFIG = {
     'starship.html': { priority: '0.8', changefreq: 'weekly' },
     'system.html': { priority: '0.8', changefreq: 'weekly' },
   },
-
   defaultPageConfig: {
     priority: '0.7',
     changefreq: 'weekly',
@@ -45,6 +37,8 @@ const CONFIG = {
 const PUBLIC_DIR = path.resolve('public');
 const SITEMAP_PATH = path.join(PUBLIC_DIR, 'sitemap.xml');
 
+let pageSectionsLatestDate = null;
+
 function getPriorityAndFreq(fileName) {
   if (CONFIG.pages[fileName]) {
     return CONFIG.pages[fileName];
@@ -52,37 +46,166 @@ function getPriorityAndFreq(fileName) {
   return CONFIG.defaultPageConfig;
 }
 
-function getFileLastModifiedDate(filePath) {
+function getLatestDateFromGit(filePath) {
   try {
-    const stdout = execSync(`git log -1 --format=%cs -- "${filePath}"`, {
+    const relativePath = path.relative(process.cwd(), filePath);
+    const stdout = execSync(`git log -1 --format=%cs -- "${relativePath}"`, {
       encoding: 'utf8',
+      cwd: process.cwd(),
       stdio: ['pipe', 'pipe', 'ignore'],
     }).trim();
+
     if (stdout && /^\d{4}-\d{2}-\d{2}$/.test(stdout)) {
-      return stdout;
+      return new Date(stdout);
     }
   } catch (error) {
-    // Fallback
+    // Ignorar
   }
 
+  return null;
+}
+
+function getLatestDateFromStats(filePath) {
   try {
     const stats = fs.statSync(filePath);
-    return stats.mtime.toISOString().split('T')[0];
+    return stats.mtime;
   } catch (error) {
-    // Fallback
+    return null;
+  }
+}
+
+function getAllVueFilesRecursive(dirPath) {
+  let vueFiles = [];
+
+  try {
+    const files = fs.readdirSync(dirPath, { withFileTypes: true });
+
+    for (const file of files) {
+      const fullPath = path.join(dirPath, file.name);
+
+      if (file.isDirectory()) {
+        vueFiles = vueFiles.concat(getAllVueFilesRecursive(fullPath));
+      } else if (file.name.endsWith('.vue')) {
+        vueFiles.push(fullPath);
+      }
+    }
+  } catch (error) {
+    console.warn(`[Recursión] Error al leer ${dirPath}: ${error.message}`);
   }
 
-  return new Date().toISOString().split('T')[0];
+  return vueFiles;
+}
+
+function calculatePageSectionsLatestDate() {
+  console.log('[Cache] Calculando fecha más reciente de pageSections...');
+  let latestDate = new Date(0);
+
+  const pageSectionsDir = path.join(process.cwd(), 'src/pageSections');
+
+  if (fs.existsSync(pageSectionsDir)) {
+    const allVueFiles = getAllVueFilesRecursive(pageSectionsDir);
+    console.log(`[Cache] Revisando ${allVueFiles.length} archivos...`);
+
+    for (const filePath of allVueFiles) {
+      const gitDate = getLatestDateFromGit(filePath);
+      const statsDate = getLatestDateFromStats(filePath);
+
+      if (gitDate && gitDate > latestDate) latestDate = gitDate;
+      if (statsDate && statsDate > latestDate) latestDate = statsDate;
+    }
+  }
+
+  const finalDate = latestDate.getTime() === 0 ? new Date() : latestDate;
+  console.log(`[Cache] Fecha más reciente: ${finalDate.toISOString().split('T')[0]}\n`);
+
+  return finalDate;
+}
+
+function getFileLastModifiedDate(htmlFileName) {
+  console.log(`[Procesando] ${htmlFileName}`);
+  let latestDate = new Date(0);
+
+  const vueSourceFile = {
+    'index.html': 'src/pages/Home.vue',
+    'census.html': 'src/pages/Census.vue',
+    'baserenewal.html': 'src/pages/BaseRenewal.vue',
+    'faq.html': 'src/pages/FAQ.vue',
+    'glyphgenerator.html': 'src/pages/GlyphGenerator.vue',
+    'base.html': 'src/pages/Base.vue',
+    'basecensusno.html': 'src/pages/BaseCensusNo.vue',
+    'biofrig.html': 'src/pages/Biofrig.vue',
+    'corvette.html': 'src/pages/Corvette.vue',
+    'derelict.html': 'src/pages/Derelict.vue',
+    'fauna.html': 'src/pages/Fauna.vue',
+    'flora.html': 'src/pages/Flora.vue',
+    'mineral.html': 'src/pages/Mineral.vue',
+    'moon.html': 'src/pages/Moon.vue',
+    'multitool.html': 'src/pages/Multitool.vue',
+    'planet.html': 'src/pages/Planet.vue',
+    'racetrack.html': 'src/pages/Racetrack.vue',
+    'sandworm.html': 'src/pages/Sandworm.vue',
+    'settlement.html': 'src/pages/Settlement.vue',
+    'starship.html': 'src/pages/Starship.vue',
+    'system.html': 'src/pages/System.vue',
+  };
+
+  // 1. Vue principal
+  const vueSource = vueSourceFile[htmlFileName];
+  if (vueSource) {
+    const vuePath = path.join(process.cwd(), vueSource);
+
+    const gitDate = getLatestDateFromGit(vuePath);
+    const statsDate = getLatestDateFromStats(vuePath);
+
+    if (gitDate && gitDate > latestDate) latestDate = gitDate;
+    if (statsDate && statsDate > latestDate) latestDate = statsDate;
+  }
+
+  // 2. CACHÉ pageSections
+  if (pageSectionsLatestDate && pageSectionsLatestDate > latestDate) {
+    latestDate = pageSectionsLatestDate;
+  }
+
+  // 3. Fallback
+  if (latestDate.getTime() === 0) {
+    try {
+      const htmlPath = path.join(process.cwd(), htmlFileName);
+      const statsDate = getLatestDateFromStats(htmlPath);
+      if (statsDate) latestDate = statsDate;
+    } catch (error) {
+      // Ignorar
+    }
+  }
+
+  // 4. 
+  if (latestDate.getTime() === 0) {
+    latestDate = new Date();
+  }
+
+  const finalDate = latestDate.toISOString().split('T')[0];
+  console.log(`[Resultado] ${htmlFileName} → ${finalDate}\n`);
+
+  return finalDate;
 }
 
 function generateSitemap() {
+  console.log('======================================');
+  console.log('[Inicio] Generando sitemap...');
+  console.log('======================================\n');
+
   try {
-    const rootDir = path.resolve('.');
+    pageSectionsLatestDate = calculatePageSectionsLatestDate();
+
+    console.log('[Leyendo] Archivos del root...');
+    const rootDir = process.cwd();
     const files = fs.readdirSync(rootDir);
+    console.log(`[Encontrados] ${files.length} archivos\n`);
 
     const htmlFiles = files.filter((file) => {
       return file.endsWith('.html') && !CONFIG.exclude.includes(file);
     });
+
+    console.log(`[Filtrados] ${htmlFiles.length} archivos HTML\n`);
 
     htmlFiles.sort();
 
@@ -111,18 +234,24 @@ function generateSitemap() {
 
     xml += '</urlset>\n';
 
+    console.log('[Escribiendo] Archivo sitemap.xml...');
     if (!fs.existsSync(PUBLIC_DIR)) {
       fs.mkdirSync(PUBLIC_DIR, { recursive: true });
     }
 
     fs.writeFileSync(SITEMAP_PATH, xml, 'utf8');
-    console.log(
-      `[Sitemap] Sitemap auto-generated successfully at public/sitemap.xml with ${htmlFiles.length} pages!`
-    );
+
+    console.log('\n======================================');
+    console.log(`✓ Sitemap generado exitosamente!`);
+    console.log(`✓ Ubicación: ${SITEMAP_PATH}`);
+    console.log(`✓ Total de páginas: ${htmlFiles.length}`);
+    console.log('======================================');
   } catch (error) {
-    console.error('[Sitemap] Failed to generate sitemap:', error);
+    console.error('\n❌ Error al generar sitemap:');
+    console.error(error);
     process.exit(1);
   }
 }
 
+console.log('Iniciando proceso...\n');
 generateSitemap();

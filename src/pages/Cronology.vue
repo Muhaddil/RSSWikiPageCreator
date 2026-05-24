@@ -75,6 +75,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.0.958',
+    date: '24 / 05 / 2026',
+    description:
+      'Se ha añadido un nuevo apartado para mostrar los créditos de los logos de la página principal y se ha mejorado el script que genera el sitemap.',
+    category: 'Web',
+  },
+  {
     title: '1.0.957',
     date: '23 / 05 / 2026',
     description:

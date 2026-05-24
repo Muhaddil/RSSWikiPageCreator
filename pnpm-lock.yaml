@@ -36,8 +36,8 @@ importers:
         specifier: ^1.0.4
         version: 1.0.4
       html2canvas-pro:
-        specifier: ^2.0.2
-        version: 2.0.2
+        specifier: ^2.0.3
+        version: 2.0.3
       md5-hex:
         specifier: ^5.0.0
         version: 5.0.0
@@ -1723,8 +1723,8 @@ packages:
     resolution: {integrity: sha512-n6l5uca7/y5joxZ3LUePhzmBFUJ+U2YWzhMa8XUTecSeSlQiZdF5XAd/Q3/WUl0VsXgUwWi8I7CNIwdI5WN1SQ==}
     engines: {node: '>=20.10'}
 
-  html2canvas-pro@2.0.2:
-    resolution: {integrity: sha512-9G/t0XgCZWonLwL0JwI7su6NdbOPUY7Ur4Ihpp8+XMaW9ibA2nDXF181Jr6tm94k8lX6sthpaXB3XqEnsMd5Cw==}
+  html2canvas-pro@2.0.3:
+    resolution: {integrity: sha512-lCo9YarLwEonAtH7mrh0yW0LKgpPTZFmHiqSJY/ftpBIcFhzry8LT+nBWRjbS2lgDPjS8s3PKpVRds6W3iXgcQ==}
     engines: {node: '>=16.0.0'}
 
   htmlfy@0.8.1:
@@ -4600,7 +4600,7 @@ snapshots:
 
   html-tags@5.1.0: {}
 
-  html2canvas-pro@2.0.2:
+  html2canvas-pro@2.0.3:
     dependencies:
       css-line-break: 2.1.0
       text-segmentation: 1.0.3
