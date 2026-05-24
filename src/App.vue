@@ -309,13 +309,12 @@ function reloadPage() {
       <div class="footer-content">
         <i class="pi pi-heart-fill heart-icon"></i>
         <div class="footer-text">
-          <span class="footer-title">Creado con pasión y dedicación por</span>
+          <span class="footer-title">Creado con pasión y dedicación por la</span>
           <a
-            href="https://muhaddil.github.io/"
+            href="https://nomanssky.fandom.com/wiki/Royal_Space_Society"
             target="_blank"
-            rel="noopener noreferrer"
           >
-            <span class="author-name">Muhaddil</span>
+            <span class="author-name">Royal Space Society</span>
           </a>
         </div>
         <i class="pi pi-star-fill star-icon"></i>
