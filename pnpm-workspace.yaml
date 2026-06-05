@@ -3,5 +3,4 @@ allowBuilds:
   edgedriver: true
   geckodriver: true
   tesseract.js: true
-minimumReleaseAgeExclude:
 
