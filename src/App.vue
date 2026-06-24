@@ -221,7 +221,7 @@ function reloadPage() {
 
     <header class="rss-header">
       <div class="header-left">
-        <span class="system-id">RSS // WCORE OS V{{currentVersion}}</span>
+        <span class="system-id">RSS // WCORE OS V{{ currentVersion }}</span>
       </div>
       <div class="header-center">
         <MainToolbar />
@@ -322,14 +322,14 @@ function reloadPage() {
             rel="noopener noreferrer"
             class="update-changelog"
           >
-            VIEW CHANGES
+            VER CAMBIOS
           </a>
         </div>
         <button
           class="update-btn"
           @click="reloadPage"
         >
-          <span>UPDATE</span>
+          <span>ACTUALIZAR</span>
           <i class="pi pi-arrow-right"></i>
         </button>
       </div>

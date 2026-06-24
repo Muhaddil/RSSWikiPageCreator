@@ -328,7 +328,6 @@ onMounted(() => {
       scrollObserver.observe(el);
     });
   }, 100);
-
 });
 
 const hoverTimers = new Map<string, NodeJS.Timeout>();
