@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Dialog from 'primevue/dialog';
 import InputNumber from 'primevue/inputnumber';
-import ThemeSwitch from '@/components/ThemeSwitch.vue';
 import { getRegionImageUrls } from '@/api/api';
 import Button from 'primevue/button';
+import ScrollToTop from '@/components/ScrollToTop.vue';
 
 interface NewsItem {
   title: string;
@@ -35,7 +35,6 @@ const error = ref<string | null>(null);
 const screenWidth = ref(window.innerWidth);
 const maxUpdates = ref(10);
 const allNewsItems = ref<NewsItem[]>([]);
-const showScrollButton = ref<boolean>(false);
 const showFixesDialog = ref<{ [version: string]: boolean }>({});
 
 const gridColumns = computed(() => (screenWidth.value < 768 ? 1 : screenWidth.value < 1200 ? 2 : 3));
@@ -237,25 +236,6 @@ const lastUpdateDate = computed(() => {
   return 'N/A';
 });
 
-const handleScroll = () => {
-  showScrollButton.value = window.scrollY > 300;
-};
-
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
-};
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
-
 const openFixesDialog = (version: string) => {
   showFixesDialog.value[version] = true;
 };
@@ -291,9 +271,6 @@ const closeFixesDialog = (version: string) => {
               </div>
             </div>
             <p class="text-stellar-gray mt-2">Últimas actualizaciones del juego desde la wiki oficial</p>
-            <p class="text-stellar-gray mt-2">
-              <ThemeSwitch style="margin-right: 2rem" />
-            </p>
           </div>
         </div>
 
@@ -502,59 +479,54 @@ const closeFixesDialog = (version: string) => {
     </template>
   </Card>
 
-  <transition name="fade">
-    <button
-      v-if="showScrollButton"
-      @click="scrollToTop"
-      class="scroll-top-button"
-    >
-      <i class="pi pi-arrow-up"></i>
-    </button>
-  </transition>
+  <ScrollToTop />
 </template>
 
 <style scoped>
 .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --background-primary: #d3d3d3;
-  --background-secondary: #f1f1f1;
-  --border-color: rgb(99 102 241 / 15%);
-  --hover-effect: rgb(99 102 241 / 10%);
-  --tag-background: rgb(79 70 229 / 10%);
-  --tag-border: #4f46e5;
-  --tag-text: #4f46e5;
-  --space-dark: #c3d4ff;
-  --space-light: #e2e3e4;
-  --fix-bg: rgb(79 70 229 / 5%);
-  --fix-border: rgb(79 70 229 / 20%);
-  --fix-bullet: #4f46e5;
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --space-dark: #050505;
+  --space-light: #0a0a0a;
+  --fix-bg: rgba(255, 26, 26, 0.05);
+  --fix-border: rgba(255, 26, 26, 0.2);
+  --fix-bullet: #ff1a1a;
 }
 
 .theme-dark .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --secondary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --background-primary: #0a0e1a;
-  --background-secondary: #1a1f2d;
-  --border-color: rgb(103 232 249 / 15%);
-  --hover-effect: rgb(103 232 249 / 20%);
-  --tag-background: rgb(103 232 249 / 10%);
-  --tag-border: #67e8f9;
-  --tag-text: #67e8f9;
-  --space-dark: #0f172a;
-  --space-light: #1e293b;
-  --fix-bg: rgb(103 232 249 / 5%);
-  --fix-border: rgb(103 232 249 / 20%);
-  --fix-bullet: #67e8f9;
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --space-dark: #050505;
+  --space-light: #0a0a0a;
+  --fix-bg: rgba(255, 26, 26, 0.05);
+  --fix-border: rgba(255, 26, 26, 0.2);
+  --fix-bullet: #ff1a1a;
 }
 
 .galactic-card {
   background: var(--background-primary);
   border: 1px solid var(--border-color);
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .galactic-title {
@@ -884,30 +856,6 @@ const closeFixesDialog = (version: string) => {
   .fixes-list-container {
     gap: 0.375rem;
   }
-}
-
-.scroll-top-button {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--primary-gradient);
-  color: white;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgb(0 0 0 / 20%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  transition: all 0.3s ease;
-}
-
-.scroll-top-button:hover {
-  transform: translateY(-5px) scale(1.1);
-  box-shadow: 0 6px 25px rgb(0 0 0 / 30%);
 }
 
 .fade-enter-active,

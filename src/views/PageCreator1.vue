@@ -76,15 +76,15 @@ onUnmounted(() => {
 
 <style scoped>
 .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --background-primary: #fff;
-  --background-secondary: #f8fafc;
-  --border-color: rgb(99 102 241 / 15%);
-  --hover-effect: rgb(99 102 241 / 10%);
-  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%);
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
@@ -95,12 +95,12 @@ onUnmounted(() => {
 }
 
 .theme-dark .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --background-primary: #0a0e1a;
-  --background-secondary: #1a1f2d;
-  --border-color: rgb(103 232 249 / 15%);
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
 }
 
 .grid-container {

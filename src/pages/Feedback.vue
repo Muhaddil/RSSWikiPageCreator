@@ -8,7 +8,6 @@ import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import Dropdown from 'primevue/dropdown';
 import { useToast, POSITION } from 'vue-toastification';
-import ThemeSwitch from '@/components/ThemeSwitch.vue';
 import Rating from 'primevue/rating';
 
 const toast = useToast();
@@ -371,7 +370,7 @@ onUnmounted(() => {
                 </transition>
               </div>
             </div>
-            <p class="text-stellar-gray mt-2"><ThemeSwitch style="margin-right: 2rem" />{{ t.subtitle }}</p>
+            <p class="text-stellar-gray mt-2">{{ t.subtitle }}</p>
             <br />
             <div class="flex items-center gap-2 language-toggle">
               <Checkbox
@@ -500,33 +499,33 @@ onUnmounted(() => {
 
 <style scoped>
 .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --background-primary: #d3d3d3;
-  --background-secondary: #f1f1f1;
-  --border-color: rgb(99 102 241 / 15%);
-  --hover-effect: rgb(99 102 241 / 10%);
-  --tag-background: rgb(79 70 229 / 10%);
-  --tag-border: #4f46e5;
-  --tag-text: #4f46e5;
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
   --success-color: #10b981;
   --cooldown-color: #f59e0b;
 }
 
 .theme-dark .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --secondary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --background-primary: #0a0e1a;
-  --background-secondary: #1a1f2d;
-  --border-color: rgb(103 232 249 / 15%);
-  --hover-effect: rgb(103 232 249 / 20%);
-  --tag-background: rgb(103 232 249 / 10%);
-  --tag-border: #67e8f9;
-  --tag-text: #67e8f9;
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
   --success-color: #10b981;
   --cooldown-color: #fbbf24;
 }
@@ -534,6 +533,9 @@ onUnmounted(() => {
 .galactic-card {
   background: var(--background-primary);
   border: 1px solid var(--border-color);
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .galactic-title {
@@ -641,15 +643,15 @@ onUnmounted(() => {
 
 @keyframes checkbox-glow {
   0% {
-    box-shadow: 0 0 0 0 rgb(103 232 249 / 50%);
+    box-shadow: 0 0 0 0 rgba(255, 26, 26, 0.5);
   }
 
   50% {
-    box-shadow: 0 0 10px 3px rgb(103 232 249 / 50%);
+    box-shadow: 0 0 10px 3px rgba(255, 26, 26, 0.5);
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgb(103 232 249 / 0%);
+    box-shadow: 0 0 0 0 rgba(255, 26, 26, 0);
   }
 }
 
@@ -665,12 +667,12 @@ onUnmounted(() => {
 
   25% {
     transform: scale(1.005);
-    background: linear-gradient(45deg, var(--background-primary) 0%, rgb(103 232 249 / 10%) 100%);
+    background: linear-gradient(45deg, var(--background-primary) 0%, rgba(255, 26, 26, 0.1) 100%);
   }
 
   50% {
     transform: scale(1);
-    box-shadow: 0 0 30px rgb(103 232 249 / 20%);
+    box-shadow: 0 0 30px rgba(255, 26, 26, 0.2);
   }
 
   100% {
@@ -750,7 +752,7 @@ onUnmounted(() => {
 .form-input:focus,
 .form-textarea:focus {
   border-color: var(--tag-border);
-  box-shadow: 0 0 0 2px rgb(79 70 229 / 20%);
+  box-shadow: 0 0 0 2px rgba(255, 26, 26, 0.2);
   outline: none;
 }
 
@@ -803,7 +805,7 @@ onUnmounted(() => {
 
 .submit-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgb(79 70 229 / 30%);
+  box-shadow: 0 5px 15px rgba(255, 26, 26, 0.3);
 }
 
 .submit-button:active {

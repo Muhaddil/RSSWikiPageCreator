@@ -801,35 +801,35 @@ function translateRegionName(name: string): string {
 
 <style scoped>
 .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --background-primary: #f8fafc;
-  --background-secondary: #e2e8f0;
-  --background-terciary: #cbd5e1;
-  --border-color: rgb(99 102 241 / 15%);
-  --hover-effect: rgb(99 102 241 / 10%);
-  --tag-background: rgb(79 70 229 / 10%);
-  --tag-border: #4f46e5;
-  --tag-text: #4f46e5;
-  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%);
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --background-terciary: #151515;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .theme-dark .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --secondary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --background-primary: #0f172a;
-  --background-secondary: #1e293b;
-  --background-terciary: #334155;
-  --border-color: rgb(103 232 249 / 15%);
-  --hover-effect: rgb(103 232 249 / 20%);
-  --tag-background: rgb(103 232 249 / 10%);
-  --tag-border: #67e8f9;
-  --tag-text: #67e8f9;
-  --card-shadow: 0 4px 6px -1px rgb(255 255 255 / 10%);
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --background-terciary: #151515;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .galactic-card {
@@ -838,6 +838,8 @@ function translateRegionName(name: string): string {
   margin: 1rem auto;
   border-radius: 12px;
   box-shadow: var(--card-shadow);
+  max-width: 1440px;
+  width: 100%;
 }
 
 .space-page-container {
@@ -863,7 +865,7 @@ function translateRegionName(name: string): string {
 }
 
 .loading-panel {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #ff1a1a 0%, #990000 100%);
   border: 2px solid var(--tag-border);
   animation: pulse-glow 2s ease-in-out infinite;
 }
@@ -871,10 +873,10 @@ function translateRegionName(name: string): string {
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.3);
   }
   50% {
-    box-shadow: 0 0 30px rgba(79, 70, 229, 0.6);
+    box-shadow: 0 0 30px rgba(255, 26, 26, 0.6);
   }
 }
 
@@ -1109,7 +1111,7 @@ function translateRegionName(name: string): string {
   background: var(--background-terciary) !important;
   border-radius: 12px !important;
   overflow: hidden;
-  box-shadow: 0 0 20px rgb(79 70 229 / 10%);
+  box-shadow: 0 0 20px rgba(255, 26, 26, 0.1);
 }
 
 .galaxy-header {
@@ -1117,7 +1119,7 @@ function translateRegionName(name: string): string {
   align-items: center;
   gap: 1.5rem;
   padding: 1.5rem;
-  background: linear-gradient(45deg, rgb(79 70 229 / 5%), transparent);
+  background: linear-gradient(45deg, rgba(255, 26, 26, 0.05), transparent);
 }
 
 .galaxy-image {

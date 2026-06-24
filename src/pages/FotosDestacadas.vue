@@ -153,10 +153,10 @@ window.addEventListener('resize', () => {
             <h2
               class="text-2xl font-bold"
               style="
-                background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
+                background: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
-                text-shadow: 0 0 15px rgb(103 232 249 / 30%);
+                text-shadow: 0 0 15px rgba(255, 26, 26, 0.3);
               "
             >
               Certificación Astrofotográfica
@@ -212,31 +212,33 @@ window.addEventListener('resize', () => {
 
 <style scoped>
 .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --background-primary: #d3d3d3;
-  --background-secondary: #f1f1f1;
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --border-color: rgb(99 102 241 / 20%);
-  --accent-color: #4f46e5;
-  --hover-effect: rgb(79 70 229 / 10%);
-  --card-shadow: 0 0 20px rgb(79 70 229 / 10%);
-  --panel-background: rgb(255 255 255 / 90%);
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --accent-color: #ff1a1a;
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --card-hover-shadow: 0 10px 20px rgba(255, 26, 26, 0.15);
+  --panel-background: rgb(10 10 10 / 90%);
 }
 
 .theme-dark .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --secondary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --background-primary: #0a0e1a;
-  --background-secondary: #1a1f2d;
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --border-color: rgb(103 232 249 / 20%);
-  --accent-color: #67e8f9;
-  --hover-effect: rgb(103 232 249 / 30%);
-  --card-shadow: 0 0 20px rgb(103 232 249 / 30%);
-  --panel-background: rgb(16 23 42 / 80%);
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --accent-color: #ff1a1a;
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --card-hover-shadow: 0 10px 20px rgba(255, 26, 26, 0.15);
+  --panel-background: rgb(10 10 10 / 90%);
 }
 
 .space-page-container {
@@ -284,6 +286,9 @@ window.addEventListener('resize', () => {
 .galactic-card {
   background: var(--background-primary);
   border: 1px solid var(--border-color);
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .galactic-title {
@@ -316,12 +321,12 @@ window.addEventListener('resize', () => {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: rgb(103 232 249 / 40%);
+  background-color: rgba(255, 26, 26, 0.4);
   transition: all 0.3s ease;
 }
 
 .custom-carousel :deep(.p-carousel-indicator.p-highlight button) {
-  background-color: #67e8f9;
+  background-color: #ff1a1a;
   transform: scale(1.3);
 }
 
@@ -338,12 +343,12 @@ window.addEventListener('resize', () => {
 }
 
 .custom-carousel :deep(.p-carousel-indicator button) {
-  background-color: #67e8f9;
+  background-color: #ff1a1a;
 }
 
 .custom-tag {
-  background-color: rgb(103 232 249 / 10%) !important;
-  border: 1px solid #67e8f9 !important;
+  background-color: rgba(255, 26, 26, 0.1) !important;
+  border: 1px solid #ff1a1a !important;
 }
 
 .image-container {
@@ -443,7 +448,7 @@ window.addEventListener('resize', () => {
 .galactic-title {
   font-size: 2rem;
   line-height: 1.2;
-  background: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
+  background: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

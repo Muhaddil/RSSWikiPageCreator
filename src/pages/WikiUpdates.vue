@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
-import ThemeSwitch from '@/components/ThemeSwitch.vue';
+import ScrollToTop from '@/components/ScrollToTop.vue';
 
 interface WikiUpdate {
   title: string;
@@ -24,7 +24,6 @@ const screenWidth = ref(window.innerWidth);
 const maxResults = ref<number>(500);
 const searchUser = ref<string>('');
 const useEnglishWiki = ref(false);
-const showScrollButton = ref<boolean>(false);
 
 let isChromium = navigator.userAgent.includes('Chrome');
 
@@ -129,25 +128,6 @@ const formatDateSpanish = (timestamp: string) => {
     second: '2-digit',
   });
 };
-
-const handleScroll = () => {
-  showScrollButton.value = window.scrollY > 300;
-};
-
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
-};
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
 </script>
 
 <template>
@@ -179,7 +159,7 @@ onUnmounted(() => {
               Últimos cambios en la wiki {{ useEnglishWiki ? 'inglesa' : 'española' }} de No Man's Sky
             </p>
           </div>
-          <p class="text-stellar-gray mt-2"><ThemeSwitch style="margin-right: 2rem" /></p>
+          <p class="text-stellar-gray mt-2"></p>
         </div>
 
         <div class="filter-container mb-6 p-4 bg-space-dark rounded-lg">
@@ -321,53 +301,48 @@ onUnmounted(() => {
     </template>
   </Card>
 
-  <transition name="fade">
-    <button
-      v-if="showScrollButton"
-      @click="scrollToTop"
-      class="scroll-top-button"
-    >
-      <i class="pi pi-arrow-up"></i>
-    </button>
-  </transition>
+  <ScrollToTop />
 </template>
 
 <style scoped>
 .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --background-primary: #d3d3d3;
-  --background-secondary: #f1f1f1;
-  --border-color: rgb(99 102 241 / 15%);
-  --hover-effect: rgb(99 102 241 / 10%);
-  --tag-background: rgb(79 70 229 / 10%);
-  --tag-border: #4f46e5;
-  --tag-text: #4f46e5;
-  --space-dark: #c3d4ff;
-  --space-light: #e2e3e4;
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --space-dark: #050505;
+  --space-light: #0a0a0a;
 }
 
 .theme-dark .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --secondary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --background-primary: #0a0e1a;
-  --background-secondary: #1a1f2d;
-  --border-color: rgb(103 232 249 / 15%);
-  --hover-effect: rgb(103 232 249 / 20%);
-  --tag-background: rgb(103 232 249 / 10%);
-  --tag-border: #67e8f9;
-  --tag-text: #67e8f9;
-  --space-dark: #0f172a;
-  --space-light: #1e293b;
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --space-dark: #050505;
+  --space-light: #0a0a0a;
 }
 
 .galactic-card {
   background: var(--background-primary);
   border: 1px solid var(--border-color);
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .galactic-title {
@@ -401,7 +376,7 @@ onUnmounted(() => {
 }
 
 .time-tag {
-  background: rgb(79 70 229 / 20%) !important;
+  background: rgba(255, 26, 26, 0.2) !important;
   border: 1px solid var(--tag-border) !important;
   color: var(--tag-text) !important;
 }
@@ -522,29 +497,5 @@ onUnmounted(() => {
   .header-container {
     text-align: center;
   }
-}
-
-.scroll-top-button {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--primary-gradient);
-  color: white;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgb(0 0 0 / 20%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  transition: all 0.3s ease;
-}
-
-.scroll-top-button:hover {
-  transform: translateY(-5px) scale(1.1);
-  box-shadow: 0 6px 25px rgb(0 0 0 / 30%);
 }
 </style>

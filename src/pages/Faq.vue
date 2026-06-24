@@ -302,13 +302,13 @@ html.theme-dark .locale-switcher {
 
 .locale-btn.active {
   opacity: 1;
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, #990000 0%, #990000 100%);
   color: #ffffff;
-  box-shadow: 0 2px 6px rgb(79 70 229 / 30%);
+  box-shadow: 0 2px 6px rgba(255, 26, 26, 0.3);
 }
 
 html.theme-dark .locale-btn.active {
-  box-shadow: 0 4px 12px rgb(124 58 237 / 40%);
+  box-shadow: 0 4px 12px rgba(255, 26, 26, 0.4);
 }
 
 .box.faq-item {

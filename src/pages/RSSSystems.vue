@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Dropdown from 'primevue/dropdown';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
+import ScrollToTop from '@/components/ScrollToTop.vue';
 import Paginator from 'primevue/paginator';
-import ThemeSwitch from '@/components/ThemeSwitch.vue';
 
 // onMounted(() => {
 //   window.location.href = "/RSSWikiPageCreator/indextest.html";
@@ -55,7 +55,6 @@ type CargoResponse<T> = {
 
 const basicQueryData = { origin: '*', format: 'json', limit: '500' };
 const screenWidth = ref(window.innerWidth);
-const showScrollButton = ref<boolean>(false);
 
 const first = ref(0);
 const rows = ref(12);
@@ -424,7 +423,6 @@ watch([searchText, filterGalaxy, filterUser, filterRegion, wikiSearchResults], a
 
 onMounted(async () => {
   window.addEventListener('resize', () => (screenWidth.value = window.innerWidth));
-  window.addEventListener('scroll', handleScroll);
 
   isLoading.value = true;
   try {
@@ -437,44 +435,6 @@ onMounted(async () => {
     isLoading.value = false;
   }
 });
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
-
-let scrollTimeout: number | null = null;
-
-const handleScroll = () => {
-  if (scrollTimeout) return;
-
-  scrollTimeout = requestAnimationFrame(() => {
-    showScrollButton.value = window.scrollY > 300;
-    scrollTimeout = null;
-  });
-};
-
-const scrollToTop = () => {
-  const start = window.scrollY;
-  const duration = 600;
-  let startTime: number | null = null;
-
-  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
-
-  const animate = (currentTime: number) => {
-    if (!startTime) startTime = currentTime;
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const easedProgress = easeOutCubic(progress);
-
-    window.scrollTo(0, start * (1 - easedProgress));
-
-    if (progress < 1) {
-      requestAnimationFrame(animate);
-    }
-  };
-
-  requestAnimationFrame(animate);
-};
 
 function coords2Glyphs(coordinates: string): string {
   const parts = coordinates.split(':');
@@ -537,7 +497,6 @@ function getGlyphs(coordinates: string): string {
             </div>
             <p class="text-stellar-gray mt-2">Listado de sistemas de la Royal Space Society</p>
           </div>
-          <ThemeSwitch />
         </div>
 
         <div class="filter-container mb-6">
@@ -823,50 +782,42 @@ function getGlyphs(coordinates: string): string {
     </template>
   </Card>
 
-  <transition name="fade">
-    <button
-      v-if="showScrollButton"
-      @click="scrollToTop"
-      class="scroll-top-button"
-    >
-      <i class="pi pi-arrow-up"></i>
-    </button>
-  </transition>
+  <ScrollToTop />
 </template>
 
 <style scoped>
 .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --background-primary: #d3d3d3;
-  --background-secondary: #f1f1f1;
-  --border-color: rgb(99 102 241 / 15%);
-  --hover-effect: rgb(99 102 241 / 10%);
-  --tag-background: rgb(79 70 229 / 10%);
-  --tag-border: #4f46e5;
-  --tag-text: #4f46e5;
-  --space-dark: #c3d4ff;
-  --space-light: #e2e3e4;
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --space-dark: #050505;
+  --space-light: #0a0a0a;
   --success-color: #10b981;
   --success-background: rgb(16 185 129 / 10%);
 }
 
 .theme-dark .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --secondary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --background-primary: #0a0e1a;
-  --background-secondary: #1a1f2d;
-  --border-color: rgb(103 232 249 / 15%);
-  --hover-effect: rgb(103 232 249 / 20%);
-  --tag-background: rgb(103 232 249 / 10%);
-  --tag-border: #67e8f9;
-  --tag-text: #67e8f9;
-  --space-dark: #0f172a;
-  --space-light: #1e293b;
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --space-dark: #050505;
+  --space-light: #0a0a0a;
   --success-color: #34d399;
   --success-background: rgb(52 211 153 / 10%);
 }
@@ -874,6 +825,9 @@ function getGlyphs(coordinates: string): string {
 .galactic-card {
   background: var(--background-primary);
   border: 1px solid var(--border-color);
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 label.block {
@@ -993,30 +947,6 @@ label.block {
   --logo-brightness: 0.9;
 }
 
-.scroll-top-button {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--primary-gradient);
-  color: white;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgb(0 0 0 / 20%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  transition: all 0.3s ease;
-}
-
-.scroll-top-button:hover {
-  transform: translateY(-5px) scale(1.1);
-  box-shadow: 0 6px 25px rgb(0 0 0 / 30%);
-}
-
 .logo-image:hover {
   transform: rotate(-5deg) scale(1.05);
 }
@@ -1086,7 +1016,7 @@ label.block {
 .filter-input:focus,
 .filter-dropdown:focus-within {
   border-color: var(--tag-border);
-  box-shadow: 0 0 0 2px rgb(79 70 229 / 10%);
+  box-shadow: 0 0 0 2px rgba(255, 26, 26, 0.1);
 }
 
 .wiki-search-container {
@@ -1113,7 +1043,7 @@ label.block {
 
 .search-wiki-button:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgb(79 70 229 / 30%);
+  box-shadow: 0 4px 12px rgba(255, 26, 26, 0.3);
 }
 
 .search-wiki-button:disabled {
@@ -1181,7 +1111,7 @@ label.block {
   font-weight: 400;
   padding: 0.5rem 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgb(79 70 229 / 40%);
+  box-shadow: 0 4px 12px rgba(255, 26, 26, 0.4);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -1192,7 +1122,7 @@ label.block {
 
 .wiki-card-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgb(79 70 229 / 60%);
+  box-shadow: 0 6px 16px rgba(255, 26, 26, 0.6);
   opacity: 1;
 }
 </style>

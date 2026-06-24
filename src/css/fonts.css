@@ -1,3 +1,10 @@
+:root {
+  --font-orbitron: 'Orbitron', sans-serif;
+  --font-rajdhani: 'Rajdhani', sans-serif;
+  --font-share-tech: 'Share Tech Mono', monospace;
+  --font-jetbrains: 'JetBrains Mono', monospace;
+}
+
 /* Nunito */
 
 /* latin */

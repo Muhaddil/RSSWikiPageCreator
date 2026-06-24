@@ -136,7 +136,7 @@ watchDebounced(
 
 <template>
   <Card
-    class="rss-card-container"
+    class="p-0 galactic-card rss-card-container"
     v-if="screenWidth > 768"
   >
     <template #content>
@@ -354,7 +354,7 @@ watchDebounced(
   </Card>
 
   <Card
-    class="rss-card-container"
+    class="p-0 galactic-card rss-card-container"
     v-if="screenWidth <= 768"
   >
     <template #content>
@@ -364,11 +364,48 @@ watchDebounced(
 </template>
 
 <style scoped>
-.rss-card-container {
+.galactic-card {
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.theme-dark .galactic-card {
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.galactic-card {
+  background: var(--background-primary);
+  border: 1px solid var(--border-color);
   max-width: 900px;
+  width: 100%;
   margin: 0 auto;
+}
+
+.rss-card-container {
   padding: 1rem;
   position: relative;
+  color: var(--text-primary);
 }
 
 .rss-card-wrapper {
@@ -382,7 +419,7 @@ watchDebounced(
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 4px;
+  border-radius: 0;
 }
 
 .card-image-container {
@@ -391,7 +428,7 @@ watchDebounced(
   left: 50px;
   width: 225px;
   height: 295px;
-  border: 2px solid #e00;
+  border: 2px solid #ff1a1a;
   border-radius: 65px;
   overflow: hidden;
   font-family: NMSFuturaProBook;
@@ -419,6 +456,7 @@ watchDebounced(
   width: 200px;
   font-size: 1.8rem;
   font-family: NMSFuturaProBook;
+  color: var(--text-primary);
 }
 
 .card-name-title {
@@ -427,7 +465,7 @@ watchDebounced(
   left: 300px;
   font-size: 2.2rem;
   font-family: NMSFuturaProBook;
-  color: rgb(168 0 0);
+  color: #ff1a1a;
 }
 
 .card-glyphs-field {
@@ -436,6 +474,7 @@ watchDebounced(
   left: 300px;
   font-size: 1.3rem;
   font-family: NMS-Glyphs-Mono;
+  color: var(--text-primary);
 }
 
 .card-location-field {
@@ -445,6 +484,7 @@ watchDebounced(
   font-size: 0.9rem;
   max-width: 180px;
   font-family: NMSFuturaProBook;
+  color: var(--text-primary);
 }
 
 .card-race-title {
@@ -453,7 +493,7 @@ watchDebounced(
   left: 300px;
   font-size: 2.2rem;
   font-family: NMSFuturaProBook;
-  color: rgb(168 0 0);
+  color: #ff1a1a;
 }
 
 .card-race-field {
@@ -463,6 +503,7 @@ watchDebounced(
   width: 200px;
   font-size: 1.8rem;
   font-family: NMSFuturaProBook;
+  color: var(--text-primary);
 }
 
 .card-race-icon-field {
@@ -478,6 +519,7 @@ watchDebounced(
   left: 60px;
   font-size: 2rem;
   font-family: NMSFuturaProBook;
+  color: var(--text-primary);
 }
 
 .input-text {
@@ -500,13 +542,30 @@ watchDebounced(
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  width: 150px;
+  width: 200px;
+  background: var(--primary-gradient) !important;
+  border: none !important;
+  color: white !important;
+  font-family: 'Orbitron', monospace !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.15em !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 0 !important;
+  cursor: pointer;
+}
+
+.download-button:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(255, 26, 26, 0.4);
+  transform: translateY(-2px);
 }
 
 .download-button:disabled {
-  opacity: 0.8;
-  background-color: var(--primary-color);
+  opacity: 0.6;
   cursor: not-allowed;
+  background: var(--background-secondary) !important;
+  border: 1px solid var(--border-color) !important;
 }
 
 .download-button:disabled::after {
@@ -516,7 +575,7 @@ watchDebounced(
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 40%), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
   animation: shimmer 1.5s infinite;
 }
 

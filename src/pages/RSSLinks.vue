@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import Card from 'primevue/card';
 import Tag from 'primevue/tag';
 import Panel from 'primevue/panel';
 import Checkbox from 'primevue/checkbox';
 // import Dialog from 'primevue/dialog';
 import InputText from 'primevue/inputtext';
+import ScrollToTop from '@/components/ScrollToTop.vue';
 import { translations, linkData } from '@/variables/links';
-import ThemeSwitch from '@/components/ThemeSwitch.vue';
 
 const queryParams = new URLSearchParams(window.location.search);
 const language = ref<'en' | 'es'>(queryParams.get('lang') === 'en' ? 'en' : 'es');
@@ -16,7 +16,6 @@ type LanguageKey = 'en' | 'es';
 
 const isEpicLanguage = ref<boolean>(false);
 const searchQuery = ref<string>('');
-const showScrollButton = ref<boolean>(false);
 
 const t = computed(() => translations[language.value as LanguageKey][isEpicLanguage.value ? 'epic' : 'common']);
 const links = computed(() => linkData[language.value as LanguageKey][isEpicLanguage.value ? 'epic' : 'common']);
@@ -61,17 +60,6 @@ onMounted(() => {
   });
 });
 
-const handleScroll = () => {
-  showScrollButton.value = window.scrollY > 300;
-};
-
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
-};
-
 // const showRickRollModal = ref(false);
 // const videoUrl = ref('https://streamable.com/e/qk0vn1?autoplay=1');
 
@@ -104,14 +92,6 @@ const scrollToTop = () => {
 //     container.appendChild(particle);
 //   }
 // };
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
 
 // const prewarmLink = (url: string) => {
 //   try {
@@ -183,7 +163,6 @@ onUnmounted(() => {
           </div>
 
           <div class="subtitle-container">
-            <ThemeSwitch />
             <p class="text-stellar-gray">{{ t.subtitle }}</p>
           </div>
 
@@ -320,51 +299,43 @@ onUnmounted(() => {
     </div>
   </Dialog> -->
 
-  <transition name="fade">
-    <button
-      v-if="showScrollButton"
-      @click="scrollToTop"
-      class="scroll-top-button"
-    >
-      <i class="pi pi-arrow-up"></i>
-    </button>
-  </transition>
+  <ScrollToTop />
 </template>
 
 <style scoped>
 /* Variables CSS */
 .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --background-primary: #d3d3d3;
-  --background-secondary: #f1f1f1;
-  --border-color: rgb(99 102 241 / 15%);
-  --hover-effect: rgb(99 102 241 / 10%);
-  --tag-background: rgb(79 70 229 / 10%);
-  --tag-border: #4f46e5;
-  --tag-text: #4f46e5;
-  --card-shadow: 0 4px 6px rgb(0 0 0 / 5%);
-  --card-hover-shadow: 0 10px 20px rgb(0 0 0 / 10%);
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --card-hover-shadow: 0 10px 20px rgba(255, 26, 26, 0.15);
   --transition-duration: 0.4s;
   --transition-timing: cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .theme-dark .galactic-card {
-  --primary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --secondary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --background-primary: #0a0e1a;
-  --background-secondary: #1a1f2d;
-  --border-color: rgb(103 232 249 / 15%);
-  --hover-effect: rgb(103 232 249 / 20%);
-  --tag-background: rgb(103 232 249 / 10%);
-  --tag-border: #67e8f9;
-  --tag-text: #67e8f9;
-  --card-shadow: 0 4px 6px rgb(0 0 0 / 20%);
-  --card-hover-shadow: 0 10px 20px rgb(103 232 249 / 20%);
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --tag-background: rgba(255, 26, 26, 0.1);
+  --tag-border: #ff1a1a;
+  --tag-text: #ff1a1a;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --card-hover-shadow: 0 10px 20px rgba(255, 26, 26, 0.15);
 }
 
 /* Estilos principales */
@@ -395,7 +366,7 @@ body {
 
 .particle {
   position: absolute;
-  background: rgb(103 232 249 / 40%);
+  background: rgba(255, 26, 26, 0.4);
   border-radius: 50%;
   animation: float 15s infinite linear;
 }
@@ -426,6 +397,7 @@ body {
   border-radius: 20px;
   max-width: 1400px;
   width: 100%;
+  margin: 0 auto;
   box-shadow: 0 20px 50px rgb(0 0 0 / 15%);
   overflow: hidden;
   position: relative;
@@ -468,7 +440,7 @@ body {
 
 .logo-image:hover {
   transform: rotate(-5deg) scale(1.1);
-  filter: drop-shadow(0 8px 25px rgb(79 70 229 / 40%));
+  filter: drop-shadow(0 8px 25px rgba(255, 26, 26, 0.4));
 }
 
 .theme-dark .logo-image {
@@ -564,7 +536,7 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.8rem 1.2rem;
-  background: rgb(79 70 229 / 5%);
+  background: rgba(255, 26, 26, 0.05);
   border-radius: 50px;
   transition: all 0.4s var(--transition-timing);
   margin-top: 0.5rem;
@@ -572,7 +544,7 @@ body {
 }
 
 .language-toggle:hover {
-  background: rgb(79 70 229 / 10%);
+  background: rgba(255, 26, 26, 0.1);
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgb(0 0 0 / 5%);
 }
@@ -671,13 +643,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(79 70 229 / 5%);
+  background: rgba(255, 26, 26, 0.05);
   border-radius: 16px;
 }
 
 .link-card:hover .link-icon {
   transform: scale(1.1) rotate(5deg);
-  background: rgb(79 70 229 / 10%);
+  background: rgba(255, 26, 26, 0.1);
 }
 
 .link-title {
@@ -777,7 +749,7 @@ body {
 .security-level {
   color: var(--tag-text);
   font-weight: 600;
-  text-shadow: 0 0 8px rgb(103 232 249 / 30%);
+  text-shadow: 0 0 8px rgba(255, 26, 26, 0.3);
   display: inline-block;
   margin-top: 0.8rem;
   position: relative;
@@ -823,30 +795,6 @@ body {
   color: var(--text-secondary);
 }
 
-.scroll-top-button {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: var(--primary-gradient);
-  color: white;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgb(0 0 0 / 20%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  transition: all 0.3s ease;
-}
-
-.scroll-top-button:hover {
-  transform: translateY(-5px) scale(1.1);
-  box-shadow: 0 6px 25px rgb(0 0 0 / 30%);
-}
-
 /* Animaciones */
 .title-fade-enter-active,
 .title-fade-leave-active,
@@ -887,15 +835,15 @@ body {
 
 @keyframes checkbox-glow {
   0% {
-    box-shadow: 0 0 0 0 rgb(103 232 249 / 50%);
+    box-shadow: 0 0 0 0 rgba(255, 26, 26, 0.5);
   }
 
   50% {
-    box-shadow: 0 0 10px 3px rgb(103 232 249 / 50%);
+    box-shadow: 0 0 10px 3px rgba(255, 26, 26, 0.5);
   }
 
   100% {
-    box-shadow: 0 0 0 0 rgb(103 232 249 / 0%);
+    box-shadow: 0 0 0 0 rgba(255, 26, 26, 0);
   }
 }
 
@@ -911,12 +859,12 @@ body {
 
   25% {
     transform: scale(1.005);
-    background: linear-gradient(45deg, var(--background-primary) 0%, rgb(103 232 249 / 10%) 100%);
+    background: linear-gradient(45deg, var(--background-primary) 0%, rgba(255, 26, 26, 0.1) 100%);
   }
 
   50% {
     transform: scale(1);
-    box-shadow: 0 0 30px rgb(103 232 249 / 20%);
+    box-shadow: 0 0 30px rgba(255, 26, 26, 0.2);
   }
 
   100% {
@@ -986,13 +934,6 @@ body {
 
   .links-grid {
     grid-template-columns: 1fr;
-  }
-
-  .scroll-top-button {
-    bottom: 1rem;
-    right: 1rem;
-    width: 40px;
-    height: 40px;
   }
 }
 </style>

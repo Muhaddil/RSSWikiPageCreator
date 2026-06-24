@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Toolbar from 'primevue/toolbar';
-import Button from 'primevue/button';
 import ConfirmDialog from 'primevue/confirmdialog';
 import { usePageDataStore } from '@/stores/pageData';
 import { useValidationStore } from '@/stores/validation';
@@ -227,55 +225,134 @@ function showConfirmDialog() {
 </script>
 
 <template>
-  <Toolbar
-    class="is-borderless is-radiusless"
+  <div
+    class="footer-toolbar"
     v-if="!isFAQPage"
   >
-    <template #center>
-      <div class="is-gap-1 is-flex is-justify-content-center footer-toolbar">
-        <Button
-          label="Copiar"
-          @click="copyPage"
-        />
+    <div class="toolbar-actions">
+      <button
+        class="action-btn"
+        @click="copyPage"
+      >
+        <span class="btn-icon">&#9776;</span>
+        <span class="btn-text">COPY</span>
+      </button>
 
-        <Button
-          v-if="!isBaseRenewalPage"
-          as="a"
-          label="Crear"
-          severity="warn"
-          @click="createPage"
-        />
+      <button
+        v-if="!isBaseRenewalPage"
+        class="action-btn primary"
+        @click="createPage"
+      >
+        <span class="btn-icon">&#9654;</span>
+        <span class="btn-text">CREATE</span>
+      </button>
 
-        <Button
-          v-if="!isBaseRenewalPage"
-          label="Descargar Código"
-          @click="downloadCode"
-        />
+      <button
+        v-if="!isBaseRenewalPage"
+        class="action-btn"
+        @click="downloadCode"
+      >
+        <span class="btn-icon">&#8681;</span>
+        <span class="btn-text">DOWNLOAD</span>
+      </button>
 
-        <Button
-          v-if="!isBaseRenewalPage"
-          label="Subir Archivos"
-          @click="uploadFiles"
-        />
+      <button
+        v-if="!isBaseRenewalPage"
+        class="action-btn"
+        @click="uploadFiles"
+      >
+        <span class="btn-icon">&#8682;</span>
+        <span class="btn-text">UPLOAD</span>
+      </button>
 
-        <Button
-          label="Restablecer"
-          severity="danger"
-          @click="showConfirmDialog"
-        />
-      </div>
-    </template>
-  </Toolbar>
+      <button
+        class="action-btn danger"
+        @click="showConfirmDialog"
+      >
+        <span class="btn-icon">&#10006;</span>
+        <span class="btn-text">RESET</span>
+      </button>
+    </div>
+  </div>
 
   <ConfirmDialog :draggable="true" />
 </template>
 
 <style scoped>
 .footer-toolbar {
-  padding-inline-end: var(--p-scrollbar-width);
+  width: 100%;
+  padding: 0.75rem 1rem;
+}
+
+.toolbar-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 0.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Orbitron', monospace;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.action-btn.primary {
+  background: rgba(255, 26, 26, 0.15);
+  border-color: rgba(255, 26, 26, 0.5);
+  color: #ff1a1a;
+}
+
+.action-btn.primary:hover {
+  background: rgba(255, 26, 26, 0.25);
+  border-color: #ff1a1a;
+  box-shadow: 0 0 10px rgba(255, 26, 26, 0.3);
+}
+
+.action-btn.danger {
+  border-color: rgba(153, 0, 0, 0.5);
+  color: rgba(153, 0, 0, 0.8);
+}
+
+.action-btn.danger:hover {
+  background: rgba(153, 0, 0, 0.15);
+  border-color: #990000;
+  color: #ff1a1a;
+}
+
+.btn-icon {
+  font-size: 0.7rem;
+  line-height: 1;
+}
+
+.btn-text {
+  line-height: 1;
+}
+
+@media (max-width: 600px) {
+  .action-btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.5rem;
+  }
 }
 </style>

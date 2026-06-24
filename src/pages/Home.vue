@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CivImageProps, PageLinkProps } from '@/types/homePageProps';
 import { reactive, onMounted, onUnmounted, ref } from 'vue';
+import ScrollToTop from '@/components/ScrollToTop.vue';
 
 const links: PageLinkProps[] = [
   {
@@ -259,7 +260,6 @@ function getCssVarValue(varName: string) {
 const images = reactive<CivImageProps[]>([]);
 const hubLogo = reactive({ value: '' });
 const isVisible = ref(false);
-const showScrollTop = ref(false);
 
 const annotations = ref({
   hero: false,
@@ -329,25 +329,9 @@ onMounted(() => {
     });
   }, 100);
 
-  const handleScroll = () => {
-    showScrollTop.value = window.scrollY > 500;
-  };
-
-  window.addEventListener('scroll', handleScroll);
-
-  onUnmounted(() => {
-    window.removeEventListener('scroll', handleScroll);
-  });
 });
 
 const hoverTimers = new Map<string, NodeJS.Timeout>();
-
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-  });
-}
 
 function scrollToNextSection() {
   const featuresSection = document.querySelector('.features-section');
@@ -404,20 +388,20 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="landing-page"
+    class="home-terminal"
     :class="{ visible: isVisible }"
   >
     <section
       class="hero-section"
       data-section="hero"
     >
-      <!-- <div class="hero-background">
-        <div class="gradient-orb orb-1"></div>
-        <div class="gradient-orb orb-2"></div>
-        <div class="gradient-orb orb-3"></div>
-      </div> -->
-
       <div class="hero-content">
+        <div class="system-header">
+          <div class="header-line"></div>
+          <span class="system-label">SYSTEM INITIALIZATION</span>
+          <div class="header-line"></div>
+        </div>
+
         <div class="logo-container">
           <a
             v-if="images.length > 0"
@@ -435,20 +419,31 @@ onUnmounted(() => {
         </div>
 
         <h1 class="hero-title">
-          <span class="gradient-text">Royal Space Society</span>
+          <span class="title-main">ROYAL SPACE SOCIETY</span>
         </h1>
 
-        <h2 class="hero-subtitle">Creador de Páginas Wiki</h2>
+        <div class="hero-divider">
+          <div class="divider-line"></div>
+          <span class="divider-text">WIKI PAGE CREATOR</span>
+          <div class="divider-line"></div>
+        </div>
 
         <p class="hero-description">
-          Genera fácilmente el código wiki para crear páginas de descubrimiento en No Man's Sky Wiki
+          Sistema de documentación de grado militar para los descubrimientos en No Man's Sky
         </p>
 
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span class="status-text">SYSTEM ONLINE</span>
+          <span class="status-id">NODE: RSS-HUB-01</span>
+        </div>
+
         <div
-          class="hero-cta"
+          class="scroll-indicator"
           @click="scrollToNextSection"
         >
-          <i class="pi pi-arrow-down pulse-icon"></i>
+          <span class="scroll-text">SCROLL DOWN</span>
+          <span class="scroll-arrow">&#9660;</span>
         </div>
       </div>
     </section>
@@ -457,9 +452,13 @@ onUnmounted(() => {
       class="features-section"
       data-section="features"
     >
-      <h2 class="section-title animate-on-scroll">
-        <span class="title-accent">Crea</span> páginas para tus descubrimientos
-      </h2>
+      <div class="section-header">
+        <div class="header-line"></div>
+        <h2 class="section-title animate-on-scroll">
+          <span class="title-prefix">//</span> MÓDULOS DE CREACIÓN DE DOCUMENTOS
+        </h2>
+        <div class="header-line"></div>
+      </div>
 
       <div class="features-grid">
         <a
@@ -471,7 +470,10 @@ onUnmounted(() => {
           @mouseenter="schedulePrefetch(link.url)"
           @mouseleave="cancelPrefetch(link.url)"
         >
-          <div class="card-glow"></div>
+          <div class="card-corner top-left"></div>
+          <div class="card-corner top-right"></div>
+          <div class="card-corner bottom-left"></div>
+          <div class="card-corner bottom-right"></div>
           <div class="card-content">
             <div class="card-image-wrapper">
               <img
@@ -482,24 +484,20 @@ onUnmounted(() => {
             </div>
             <h3 class="card-title">{{ link.text }}</h3>
           </div>
-          <div class="card-shine"></div>
         </a>
       </div>
     </section>
 
     <section class="credits-section">
       <div class="credits-card animate-on-scroll">
-        <!-- <h3>Créditos</h3> -->
-        <p>
-          Iconos diseñados por
-          <strong
-            ><a
-              href="https://bit0esp.duckdns.org/quien-soy.html"
-              target="_blank"
-              >Bit_0</a
-            ></strong
-          >
-        </p>
+        <span class="credits-label">DISEÑO DE ICONOS POR</span>
+        <a
+          href="https://bit0esp.duckdns.org/quien-soy.html"
+          target="_blank"
+          class="credits-link"
+        >
+          BIT_0
+        </a>
       </div>
     </section>
 
@@ -507,9 +505,11 @@ onUnmounted(() => {
       class="tools-section"
       data-section="tools"
     >
-      <h2 class="section-title animate-on-scroll">
-        <span class="title-accent tools-accent">Herramientas</span> esenciales
-      </h2>
+      <div class="section-header">
+        <div class="header-line"></div>
+        <h2 class="section-title animate-on-scroll"><span class="title-prefix">//</span> UTILIDADES ESENCIALES</h2>
+        <div class="header-line"></div>
+      </div>
 
       <div class="tools-grid">
         <a
@@ -521,6 +521,10 @@ onUnmounted(() => {
           class="tool-card animate-on-scroll"
           :style="{ transitionDelay: `${index * 0.04}s` }"
         >
+          <div class="card-corner top-left"></div>
+          <div class="card-corner top-right"></div>
+          <div class="card-corner bottom-left"></div>
+          <div class="card-corner bottom-right"></div>
           <div class="tool-icon-wrapper">
             <i
               :class="tool.icon"
@@ -530,7 +534,7 @@ onUnmounted(() => {
               v-if="tool.external"
               class="external-badge"
             >
-              <i class="pi pi-external-link"></i>
+              EXT
             </span>
           </div>
           <h3 class="tool-name">{{ tool.name }}</h3>
@@ -543,9 +547,11 @@ onUnmounted(() => {
       class="resources-section"
       data-section="resources"
     >
-      <h2 class="section-title animate-on-scroll">
-        <span class="title-accent resources-accent">Recursos</span> de la comunidad
-      </h2>
+      <div class="section-header">
+        <div class="header-line"></div>
+        <h2 class="section-title animate-on-scroll"><span class="title-prefix">//</span> RECURSOS DE LA COMUNIDAD</h2>
+        <div class="header-line"></div>
+      </div>
 
       <div class="resources-grid">
         <a
@@ -557,6 +563,10 @@ onUnmounted(() => {
           class="resource-card animate-on-scroll"
           :style="{ transitionDelay: `${index * 0.03}s` }"
         >
+          <div class="card-corner top-left"></div>
+          <div class="card-corner top-right"></div>
+          <div class="card-corner bottom-left"></div>
+          <div class="card-corner bottom-right"></div>
           <div class="resource-header">
             <i
               :class="resource.icon"
@@ -574,9 +584,11 @@ onUnmounted(() => {
       class="community-section"
       data-section="community"
     >
-      <h2 class="section-title animate-on-scroll">
-        <span class="title-accent community-accent">Únete</span> a la comunidad
-      </h2>
+      <div class="section-header">
+        <div class="header-line"></div>
+        <h2 class="section-title animate-on-scroll"><span class="title-prefix">//</span> ÚNETE AL HUB</h2>
+        <div class="header-line"></div>
+      </div>
 
       <div class="community-grid">
         <a
@@ -585,10 +597,16 @@ onUnmounted(() => {
           rel="noopener noreferrer"
           class="community-card discord-card animate-on-scroll"
         >
-          <i class="pi pi-bolt community-icon"></i>
-          <h3>Discord</h3>
-          <p>Únete a nuestro servidor de Discord para chatear con otros exploradores</p>
-          <span class="community-badge">Más activo</span>
+          <div class="card-corner top-left"></div>
+          <div class="card-corner top-right"></div>
+          <div class="card-corner bottom-left"></div>
+          <div class="card-corner bottom-right"></div>
+          <div class="community-icon-wrapper">
+            <i class="pi pi-bolt community-icon"></i>
+          </div>
+          <h3>DISCORD</h3>
+          <p>Canal de comunicación en tiempo real</p>
+          <span class="community-badge">MÁS ACTIVO</span>
         </a>
 
         <a
@@ -598,10 +616,16 @@ onUnmounted(() => {
           class="community-card twitter-card animate-on-scroll"
           style="transition-delay: 0.05s"
         >
-          <i class="pi pi-sort-alt-slash community-icon"></i>
-          <h3>Twitter/X</h3>
-          <p>Síguenos para las últimas noticias y actualizaciones de la RSS</p>
-          <span class="community-badge">Noticias</span>
+          <div class="card-corner top-left"></div>
+          <div class="card-corner top-right"></div>
+          <div class="card-corner bottom-left"></div>
+          <div class="card-corner bottom-right"></div>
+          <div class="community-icon-wrapper">
+            <i class="pi pi-sort-alt-slash community-icon"></i>
+          </div>
+          <h3>TWITTER/X</h3>
+          <p>Últimas noticias y actualizaciones</p>
+          <span class="community-badge">FEED DE NOTICIAS</span>
         </a>
 
         <a
@@ -611,22 +635,32 @@ onUnmounted(() => {
           class="community-card reddit-card animate-on-scroll"
           style="transition-delay: 0.1s"
         >
-          <i class="pi pi-comments community-icon"></i>
-          <h3>Reddit</h3>
-          <p>Participa en discusiones y comparte tus descubrimientos</p>
-          <span class="community-badge">Debates</span>
+          <div class="card-corner top-left"></div>
+          <div class="card-corner top-right"></div>
+          <div class="card-corner bottom-left"></div>
+          <div class="card-corner bottom-right"></div>
+          <div class="community-icon-wrapper">
+            <i class="pi pi-comments community-icon"></i>
+          </div>
+          <h3>REDDIT</h3>
+          <p>Discusiones de la comunidad</p>
+          <span class="community-badge">FOROS</span>
         </a>
       </div>
     </section>
 
     <section class="about-section">
       <div class="about-card animate-on-scroll">
+        <div class="card-corner top-left"></div>
+        <div class="card-corner top-right"></div>
+        <div class="card-corner bottom-left"></div>
+        <div class="card-corner bottom-right"></div>
         <div class="about-icon">
           <i class="pi pi-users"></i>
         </div>
-        <h3 class="about-title">Sobre Royal Space Society</h3>
+        <h3 class="about-title">ACERCA DE LA ROYAL SPACE SOCIETY</h3>
         <p class="about-text">
-          Una civilización dedicada a explorar y documentar los descubrimientos en el universo de No Man's Sky
+          Una civilización dedicada a explorar y documentar descubrimientos en el universo de No Man's Sky
         </p>
         <a
           href="https://nomanssky.fandom.com/es/wiki/Royal_Space_Society"
@@ -634,99 +668,24 @@ onUnmounted(() => {
           rel="noopener noreferrer"
           class="about-link"
         >
-          Visitar Wiki
-          <i class="pi pi-external-link"></i>
+          ACCESS WIKI
+          <span class="link-arrow">&#9654;</span>
         </a>
       </div>
     </section>
 
-    <!-- <div class="annotations-container">
-      <transition name="annotation-fade">
-        <div v-if="annotations.hero" class="scroll-annotation annotation-right">
-          <div class="annotation-icon">
-            <i class="pi pi-star-fill"></i>
-          </div>
-          <div class="annotation-content">
-            <h4>Bienvenido</h4>
-            <p>El creador de páginas wiki más completo para No Man's Sky</p>
-          </div>
-        </div>
-      </transition>
-
-      <transition name="annotation-fade">
-        <div v-if="annotations.features" class="scroll-annotation annotation-left">
-          <div class="annotation-icon">
-            <i class="pi pi-pencil"></i>
-          </div>
-          <div class="annotation-content">
-            <h4>Herramientas de Creación</h4>
-            <p>16 tipos diferentes de páginas para documentar todos tus hallazgos</p>
-          </div>
-        </div>
-      </transition>
-
-      <transition name="annotation-fade">
-        <div v-if="annotations.tools" class="scroll-annotation annotation-right">
-          <div class="annotation-icon tools-icon">
-            <i class="pi pi-wrench"></i>
-          </div>
-          <div class="annotation-content">
-            <h4>Utilidades Esenciales</h4>
-            <p>Herramientas para facilitar tu trabajo en la wiki</p>
-          </div>
-        </div>
-      </transition>
-
-      <transition name="annotation-fade">
-        <div v-if="annotations.resources" class="scroll-annotation annotation-left">
-          <div class="annotation-icon resources-icon">
-            <i class="pi pi-book"></i>
-          </div>
-          <div class="annotation-content">
-            <h4>Recursos de la Comunidad</h4>
-            <p>Todos los enlaces importantes en un solo lugar</p>
-          </div>
-        </div>
-      </transition>
-
-      <transition name="annotation-fade">
-        <div v-if="annotations.community" class="scroll-annotation annotation-right">
-          <div class="annotation-icon community-icon">
-            <i class="pi pi-users"></i>
-          </div>
-          <div class="annotation-content">
-            <h4>Únete a Nosotros</h4>
-            <p>Forma parte de la comunidad más activa de exploradores</p>
-          </div>
-        </div>
-      </transition>
-    </div> -->
-
-    <transition name="fade-scale">
-      <button
-        v-if="showScrollTop"
-        @click="scrollToTop"
-        class="scroll-to-top"
-        aria-label="Volver arriba"
-      >
-        <i class="pi pi-arrow-up"></i>
-      </button>
-    </transition>
+    <ScrollToTop />
   </div>
 </template>
 
 <style scoped lang="scss">
-.landing-page {
-  font-family:
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
+.home-terminal {
+  font-family: 'Rajdhani', sans-serif;
   opacity: 0;
   transform: translateY(15px);
   transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
   position: relative;
+  color: #ffffff;
 
   &.visible {
     opacity: 1;
@@ -745,65 +704,6 @@ onUnmounted(() => {
   background: transparent;
 }
 
-.hero-background {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  z-index: 0;
-  opacity: 0.3;
-}
-
-.gradient-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.6;
-  animation: float 20s infinite ease-in-out;
-}
-
-.orb-1 {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
-  top: -10%;
-  left: -10%;
-  animation-delay: 0s;
-}
-
-.orb-2 {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
-  bottom: -10%;
-  right: -10%;
-  animation-delay: -7s;
-}
-
-.orb-3 {
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, transparent 70%);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation-delay: -14s;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  33% {
-    transform: translate(30px, -30px) scale(1.1);
-  }
-
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-}
-
 .hero-content {
   position: relative;
   z-index: 1;
@@ -812,146 +712,211 @@ onUnmounted(() => {
   padding: 2rem;
 }
 
+.system-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.header-line {
+  flex: 1;
+  max-width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 26, 26, 0.5), transparent);
+}
+
+.system-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(255, 26, 26, 0.7);
+}
+
 .logo-container {
   margin-bottom: 2rem;
-  animation: fadeInDown 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .hero-logo-link {
   display: inline-block;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
     transform: scale(1.05);
+    filter: drop-shadow(0 0 20px rgba(255, 26, 26, 0.4));
   }
 }
 
 .hero-logo {
   height: 120px;
   width: auto;
-  filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.5));
-  animation: glow-pulse 3s infinite;
-}
-
-@keyframes glow-pulse {
-  0%,
-  100% {
-    filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.5));
-  }
-
-  50% {
-    filter: drop-shadow(0 0 50px rgba(139, 92, 246, 0.8));
-  }
+  filter: drop-shadow(0 0 20px rgba(255, 26, 26, 0.3));
 }
 
 .hero-title {
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 800;
-  margin: 0 0 1rem;
-  line-height: 1.1;
-  animation: fadeInUp 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s both;
-}
-
-.gradient-text {
-  background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #a855f7 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradient-shift 8s ease infinite;
-}
-
-@keyframes gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.hero-subtitle {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 600;
   margin: 0 0 1.5rem;
-  color: var(--text-color);
-  animation: fadeInUp 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.2s both;
+}
+
+.title-main {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #ff0000;
+  // color: #ffffff;
+  text-shadow: 0 0 30px rgba(255, 26, 26, 0.3);
+}
+
+.hero-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.divider-line {
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.divider-text {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .hero-description {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  color: var(--text-color-secondary);
-  margin: 0 0 3rem;
-  max-width: 600px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 2rem;
+  max-width: 500px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
-  animation: fadeInUp 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s both;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-.hero-cta {
-  animation: fadeInUp 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) 0.4s both;
-  cursor: pointer;
-  display: inline-block;
-  padding: 1rem;
+.system-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: #66ff66;
   border-radius: 50%;
+  animation: pulse-green 2s infinite;
+  box-shadow: 0 0 10px rgba(102, 255, 102, 0.5);
+}
+
+.status-text {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: #66ff66;
+  letter-spacing: 0.15em;
+}
+
+.status-id {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+}
+
+.scroll-indicator {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
   transition: all 0.3s ease;
 
   &:hover {
-    background: rgba(139, 92, 246, 0.1);
-    transform: scale(1.1);
-
-    .pulse-icon {
-      color: #7c3aed;
+    .scroll-text {
+      color: #ff1a1a;
+    }
+    .scroll-arrow {
+      color: #ff1a1a;
     }
   }
-
-  &:active {
-    transform: scale(0.95);
-  }
 }
 
-.pulse-icon {
-  font-size: 2rem;
-  color: #8b5cf6;
-  animation: bounce 2s infinite;
+.scroll-text {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
 }
 
-@keyframes bounce {
+.scroll-arrow {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  animation: bounce-arrow 2s infinite;
+  transition: all 0.3s ease;
+}
+
+@keyframes bounce-arrow {
   0%,
   100% {
     transform: translateY(0);
   }
-
   50% {
-    transform: translateY(-10px);
+    transform: translateY(5px);
   }
 }
 
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
+@keyframes pulse-green {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(102, 255, 102, 0.3);
   }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  50% {
+    box-shadow: 0 0 15px rgba(102, 255, 102, 0.6);
   }
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.section-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(0.8rem, 2vw, 1.1rem);
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.title-prefix {
+  color: #ff1a1a;
+  margin-right: 0.5rem;
 }
 
 .features-section {
@@ -961,91 +926,73 @@ onUnmounted(() => {
   position: relative;
 }
 
-.section-title {
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  text-align: center;
-  margin: 0 0 3rem;
-  color: var(--text-color);
-}
-
-.title-accent {
-  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.tools-accent {
-  background: linear-gradient(135deg, #06b6d4, #0891b2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.resources-accent {
-  background: linear-gradient(135deg, #10b981, #059669);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.community-accent {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
   padding: 1rem 0;
 }
 
 .feature-card {
   position: relative;
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 2rem 1.5rem;
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.5rem;
   text-decoration: none;
-  color: var(--text-color);
+  color: #ffffff;
   transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
   overflow: hidden;
 
   &:hover {
-    transform: translateY(-8px) scale(1.02);
-    border-color: rgba(139, 92, 246, 0.5);
-    box-shadow:
-      0 20px 60px rgba(139, 92, 246, 0.2),
-      0 0 0 1px rgba(139, 92, 246, 0.1) inset;
-
-    .card-glow {
-      opacity: 1;
-    }
+    border-color: rgba(255, 26, 26, 0.5);
+    background: rgba(255, 26, 26, 0.05);
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.1);
 
     .card-image {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
-    .card-shine {
-      left: 100%;
+    .card-corner {
+      opacity: 1;
     }
   }
 }
 
-.card-glow {
+.card-corner {
   position: absolute;
-  inset: -2px;
-  background: linear-gradient(135deg, #8b5cf6, #3b82f6, #a855f7);
-  border-radius: 20px;
+  width: 12px;
+  height: 12px;
   opacity: 0;
   transition: opacity 0.3s ease;
-  z-index: -1;
-  filter: blur(20px);
+
+  &.top-left {
+    top: -1px;
+    left: -1px;
+    border-top: 2px solid #ff1a1a;
+    border-left: 2px solid #ff1a1a;
+  }
+
+  &.top-right {
+    top: -1px;
+    right: -1px;
+    border-top: 2px solid #ff1a1a;
+    border-right: 2px solid #ff1a1a;
+  }
+
+  &.bottom-left {
+    bottom: -1px;
+    left: -1px;
+    border-bottom: 2px solid #ff1a1a;
+    border-left: 2px solid #ff1a1a;
+  }
+
+  &.bottom-right {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 2px solid #ff1a1a;
+    border-right: 2px solid #ff1a1a;
+  }
 }
 
 .card-content {
@@ -1054,7 +1001,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .card-image-wrapper {
@@ -1063,8 +1010,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 12px;
+  background: rgba(5, 5, 5, 0.5);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -1073,27 +1019,65 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 10px;
+  padding: 8px;
   transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+  filter: brightness(0.9);
+
+  &:hover {
+    filter: brightness(1);
+  }
 }
 
 .card-title {
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
   margin: 0;
   text-align: center;
-  color: var(--text-color);
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.card-shine {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left 0.5s ease;
-  pointer-events: none;
+.credits-section {
+  max-width: 600px;
+  margin: -8rem auto 4rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.credits-card {
+  background: rgba(10, 10, 10, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.credits-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.credits-link {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #ff1a1a;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #ff3333;
+    text-shadow: 0 0 10px rgba(255, 26, 26, 0.5);
+  }
 }
 
 .tools-section {
@@ -1105,73 +1089,74 @@ onUnmounted(() => {
 
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
   padding: 1rem 0;
 }
 
 .tool-card {
   position: relative;
-  background: rgba(6, 182, 212, 0.05);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(6, 182, 212, 0.2);
-  border-radius: 16px;
-  padding: 2rem;
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.5rem;
   text-decoration: none;
-  color: var(--text-color);
+  color: #ffffff;
   transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
 
   &:hover {
-    transform: translateY(-6px);
-    border-color: rgba(6, 182, 212, 0.5);
-    box-shadow: 0 15px 40px rgba(6, 182, 212, 0.2);
-    background: rgba(6, 182, 212, 0.08);
+    border-color: rgba(255, 26, 26, 0.5);
+    background: rgba(255, 26, 26, 0.05);
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.1);
 
     .tool-icon {
-      transform: scale(1.1) rotate(5deg);
+      color: #ff1a1a;
+    }
+
+    .card-corner {
+      opacity: 1;
     }
   }
 }
 
 .tool-icon-wrapper {
   position: relative;
-  width: 70px;
-  height: 70px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .tool-icon {
-  font-size: 2.5rem;
-  color: #06b6d4;
-  transition: transform 0.3s ease;
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
 }
 
 .external-badge {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  background: linear-gradient(135deg, #06b6d4, #0891b2);
-  color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7rem;
-  box-shadow: 0 2px 8px rgba(6, 182, 212, 0.4);
+  top: -5px;
+  right: -5px;
+  background: rgba(255, 26, 26, 0.2);
+  border: 1px solid rgba(255, 26, 26, 0.5);
+  color: #ff1a1a;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.5rem;
+  padding: 0.15rem 0.3rem;
+  letter-spacing: 0.1em;
 }
 
 .tool-name {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 0 0 0.75rem;
-  color: var(--text-color);
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .tool-description {
-  font-size: 0.95rem;
-  color: var(--text-color-secondary);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
   margin: 0;
   line-height: 1.5;
 }
@@ -1185,27 +1170,29 @@ onUnmounted(() => {
 
 .resources-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   padding: 1rem 0;
 }
 
 .resource-card {
   position: relative;
-  background: rgba(16, 185, 129, 0.05);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 12px;
-  padding: 1.5rem;
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.25rem;
   text-decoration: none;
-  color: var(--text-color);
+  color: #ffffff;
   transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
 
   &:hover {
-    transform: translateY(-4px);
-    border-color: rgba(16, 185, 129, 0.5);
-    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15);
-    background: rgba(16, 185, 129, 0.08);
+    border-color: rgba(255, 26, 26, 0.5);
+    background: rgba(255, 26, 26, 0.05);
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.1);
+
+    .card-corner {
+      opacity: 1;
+    }
   }
 }
 
@@ -1213,38 +1200,42 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .resource-icon {
-  font-size: 1.8rem;
-  color: #10b981;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .resource-category {
-  font-size: 0.75rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.1);
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  letter-spacing: 0.1em;
+  color: #ff1a1a;
+  background: rgba(255, 26, 26, 0.1);
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(255, 26, 26, 0.3);
 }
 
 .resource-title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem;
-  color: var(--text-color);
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.4rem;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .resource-description {
-  font-size: 0.9rem;
-  color: var(--text-color-secondary);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .community-section {
@@ -1256,320 +1247,160 @@ onUnmounted(() => {
 
 .community-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
   padding: 1rem 0;
 }
 
 .community-card {
   position: relative;
-  background: rgba(245, 158, 11, 0.05);
-  backdrop-filter: blur(20px);
-  border: 2px solid rgba(245, 158, 11, 0.2);
-  border-radius: 20px;
-  padding: 3rem 2rem;
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 2rem 1.5rem;
   text-decoration: none;
-  color: var(--text-color);
+  color: #ffffff;
   text-align: center;
   transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #f59e0b, #d97706);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
 
   &:hover {
-    transform: translateY(-8px) scale(1.02);
-    border-color: rgba(245, 158, 11, 0.5);
-    box-shadow: 0 20px 50px rgba(245, 158, 11, 0.2);
-
-    &::before {
-      opacity: 1;
-    }
+    border-color: rgba(255, 26, 26, 0.5);
+    background: rgba(255, 26, 26, 0.05);
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.1);
 
     .community-icon {
-      transform: scale(1.15) rotate(5deg);
+      color: #ff1a1a;
+    }
+
+    .card-corner {
+      opacity: 1;
     }
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
     font-weight: 700;
-    margin: 1rem 0;
-    color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin: 1rem 0 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
   }
 
   p {
-    font-size: 1rem;
-    color: var(--text-color-secondary);
-    margin: 0 0 1.5rem;
-    line-height: 1.6;
-  }
-}
-
-.community-icon {
-  font-size: 3rem;
-  color: #f59e0b;
-  transition: transform 0.3s ease;
-}
-
-.community-badge {
-  display: inline-block;
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
-  padding: 0.5rem 1.25rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-}
-
-.scroll-annotation {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border: 2px solid rgba(139, 92, 246, 0.3);
-  border-radius: 16px;
-  padding: 1.5rem;
-  max-width: 280px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-
-  .theme-dark & {
-    background: rgba(26, 31, 45, 0.95);
-    border-color: rgba(139, 92, 246, 0.4);
-  }
-}
-
-.annotation-right {
-  right: 2rem;
-}
-
-.annotation-left {
-  left: 2rem;
-}
-
-.annotation-icon {
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-
-  i {
-    font-size: 1.5rem;
-    color: white;
-  }
-
-  &.tools-icon {
-    background: linear-gradient(135deg, #06b6d4, #0891b2);
-    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
-  }
-
-  &.resources-icon {
-    background: linear-gradient(135deg, #10b981, #059669);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-  }
-
-  &.community-icon {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-  }
-}
-
-.annotation-content {
-  h4 {
-    font-size: 1.125rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem;
-    color: var(--text-color);
-  }
-
-  p {
-    font-size: 0.9rem;
-    color: var(--text-color-secondary);
-    margin: 0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0 0 1rem;
     line-height: 1.5;
   }
 }
 
-.annotation-fade-enter-active,
-.annotation-fade-leave-active {
-  transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+.community-icon-wrapper {
+  margin-bottom: 0.5rem;
 }
 
-.annotation-fade-enter-from {
-  opacity: 0;
-  transform: translateY(-50%) translateX(20px);
+.community-icon {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
 }
 
-.annotation-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-50%) translateX(-20px);
+.community-badge {
+  display: inline-block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #66ff66;
+  background: rgba(102, 255, 102, 0.1);
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(102, 255, 102, 0.3);
 }
 
 .about-section {
   max-width: 800px;
-  margin: 0 auto 6rem;
+  margin: 0 auto 4rem;
   padding: 2rem 1.5rem;
 }
 
 .about-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  padding: 3rem 2rem;
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 2.5rem 2rem;
   text-align: center;
   position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #8b5cf6, #3b82f6, #a855f7);
-    background-size: 200% 100%;
-    animation: gradient-slide 3s linear infinite;
-  }
-}
-
-@keyframes gradient-slide {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  100% {
-    background-position: 200% 50%;
-  }
 }
 
 .about-icon {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 1.5rem;
-  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 1.25rem;
+  background: rgba(255, 26, 26, 0.1);
+  border: 1px solid rgba(255, 26, 26, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  color: white;
-  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+  font-size: 1.25rem;
+  color: #ff1a1a;
 }
 
 .about-title {
-  font-size: 2rem;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
   margin: 0 0 1rem;
-  color: var(--text-color);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .about-text {
-  font-size: 1.125rem;
-  color: var(--text-color-secondary);
-  margin: 0 0 2rem;
-  line-height: 1.7;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 1.5rem;
+  line-height: 1.6;
 }
 
 .about-link {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.875rem 2rem;
-  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-  color: white;
+  padding: 0.75rem 1.5rem;
+  background: #ff1a1a;
+  color: #ffffff;
   text-decoration: none;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1rem;
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
-    background: linear-gradient(135deg, #7c3aed, #2563eb);
+    background: #ff3333;
+    box-shadow: 0 0 15px rgba(255, 26, 26, 0.4);
   }
+}
 
-  &:active {
-    transform: translateY(0);
-  }
+.link-arrow {
+  font-size: 0.6rem;
 }
 
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(30px) scale(0.96);
+  transform: translateY(20px);
   transition:
-    opacity 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+    opacity 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
   will-change: opacity, transform;
 
   &.is-visible {
     opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.scroll-to-top {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-  border: none;
-  border-radius: 50%;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
-  transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    transform: translateY(-4px) scale(1.1);
-    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.6);
-    background: linear-gradient(135deg, #7c3aed, #2563eb);
-  }
-
-  &:active {
-    transform: translateY(-2px) scale(1.05);
-  }
-
-  i {
-    animation: bounce-arrow 2s infinite;
-  }
-}
-
-@keyframes bounce-arrow {
-  0%,
-  100% {
     transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-4px);
   }
 }
 
@@ -1584,83 +1415,6 @@ onUnmounted(() => {
   transform: scale(0.8);
 }
 
-@media (max-width: 1920px) {
-  .scroll-annotation {
-    max-width: 220px;
-    padding: 1.25rem;
-
-    &.annotation-right {
-      right: 1rem;
-    }
-
-    &.annotation-left {
-      left: 1rem;
-    }
-  }
-
-  .annotation-icon {
-    width: 42px;
-    height: 42px;
-    margin-bottom: 0.75rem;
-
-    i {
-      font-size: 1.25rem;
-    }
-  }
-
-  .annotation-content {
-    h4 {
-      font-size: 1rem;
-    }
-
-    p {
-      font-size: 0.85rem;
-    }
-  }
-}
-
-@media (max-width: 1600px) {
-  .scroll-annotation {
-    max-width: 200px;
-    padding: 1rem;
-
-    &.annotation-right {
-      right: 0.5rem;
-    }
-
-    &.annotation-left {
-      left: 0.5rem;
-    }
-  }
-
-  .annotation-icon {
-    width: 38px;
-    height: 38px;
-    margin-bottom: 0.5rem;
-
-    i {
-      font-size: 1.125rem;
-    }
-  }
-
-  .annotation-content {
-    h4 {
-      font-size: 0.95rem;
-    }
-
-    p {
-      font-size: 0.8rem;
-      line-height: 1.4;
-    }
-  }
-}
-
-@media (max-width: 1400px) {
-  .scroll-annotation {
-    display: none;
-  }
-}
-
 @media (max-width: 768px) {
   .hero-section {
     min-height: 70vh;
@@ -1673,8 +1427,8 @@ onUnmounted(() => {
   .features-grid,
   .tools-grid,
   .resources-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
   }
 
   .community-grid {
@@ -1685,12 +1439,13 @@ onUnmounted(() => {
     padding: 2rem 1.5rem;
   }
 
-  .scroll-to-top {
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 48px;
-    height: 48px;
-    font-size: 1.25rem;
+  .section-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .header-line {
+    display: none;
   }
 }
 
@@ -1705,29 +1460,9 @@ onUnmounted(() => {
     padding: 1rem;
   }
 
-  .scroll-to-top {
-    bottom: 1rem;
-    right: 1rem;
-    width: 44px;
-    height: 44px;
-    font-size: 1.125rem;
+  .system-status {
+    flex-direction: column;
+    gap: 0.5rem;
   }
-}
-
-.credits-section {
-  max-width: 800px;
-  margin: -10rem auto 4rem;
-  padding: 2rem 1.5rem;
-  text-align: center;
-}
-
-.credits-card {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 2rem;
-  color: var(--text-color-secondary);
-  font-size: 0.95rem;
 }
 </style>

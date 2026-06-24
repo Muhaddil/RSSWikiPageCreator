@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Toolbar from 'primevue/toolbar';
-import ThemeSwitch from './ThemeSwitch.vue';
 import NavBar from './NavBar.vue';
 import { pageformattedName } from '@/variables/route';
 import Presets from './Presets.vue';
@@ -28,35 +26,79 @@ function isLinksPage() {
 </script>
 
 <template>
-  <Toolbar
-    class="is-borderless is-radiusless"
+  <div
+    class="main-toolbar"
     v-if="!isLinksPage()"
   >
-    <template #start>
+    <div class="toolbar-left">
       <NavBar />
-    </template>
+    </div>
 
-    <template #center>
+    <div class="toolbar-center">
       <h1
         v-if="!isDestPage()"
-        class="title is-3"
+        class="toolbar-title"
       >
-        Royal Space Society Wiki Page Creator{{ pageformattedName === 'Home' ? '' : ` - ${pageformattedName}` }}
+        {{ pageformattedName === 'Home' ? 'WIKI PAGE CREATOR' : pageformattedName }}
       </h1>
       <h1
         v-if="isDestPage()"
-        class="title is-3"
+        class="toolbar-title"
       >
-        Royal Space Society - {{ pageformattedName }}
+        {{ pageformattedName }}
       </h1>
-    </template>
+    </div>
 
-    <template #end>
-      <div class="is-flex is-gap-1">
-        <Tools />
-        <Presets />
-        <ThemeSwitch />
-      </div>
-    </template>
-  </Toolbar>
+    <div class="toolbar-right">
+      <Tools />
+      <Presets />
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.main-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1400px;
+  padding: 0.5rem 0;
+}
+
+.toolbar-left,
+.toolbar-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-right {
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.toolbar-center {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.toolbar-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(0.65rem, 1.2vw, 0.85rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  white-space: nowrap;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .toolbar-center {
+    display: none;
+  }
+}
+</style>

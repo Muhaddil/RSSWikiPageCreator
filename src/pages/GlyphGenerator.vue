@@ -415,35 +415,35 @@ watch(selectedRegionKey, () => {
 }
 
 .glyph-card {
-  --primary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --secondary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --background-primary: #f1f5f9;
-  --background-secondary: #ffffff;
-  --border-color: rgb(99 102 241 / 15%);
-  --hover-effect: rgb(99 102 241 / 10%);
-  --accent-color: #4f46e5;
-  --accent-glow: rgba(79, 70, 229, 0.3);
-  --card-shadow: 0 4px 6px rgb(0 0 0 / 5%);
-  --card-hover-shadow: 0 10px 20px rgb(0 0 0 / 10%);
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --accent-color: #ff1a1a;
+  --accent-glow: rgba(255, 26, 26, 0.3);
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --card-hover-shadow: 0 10px 20px rgba(255, 26, 26, 0.15);
   --transition-duration: 0.4s;
   --transition-timing: cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .theme-dark .glyph-card {
-  --primary-gradient: linear-gradient(45deg, #67e8f9 0%, #4f46e5 100%);
-  --secondary-gradient: linear-gradient(45deg, #4f46e5 0%, #1e40af 100%);
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --background-primary: #0f172a;
-  --background-secondary: #1e293b;
-  --border-color: rgb(103 232 249 / 15%);
-  --hover-effect: rgb(103 232 249 / 20%);
-  --accent-color: #67e8f9;
-  --accent-glow: rgba(103, 232, 249, 0.3);
-  --card-shadow: 0 4px 6px rgb(0 0 0 / 20%);
-  --card-hover-shadow: 0 10px 20px rgb(103 232 249 / 20%);
+  --primary-gradient: linear-gradient(45deg, #ff1a1a 0%, #990000 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff1a1a 0%, #cc0000 100%);
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --background-primary: #050505;
+  --background-secondary: #0a0a0a;
+  --border-color: rgba(255, 26, 26, 0.15);
+  --hover-effect: rgba(255, 26, 26, 0.1);
+  --accent-color: #ff1a1a;
+  --accent-glow: rgba(255, 26, 26, 0.3);
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  --card-hover-shadow: 0 10px 20px rgba(255, 26, 26, 0.15);
 }
 
 * {
@@ -490,7 +490,7 @@ watch(selectedRegionKey, () => {
 }
 
 .theme-dark .glyph-card:hover {
-  box-shadow: 0 25px 60px rgb(103 232 249 / 15%);
+  box-shadow: 0 25px 60px rgba(255, 26, 26, 0.15);
 }
 
 .particles {

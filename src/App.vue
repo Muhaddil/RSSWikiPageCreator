@@ -21,6 +21,12 @@ const RouteComponent = defineAsyncComponent<Component>({
 const updateAvailable = ref(false);
 const currentVersion = packageJson.version;
 const remoteVersion = ref('');
+const currentTime = ref('');
+
+function updateTime() {
+  const now = new Date();
+  currentTime.value = now.toLocaleTimeString('en-US', { hour12: false });
+}
 
 type RawAnnouncement = {
   active?: boolean;
@@ -176,6 +182,9 @@ function getAnnouncementIcon(type: string) {
 }
 
 onMounted(() => {
+  updateTime();
+  setInterval(updateTime, 1000);
+
   checkForUpdate();
   checkForAnnouncements();
 
@@ -206,180 +215,290 @@ function reloadPage() {
 </script>
 
 <template>
-  <header class="header">
-    <div class="version-display">
-      <span class="version-text">v{{ currentVersion }}</span>
-    </div>
-    <MainToolbar />
-  </header>
+  <div class="rss-core-os">
+    <div class="scanline-overlay"></div>
+    <div class="noise-overlay"></div>
 
-  <div
-    v-if="announcements.length > 0"
-    class="announcement-container"
-  >
-    <div
-      v-for="(announcement, index) in announcements"
-      :key="announcement.id"
-      v-show="index === currentIndex"
-      :class="['announcement-banner', `announcement-${announcement.type}`, { transitioning: isTransitioning }]"
-    >
-      <div class="announcement-content">
-        <div class="announcement-icon">
-          <i :class="getAnnouncementIcon(announcement.type)"></i>
-        </div>
-        <div class="announcement-text">
-          <h4
-            v-if="announcement.title"
-            class="announcement-title"
+    <header class="rss-header">
+      <div class="header-left">
+        <span class="system-id">RSS // WCORE OS V{{currentVersion}}</span>
+      </div>
+      <div class="header-center">
+        <MainToolbar />
+      </div>
+      <div class="header-right">
+        <span class="system-time">{{ currentTime }}</span>
+      </div>
+    </header>
+
+    <div class="system-status-bar">
+      <div class="status-item">
+        <span class="status-label">SYSTEM</span>
+        <span class="status-value ok">ONLINE</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">NODE</span>
+        <span class="status-value">SP-MKD-01</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">VERSION</span>
+        <span class="status-value">v{{ currentVersion }}</span>
+      </div>
+    </div>
+
+    <main class="rss-main">
+      <div
+        v-if="announcements.length > 0"
+        class="announcement-container"
+      >
+        <div
+          v-for="(announcement, index) in announcements"
+          :key="announcement.id"
+          v-show="index === currentIndex"
+          :class="['announcement-banner', `announcement-${announcement.type}`, { transitioning: isTransitioning }]"
+        >
+          <div class="announcement-content">
+            <div class="announcement-icon">
+              <i :class="getAnnouncementIcon(announcement.type)"></i>
+            </div>
+            <div class="announcement-text">
+              <h4
+                v-if="announcement.title"
+                class="announcement-title"
+              >
+                {{ announcement.title }}
+              </h4>
+              <p class="announcement-message">{{ announcement.message }}</p>
+              <a
+                v-if="announcement.link"
+                :href="announcement.link.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="announcement-link"
+              >
+                {{ announcement.link.text }}
+                <i class="pi pi-external-link"></i>
+              </a>
+            </div>
+          </div>
+          <button
+            v-if="announcement.dismissible"
+            class="announcement-dismiss"
+            @click="dismissAnnouncement"
+            aria-label="Cerrar anuncio"
           >
-            {{ announcement.title }}
-          </h4>
-          <p class="announcement-message">{{ announcement.message }}</p>
+            <i class="pi pi-times"></i>
+          </button>
+        </div>
+
+        <div
+          v-if="showProgressBar && announcements.length > 1"
+          class="announcement-progress"
+        >
+          <div
+            v-for="(_, index) in announcements"
+            :key="index"
+            :class="['progress-dot', { active: index === currentIndex }]"
+            @click="currentIndex = index"
+          ></div>
+        </div>
+      </div>
+
+      <div
+        v-if="updateAvailable"
+        class="update-banner"
+      >
+        <div class="update-icon">
+          <i class="pi pi-refresh"></i>
+        </div>
+        <div class="update-content">
+          <div class="update-text">
+            <span class="update-title">ACTUALIZACIÓN DEL SISTEMA DISPONIBLE</span>
+            <span class="update-version">{{ currentVersion }} → {{ remoteVersion }}</span>
+          </div>
           <a
-            v-if="announcement.link"
-            :href="announcement.link.url"
+            href="https://muhaddil.github.io/RSSWikiPageCreator/cronology.html"
             target="_blank"
             rel="noopener noreferrer"
-            class="announcement-link"
+            class="update-changelog"
           >
-            {{ announcement.link.text }}
-            <i class="pi pi-external-link"></i>
+            VIEW CHANGES
           </a>
         </div>
+        <button
+          class="update-btn"
+          @click="reloadPage"
+        >
+          <span>UPDATE</span>
+          <i class="pi pi-arrow-right"></i>
+        </button>
       </div>
-      <button
-        v-if="announcement.dismissible"
-        class="announcement-dismiss"
-        @click="dismissAnnouncement"
-        aria-label="Cerrar anuncio"
-      >
-        <i class="pi pi-times"></i>
-      </button>
-    </div>
 
-    <div
-      v-if="showProgressBar && announcements.length > 1"
-      class="announcement-progress"
-    >
+      <RouteComponent />
       <div
-        v-for="(_, index) in announcements"
-        :key="index"
-        :class="['progress-dot', { active: index === currentIndex }]"
-        @click="currentIndex = index"
-      ></div>
-    </div>
-  </div>
-
-  <div
-    v-if="updateAvailable"
-    class="update-banner"
-  >
-    <div class="update-icon">
-      <i class="pi pi-refresh"></i>
-    </div>
-    <div class="update-content">
-      <div class="update-text">
-        <span class="update-title">Nueva versión disponible</span>
-        <span class="update-version">{{ currentVersion }} → {{ remoteVersion }}</span>
-      </div>
-      <a
-        href="https://muhaddil.github.io/RSSWikiPageCreator/cronology.html"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="update-changelog"
+        class="footer-section"
+        v-if="componentName !== 'Faq'"
       >
-        Ver cambios
-      </a>
-    </div>
-    <button
-      class="update-btn"
-      @click="reloadPage"
-    >
-      <span>Actualizar</span>
-      <i class="pi pi-arrow-right"></i>
-    </button>
-  </div>
-
-  <main class="container main-page-content pt-4 my-5">
-    <RouteComponent />
-    <div
-      class="footer-section"
-      v-if="componentName !== 'Faq'"
-    >
-      <div class="footer-content">
-        <i class="pi pi-heart-fill heart-icon"></i>
-        <div class="footer-text">
-          <span class="footer-title">Creado con pasión y dedicación por la</span>
-          <a
-            href="https://nomanssky.fandom.com/wiki/Royal_Space_Society"
-            target="_blank"
-          >
-            <span class="author-name">Royal Space Society</span>
-          </a>
+        <div class="rss-divider"></div>
+        <div class="footer-content">
+          <div class="footer-text">
+            <span class="footer-label">DEVELOPED BY</span>
+            <a
+              href="https://nomanssky.fandom.com/wiki/Royal_Space_Society"
+              target="_blank"
+              class="author-name"
+            >
+              ROYAL SPACE SOCIETY
+            </a>
+          </div>
         </div>
-        <i class="pi pi-star-fill star-icon"></i>
       </div>
-      <p class="footer-subtitle"></p>
-    </div>
-  </main>
-  <footer
-    v-if="componentName !== 'Home'"
-    class="full-width"
-  >
-    <FooterToolbar />
-  </footer>
+    </main>
+
+    <footer
+      v-if="componentName !== 'Home'"
+      class="rss-footer"
+    >
+      <FooterToolbar />
+    </footer>
+  </div>
 </template>
 
 <style scoped>
-.header {
-  border-block-end: 1px solid var(--p-toolbar-border-color);
+.rss-core-os {
+  min-height: 100vh;
   position: relative;
+  background: #050505;
 }
 
-.version-display {
-  display: inline-block;
+.scanline-overlay {
   position: fixed;
-  bottom: 1rem;
-  left: 1rem;
-  z-index: 10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
 }
 
-.version-text {
-  display: inline-block;
-  padding: 0.375rem 0.875rem;
-  background: rgb(255 255 255 / 15%);
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.5;
+}
+
+.rss-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1.5rem;
+  background: rgba(10, 10, 10, 0.95);
+  border-bottom: 1px solid rgba(255, 26, 26, 0.3);
+  z-index: 100;
   backdrop-filter: blur(10px);
-  border-radius: 20px;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.system-id {
+  font-family: 'Orbitron', monospace;
   font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--text-color);
-  border: 1px solid rgb(255 255 255 / 20%);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  font-weight: 700;
+  color: #ff1a1a;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
-.version-text:hover {
-  background: rgb(255 255 255 / 25%);
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgb(0 0 0 / 15%);
+.header-center {
+  flex: 2;
+  display: flex;
+  justify-content: center;
 }
 
-footer {
+.header-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.system-time {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.15em;
+}
+
+.system-status-bar {
   position: fixed;
-  bottom: 0;
-  border-block-start: 1px solid var(--p-toolbar-border-color);
+  top: 45px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 0.35rem 1rem;
+  background: rgba(5, 5, 5, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 99;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
 }
 
-.main-page-content {
-  padding-block-end: 5rem;
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-label {
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.status-value {
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.1em;
+}
+
+.status-value.ok {
+  color: #66ff66;
+  text-shadow: 0 0 5px rgba(102, 255, 102, 0.3);
+}
+
+.rss-main {
+  padding-top: 90px;
+  padding-bottom: 100px;
+  min-height: 100vh;
+  width: 100%;
 }
 
 .footer-section {
   padding: 2rem 1.5rem;
-  background: var(--background-secondary);
-  border-top: 1px solid var(--border-color);
-  margin-top: 2rem;
+  margin-top: 4rem;
   text-align: center;
+  border-top: 1px solid rgba(255, 26, 26, 0.2);
 }
 
 .footer-content {
@@ -387,62 +506,55 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.heart-icon {
-  color: #ef4444;
-  font-size: 1.5rem;
-  animation: heartbeat 2s infinite;
-}
-
-.star-icon {
-  color: #fbbf24;
-  font-size: 1.2rem;
-  animation: twinkle 3s infinite;
 }
 
 .footer-text {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.25rem;
 }
 
-.footer-title {
-  color: var(--text-secondary);
-  font-size: 1.1rem;
-  animation: glow 3s ease-in-out infinite;
+.footer-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
 }
 
 .author-name {
-  background: linear-gradient(45deg, #4f46e5 0%, #1e40af 50%, #7c3aed 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 600;
-  font-size: 1.4rem;
-  font-style: italic;
-  text-shadow: 0 0 10px rgb(79 70 229 / 70%);
-  animation: gradient-shift 4s ease-in-out infinite;
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #ff1a1a;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  text-decoration: none;
   transition: all 0.3s ease;
 }
 
-.footer-subtitle {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-  opacity: 0.8;
+.author-name:hover {
+  color: #ff3333;
+  text-shadow: 0 0 10px rgba(255, 26, 26, 0.5);
 }
 
-.author-name:hover {
-  transform: scale(1.05);
-  filter: drop-shadow(0 0 8px rgb(79 70 229 / 50%));
+.rss-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 10, 10, 0.95);
+  border-top: 1px solid rgba(255, 26, 26, 0.3);
+  z-index: 100;
+  backdrop-filter: blur(10px);
 }
 
 .announcement-container {
   position: relative;
   margin: 0.75rem auto;
   max-width: 900px;
+  padding: 0 1rem;
 }
 
 .announcement-banner {
@@ -450,67 +562,42 @@ footer {
   align-items: flex-start;
   justify-content: space-between;
   padding: 0.875rem 1.125rem;
-  border-radius: 12px;
-  backdrop-filter: blur(20px);
-  border: 1px solid rgb(255 255 255 / 10%);
-  box-shadow:
-    0 8px 32px rgb(0 0 0 / 6%),
-    0 1px 0 rgb(255 255 255 / 20%) inset;
-  animation: float-in 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 0;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 26, 26, 0.3);
+  border-left: 3px solid #ff1a1a;
+  background: rgba(10, 10, 10, 0.8);
   position: relative;
   overflow: hidden;
 }
 
-.announcement-banner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 10%), transparent);
-  transition: left 0.8s ease;
-}
-
-.announcement-banner:hover::before {
-  left: 100%;
-}
-
-.announcement-banner:hover {
-  transform: translateY(-2px) scale(1.01);
-  box-shadow:
-    0 12px 40px rgb(0 0 0 / 8%),
-    0 1px 0 rgb(255 255 255 / 30%) inset;
-}
-
 .announcement-banner.transitioning {
   opacity: 0;
-  transform: translateX(-20px) scale(0.98);
+  transform: translateX(-20px);
 }
 
 .announcement-info {
-  background: linear-gradient(135deg, rgb(59 130 246 / 12%) 0%, rgb(147 197 253 / 8%) 100%);
-  border-left: 3px solid rgb(59 130 246 / 40%);
-  color: #1e3a8a;
+  border-left-color: rgba(255, 255, 255, 0.5);
+  background: rgba(10, 10, 10, 0.8);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .announcement-warning {
-  background: linear-gradient(135deg, rgb(245 158 11 / 12%) 0%, rgb(252 211 77 / 8%) 100%);
-  border-left: 3px solid rgb(245 158 11 / 40%);
-  color: #78350f;
+  border-left-color: #ff1a1a;
+  background: rgba(10, 10, 10, 0.8);
+  color: #ff1a1a;
 }
 
 .announcement-error {
-  background: linear-gradient(135deg, rgb(239 68 68 / 12%) 0%, rgb(252 165 165 / 8%) 100%);
-  border-left: 3px solid rgb(239 68 68 / 40%);
-  color: #7f1d1d;
+  border-left-color: #ff1a1a;
+  background: rgba(10, 10, 10, 0.8);
+  color: #ff1a1a;
 }
 
 .announcement-success {
-  background: linear-gradient(135deg, rgb(34 197 94 / 12%) 0%, rgb(134 239 172 / 8%) 100%);
-  border-left: 3px solid rgb(34 197 94 / 40%);
-  color: #14532d;
+  border-left-color: #66ff66;
+  background: rgba(10, 10, 10, 0.8);
+  color: #66ff66;
 }
 
 .announcement-content {
@@ -521,10 +608,9 @@ footer {
 }
 
 .announcement-icon {
-  font-size: 1.125rem;
+  font-size: 1rem;
   margin-top: 0.125rem;
   opacity: 0.8;
-  animation: bounce-subtle 2s infinite;
 }
 
 .announcement-text {
@@ -533,59 +619,63 @@ footer {
 
 .announcement-title {
   margin: 0 0 0.375rem;
-  font-size: 1rem;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.7rem;
   font-weight: 700;
-  opacity: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
   line-height: 1.3;
 }
 
 .announcement-message {
   margin: 0 0 0.5rem;
   line-height: 1.5;
-  font-size: 0.925rem;
-  opacity: 0.95;
-  font-weight: 500;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  opacity: 0.9;
 }
 
 .announcement-link {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  font-weight: 500;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
   text-decoration: none;
-  opacity: 0.9;
-  font-size: 0.9rem;
-  border-radius: 6px;
+  color: #ff1a1a;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   padding: 0.25rem 0.5rem;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 1px solid rgba(255, 26, 26, 0.3);
+  transition: all 0.3s ease;
 }
 
 .announcement-link:hover {
-  opacity: 1;
-  background: rgb(255 255 255 / 10%);
-  transform: translateX(4px);
+  background: rgba(255, 26, 26, 0.1);
+  border-color: #ff1a1a;
 }
 
 .announcement-dismiss {
   background: none;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 50%;
+  padding: 0.25rem;
   opacity: 0.6;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s ease;
   margin-left: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
+  color: #ffffff;
+  font-size: 0.7rem;
 }
 
 .announcement-dismiss:hover {
   opacity: 1;
-  background: rgb(0 0 0 / 8%);
-  transform: scale(1.1) rotate(90deg);
+  border-color: #ff1a1a;
+  color: #ff1a1a;
 }
 
 .announcement-progress {
@@ -593,85 +683,41 @@ footer {
   justify-content: center;
   gap: 0.5rem;
   margin-top: 0.75rem;
-  padding: 0 1rem;
 }
 
 .progress-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgb(0 0 0 / 20%);
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.2);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
+  transition: all 0.3s ease;
 }
 
 .progress-dot:hover {
-  transform: scale(1.2);
-  background: rgb(0 0 0 / 40%);
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .progress-dot.active {
-  background: linear-gradient(45deg, #4f46e5, #7c3aed);
-  transform: scale(1.3);
-  box-shadow: 0 0 12px rgb(79 70 229 / 40%);
-}
-
-.progress-dot.active::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 2px solid rgb(79 70 229 / 30%);
-  animation: pulse-ring 2s infinite;
+  background: #ff1a1a;
+  box-shadow: 0 0 8px rgba(255, 26, 26, 0.5);
 }
 
 .update-banner {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: linear-gradient(135deg, rgb(16 185 129 / 8%) 0%, rgb(52 211 153 / 5%) 100%);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgb(16 185 129 / 15%);
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(102, 255, 102, 0.3);
+  border-left: 3px solid #66ff66;
+  border-radius: 0;
+  padding: 0.875rem 1.125rem;
   margin: 0.75rem auto;
   max-width: 900px;
-  box-shadow:
-    0 8px 32px rgb(16 185 129 / 8%),
-    0 1px 0 rgb(255 255 255 / 10%) inset;
-  animation: slide-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  overflow: hidden;
-}
-
-.update-banner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgb(16 185 129 / 10%), transparent);
-  transition: left 1s ease;
-}
-
-.update-banner:hover::before {
-  left: 100%;
-}
-
-.update-banner:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    0 16px 48px rgb(16 185 129 / 12%),
-    0 1px 0 rgb(255 255 255 / 20%) inset;
 }
 
 .update-icon {
-  font-size: 1.5rem;
-  color: #10b981;
-  animation: rotate-pulse 3s infinite;
+  font-size: 1rem;
+  color: #66ff66;
 }
 
 .update-content {
@@ -688,222 +734,75 @@ footer {
 }
 
 .update-title {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--text-color);
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #66ff66;
 }
 
 .update-version {
-  font-size: 0.825rem;
-  color: var(--text-color-secondary);
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .update-changelog {
-  font-size: 0.825rem;
-  color: #10b981;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   transition: all 0.3s ease;
 }
 
 .update-changelog:hover {
-  opacity: 1;
-  text-decoration: underline;
+  color: #66ff66;
 }
 
 .update-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-  color: white;
+  background: #66ff66;
+  color: #050505;
   border: none;
-  padding: 0.625rem 1.25rem;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0;
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  box-shadow: 0 4px 12px rgb(16 185 129 / 20%);
+  transition: all 0.3s ease;
 }
 
 .update-btn:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 24px rgb(16 185 129 / 30%);
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  background: #88ff88;
+  box-shadow: 0 0 15px rgba(102, 255, 102, 0.4);
 }
 
-.update-btn:active {
-  transform: translateY(0) scale(0.98);
-}
-
-@keyframes float-in {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.95);
+@media (max-width: 768px) {
+  .rss-header {
+    padding: 0.5rem 1rem;
   }
 
-  60% {
-    opacity: 0.8;
-    transform: translateY(5px) scale(1.01);
+  .system-id {
+    font-size: 0.6rem;
   }
 
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes slide-up {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
+  .system-time {
+    font-size: 0.7rem;
   }
 
-  60% {
-    opacity: 0.8;
-    transform: translateY(-5px) scale(1.01);
+  .system-status-bar {
+    gap: 1rem;
+    font-size: 0.6rem;
   }
 
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes bounce-subtle {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-3px);
-  }
-}
-
-@keyframes heartbeat {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.1);
-  }
-}
-
-@keyframes twinkle {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-
-  25% {
-    opacity: 0.7;
-    transform: scale(1.1) rotate(5deg);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-
-  75% {
-    opacity: 0.8;
-    transform: scale(1.1) rotate(-5deg);
-  }
-}
-
-@keyframes glow {
-  0%,
-  100% {
-    text-shadow: 0 0 5px rgb(255 255 255 / 20%);
-  }
-
-  50% {
-    text-shadow: 0 0 20px rgb(255 255 255 / 40%);
-  }
-}
-
-@keyframes gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes rotate-pulse {
-  0%,
-  100% {
-    transform: rotate(0deg) scale(1);
-  }
-
-  25% {
-    transform: rotate(90deg) scale(1.1);
-  }
-
-  50% {
-    transform: rotate(180deg) scale(1);
-  }
-
-  75% {
-    transform: rotate(270deg) scale(1.1);
-  }
-}
-
-@keyframes pulse-ring {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-
-@media (width <=768px) {
-  .footer-content {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .author-name {
-    font-size: 1.2rem;
-  }
-
-  .announcement-banner {
-    margin: 0.5rem 1rem;
-    padding: 0.75rem 1rem;
-  }
-
-  .update-banner {
-    margin: 0.5rem 1rem;
-    padding: 0.875rem 1rem;
-    flex-direction: column;
-    gap: 0.75rem;
-    text-align: center;
-  }
-
-  .update-content {
-    align-items: center;
-  }
-
-  .version-text {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.6rem;
-  }
-}
-
-@media (width <=480px) {
   .announcement-banner {
     flex-direction: column;
     gap: 0.75rem;
@@ -914,66 +813,27 @@ footer {
     margin-left: 0;
   }
 
-  .announcement-progress {
-    margin-top: 0.5rem;
+  .update-banner {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .update-content {
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .system-status-bar {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .progress-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
-}
-
-@media (prefers-color-scheme: dark) {
-  .announcement-banner {
-    border-color: rgb(255 255 255 / 10%);
-    box-shadow:
-      0 8px 32px rgb(0 0 0 / 30%),
-      0 1px 0 rgb(255 255 255 / 10%) inset;
-  }
-
-  .update-banner {
-    border-color: rgb(16 185 129 / 15%);
-    box-shadow:
-      0 8px 32px rgb(16 185 129 / 8%),
-      0 1px 0 rgb(255 255 255 / 8%) inset;
-  }
-
-  .version-text {
-    background: rgb(0 0 0 / 30%);
-    border-color: rgb(255 255 255 / 15%);
-    color: rgb(255 255 255 / 90%);
-  }
-
-  .announcement-info {
-    color: #60a5fa;
-  }
-
-  .announcement-warning {
-    color: #fbbf24;
-  }
-
-  .announcement-error {
-    color: #f87171;
-  }
-
-  .announcement-success {
-    color: #4ade80;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-.announcement-dismiss:focus-visible,
-.update-btn:focus-visible,
-.progress-dot:focus-visible {
-  outline: 2px solid #4f46e5;
-  outline-offset: 2px;
 }
 </style>
