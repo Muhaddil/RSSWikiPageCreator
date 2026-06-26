@@ -46,7 +46,7 @@ onMounted(() => {
       class="nav-link"
     >
       <span class="nav-icon">&#9664;</span>
-      <span class="nav-text">INDEX</span>
+      <span class="nav-text">OTRAS PÁGINAS</span>
     </a>
     <a
       v-if="!isIndexPage"
@@ -62,7 +62,7 @@ onMounted(() => {
       class="nav-link"
     >
       <span class="nav-icon">&#9664;</span>
-      <span class="nav-text">MAIN MENU</span>
+      <span class="nav-text">MENU PRINCIPAL</span>
     </a>
 
     <a
@@ -70,7 +70,7 @@ onMounted(() => {
       :href="sandwormLink"
       class="nav-link"
     >
-      <span class="nav-text">SANDWORM</span>
+      <span class="nav-text">GUSANO DE ARENA</span>
       <span class="nav-icon">&#9654;</span>
     </a>
     <a
@@ -86,7 +86,7 @@ onMounted(() => {
       :href="moonLink"
       class="nav-link"
     >
-      <span class="nav-text">MOONS</span>
+      <span class="nav-text">LUNAS</span>
       <span class="nav-icon">&#9654;</span>
     </a>
     <a
@@ -94,7 +94,7 @@ onMounted(() => {
       :href="planetLink"
       class="nav-link"
     >
-      <span class="nav-text">PLANETS</span>
+      <span class="nav-text">PLANETAS</span>
       <span class="nav-icon">&#9654;</span>
     </a>
   </nav>

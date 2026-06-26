@@ -342,7 +342,7 @@ function reloadPage() {
         <div class="rss-divider"></div>
         <div class="footer-content">
           <div class="footer-text">
-            <span class="footer-label">DEVELOPED BY</span>
+            <span class="footer-label">DESARROLLADO POR</span>
             <a
               href="https://nomanssky.fandom.com/wiki/Royal_Space_Society"
               target="_blank"

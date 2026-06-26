@@ -235,7 +235,7 @@ function showConfirmDialog() {
         @click="copyPage"
       >
         <span class="btn-icon">&#9776;</span>
-        <span class="btn-text">COPY</span>
+        <span class="btn-text">COPIAR</span>
       </button>
 
       <button
@@ -244,7 +244,7 @@ function showConfirmDialog() {
         @click="createPage"
       >
         <span class="btn-icon">&#9654;</span>
-        <span class="btn-text">CREATE</span>
+        <span class="btn-text">CREAR</span>
       </button>
 
       <button
@@ -253,7 +253,7 @@ function showConfirmDialog() {
         @click="downloadCode"
       >
         <span class="btn-icon">&#8681;</span>
-        <span class="btn-text">DOWNLOAD</span>
+        <span class="btn-text">DESCARGAR</span>
       </button>
 
       <button
@@ -262,7 +262,7 @@ function showConfirmDialog() {
         @click="uploadFiles"
       >
         <span class="btn-icon">&#8682;</span>
-        <span class="btn-text">UPLOAD</span>
+        <span class="btn-text">SUBIR</span>
       </button>
 
       <button
