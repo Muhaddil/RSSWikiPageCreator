@@ -127,7 +127,8 @@ const formattedGenera = computed(() => {
         severity="danger"
         size="small"
         @click="addFauna"
-      >+ Añadir Fauna</Button>
+        >+ Añadir Fauna</Button
+      >
       <br />
       <br />
       <div

@@ -424,21 +424,22 @@ watchDebounced(
 
 .card-image-container {
   position: absolute;
-  top: 175px;
+  top: 183px;
   left: 50px;
-  width: 225px;
-  height: 295px;
+  width: 234px;
+  height: 300px;
   border: 2px solid #ff1a1a;
   border-radius: 65px;
   overflow: hidden;
   font-family: NMSFuturaProBook;
+  opacity:0.0;
 }
 
 .card-image-marco {
   position: absolute;
-  top: 158px;
+  top: 165px;
   left: 32px;
-  width: 265px;
+  width: 274px;
   height: auto;
   border-radius: 65px;
   z-index: 1000;

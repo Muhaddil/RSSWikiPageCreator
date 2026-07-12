@@ -15,6 +15,12 @@ interface TimelineEvent {
 const events = ref<TimelineEvent[]>([
   {
     title: 'Censo',
+    date: '10 / 07 / 2025',
+    description: 'Creación del Atlas de la Royal Space Society https://atlas.royalspacesociety.com/.',
+    category: 'Royal Space Society',
+  },
+  {
+    title: 'Censo',
     date: '31 / 12 / 2025',
     description: 'Se consigue el máximo número de bases censadas, 196 bases.',
     category: 'Royal Space Society',
@@ -74,6 +80,13 @@ const events = ref<TimelineEvent[]>([
 
   // Web Updates
 
+  {
+    title: '1.1.1',
+    date: '12 / 07 / 2026',
+    description:
+      'Se ha hecho otro rediseño completo de la web para estar acorde a las demás páginas de la Royal Space Society.',
+    category: 'Web',
+  },
   {
     title: '1.1.02',
     date: '05 / 07 / 2026',
@@ -1039,6 +1052,13 @@ const events = ref<TimelineEvent[]>([
   },
 ]);
 
+function linkify(text: string): string {
+  const urlRegex = /(https?:\/\/[^\s<]+)/g;
+  return text.replace(urlRegex, (url) => {
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="timeline-link">${url}</a>`;
+  });
+}
+
 const groupedEvents = computed(() => {
   const categories = events.value.reduce(
     (groups, event) => {
@@ -1129,7 +1149,7 @@ const groupedEvents = computed(() => {
                         v-for="event in item[1]"
                         :key="event.title"
                         class="event-item"
-                        v-html="`<strong>${event.title}</strong> - ${event.description.replace(/\n/g, '<br>')}`"
+                        v-html="`<strong>${event.title}</strong> - ${linkify(event.description).replace(/\n/g, '<br>')}`"
                       ></li>
                     </ul>
                   </template>
@@ -1340,5 +1360,17 @@ const groupedEvents = computed(() => {
 
 .event-item {
   margin-bottom: 0.5rem;
+}
+
+.timeline-link {
+  color: #ff1a1a;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 26, 26, 0.3);
+  transition: all 0.2s ease;
+}
+
+.timeline-link:hover {
+  color: #ff4444;
+  border-bottom-color: #ff4444;
 }
 </style>

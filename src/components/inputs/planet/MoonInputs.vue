@@ -92,7 +92,7 @@ planets.value.forEach((planet) => {
       size="small"
       @click="addPlanet"
       v-if="planets.length < 2"
-    >Agregar Luna</Button
+      >Agregar Luna</Button
     >
     <br v-if="planets.length < 2" />
     <br v-if="planets.length < 2" />

@@ -28,7 +28,6 @@ watch(isSimplifiedMode, (val) => {
   localStorage.setItem('sidebar_simplified', String(val));
 });
 
-
 function updateTime() {
   const now = new Date();
   currentTime.value = now.toLocaleTimeString('en-US', { hour12: false });
@@ -219,15 +218,22 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
   <div class="app-layout">
     <Sidebar />
 
-    <div class="scanline-overlay" v-if="scanlinesEnabled"></div>
+    <div
+      class="scanline-overlay"
+      v-if="scanlinesEnabled"
+    ></div>
 
     <a
       href="#main-content"
       class="skip-link"
-    >Saltar al contenido</a>
+      >Saltar al contenido</a
+    >
 
     <div class="main-area">
-      <header class="app-header" v-if="!isHome">
+      <header
+        class="app-header"
+        v-if="!isHome"
+      >
         <div class="header-left">
           <span class="breadcrumb">ROYAL SPACE SOCIETY // {{ pageformattedName.toUpperCase() }}</span>
         </div>
@@ -235,27 +241,107 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
           <MainToolbar />
         </div>
         <div class="header-right">
-          <button class="scanline-toggle" @click="toggleScanlines" :class="{ active: scanlinesEnabled }" title="Alternar efecto VCR" aria-label="Alternar efecto VCR">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <button
+            class="scanline-toggle"
+            @click="toggleScanlines"
+            :class="{ active: scanlinesEnabled }"
+            title="Alternar efecto VCR"
+            aria-label="Alternar efecto VCR"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect
+                x="2"
+                y="3"
+                width="20"
+                height="14"
+                rx="2"
+                ry="2"
+              />
+              <line
+                x1="8"
+                y1="21"
+                x2="16"
+                y2="21"
+              />
+              <line
+                x1="12"
+                y1="17"
+                x2="12"
+                y2="21"
+              />
+            </svg>
           </button>
           <span class="system-time">{{ currentTime }}</span>
         </div>
       </header>
 
-      <div class="app-header home-header" v-if="isHome">
+      <div
+        class="app-header home-header"
+        v-if="isHome"
+      >
         <div class="header-left">
           <span class="breadcrumb">ROYAL SPACE SOCIETY // DASHBOARD</span>
         </div>
         <div class="header-center"></div>
         <div class="header-right">
-          <button class="scanline-toggle" @click="toggleScanlines" :class="{ active: scanlinesEnabled }" title="Alternar efecto VCR" aria-label="Alternar efecto VCR">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <button
+            class="scanline-toggle"
+            @click="toggleScanlines"
+            :class="{ active: scanlinesEnabled }"
+            title="Alternar efecto VCR"
+            aria-label="Alternar efecto VCR"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect
+                x="2"
+                y="3"
+                width="20"
+                height="14"
+                rx="2"
+                ry="2"
+              />
+              <line
+                x1="8"
+                y1="21"
+                x2="16"
+                y2="21"
+              />
+              <line
+                x1="12"
+                y1="17"
+                x2="12"
+                y2="21"
+              />
+            </svg>
           </button>
           <span class="system-time">{{ currentTime }}</span>
         </div>
       </div>
 
-      <div class="tool-name-bar" v-if="!isHome && currentRoute.name !== 'tutorial'">
+      <div
+        class="tool-name-bar"
+        v-if="!isHome && currentRoute.name !== 'tutorial'"
+      >
         <span class="tool-name">{{ pageformattedName }} Herramienta</span>
       </div>
 
@@ -335,7 +421,7 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
               <span class="update-version">{{ currentVersion }} → {{ remoteVersion }}</span>
             </div>
             <a
-              href="https://muhaddil.github.io/RSSWikiPageCreator/cronology.html"
+              href="/RSSWikiPageCreator/cronology"
               target="_blank"
               rel="noopener noreferrer"
               class="update-changelog"
@@ -369,6 +455,7 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
               >
                 ROYAL SPACE SOCIETY
               </a>
+              <span class="footer-version">v{{ currentVersion }}</span>
             </div>
           </div>
         </div>
@@ -437,7 +524,8 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
 }
 
 @keyframes scanline-flicker {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.8;
   }
   50% {
@@ -648,6 +736,14 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
 
 .author-name:hover {
   color: #ef5350;
+}
+
+.footer-version {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.15em;
+  margin-top: 0.15rem;
 }
 
 .announcement-container {

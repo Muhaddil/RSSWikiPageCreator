@@ -11,19 +11,19 @@ const items = [
     items: [
       {
         label: 'Actualizador Censo RSS',
-        url: '/RSSWikiPageCreator/baserenewal.html',
+        url: '/baserenewal',
       },
       {
         label: 'Entrada Censo RSS',
-        url: '/RSSWikiPageCreator/census.html',
+        url: '/census',
       },
       {
         label: 'FAQ',
-        url: '/RSSWikiPageCreator/faq.html',
+        url: '/faq',
       },
       {
         label: 'Generador de Glifos de la RSS',
-        url: '/RSSWikiPageCreator/glyphgenerator.html',
+        url: '/glyphgenerator',
       },
       {
         label: 'Compresor de imágenes',

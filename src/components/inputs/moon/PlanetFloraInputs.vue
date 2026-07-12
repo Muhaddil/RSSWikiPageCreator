@@ -111,7 +111,8 @@ watch(
         severity="danger"
         size="small"
         @click="addFauna"
-      >+ Añadir Flora</Button>
+        >+ Añadir Flora</Button
+      >
       <br />
       <br />
       <div

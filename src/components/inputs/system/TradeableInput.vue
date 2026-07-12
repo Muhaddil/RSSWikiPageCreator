@@ -99,7 +99,8 @@ function showConfirmDialog(index: number) {
       severity="danger"
       size="small"
       @click="addPlanet"
-    >Agregar Tradeable</Button>
+      >Agregar Tradeable</Button
+    >
     <br />
     <br />
     <div
@@ -148,7 +149,9 @@ function showConfirmDialog(index: number) {
           severity="danger"
           size="small"
           @click="showConfirmDialog(index)"
-        > Eliminar Tradeable </Button>
+        >
+          Eliminar Tradeable
+        </Button>
       </Panel>
     </div>
   </div>

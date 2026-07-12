@@ -20,20 +20,20 @@ onMounted(() => {
     isVercel.value = true;
   }
 
-  if (currentUrl.includes('fauna.html')) {
-    sandwormLink.value = 'sandworm.html';
+  if (currentUrl.includes('/fauna')) {
+    sandwormLink.value = '/sandworm';
   }
 
-  if (currentUrl.includes('sandworm.html')) {
-    faunaLink.value = 'fauna.html';
+  if (currentUrl.includes('/sandworm')) {
+    faunaLink.value = '/fauna';
   }
 
-  if (currentUrl.includes('planet.html')) {
-    moonLink.value = 'moon.html';
+  if (currentUrl.includes('/planet')) {
+    moonLink.value = '/moon';
   }
 
-  if (currentUrl.includes('moon.html')) {
-    planetLink.value = 'planet.html';
+  if (currentUrl.includes('/moon')) {
+    planetLink.value = '/planet';
   }
 });
 </script>
@@ -42,7 +42,8 @@ onMounted(() => {
   <nav class="nav-bar">
     <a
       v-if="!isIndexPage"
-      :href="'https://muhaddil.github.io/'"
+      href="https://muhaddil.github.io/"
+      target="_blank"
       class="nav-link"
     >
       <span class="nav-icon">&#9664;</span>
@@ -50,7 +51,7 @@ onMounted(() => {
     </a>
     <a
       v-if="!isIndexPage"
-      :href="'rsslinks.html'"
+      href="/rsslinks"
       class="nav-link"
     >
       <span class="nav-text">PORTAL</span>

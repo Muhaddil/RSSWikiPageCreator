@@ -4,7 +4,8 @@ import { useRoute } from 'vue-router';
 
 const currentRoute = useRoute();
 
-const logo = 'https://raw.githubusercontent.com/Muhaddil/RSSWikiPageCreator/refs/heads/main/public/assets/images/shared/logo-white.png';
+const logo =
+  'https://raw.githubusercontent.com/Muhaddil/RSSWikiPageCreator/refs/heads/main/public/assets/images/shared/logo-white.png';
 
 const COLLAPSE_KEY = 'sidebar_collapsed';
 const isCollapsed = ref(localStorage.getItem(COLLAPSE_KEY) === 'true');
@@ -74,7 +75,7 @@ const allMenuItems = [
   { label: 'Preguntas Frecuentes', icon: 'faq', route: 'faq', url: '/faq' },
 ];
 
-const menuItems = computed(() => isSimplified.value ? simplifiedItems : allMenuItems);
+const menuItems = computed(() => (isSimplified.value ? simplifiedItems : allMenuItems));
 
 const iconMap: Record<string, string> = {
   home: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
@@ -129,8 +130,62 @@ function getHref(itemRoute: string) {
     :aria-expanded="mobileOpen"
     aria-controls="main-sidebar"
   >
-    <svg v-if="!mobileOpen" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <svg
+      v-if="!mobileOpen"
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line
+        x1="3"
+        y1="6"
+        x2="21"
+        y2="6"
+      />
+      <line
+        x1="3"
+        y1="12"
+        x2="21"
+        y2="12"
+      />
+      <line
+        x1="3"
+        y1="18"
+        x2="21"
+        y2="18"
+      />
+    </svg>
+    <svg
+      v-else
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line
+        x1="18"
+        y1="6"
+        x2="6"
+        y2="18"
+      />
+      <line
+        x1="6"
+        y1="6"
+        x2="18"
+        y2="18"
+      />
+    </svg>
   </button>
 
   <div
@@ -147,25 +202,79 @@ function getHref(itemRoute: string) {
   >
     <div class="sidebar-top">
       <div class="sidebar-logo">
-        <img :src="logo" alt="RSS Logo" class="logo-img" />
-        <span class="logo-text" v-show="!isCollapsed">RSS WIKI PAGE CREATOR</span>
+        <img
+          :src="logo"
+          alt="RSS Logo"
+          class="logo-img"
+        />
+        <span
+          class="logo-text"
+          v-show="!isCollapsed"
+          >RSS WIKI PAGE CREATOR</span
+        >
       </div>
 
-      <button class="sidebar-toggle" @click="toggleCollapse" :title="isCollapsed ? 'Expandir barra lateral' : 'Contraer barra lateral'" :aria-label="isCollapsed ? 'Expandir barra lateral' : 'Contraer barra lateral'">
-        <svg v-if="!isCollapsed" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg>
-        <svg v-else xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 17 5-5-5-5"/><path d="m13 17 5-5-5-5"/></svg>
+      <button
+        class="sidebar-toggle"
+        @click="toggleCollapse"
+        :title="isCollapsed ? 'Expandir barra lateral' : 'Contraer barra lateral'"
+        :aria-label="isCollapsed ? 'Expandir barra lateral' : 'Contraer barra lateral'"
+      >
+        <svg
+          v-if="!isCollapsed"
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m11 17-5-5 5-5" />
+          <path d="m18 17-5-5 5-5" />
+        </svg>
+        <svg
+          v-else
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m6 17 5-5-5-5" />
+          <path d="m13 17 5-5-5-5" />
+        </svg>
       </button>
 
-      <nav class="sidebar-nav" aria-label="Navegación principal">
-        <template v-for="item in menuItems" :key="item.route">
+      <nav
+        class="sidebar-nav"
+        aria-label="Navegación principal"
+      >
+        <template
+          v-for="item in menuItems"
+          :key="item.route"
+        >
           <a
             v-if="item.url.startsWith('http')"
             :href="item.url"
             class="nav-item"
             :title="isCollapsed ? item.label : undefined"
           >
-            <span class="nav-icon" v-html="getIcon(item.icon)"></span>
-            <span class="nav-label" v-show="!isCollapsed">{{ item.label }}</span>
+            <span
+              class="nav-icon"
+              v-html="getIcon(item.icon)"
+            ></span>
+            <span
+              class="nav-label"
+              v-show="!isCollapsed"
+              >{{ item.label }}</span
+            >
           </a>
           <router-link
             v-else
@@ -174,17 +283,36 @@ function getHref(itemRoute: string) {
             :class="{ active: isActive(item.route) }"
             :title="isCollapsed ? item.label : undefined"
           >
-            <span class="nav-icon" v-html="getIcon(item.icon)"></span>
-            <span class="nav-label" v-show="!isCollapsed">{{ item.label }}</span>
+            <span
+              class="nav-icon"
+              v-html="getIcon(item.icon)"
+            ></span>
+            <span
+              class="nav-label"
+              v-show="!isCollapsed"
+              >{{ item.label }}</span
+            >
           </router-link>
         </template>
       </nav>
     </div>
 
     <div class="sidebar-bottom">
-      <button class="mode-toggle" @click="toggleMode" :title="isSimplified ? 'Cambiar a modo completo' : 'Cambiar a modo simplificado'" :aria-label="isSimplified ? 'Cambiar a modo completo' : 'Cambiar a modo simplificado'">
-        <span class="nav-icon" v-html="isSimplified ? iconMap.expand : iconMap.collapse"></span>
-        <span class="nav-label" v-show="!isCollapsed">{{ isSimplified ? 'Modo Completo' : 'Modo Simple' }}</span>
+      <button
+        class="mode-toggle"
+        @click="toggleMode"
+        :title="isSimplified ? 'Cambiar a modo completo' : 'Cambiar a modo simplificado'"
+        :aria-label="isSimplified ? 'Cambiar a modo completo' : 'Cambiar a modo simplificado'"
+      >
+        <span
+          class="nav-icon"
+          v-html="isSimplified ? iconMap.expand : iconMap.collapse"
+        ></span>
+        <span
+          class="nav-label"
+          v-show="!isCollapsed"
+          >{{ isSimplified ? 'Modo Completo' : 'Modo Simple' }}</span
+        >
       </button>
     </div>
   </aside>

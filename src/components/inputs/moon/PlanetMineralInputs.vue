@@ -130,7 +130,8 @@ const isContentInvalid = computed(() => faunas.value.some((fauna) => numberError
         severity="danger"
         size="small"
         @click="addFauna"
-      >+ Añadir Mineral</Button>
+        >+ Añadir Mineral</Button
+      >
       <br />
       <br />
       <div

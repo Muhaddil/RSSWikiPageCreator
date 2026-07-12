@@ -4,102 +4,104 @@ import { reactive, onMounted, onUnmounted, ref, computed, inject, watch, nextTic
 import ScrollToTop from '@/components/ScrollToTop.vue';
 
 const sidebarSimplified = inject<import('vue').Ref<boolean>>('sidebarSimplified');
-const isSimplifiedMode = computed(() => sidebarSimplified?.value ?? localStorage.getItem('sidebar_simplified') !== 'false');
+const isSimplifiedMode = computed(
+  () => sidebarSimplified?.value ?? localStorage.getItem('sidebar_simplified') !== 'false'
+);
 
 const links: PageLinkProps[] = [
   {
     text: 'Bases Censo',
-    url: './base.html',
+    url: '/base',
     img: './assets/images/buttons/1_001.png',
     imgAlt: 'Bases Censo',
   },
   {
     text: 'Bases Normales',
-    url: './basecensusno.html',
+    url: '/basecensusno',
     img: './assets/images/buttons/1_002.png',
     imgAlt: 'Bases Normales',
   },
   {
     text: 'Circuitos',
-    url: './racetrack.html',
+    url: '/racetrack',
     img: './assets/images/buttons/1_003.png',
     imgAlt: 'Circuitos',
   },
   {
     text: 'Asentamientos',
-    url: './settlement.html',
+    url: '/settlement',
     img: './assets/images/buttons/1_004.png',
     imgAlt: 'Asentamientos',
   },
   {
     text: 'Fauna',
-    url: './fauna.html',
+    url: '/fauna',
     img: './assets/images/buttons/1_012_2.png',
     imgAlt: 'Fauna',
   },
   {
     text: 'Gusano de Arena',
-    url: './sandworm.html',
+    url: '/sandworm',
     img: './assets/images/buttons/1_015.png',
     imgAlt: 'Gusano de Arena',
   },
   {
     text: 'Flora',
-    url: './flora.html',
+    url: '/flora',
     img: './assets/images/buttons/1_006.png',
     imgAlt: 'Flora',
   },
   {
     text: 'Naves',
-    url: './starship.html',
+    url: '/starship',
     img: './assets/images/buttons/1_013.png',
     imgAlt: 'Naves',
   },
   {
     text: 'Multiherramientas',
-    url: './multitool.html',
+    url: '/multitool',
     img: './assets/images/buttons/1_007.png',
     imgAlt: 'Multiherramientas',
   },
   {
     text: 'Mineral',
-    url: './mineral.html',
+    url: '/mineral',
     img: './assets/images/buttons/1_005.png',
     imgAlt: 'Mineral',
   },
   {
     text: 'Carguero Abandonado',
-    url: './derelict.html',
+    url: '/derelict',
     img: './assets/images/buttons/1_014.png',
     imgAlt: 'Carguero Abandonado',
   },
   {
     text: 'Fragatas Orgánicas',
-    url: './biofrig.html',
+    url: '/biofrig',
     img: './assets/images/buttons/1_009.png',
     imgAlt: 'Fragatas Organicas',
   },
   {
     text: 'Sistemas',
-    url: './system.html',
+    url: '/system',
     img: './assets/images/buttons/1_008.png',
     imgAlt: 'Sistemas',
   },
   {
     text: 'Planetas',
-    url: './planet.html',
+    url: '/planet',
     img: './assets/images/buttons/1_010.png',
     imgAlt: 'Planetas',
   },
   {
     text: 'Lunas',
-    url: './moon.html',
+    url: '/moon',
     img: './assets/images/buttons/1_011.png',
     imgAlt: 'Lunas',
   },
   {
     text: 'Corbetas',
-    url: './corvette.html',
+    url: '/corvette',
     img: './assets/images/buttons/1_016.png',
     imgAlt: 'Corbetas',
   },
@@ -108,28 +110,28 @@ const links: PageLinkProps[] = [
 const tools = [
   {
     name: 'Actualizador Censo RSS',
-    url: '/RSSWikiPageCreator/baserenewal.html',
+    url: '/baserenewal',
     icon: 'pi pi-cloud-download',
     description: 'Actualiza y renueva las entradas del censo de bases RSS',
     external: false,
   },
   {
     name: 'Entrada Censo RSS',
-    url: '/RSSWikiPageCreator/census.html',
+    url: '/census',
     icon: 'pi pi-id-card',
     description: 'Crea nuevas entradas para el censo de miembros',
     external: false,
   },
   {
     name: 'FAQ',
-    url: '/RSSWikiPageCreator/faq.html',
+    url: '/faq',
     icon: 'pi pi-question-circle',
     description: 'Preguntas frecuentes sobre la RSS y sus herramientas',
     external: false,
   },
   {
     name: 'Generador de Glifos',
-    url: '/RSSWikiPageCreator/glyphgenerator.html',
+    url: '/glyphgenerator',
     icon: 'pi pi-map-marker',
     description: "Genera coordenadas de portal para No Man's Sky",
     external: false,
@@ -159,85 +161,57 @@ const tools = [
 
 const resources = [
   {
-    title: 'Wiki RSS',
-    url: 'https://nomanssky.fandom.com/es/wiki/Royal_Space_Society',
-    category: 'Información',
-    description: 'Base de conocimiento con documentación y mapas estelares',
-    icon: 'pi pi-globe',
-  },
-  {
     title: 'Cronología RSS',
-    url: 'https://muhaddil.github.io/RSSWikiPageCreator/cronology.html',
+    url: '/cronology',
     category: 'Información',
     description: 'Registro de eventos históricos de la RSS',
     icon: 'pi pi-sort-amount-up',
   },
   {
     title: 'Directorio de Regiones',
-    url: 'https://muhaddil.github.io/RSSWikiPageCreator/regions.html',
+    url: '/regions',
     category: 'Información',
     description: 'Todas las regiones RSS reconocidas',
     icon: 'pi pi-prime',
   },
   {
     title: 'Bases Destacadas',
-    url: 'https://muhaddil.github.io/RSSWikiPageCreator/basesdestacadas.html',
+    url: '/basesdestacadas',
     category: 'Logros',
     description: 'Directorio de bases destacadas de miembros',
     icon: 'pi pi-microchip',
   },
-  // {
-  //   title: 'Discord',
-  //   url: 'https://discord.gg/oskar1up',
-  //   category: 'Comunicación',
-  //   description: 'Canal principal de la comunidad',
-  //   icon: 'pi pi-bolt',
-  // },
-  // {
-  //   title: 'Twitter/X',
-  //   url: 'https://x.com/RoyalSpaceHub',
-  //   category: 'Comunicación',
-  //   description: 'Cuenta oficial de la RSS',
-  //   icon: 'pi pi-sort-alt-slash',
-  // },
-  // {
-  //   title: 'Reddit',
-  //   url: 'https://www.reddit.com/r/NMS_RSS/',
-  //   category: 'Comunicación',
-  //   description: 'Foro comunitario para debates',
-  //   icon: 'pi pi-comments',
-  // },
   {
     title: 'Censo Oficial',
-    url: 'https://muhaddil.github.io/RSSWikiPageCreator/censustable.html',
+    url: '/censustable',
     category: 'Censo',
     description: 'Registro de todas las bases censadas',
     icon: 'pi pi-home',
   },
   {
     title: 'Tarjeta de Miembro',
-    url: 'https://muhaddil.github.io/RSSWikiPageCreator/rssfriends.html',
+    url: '/rssfriends',
     category: 'Censo',
     description: 'Crea tu tarjeta de miembro RSS',
     icon: 'pi pi-link',
   },
   {
     title: 'Feedback',
-    url: 'https://muhaddil.github.io/RSSWikiPageCreator/feedback.html',
+    url: '/feedback',
     category: 'Comunidad',
     description: 'Deja tus opiniones sobre la RSS',
     icon: 'pi pi-reply',
   },
   {
     title: 'Actualizaciones NMS',
-    url: 'https://muhaddil.github.io/RSSWikiPageCreator/latestupdates.html',
+    url: '/latestupdates',
     category: 'Sistema',
     description: "Actualizaciones recientes de No Man's Sky",
     icon: 'pi pi-history',
   },
   {
     title: 'Cambios Wiki',
-    url: 'https://muhaddil.github.io/RSSWikiPageCreator/wikiupdates.html',
+    url: '/wikiupdates',
     category: 'Sistema',
     description: 'Historial de cambios de la wiki',
     icon: 'pi pi-history',
@@ -403,44 +377,162 @@ onUnmounted(() => {
     :class="{ visible: isVisible }"
   >
     <!-- Simplified mode: 5 card landing -->
-    <div v-if="isSimplifiedMode" class="simple-landing">
+    <div
+      v-if="isSimplifiedMode"
+      class="simple-landing"
+    >
       <div class="simple-hero">
         <h1 class="simple-title">ROYAL SPACE SOCIETY</h1>
         <p class="simple-subtitle">WIKI PAGE CREATOR</p>
       </div>
 
       <div class="simple-grid">
-        <router-link to="/tutorial" class="simple-card">
+        <router-link
+          to="/tutorial"
+          class="simple-card"
+        >
           <div class="simple-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
           </div>
           <span class="simple-card-label">Tutorial</span>
         </router-link>
 
-        <router-link to="/system" class="simple-card">
+        <router-link
+          to="/system"
+          class="simple-card"
+        >
           <div class="simple-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              />
+              <circle
+                cx="12"
+                cy="12"
+                r="4"
+              />
+              <line
+                x1="21.17"
+                y1="8"
+                x2="12"
+                y2="8"
+              />
+              <line
+                x1="3.95"
+                y1="6.06"
+                x2="8.54"
+                y2="14"
+              />
+              <line
+                x1="10.88"
+                y1="21.94"
+                x2="15.46"
+                y2="14"
+              />
+            </svg>
           </div>
           <span class="simple-card-label">Sistemas</span>
         </router-link>
 
-        <router-link to="/planet" class="simple-card">
+        <router-link
+          to="/planet"
+          class="simple-card"
+        >
           <div class="simple-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              />
+              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+              <path d="M2 12h20" />
+            </svg>
           </div>
           <span class="simple-card-label">Planetas</span>
         </router-link>
 
-        <router-link to="/base" class="simple-card">
+        <router-link
+          to="/base"
+          class="simple-card"
+        >
           <div class="simple-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
           </div>
           <span class="simple-card-label">Bases</span>
         </router-link>
 
-        <a href="https://nomanssky.fandom.com/wiki/Atlas" class="simple-card">
+        <a
+          href="https://nomanssky.fandom.com/wiki/Atlas"
+          class="simple-card"
+        >
           <div class="simple-card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+              />
+              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+              <path d="M2 12h20" />
+            </svg>
           </div>
           <span class="simple-card-label">Volver al Atlas</span>
         </a>
@@ -453,57 +545,57 @@ onUnmounted(() => {
         class="hero-section"
         data-section="hero"
       >
-      <div class="hero-content">
-        <div class="system-header">
-          <div class="header-line"></div>
-          <span class="system-label">SYSTEM INITIALIZATION</span>
-          <div class="header-line"></div>
-        </div>
+        <div class="hero-content">
+          <div class="system-header">
+            <div class="header-line"></div>
+            <span class="system-label">SYSTEM INITIALIZATION</span>
+            <div class="header-line"></div>
+          </div>
 
-        <div class="logo-container">
-          <a
-            v-if="images.length > 0"
-            :href="images[0].link"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hero-logo-link"
+          <div class="logo-container">
+            <a
+              v-if="images.length > 0"
+              :href="images[0].link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hero-logo-link"
+            >
+              <img
+                :src="images[0].img"
+                :alt="images[0].imgAlt"
+                class="hero-logo"
+              />
+            </a>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="title-main">ROYAL SPACE SOCIETY</span>
+          </h1>
+
+          <div class="hero-divider">
+            <div class="divider-line"></div>
+            <span class="divider-text">WIKI PAGE CREATOR</span>
+            <div class="divider-line"></div>
+          </div>
+
+          <p class="hero-description">
+            Sistema de documentación de grado militar para los descubrimientos en No Man's Sky
+          </p>
+
+          <div class="system-status">
+            <span class="status-dot"></span>
+            <span class="status-text">SYSTEM ONLINE</span>
+            <span class="status-id">NODE: RSS-HUB-01</span>
+          </div>
+
+          <div
+            class="scroll-indicator"
+            @click="scrollToNextSection"
           >
-            <img
-              :src="images[0].img"
-              :alt="images[0].imgAlt"
-              class="hero-logo"
-            />
-          </a>
+            <span class="scroll-text">SCROLL DOWN</span>
+            <span class="scroll-arrow">&#9660;</span>
+          </div>
         </div>
-
-        <h1 class="hero-title">
-          <span class="title-main">ROYAL SPACE SOCIETY</span>
-        </h1>
-
-        <div class="hero-divider">
-          <div class="divider-line"></div>
-          <span class="divider-text">WIKI PAGE CREATOR</span>
-          <div class="divider-line"></div>
-        </div>
-
-        <p class="hero-description">
-          Sistema de documentación de grado militar para los descubrimientos en No Man's Sky
-        </p>
-
-        <div class="system-status">
-          <span class="status-dot"></span>
-          <span class="status-text">SYSTEM ONLINE</span>
-          <span class="status-id">NODE: RSS-HUB-01</span>
-        </div>
-
-        <div
-          class="scroll-indicator"
-          @click="scrollToNextSection"
-        >
-          <span class="scroll-text">SCROLL DOWN</span>
-          <span class="scroll-arrow">&#9660;</span>
-        </div>
-      </div>
       </section>
     </template>
 
@@ -548,7 +640,10 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section v-if="!isSimplifiedMode" class="credits-section">
+    <section
+      v-if="!isSimplifiedMode"
+      class="credits-section"
+    >
       <div class="credits-card animate-on-scroll">
         <span class="credits-label">DISEÑO DE ICONOS POR</span>
         <a
@@ -712,7 +807,10 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section v-if="!isSimplifiedMode" class="about-section">
+    <section
+      v-if="!isSimplifiedMode"
+      class="about-section"
+    >
       <div class="about-card animate-on-scroll">
         <div class="card-corner top-left"></div>
         <div class="card-corner top-right"></div>
