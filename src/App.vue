@@ -421,7 +421,7 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
               <span class="update-version">{{ currentVersion }} → {{ remoteVersion }}</span>
             </div>
             <a
-              href="/RSSWikiPageCreator/cronology"
+              href="/#/cronology"
               target="_blank"
               rel="noopener noreferrer"
               class="update-changelog"

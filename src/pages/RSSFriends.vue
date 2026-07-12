@@ -27,12 +27,12 @@ const scale = ref<number>(1);
 const isDownloading = ref(false);
 
 const PlayerRaces = ref([
-  { label: 'Korvax', value: 'Korvax', icon: '/RSSWikiPageCreator/assets/images/friends/holo-korvax.png' },
-  { label: 'Gek', value: 'Gek', icon: '/RSSWikiPageCreator/assets/images/friends/holo-gek.png' },
-  { label: "Vy'keen", value: "Vy'keen", icon: '/RSSWikiPageCreator/assets/images/friends/holo-vykeen.png' },
-  { label: 'Anomalía', value: 'Anomalía', icon: '/RSSWikiPageCreator/assets/images/friends/holo-anomalia.png' },
-  { label: 'Autofago', value: 'Autofago', icon: '/RSSWikiPageCreator/assets/images/friends/holo-autofago.png' },
-  { label: 'Viajero', value: 'Viajero', icon: '/RSSWikiPageCreator/assets/images/friends/holo-viajero.png' },
+  { label: 'Korvax', value: 'Korvax', icon: '/assets/images/friends/holo-korvax.png' },
+  { label: 'Gek', value: 'Gek', icon: '/assets/images/friends/holo-gek.png' },
+  { label: "Vy'keen", value: "Vy'keen", icon: '/assets/images/friends/holo-vykeen.png' },
+  { label: 'Anomalía', value: 'Anomalía', icon: '/assets/images/friends/holo-anomalia.png' },
+  { label: 'Autofago', value: 'Autofago', icon: '/assets/images/friends/holo-autofago.png' },
+  { label: 'Viajero', value: 'Viajero', icon: '/assets/images/friends/holo-viajero.png' },
 ]);
 
 const onUpload = (event: any) => {
@@ -253,11 +253,11 @@ watchDebounced(
           :src="
             usePersonalizedGlyphs
               ? isWhite
-                ? '/RSSWikiPageCreator/assets/images/friends/friend-white-noglyphs.png'
-                : '/RSSWikiPageCreator/assets/images/friends/friend-noglyphs.png'
+                ? '/assets/images/friends/friend-white-noglyphs.png'
+                : '/assets/images/friends/friend-noglyphs.png'
               : isWhite
-                ? '/RSSWikiPageCreator/assets/images/friends/friend-white.png'
-                : '/RSSWikiPageCreator/assets/images/friends/friend.png'
+                ? '/assets/images/friends/friend-white.png'
+                : '/assets/images/friends/friend.png'
           "
           alt="Tarjeta RSS"
         />
