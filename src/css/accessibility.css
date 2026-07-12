@@ -1,0 +1,332 @@
+.accessibility-reduced-motion *,
+.accessibility-reduced-motion *::before,
+.accessibility-reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+.accessibility-protanopia {
+  filter: url(#protanopia-filter);
+}
+
+.accessibility-deuteranopia {
+  filter: url(#deuteranopia-filter);
+}
+
+.accessibility-tritanopia {
+  filter: url(#tritanopia-filter);
+}
+
+.accessibility-achromatopsia {
+  filter: grayscale(100%) contrast(1.2);
+}
+
+.accessibility-high-contrast {
+  --rss-bg-primary: #000000;
+  --rss-bg-secondary: #000000;
+  --rss-bg-tertiary: #000000;
+  --rss-bg-panel: #000000;
+  --rss-border: #ffffff;
+  --rss-border-hover: #ffffff;
+  --rss-text-primary: #ffffff;
+  --rss-text-secondary: #ffffff;
+  --rss-text-muted: #ffffff;
+  --rss-red: #ffff00;
+  --rss-red-dark: #ffff00;
+  --rss-green: #00ffff;
+  --rss-gray-dark: #000000;
+  --rss-gray-mid: #000000;
+  --rss-gray-light: #000000;
+  --link-color: #00ffff;
+  --link-hover-color: #00ffff;
+  --border-color: #ffffff;
+  --border-color-hover: #ffffff;
+  --border-color-focus: #ffff00;
+  --border-color-focus-hover: #ffff00;
+  --outline-color: #ffff00;
+}
+
+.accessibility-high-contrast * {
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.accessibility-high-contrast a {
+  text-decoration: underline !important;
+  font-weight: bold !important;
+}
+
+.accessibility-high-contrast button,
+.accessibility-high-contrast .rss-btn,
+.accessibility-high-contrast .p-button {
+  border: 2px solid #ffffff !important;
+  font-weight: bold !important;
+}
+
+.accessibility-high-contrast input,
+.accessibility-high-contrast .rss-input,
+.accessibility-high-contrast .p-inputtext {
+  border: 2px solid #ffffff !important;
+}
+
+.accessibility-high-contrast input:focus,
+.accessibility-high-contrast .rss-input:focus,
+.accessibility-high-contrast .p-inputtext:focus {
+  border-color: #ffff00 !important;
+  outline: 2px solid #ffff00 !important;
+  outline-offset: 2px !important;
+}
+
+.accessibility-text-75 {
+  font-size: 75%;
+}
+
+.accessibility-text-90 {
+  font-size: 90%;
+}
+
+.accessibility-text-100 {
+  font-size: 100%;
+}
+
+.accessibility-text-110 {
+  font-size: 110%;
+}
+
+.accessibility-text-125 {
+  font-size: 125%;
+}
+
+.accessibility-text-150 {
+  font-size: 150%;
+}
+
+.accessibility-text-75 .rss-title,
+.accessibility-text-90 .rss-title,
+.accessibility-text-100 .rss-title,
+.accessibility-text-110 .rss-title,
+.accessibility-text-125 .rss-title,
+.accessibility-text-150 .rss-title {
+  font-size: 0.75rem;
+}
+
+.accessibility-text-75 .rss-text,
+.accessibility-text-90 .rss-text,
+.accessibility-text-100 .rss-text,
+.accessibility-text-110 .rss-text,
+.accessibility-text-125 .rss-text,
+.accessibility-text-150 .rss-text {
+  font-size: 0.8rem;
+}
+
+.accessibility-text-75 .breadcrumb {
+  font-size: 0.5rem;
+}
+
+.accessibility-text-90 .breadcrumb {
+  font-size: 0.55rem;
+}
+
+.accessibility-text-100 .breadcrumb {
+  font-size: 0.6rem;
+}
+
+.accessibility-text-110 .breadcrumb {
+  font-size: 0.65rem;
+}
+
+.accessibility-text-125 .breadcrumb {
+  font-size: 0.75rem;
+}
+
+.accessibility-text-150 .breadcrumb {
+  font-size: 0.9rem;
+}
+
+.accessibility-text-75 .tool-name {
+  font-size: 0.75rem;
+}
+
+.accessibility-text-90 .tool-name {
+  font-size: 0.8rem;
+}
+
+.accessibility-text-100 .tool-name {
+  font-size: 0.85rem;
+}
+
+.accessibility-text-110 .tool-name {
+  font-size: 0.9rem;
+}
+
+.accessibility-text-125 .tool-name {
+  font-size: 1rem;
+}
+
+.accessibility-text-150 .tool-name {
+  font-size: 1.125rem;
+}
+
+.accessibility-text-75 .announcement-title {
+  font-size: 0.6rem;
+}
+
+.accessibility-text-90 .announcement-title {
+  font-size: 0.65rem;
+}
+
+.accessibility-text-100 .announcement-title {
+  font-size: 0.7rem;
+}
+
+.accessibility-text-110 .announcement-title {
+  font-size: 0.75rem;
+}
+
+.accessibility-text-125 .announcement-title {
+  font-size: 0.875rem;
+}
+
+.accessibility-text-150 .announcement-title {
+  font-size: 1rem;
+}
+
+.accessibility-text-75 .announcement-message {
+  font-size: 0.7rem;
+}
+
+.accessibility-text-90 .announcement-message {
+  font-size: 0.75rem;
+}
+
+.accessibility-text-100 .announcement-message {
+  font-size: 0.85rem;
+}
+
+.accessibility-text-110 .announcement-message {
+  font-size: 0.9rem;
+}
+
+.accessibility-text-125 .announcement-message {
+  font-size: 1rem;
+}
+
+.accessibility-text-150 .announcement-message {
+  font-size: 1.125rem;
+}
+
+.accessibility-large-text .rss-title,
+.accessibility-large-text .rss-text,
+.accessibility-large-text .rss-label {
+  font-size: 1.25em;
+}
+
+.accessibility-large-text .breadcrumb {
+  font-size: 0.75rem;
+}
+
+.accessibility-large-text .tool-name {
+  font-size: 1rem;
+}
+
+.accessibility-large-text .announcement-title {
+  font-size: 0.875rem;
+}
+
+.accessibility-large-text .announcement-message {
+  font-size: 1rem;
+}
+
+.accessibility-text-spacing {
+  letter-spacing: 0.05em;
+  word-spacing: 0.1em;
+  line-height: 1.8;
+}
+
+.accessibility-text-spacing p,
+.accessibility-text-spacing .rss-text,
+.accessibility-text-spacing .announcement-message {
+  line-height: 2;
+  margin-bottom: 1em;
+}
+
+.accessibility-emphasize-links a {
+  font-weight: bold !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+}
+
+.accessibility-emphasize-links a:hover {
+  text-decoration-thickness: 3px !important;
+}
+
+.accessibility-hide-images img,
+.accessibility-hide-images .rss-panel::before,
+.accessibility-hide-images .rss-panel::after {
+  display: none !important;
+}
+
+.accessibility-hide-images [role='img'] {
+  display: none !important;
+}
+
+.accessibility-enhanced-focus *:focus {
+  outline: 3px solid #ffff00 !important;
+  outline-offset: 3px !important;
+}
+
+.accessibility-enhanced-focus button:focus,
+.accessibility-enhanced-focus a:focus,
+.accessibility-enhanced-focus input:focus,
+.accessibility-enhanced-focus select:focus {
+  outline: 3px solid #ffff00 !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 6px rgba(255, 255, 0, 0.3) !important;
+}
+
+.accessibility-reading-guide {
+  cursor: text;
+}
+
+.accessibility-reduced-transparency {
+  --rss-bg-panel: rgba(17, 17, 17, 1) !important;
+}
+
+.accessibility-reduced-transparency .rss-panel {
+  background: #111111 !important;
+}
+
+.accessibility-reduced-transparency .p-dialog,
+.accessibility-reduced-transparency .p-toast-message {
+  background: #111111 !important;
+  opacity: 1 !important;
+}
+
+.accessibility-large-cursor {
+  cursor:
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="%23c62828" d="M5.5 2.5L12 14h-3l-1-3H3v1h2.5l1.5 4.5L3 22.5V24h7v-1H5.5l2.5-7h3l1 3H17v-1h-4l-1.5-4.5L14 6.5V5h-7v1h2.5z"/></svg>')
+      5 5,
+    auto !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.svg-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}

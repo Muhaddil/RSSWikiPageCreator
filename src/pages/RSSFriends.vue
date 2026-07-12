@@ -432,7 +432,7 @@ watchDebounced(
   border-radius: 65px;
   overflow: hidden;
   font-family: NMSFuturaProBook;
-  opacity:0.0;
+  opacity: 0;
 }
 
 .card-image-marco {

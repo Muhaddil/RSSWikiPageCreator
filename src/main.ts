@@ -1,5 +1,6 @@
 import 'bulma/css/bulma.css';
 import '@/css/styles.css';
+import '@/css/accessibility.css';
 import App from './App.vue';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';

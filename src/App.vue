@@ -4,6 +4,7 @@ import MainToolbar from '@/components/MainToolbar.vue';
 import { componentName, pageformattedName } from '@/variables/route';
 import { usePageDataStore } from './stores/pageData';
 import FooterToolbar from './components/FooterToolbar.vue';
+import AccessibilityMenu from '@/components/AccessibilityMenu.vue';
 import { onMounted, ref, computed, provide, watch } from 'vue';
 import packageJson from '../package.json';
 import { useSEO } from '@/composables/useSEO';
@@ -241,6 +242,7 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
           <MainToolbar />
         </div>
         <div class="header-right">
+          <AccessibilityMenu />
           <button
             class="scanline-toggle"
             @click="toggleScanlines"
@@ -294,6 +296,7 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
         </div>
         <div class="header-center"></div>
         <div class="header-right">
+          <AccessibilityMenu />
           <button
             class="scanline-toggle"
             @click="toggleScanlines"
@@ -455,7 +458,11 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
               >
                 ROYAL SPACE SOCIETY
               </a>
-              <a href="/#/cronology" class="footer-version">v{{ currentVersion }}</a>
+              <a
+                href="/#/cronology"
+                class="footer-version"
+                >v{{ currentVersion }}</a
+              >
             </div>
           </div>
         </div>
@@ -468,6 +475,54 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
         <FooterToolbar />
       </footer>
     </div>
+
+    <svg
+      class="svg-filters"
+      aria-hidden="true"
+    >
+      <filter
+        id="protanopia-filter"
+        color-interpolation-filters="sRGB"
+      >
+        <feColorMatrix
+          type="matrix"
+          values="
+          0.56667 0.43333 0.00000 0 0
+          0.55833 0.44167 0.00000 0 0
+          0.00000 0.24167 0.75833 0 0
+          0       0       0       1 0
+        "
+        />
+      </filter>
+      <filter
+        id="deuteranopia-filter"
+        color-interpolation-filters="sRGB"
+      >
+        <feColorMatrix
+          type="matrix"
+          values="
+          0.62500 0.37500 0.00000 0 0
+          0.70000 0.30000 0.00000 0 0
+          0.00000 0.30000 0.70000 0 0
+          0       0       0       1 0
+        "
+        />
+      </filter>
+      <filter
+        id="tritanopia-filter"
+        color-interpolation-filters="sRGB"
+      >
+        <feColorMatrix
+          type="matrix"
+          values="
+          0.95000 0.05000 0.00000 0 0
+          0.00000 0.43333 0.56667 0 0
+          0.00000 0.47500 0.52500 0 0
+          0       0       0       1 0
+        "
+        />
+      </filter>
+    </svg>
   </div>
 </template>
 

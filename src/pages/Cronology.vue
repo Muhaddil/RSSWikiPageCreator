@@ -81,7 +81,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
-    title: '1.1.1',
+    title: '1.2.1',
+    date: '12 / 07 / 2026',
+    description: 'Se ha añadido un menu de accesibilidad.',
+    category: 'Web',
+  },
+  {
+    title: '1.2.0',
     date: '12 / 07 / 2026',
     description:
       'Se ha hecho otro rediseño completo de la web para estar acorde a las demás páginas de la Royal Space Society.',
@@ -1149,7 +1155,9 @@ const groupedEvents = computed(() => {
                         v-for="event in item[1]"
                         :key="event.title"
                         class="event-item"
-                        v-html="`<strong>${event.title}</strong> - ${linkify(event.description).replace(/\n/g, '<br>')}`"
+                        v-html="
+                          `<strong>${event.title}</strong> - ${linkify(event.description).replace(/\n/g, '<br>')}`
+                        "
                       ></li>
                     </ul>
                   </template>
