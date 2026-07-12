@@ -15,7 +15,7 @@ interface TimelineEvent {
 const events = ref<TimelineEvent[]>([
   {
     title: 'Censo',
-    date: '10 / 07 / 2025',
+    date: '10 / 07 / 2026',
     description: 'Creación del Atlas de la Royal Space Society https://atlas.royalspacesociety.com/.',
     category: 'Royal Space Society',
   },
