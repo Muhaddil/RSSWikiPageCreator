@@ -455,7 +455,7 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
               >
                 ROYAL SPACE SOCIETY
               </a>
-              <span class="footer-version">v{{ currentVersion }}</span>
+              <a href="/#/cronology" class="footer-version">v{{ currentVersion }}</a>
             </div>
           </div>
         </div>
@@ -741,9 +741,18 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
 .footer-version {
   font-family: 'Space Mono', monospace;
   font-size: 0.5rem;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.35);
   letter-spacing: 0.15em;
   margin-top: 0.15rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.footer-version:hover {
+  color: #c62828;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .announcement-container {
