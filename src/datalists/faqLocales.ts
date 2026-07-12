@@ -95,7 +95,7 @@ export const faqLocales: Record<'es' | 'en', FaqLocales> = {
         id: 13,
         question: '¿Cómo me uno al censo de la RSS?',
         answer:
-          'Es algo bastante sencillo, basta con ir al link que se proporcionará aquí y rellenar todos los datos. Después, debes copiar ese código y darle a crear, te llevará a una web y solo necesitas pegar el código al final del todo de la página: <a href="https://muhaddil.github.io/RSSWikiPageCreator/census.html" target="_blank">Censo</a>',
+          'Es algo bastante sencillo, basta con ir al link que se proporcionará aquí y rellenar todos los datos. Después, debes copiar ese código y darle a crear, te llevará a una web y solo necesitas pegar el código al final del todo de la página: <a href="https://data.royalspacesociety.com/census.html" target="_blank">Censo</a>',
       },
       {
         id: 14,
@@ -179,7 +179,7 @@ export const faqLocales: Record<'es' | 'en', FaqLocales> = {
         id: 27,
         question: '¿Qué plantilla debo usar al registrar una base?',
         answer:
-          'Debes usar la plantilla Infobox Base que se puede generar con la herramienta <a href="https://muhaddil.github.io/RSSWikiPageCreator/base.html" target="_blank">RSSWikiPageCreator</a>.',
+          'Debes usar la plantilla Infobox Base que se puede generar con la herramienta <a href="https://data.royalspacesociety.com/base.html" target="_blank">RSSWikiPageCreator</a>.',
       },
       {
         id: 28,
@@ -387,7 +387,7 @@ export const faqLocales: Record<'es' | 'en', FaqLocales> = {
         id: 13,
         question: 'How do I join the RSS census?',
         answer:
-          'It is quite simple, just go to the link provided here and fill in all the details. Then, copy that code and click create, it will take you to a webpage where you only need to paste the code at the very end of the page: <a href="https://muhaddil.github.io/RSSWikiPageCreator/census.html" target="_blank">Census</a>',
+          'It is quite simple, just go to the link provided here and fill in all the details. Then, copy that code and click create, it will take you to a webpage where you only need to paste the code at the very end of the page: <a href="https://data.royalspacesociety.com/census.html" target="_blank">Census</a>',
       },
       {
         id: 14,
@@ -471,7 +471,7 @@ export const faqLocales: Record<'es' | 'en', FaqLocales> = {
         id: 27,
         question: 'Which template should I use when registering a base?',
         answer:
-          'You should use the Infobox Base template which can be generated with the <a href="https://muhaddil.github.io/RSSWikiPageCreator/base.html" target="_blank">RSSWikiPageCreator</a> tool.',
+          'You should use the Infobox Base template which can be generated with the <a href="https://data.royalspacesociety.com/base.html" target="_blank">RSSWikiPageCreator</a> tool.',
       },
       {
         id: 28,

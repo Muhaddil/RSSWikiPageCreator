@@ -5,7 +5,7 @@ import lightningcss from 'vite-plugin-lightningcss';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.VITE_BASE_URL || '/RSSWikiPageCreator/',
+  base: '/',
   plugins: [
     vue(),
     lightningcss({

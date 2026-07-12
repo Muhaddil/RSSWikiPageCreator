@@ -54,7 +54,7 @@ type Announcement = {
 
 async function checkForUpdate() {
   try {
-    const response = await fetch('https://muhaddil.github.io/RSSWikiPageCreator/version.json', { cache: 'no-store' });
+    const response = await fetch('/version.json', { cache: 'no-store' });
     const remote = await response.json();
     if (remote.version && remote.version !== currentVersion) {
       remoteVersion.value = remote.version;

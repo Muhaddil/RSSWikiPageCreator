@@ -3,7 +3,7 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 
 const CONFIG = {
-  baseUrl: 'https://muhaddil.github.io/RSSWikiPageCreator/',
+  baseUrl: 'https://data.royalspacesociety.com/',
   exclude: ['indextest.html'],
   pages: {
     'index.html': { priority: '1.0', changefreq: 'weekly' },
