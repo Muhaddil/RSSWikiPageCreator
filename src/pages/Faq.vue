@@ -437,16 +437,14 @@ html.theme-dark .locale-btn.active {
   padding: 1.25rem 1.75rem;
   margin-bottom: 1rem;
   border-radius: calc(var(--border-radius) * 2);
-  background: linear-gradient(135deg, hsl(220deg 30% 95%) 0%, hsl(220deg 25% 92%) 100%);
-  border: 1px solid hsl(220deg 20% 82%);
+  background: var(--rss-bg-secondary);
+  border: 1px solid var(--border-color);
   border-left: 4px solid var(--link-color);
-  box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 10%);
   animation: bannerSlideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 html.theme-dark .no-results-banner {
-  background: linear-gradient(135deg, hsl(220deg 20% 18%) 0%, hsl(220deg 18% 16%) 100%);
-  border-color: hsl(220deg 15% 30%);
   border-left-color: var(--link-color);
 }
 
