@@ -12,7 +12,7 @@ export const linkData = {
       },
       {
         title: 'Protocolos de la Flota',
-        url: 'https://data.royalspacesociety.com/faq.html',
+        url: 'https://data.royalspacesociety.com/#/faq',
         category: 'Directrices Omega',
         description: 'Algoritmos de inteligencia artificial para resolución de incidencias y protocolos de emergencia',
         icon: 'pi pi-question-circle',
@@ -20,7 +20,7 @@ export const linkData = {
       {
         title: 'Nexo Cronológico Galáctico RSS',
         category: 'Protocolo de Registro Temporal',
-        url: 'https://data.royalspacesociety.com/cronology.html',
+        url: 'https://data.royalspacesociety.com/#/cronology',
         description:
           'Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la Royal Space Society',
         icon: 'pi pi-sort-amount-up',
@@ -28,7 +28,7 @@ export const linkData = {
       {
         title: 'Nexo Cartográfico Galáctico RSS',
         category: 'Protocolo de Acceso Estelar',
-        url: 'https://data.royalspacesociety.com/regions.html',
+        url: 'https://data.royalspacesociety.com/#/regions',
         description:
           'Registro galáctico unificado de todas las regiones cartografiadas bajo soberanía de la Royal Space Society',
         icon: 'pi pi-prime',
@@ -36,7 +36,7 @@ export const linkData = {
       {
         title: 'Matriz de Logros',
         category: 'Reconocimiento Singularidad',
-        url: 'https://data.royalspacesociety.com/basesdestacadas.html',
+        url: 'https://data.royalspacesociety.com/#/basesdestacadas',
         description: 'Base de datos con verificación holográfica de operaciones estelares destacadas',
         icon: 'pi pi-microchip',
       },
@@ -64,7 +64,7 @@ export const linkData = {
       {
         title: 'Nexo de Opiniones Estelares de la RSS',
         category: 'Protocolo de Viajeros Estelares',
-        url: 'https://data.royalspacesociety.com/feedback.html',
+        url: 'https://data.royalspacesociety.com/#/feedback',
         description: 'Registro unificado para que los viajeros de la RSS puedan dejar sus opiniones sobre la RSS',
         icon: 'pi pi-reply',
       },
@@ -72,7 +72,7 @@ export const linkData = {
       // 2. Gestión de miembros
       {
         title: 'Registro Identidad Galáctica',
-        url: 'https://data.royalspacesociety.com/census.html',
+        url: 'https://data.royalspacesociety.com/#/census',
         category: 'Censo Estelar',
         description: 'Sistema de verificación biométrica para membresía RSS y credenciales interestelares',
         icon: 'pi pi-id-card',
@@ -80,14 +80,14 @@ export const linkData = {
       {
         title: 'Nexo Viajeros Estelares RSS',
         category: 'Protocolo de Viajeros Estelares',
-        url: 'https://data.royalspacesociety.com/rssfriends.html',
+        url: 'https://data.royalspacesociety.com/#/rssfriends',
         description: 'Registro unificado de viajeros que forman parte de la RSS',
         icon: 'pi pi-link',
       },
       {
         title: 'Núcleo del Censo Cuántico',
         category: 'Archivos de la Singularidad',
-        url: 'https://data.royalspacesociety.com/censustable.html',
+        url: 'https://data.royalspacesociety.com/#/censustable',
         description: 'Matriz holográfica de verificación biométrica para registro interdimensional de miembros RSS',
         icon: 'pi pi-home',
       },
@@ -95,14 +95,14 @@ export const linkData = {
       // 3. Exploración y herramientas
       {
         title: 'Núcleo de Comando',
-        url: 'https://data.royalspacesociety.com/',
+        url: 'https://data.royalspacesociety.com/#/',
         category: 'Operaciones Tácticas',
         description: 'Interfaz neural para coordinación de flotas estelares y monitorización en tiempo cuántico',
         icon: 'pi pi-sitemap',
       },
       {
         title: 'Sincronizador Cuántico',
-        url: 'https://data.royalspacesociety.com/baserenewal.html',
+        url: 'https://data.royalspacesociety.com/#/baserenewal',
         category: 'Actualización Sistemas',
         description:
           'Módulo de sincronización multidimensional para registro de descubrimientos y artefactos alienígenas',
@@ -110,7 +110,7 @@ export const linkData = {
       },
       {
         title: 'Matriz de Portal Cuántico',
-        url: 'https://data.royalspacesociety.com/glyphgenerator.html',
+        url: 'https://data.royalspacesociety.com/#/glyphgenerator',
         category: 'Tecnología Alienígena',
         description: 'Sistema de decodificación de coordenadas interdimensionales basado en artefactos de los Antiguos',
         icon: 'pi pi-map-marker',
@@ -118,7 +118,7 @@ export const linkData = {
       {
         title: 'Archivo Galáctico de Actualizaciones',
         category: 'Protocolo de Cronología Estelar',
-        url: 'https://data.royalspacesociety.com/latestupdates.html',
+        url: 'https://data.royalspacesociety.com/#/latestupdates',
         description:
           'Accede al compendio estelar de modificaciones implementadas en la Red de Sinapsis Stellaris. Cada registro incluye detalles visuales y cronológicos de las iteraciones del sistema.',
         icon: 'pi pi-history',
@@ -126,7 +126,7 @@ export const linkData = {
       {
         title: 'Archivo Galáctico de Cambios',
         category: 'Protocolo de Cronología Estelar',
-        url: 'https://data.royalspacesociety.com/wikiupdates.html',
+        url: 'https://data.royalspacesociety.com/#/wikiupdates',
         description:
           'Accede al compendio estelar de cambios realizados en la Red de Sinapsis Stellaris. Cada registro incluye detalles visuales y cronológicos de las iteraciones del sistema.',
         icon: 'pi pi-history',
@@ -143,28 +143,28 @@ export const linkData = {
       },
       {
         title: 'Preguntas frecuentes',
-        url: 'https://data.royalspacesociety.com/faq.html',
+        url: 'https://data.royalspacesociety.com/#/faq',
         category: 'Protocolos',
         description: 'Un recopilatorio de muchas de las preguntas que se hacen con frecuencia',
         icon: 'pi pi-question-circle',
       },
       {
         title: 'Cronología de la RSS y de la Web',
-        url: 'https://data.royalspacesociety.com/cronology.html',
+        url: 'https://data.royalspacesociety.com/#/cronology',
         category: 'Protocolo de Registro Temporal',
         description: 'Registro unificado de eventos históricos y sucesos relevantes bajo soberanía de la RSS',
         icon: 'pi pi-sort-amount-up',
       },
       {
         title: 'Directorio de Regiones RSS',
-        url: 'https://data.royalspacesociety.com/regions.html',
+        url: 'https://data.royalspacesociety.com/#/regions',
         category: 'Protocolo de Acceso Estelar',
         description: 'Directorio central de todas las regiones RSS reconocidas oficialmente',
         icon: 'pi pi-prime',
       },
       {
         title: 'Bases Destacadas',
-        url: 'https://data.royalspacesociety.com/basesdestacadas.html',
+        url: 'https://data.royalspacesociety.com/#/basesdestacadas',
         category: 'Logros',
         description: 'Directorio de bases destacadas de miembros RSS',
         icon: 'pi pi-microchip',
@@ -194,21 +194,21 @@ export const linkData = {
       // 2. Gestión de Miembros
       {
         title: 'Registro de miembros',
-        url: 'https://data.royalspacesociety.com/census.html',
+        url: 'https://data.royalspacesociety.com/#/census',
         category: 'Censo',
         description: 'Sistema de creación de membresías para el censo de miembros de la RSS.',
         icon: 'pi pi-id-card',
       },
       {
         title: 'Creador de tarjeta de Miembro',
-        url: 'https://data.royalspacesociety.com/rssfriends.html',
+        url: 'https://data.royalspacesociety.com/#/rssfriends',
         category: 'Protocolo de Viajeros Estelares',
         description: 'Registro unificado de viajeros que forman parte de la RSS',
         icon: 'pi pi-link',
       },
       {
         title: 'Censo oficial de miembros de la RSS',
-        url: 'https://data.royalspacesociety.com/censustable.html',
+        url: 'https://data.royalspacesociety.com/#/censustable',
         category: 'Censo Oficial',
         description: 'Sistema de verificación y registro actualizado de todas las bases censadas de la RSS',
         icon: 'pi pi-home',
@@ -217,21 +217,21 @@ export const linkData = {
       // 3. Exploración y herramientas
       {
         title: 'Centro de Control',
-        url: 'https://data.royalspacesociety.com/',
+        url: 'https://data.royalspacesociety.com/#/',
         category: 'Operaciones',
         description: 'Interfaz para crear y subir descubrimientos a la wiki',
         icon: 'pi pi-sitemap',
       },
       {
         title: 'Actualizador de Bases',
-        url: 'https://data.royalspacesociety.com/baserenewal.html',
+        url: 'https://data.royalspacesociety.com/#/baserenewal',
         category: 'Actualizaciones',
         description: 'Sistema para registro de descubrimientos y artefactos',
         icon: 'pi pi-cloud-download',
       },
       {
         title: 'Generador de portales',
-        url: 'https://data.royalspacesociety.com/glyphgenerator.html',
+        url: 'https://data.royalspacesociety.com/#/glyphgenerator',
         category: 'Herramientas',
         description: 'Generador de coordenadas para portales estelares',
         icon: 'pi pi-map-marker',
@@ -240,14 +240,14 @@ export const linkData = {
       {
         title: 'Feedback',
         category: 'Protocolo de Viajeros Estelares',
-        url: 'https://data.royalspacesociety.com/feedback.html',
+        url: 'https://data.royalspacesociety.com/#/feedback',
         description: 'Registro unificado para que los viajeros de la RSS puedan dejar sus opiniones sobre la RSS',
         icon: 'pi pi-reply',
       },
       {
         title: 'Historial de Actualizaciones del NMS',
         category: 'Sistema',
-        url: 'https://data.royalspacesociety.com/latestupdates.html',
+        url: 'https://data.royalspacesociety.com/#/latestupdates',
         description:
           'Consulta todas las actualizaciones recientes del NMS con detalles, imágenes y enlaces directos a las versiones.',
         icon: 'pi pi-history',
@@ -255,7 +255,7 @@ export const linkData = {
       {
         title: 'Historial de Cambios de la Wiki',
         category: 'Sistema',
-        url: 'https://data.royalspacesociety.com/wikiupdates.html',
+        url: 'https://data.royalspacesociety.com/#/wikiupdates',
         description:
           'Consulta todas las actualizaciones recientes de la Wiki con detalles, imágenes y enlaces directos a las versiones.',
         icon: 'pi pi-history',
@@ -273,35 +273,35 @@ export const linkData = {
       },
       {
         title: 'Command Core',
-        url: 'https://data.royalspacesociety.com/',
+        url: 'https://data.royalspacesociety.com/#/',
         category: 'Tactical Operations',
         description: 'Neural interface for fleet coordination and real-time quantum monitoring',
         icon: 'pi pi-sitemap',
       },
       {
         title: 'Quantum Synchronizer',
-        url: 'https://data.royalspacesociety.com/baserenewal.html',
+        url: 'https://data.royalspacesociety.com/#/baserenewal',
         category: 'System Updates',
         description: 'Multidimensional sync module for discovery logs and alien artifact registration',
         icon: 'pi pi-cloud-download',
       },
       {
         title: 'Galactic Identity Registry',
-        url: 'https://data.royalspacesociety.com/census.html',
+        url: 'https://data.royalspacesociety.com/#/census',
         category: 'Stellar Census',
         description: 'Biometric verification system for RSS membership and interstellar credentials',
         icon: 'pi pi-id-card',
       },
       {
         title: 'Fleet Protocols',
-        url: 'https://data.royalspacesociety.com/faq.html',
+        url: 'https://data.royalspacesociety.com/#/faq',
         category: 'Omega Directives',
         description: 'AI-powered algorithms for incident resolution and emergency protocols',
         icon: 'pi pi-question-circle',
       },
       {
         title: 'Quantum Portal Matrix',
-        url: 'https://data.royalspacesociety.com/glyphgenerator.html',
+        url: 'https://data.royalspacesociety.com/#/glyphgenerator',
         category: 'Alien Technology',
         description: 'Interdimensional coordinate decoding system based on Ancient artifacts',
         icon: 'pi pi-map-marker',
@@ -329,7 +329,7 @@ export const linkData = {
       },
       {
         title: 'Matrix of Achievements',
-        url: 'https://data.royalspacesociety.com/basesdestacadas.html',
+        url: 'https://data.royalspacesociety.com/#/basesdestacadas',
         category: 'Recognition of Singularity',
         description: 'Database with holographic verification of notable star operations',
         icon: 'pi pi-microchip',
@@ -337,21 +337,21 @@ export const linkData = {
       {
         title: 'Quantum Census Core',
         category: 'Singularity Archives',
-        url: 'https://data.royalspacesociety.com/censustable.html',
+        url: 'https://data.royalspacesociety.com/#/censustable',
         description: 'Holographic biometric verification matrix for interdimensional RSS operatives registry',
         icon: 'pi pi-home',
       },
       {
         title: 'RSS Galactic Cartographic Nexus',
         category: 'Stellar Access Protocol',
-        url: 'https://data.royalspacesociety.com/regions.html',
+        url: 'https://data.royalspacesociety.com/#/regions',
         description: 'Unified galactic registry of all charted regions under Royal Space Society sovereignty',
         icon: 'pi pi-prime',
       },
       {
         title: 'Galactic Chronological Nexus RSS',
         category: 'Temporary Registration Protocol',
-        url: 'https://data.royalspacesociety.com/cronology.html',
+        url: 'https://data.royalspacesociety.com/#/cronology',
         description:
           'A unified record of historical events and significant occurrences under the sovereignty of the Royal Space Society',
         icon: 'pi pi-sort-amount-up',
@@ -359,21 +359,21 @@ export const linkData = {
       {
         title: 'Nexus Star Travelers RSS',
         category: 'Star Travelers Protocol',
-        url: 'https://data.royalspacesociety.com/rssfriends.html',
+        url: 'https://data.royalspacesociety.com/#/rssfriends',
         description: 'Unified registry of travelers who are part of the RSS',
         icon: 'pi pi-link',
       },
       {
         title: 'RSS Star Opinion Nexus',
         category: 'Star Travelers Protocol',
-        url: 'https://data.royalspacesociety.com/feedback.html',
+        url: 'https://data.royalspacesociety.com/#/feedback',
         description: 'Unified registry for RSS travelers to leave their opinions about the RSS',
         icon: 'pi pi-reply',
       },
       {
         title: 'Galactic Archive of Updates',
         category: 'Stellar Chronology Protocol',
-        url: 'https://data.royalspacesociety.com/latestupdates.html',
+        url: 'https://data.royalspacesociety.com/#/latestupdates',
         description:
           'Access the stellar compendium of modifications implemented in the Stellaris Synapse Network. Each log includes visual and chronological details of the systems iterations.',
         icon: 'pi pi-history',
@@ -381,7 +381,7 @@ export const linkData = {
       {
         title: 'Galactic Archive of Changes',
         category: 'Stellar Chronology Protocol',
-        url: 'https://data.royalspacesociety.com/wikiupdates.html',
+        url: 'https://data.royalspacesociety.com/#/wikiupdates',
         description:
           'Access the stellar compendium of changes implemented in the Stellaris Synapse Network. Each log includes visual and chronological details of the systems iterations.',
         icon: 'pi pi-history',
@@ -397,35 +397,35 @@ export const linkData = {
       },
       {
         title: 'Control Center',
-        url: 'https://data.royalspacesociety.com/',
+        url: 'https://data.royalspacesociety.com/#/',
         category: 'Operations',
         description: 'Interface for creating and uploading discoveries to the wiki',
         icon: 'pi pi-sitemap',
       },
       {
         title: 'Base Updater',
-        url: 'https://data.royalspacesociety.com/baserenewal.html',
+        url: 'https://data.royalspacesociety.com/#/baserenewal',
         category: 'Updates',
         description: 'System for discovery logging and artifact registration',
         icon: 'pi pi-cloud-download',
       },
       {
         title: 'Member Registry',
-        url: 'https://data.royalspacesociety.com/census.html',
+        url: 'https://data.royalspacesociety.com/#/census',
         category: 'Census',
         description: 'Verification system for RSS membership',
         icon: 'pi pi-id-card',
       },
       {
         title: 'Frequently Asked Questions',
-        url: 'https://data.royalspacesociety.com/faq.html',
+        url: 'https://data.royalspacesociety.com/#/faq',
         category: 'Protocols',
         description: 'A compilation of many of the questions that are frequently asked',
         icon: 'pi pi-question-circle',
       },
       {
         title: 'Portal Generator',
-        url: 'https://data.royalspacesociety.com/glyphgenerator.html',
+        url: 'https://data.royalspacesociety.com/#/glyphgenerator',
         category: 'Tools',
         description: 'Coordinate generator for star portals',
         icon: 'pi pi-map-marker',
@@ -453,7 +453,7 @@ export const linkData = {
       },
       {
         title: 'Featured Bases',
-        url: 'https://data.royalspacesociety.com/basesdestacadas.html',
+        url: 'https://data.royalspacesociety.com/#/basesdestacadas',
         category: 'Achievements',
         description: 'Directory of featured RSS member bases',
         icon: 'pi pi-microchip',
@@ -461,21 +461,21 @@ export const linkData = {
       {
         title: 'Base Registry',
         category: 'Official Census',
-        url: 'https://data.royalspacesociety.com/censustable.html',
+        url: 'https://data.royalspacesociety.com/#/censustable',
         description: 'Updated verification and registration system for all active RSS members',
         icon: 'pi pi-home',
       },
       {
         title: 'RSS Regions Directory',
         category: 'Stellar Access Protocol',
-        url: 'https://data.royalspacesociety.com/regions.html',
+        url: 'https://data.royalspacesociety.com/#/regions',
         description: 'Central directory of all officially recognized RSS regions',
         icon: 'pi pi-prime',
       },
       {
         title: 'Timeline of RSS and the Web',
         category: 'Temporary Registration Protocol',
-        url: 'https://data.royalspacesociety.com/cronology.html',
+        url: 'https://data.royalspacesociety.com/#/cronology',
         description:
           'A unified record of historical events and significant occurrences under the sovereignty of the Royal Space Society',
         icon: 'pi pi-sort-amount-up',
@@ -483,28 +483,28 @@ export const linkData = {
       {
         title: 'Friend Card Creator',
         category: 'Star Travelers Protocol',
-        url: 'https://data.royalspacesociety.com/rssfriends.html',
+        url: 'https://data.royalspacesociety.com/#/rssfriends',
         description: 'Unified registry of travelers who are part of the RSS',
         icon: 'pi pi-link',
       },
       {
         title: 'Feedback',
         category: 'Star Travelers Protocol',
-        url: 'https://data.royalspacesociety.com/feedback.html',
+        url: 'https://data.royalspacesociety.com/#/feedback',
         description: 'Unified registry for RSS travelers to leave their opinions about the RSS',
         icon: 'pi pi-reply',
       },
       {
         title: 'NMS Update History',
         category: 'System',
-        url: 'https://data.royalspacesociety.com/latestupdates.html',
+        url: 'https://data.royalspacesociety.com/#/latestupdates',
         description: 'Check out all the recent NMS updates with details, images, and direct links to the versions.',
         icon: 'pi pi-history',
       },
       {
         title: 'NMS Wiki Changes History',
         category: 'System',
-        url: 'https://data.royalspacesociety.com/wikiupdates.html',
+        url: 'https://data.royalspacesociety.com/#/wikiupdates',
         description:
           'Check out all the recent NMS Wiki changes with details, images, and direct links to the versions.',
         icon: 'pi pi-history',
