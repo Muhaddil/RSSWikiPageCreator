@@ -106,7 +106,7 @@ function onFileInputChange(e: Event) {
       />
       <label
         for="file-input"
-        class="upload-button"
+        class="upload-button upload-button-gallery"
       >
         <i class="pi pi-plus"></i>
         Añadir archivos
@@ -189,6 +189,19 @@ function onFileInputChange(e: Event) {
 
 .upload-button i {
   font-size: 1rem;
+}
+
+.upload-button-gallery {
+  border-color: #c62828;
+  color: #c62828;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.upload-button-gallery:hover {
+  background: rgba(198, 40, 40, 0.1);
+  border-color: #ef5350;
+  color: #ef5350;
 }
 
 .upload-text {

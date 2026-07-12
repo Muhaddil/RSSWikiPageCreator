@@ -95,7 +95,11 @@ function showConfirmDialog(index: number) {
 
 <template>
   <div>
-    <Button @click="addPlanet">Agregar Tradeable</Button>
+    <Button
+      severity="danger"
+      size="small"
+      @click="addPlanet"
+    >Agregar Tradeable</Button>
     <br />
     <br />
     <div
@@ -140,7 +144,11 @@ function showConfirmDialog(index: number) {
         >
         </SanitisedTextInput>
 
-        <Button @click="showConfirmDialog(index)"> Eliminar Tradeable </Button>
+        <Button
+          severity="danger"
+          size="small"
+          @click="showConfirmDialog(index)"
+        > Eliminar Tradeable </Button>
       </Panel>
     </div>
   </div>

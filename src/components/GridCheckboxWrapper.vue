@@ -40,4 +40,14 @@ const defaultFalseValue = 'No';
 .checkbox-row:last-child .checkbox-wrapper {
   padding-block-end: 0;
 }
+
+@media (max-width: 600px) {
+  .checkbox-row {
+    flex-direction: column;
+  }
+
+  .checkbox-row .checkbox-wrapper {
+    width: 100%;
+  }
+}
 </style>

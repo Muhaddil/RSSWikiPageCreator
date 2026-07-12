@@ -88,9 +88,11 @@ planets.value.forEach((planet) => {
 <template>
   <div>
     <Button
+      severity="danger"
+      size="small"
       @click="addPlanet"
       v-if="planets.length < 2"
-      >Agregar Luna</Button
+    >Agregar Luna</Button
     >
     <br v-if="planets.length < 2" />
     <br v-if="planets.length < 2" />
@@ -100,10 +102,12 @@ planets.value.forEach((planet) => {
     >
       <div class="is-flex is-justify-content is-align-items-center full-width">
         <Button
+          severity="danger"
+          size="small"
           @click="removePlanet(index)"
-          style="margin-right: 10px; width: 30px; height: 30px; padding: 0"
+          style="margin-right: 10px; flex-shrink: 0"
         >
-          X
+          Eliminar
         </Button>
         <SanitisedTextInput
           v-model="planet.name"

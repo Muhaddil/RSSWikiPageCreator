@@ -1,147 +1,44 @@
-import { getRouteComponent, getCurrentRoute } from '@/helpers/router';
+import { computed } from 'vue';
+import router from '@/router';
 
-// build a custom "fake router" instead of using client-side routing to avoid 404 pages on direct navigation
-export const router: Record<string, string> = {
+export const route = computed(() => (router.currentRoute.value.name as string) || '');
+
+export const componentName = computed(() => route.value || 'home');
+
+const nameMap: Record<string, string> = {
+  base: 'Bases',
   flora: 'Flora',
-  mineral: 'Mineral',
-  home: 'Home',
-  base: 'Base',
-  basecensusno: 'NormalBase',
+  mineral: 'Minerales',
   fauna: 'Fauna',
-  racetrack: 'Racetrack',
-  system: 'System',
-  settlement: 'Settlement',
-  sandworm: 'Sandworm',
-  starship: 'Starship',
-  multitool: 'Multitool',
-  planet: 'Planet',
-  biofrig: 'Biofrig',
-  derelict: 'Derelict',
-  moon: 'Moon',
-  baserenewal: 'BaseRenewal',
-  faq: 'Faq',
-  census: 'Census',
-  basesdestacadas: 'BasesDestacadas',
-  rsslinks: 'RSSLinks',
-  censustable: 'CensusTable',
-  regions: 'Regions',
-  cronology: 'Cronology',
-  fotosdestacadas: 'FotosDestacadas',
-  rssfriends: 'RSSFriends',
-  guias: 'Guias',
+  basecensusno: 'Bases Normales',
+  racetrack: 'Circuitos',
+  system: 'Sistemas',
+  settlement: 'Asentamientos',
+  sandworm: 'Gusano de arena',
+  starship: 'Naves',
+  multitool: 'Multiherramientas',
+  planet: 'Planetas',
+  moon: 'Lunas',
+  biofrig: 'Fragata Orgánica',
+  derelict: 'Cargueros Abandonados',
+  baserenewal: 'Actualización del Censo RSS',
+  faq: 'Preguntas Frecuentes',
+  census: 'Censo',
+  basesdestacadas: 'Bases Destacadas',
+  rsslinks: 'Portal Comunidad',
+  censustable: 'Censo de Bases',
+  regions: 'Regiones',
+  cronology: 'Cronología',
+  rssfriends: 'Códigos de Amigo',
+  guias: 'Guías de uso',
   feedback: 'Feedback',
-  latestupdates: 'LatestUpdates',
-  wikiupdates: 'WikiUpdates',
-  rsssystems: 'RSSSystems',
-  corvette: 'Corvette',
-  glyphgenerator: 'GlyphGenerator',
+  latestupdates: 'Últimas Actualizaciones',
+  wikiupdates: 'Últimas Actualizaciones',
+  rsssystems: 'Sistemas RSS',
+  corvette: 'Corbetas',
+  glyphgenerator: 'Generador de Glifos',
+  home: 'Panel',
+  tutorial: 'Tutorial',
 };
 
-export const route = getCurrentRoute();
-export const componentName = getRouteComponent();
-
-let exportName;
-
-switch (route) {
-  case 'base':
-    exportName = 'Bases';
-    break;
-  case 'flora':
-    exportName = 'Flora';
-    break;
-  case 'mineral':
-    exportName = 'Minerales';
-    break;
-  case 'fauna':
-    exportName = 'Fauna';
-    break;
-  case 'basecensusno':
-    exportName = 'Bases Normales';
-    break;
-  case 'racetrack':
-    exportName = 'Circuitos';
-    break;
-  case 'system':
-    exportName = 'Sistemas';
-    break;
-  case 'settlement':
-    exportName = 'Asentamientos';
-    break;
-  case 'sandworm':
-    exportName = 'Gusano de arena';
-    break;
-  case 'starship':
-    exportName = 'Naves';
-    break;
-  case 'multitool':
-    exportName = 'Multiherramientas';
-    break;
-  case 'planet':
-    exportName = 'Planetas';
-    break;
-  case 'moon':
-    exportName = 'Lunas';
-    break;
-  case 'biofrig':
-    exportName = 'Fragata Orgánica';
-    break;
-  case 'derelict':
-    exportName = 'Cargueros Abandonados';
-    break;
-  case 'baserenewal':
-    exportName = 'Actualización del Censo RSS';
-    break;
-  case 'faq':
-    exportName = 'Preguntas Frecuentes';
-    break;
-  case 'census':
-    exportName = 'Censo';
-    break;
-  case 'basesdestacadas':
-    exportName = 'Bases Destacadas';
-    break;
-  case 'rsslinks':
-    exportName = 'Portal Comunidad';
-    break;
-  case 'censustable':
-    exportName = 'Censo de Bases';
-    break;
-  case 'regions':
-    exportName = 'Regiones';
-    break;
-  case 'cronology':
-    exportName = 'Cronología';
-    break;
-  case 'rssfriends':
-    exportName = 'Códigos de Amigo';
-    break;
-  case 'guias':
-    exportName = 'Guías de uso';
-    break;
-  case 'feedback':
-    exportName = 'Feedback';
-    break;
-  case 'latestupdates':
-    exportName = 'Últimas Actualizaciones';
-    break;
-  case 'wikiupdates':
-    exportName = 'Últimas Actualizaciones';
-    break;
-  case 'rsssystems':
-    exportName = 'Sistemas RSS';
-    break;
-  case 'corvette':
-    exportName = 'Corbetas';
-    break;
-  case 'glyphgenerator':
-    exportName = 'Generador de Glifos';
-    break;
-  case '':
-    exportName = 'Home';
-    break;
-  default:
-    exportName = 'Desconocido';
-    break;
-}
-
-export const pageformattedName = exportName;
+export const pageformattedName = computed(() => nameMap[route.value] || route.value || 'Home');

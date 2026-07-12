@@ -1,9 +1,13 @@
 import { useHead } from '@unhead/vue';
 import { seoConfig, defaultSEO } from '@/variables/seo';
 import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-export function useSEO(routeName: string) {
+export function useSEO(_routeName?: string) {
+  const currentRoute = useRoute();
+
   const seoData = computed(() => {
+    const routeName = (currentRoute.name as string) || '';
     const data = seoConfig[routeName] || defaultSEO;
     return {
       title: data.title,
@@ -16,7 +20,6 @@ export function useSEO(routeName: string) {
           name: 'keywords',
           content: (data.keywords || defaultSEO.keywords)?.join(', '),
         },
-        // Open Graph
         {
           property: 'og:title',
           content: data.title,
@@ -29,7 +32,6 @@ export function useSEO(routeName: string) {
           property: 'og:type',
           content: 'website',
         },
-        // Twitter Card
         {
           name: 'twitter:card',
           content: 'summary_large_image',

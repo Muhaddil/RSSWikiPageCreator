@@ -126,7 +126,11 @@ const isContentInvalid = computed(() => faunas.value.some((fauna) => numberError
       :header="`Minerales:`"
       toggleable
     >
-      <Button @click="addFauna">+ Añadir Mineral</Button>
+      <Button
+        severity="danger"
+        size="small"
+        @click="addFauna"
+      >+ Añadir Mineral</Button>
       <br />
       <br />
       <div
@@ -240,9 +244,11 @@ const isContentInvalid = computed(() => faunas.value.some((fauna) => numberError
 
           <Button
             v-if="faunas.length >= 1"
+            severity="danger"
+            size="small"
             @click="removeFauna(index)"
           >
-            Eliminar Flora
+            Eliminar Mineral
           </Button>
         </Panel>
       </div>

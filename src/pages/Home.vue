@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import type { CivImageProps, PageLinkProps } from '@/types/homePageProps';
-import { reactive, onMounted, onUnmounted, ref } from 'vue';
+import { reactive, onMounted, onUnmounted, ref, computed, inject, watch, nextTick } from 'vue';
 import ScrollToTop from '@/components/ScrollToTop.vue';
+
+const sidebarSimplified = inject<import('vue').Ref<boolean>>('sidebarSimplified');
+const isSimplifiedMode = computed(() => sidebarSimplified?.value ?? localStorage.getItem('sidebar_simplified') !== 'false');
 
 const links: PageLinkProps[] = [
   {
@@ -290,44 +293,53 @@ onMounted(() => {
     isVisible.value = true;
   }, 50);
 
-  const annotationObserverOptions = {
-    threshold: 0.6,
-    rootMargin: '-15% 0px -15% 0px',
-  };
-
-  const annotationObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const id = entry.target.getAttribute('data-section');
-      if (id && id in annotations.value) {
-        annotations.value[id as keyof typeof annotations.value] = entry.isIntersecting;
-      }
-    });
-  }, annotationObserverOptions);
-
-  const scrollObserverOptions = {
-    threshold: 0.15,
-    rootMargin: '0px 0px -100px 0px',
-  };
-
-  const scrollObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-      } else {
-        entry.target.classList.remove('is-visible');
-      }
-    });
-  }, scrollObserverOptions);
-
   setTimeout(() => {
-    document.querySelectorAll('[data-section]').forEach((section) => {
-      annotationObserver.observe(section);
-    });
-
-    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
-      scrollObserver.observe(el);
-    });
+    observeAnimations();
   }, 100);
+});
+
+const annotationObserverOptions = {
+  threshold: 0.6,
+  rootMargin: '-15% 0px -15% 0px',
+};
+
+const annotationObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    const id = entry.target.getAttribute('data-section');
+    if (id && id in annotations.value) {
+      annotations.value[id as keyof typeof annotations.value] = entry.isIntersecting;
+    }
+  });
+}, annotationObserverOptions);
+
+const scrollObserverOptions = {
+  threshold: 0.15,
+  rootMargin: '0px 0px -100px 0px',
+};
+
+const scrollObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+    } else {
+      entry.target.classList.remove('is-visible');
+    }
+  });
+}, scrollObserverOptions);
+
+function observeAnimations() {
+  document.querySelectorAll('[data-section]').forEach((section) => {
+    annotationObserver.observe(section);
+  });
+  document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+    scrollObserver.observe(el);
+  });
+}
+
+watch(isSimplifiedMode, (newVal) => {
+  if (!newVal) {
+    nextTick(() => observeAnimations());
+  }
 });
 
 const hoverTimers = new Map<string, NodeJS.Timeout>();
@@ -390,10 +402,57 @@ onUnmounted(() => {
     class="home-terminal"
     :class="{ visible: isVisible }"
   >
-    <section
-      class="hero-section"
-      data-section="hero"
-    >
+    <!-- Simplified mode: 5 card landing -->
+    <div v-if="isSimplifiedMode" class="simple-landing">
+      <div class="simple-hero">
+        <h1 class="simple-title">ROYAL SPACE SOCIETY</h1>
+        <p class="simple-subtitle">WIKI PAGE CREATOR</p>
+      </div>
+
+      <div class="simple-grid">
+        <router-link to="/tutorial" class="simple-card">
+          <div class="simple-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <span class="simple-card-label">Tutorial</span>
+        </router-link>
+
+        <router-link to="/system" class="simple-card">
+          <div class="simple-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>
+          </div>
+          <span class="simple-card-label">Sistemas</span>
+        </router-link>
+
+        <router-link to="/planet" class="simple-card">
+          <div class="simple-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          </div>
+          <span class="simple-card-label">Planetas</span>
+        </router-link>
+
+        <router-link to="/base" class="simple-card">
+          <div class="simple-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <span class="simple-card-label">Bases</span>
+        </router-link>
+
+        <a href="https://nomanssky.fandom.com/wiki/Atlas" class="simple-card">
+          <div class="simple-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          </div>
+          <span class="simple-card-label">Volver al Atlas</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Show full dashboard in full mode -->
+    <template v-else>
+      <section
+        class="hero-section"
+        data-section="hero"
+      >
       <div class="hero-content">
         <div class="system-header">
           <div class="header-line"></div>
@@ -445,9 +504,11 @@ onUnmounted(() => {
           <span class="scroll-arrow">&#9660;</span>
         </div>
       </div>
-    </section>
+      </section>
+    </template>
 
     <section
+      v-if="!isSimplifiedMode"
       class="features-section"
       data-section="features"
     >
@@ -487,7 +548,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="credits-section">
+    <section v-if="!isSimplifiedMode" class="credits-section">
       <div class="credits-card animate-on-scroll">
         <span class="credits-label">DISEÑO DE ICONOS POR</span>
         <a
@@ -501,6 +562,7 @@ onUnmounted(() => {
     </section>
 
     <section
+      v-if="!isSimplifiedMode"
       class="tools-section"
       data-section="tools"
     >
@@ -543,6 +605,7 @@ onUnmounted(() => {
     </section>
 
     <section
+      v-if="!isSimplifiedMode"
       class="resources-section"
       data-section="resources"
     >
@@ -580,6 +643,7 @@ onUnmounted(() => {
     </section>
 
     <section
+      v-if="!isSimplifiedMode"
       class="community-section"
       data-section="community"
     >
@@ -648,7 +712,7 @@ onUnmounted(() => {
       </div>
     </section>
 
-    <section class="about-section">
+    <section v-if="!isSimplifiedMode" class="about-section">
       <div class="about-card animate-on-scroll">
         <div class="card-corner top-left"></div>
         <div class="card-corner top-right"></div>
@@ -1462,6 +1526,119 @@ onUnmounted(() => {
   .system-status {
     flex-direction: column;
     gap: 0.5rem;
+  }
+}
+
+.simple-landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 2rem;
+}
+
+.simple-hero {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.simple-title {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+  margin: 0 0 0.5rem;
+}
+
+.simple-subtitle {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0;
+}
+
+.simple-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+  max-width: 700px;
+  width: 100%;
+}
+
+.simple-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1rem;
+  background: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.simple-card:hover {
+  border-color: rgba(198, 40, 40, 0.4);
+  background: rgba(198, 40, 40, 0.08);
+  color: #c62828;
+}
+
+.simple-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.simple-card:hover .simple-card-icon {
+  border-color: rgba(198, 40, 40, 0.3);
+}
+
+.simple-card-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .simple-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .simple-card {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .simple-card-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .simple-card-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 380px) {
+  .simple-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 </style>

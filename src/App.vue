@@ -1,27 +1,33 @@
 <script setup lang="ts">
+import Sidebar from '@/components/Sidebar.vue';
 import MainToolbar from '@/components/MainToolbar.vue';
-import { componentName, route } from '@/variables/route';
-import { defineAsyncComponent, onMounted, type Component } from 'vue';
+import { componentName, pageformattedName } from '@/variables/route';
 import { usePageDataStore } from './stores/pageData';
 import FooterToolbar from './components/FooterToolbar.vue';
-import { ref } from 'vue';
+import { onMounted, ref, computed, provide, watch } from 'vue';
 import packageJson from '../package.json';
 import { useSEO } from '@/composables/useSEO';
+import { useRoute } from 'vue-router';
 
 const pageData = usePageDataStore();
+const currentRoute = useRoute();
 
-useSEO(route);
+useSEO();
 
 onMounted(async () => pageData.initStore());
-
-const RouteComponent = defineAsyncComponent<Component>({
-  loader: () => import(`./pages/${componentName}.vue`),
-});
 
 const updateAvailable = ref(false);
 const currentVersion = packageJson.version;
 const remoteVersion = ref('');
 const currentTime = ref('');
+const scanlinesEnabled = ref(false);
+const isSimplifiedMode = ref(localStorage.getItem('sidebar_simplified') !== 'false');
+provide('sidebarSimplified', isSimplifiedMode);
+
+watch(isSimplifiedMode, (val) => {
+  localStorage.setItem('sidebar_simplified', String(val));
+});
+
 
 function updateTime() {
   const now = new Date();
@@ -181,6 +187,14 @@ function getAnnouncementIcon(type: string) {
   return icons[type] || icons.info;
 }
 
+function toggleScanlines() {
+  scanlinesEnabled.value = !scanlinesEnabled.value;
+}
+
+function reloadPage() {
+  window.location.reload();
+}
+
 onMounted(() => {
   updateTime();
   setInterval(updateTime, 1000);
@@ -198,177 +212,183 @@ onMounted(() => {
   }, 8000);
 });
 
-function reloadPage() {
-  // if ('caches' in window) {
-  //   caches.keys().then((names) => {
-  //     for (const name of names) {
-  //       caches.delete(name);
-  //     }
-  //   }).finally(() => {
-  //     window.location.href = window.location.pathname + '?nocache=' + new Date().getTime();
-  //   });
-  // } else {
-  //   window.location.href = window.location.pathname + '?nocache=' + new Date().getTime();
-  // }
-  window.location.reload();
-}
+const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path === '/');
 </script>
 
 <template>
-  <div class="rss-core-os">
-    <div class="scanline-overlay"></div>
-    <div class="noise-overlay"></div>
+  <div class="app-layout">
+    <Sidebar />
 
-    <header class="rss-header">
-      <div class="header-left">
-        <span class="system-id">RSS // WCORE OS V{{ currentVersion }}</span>
-      </div>
-      <div class="header-center">
-        <MainToolbar />
-      </div>
-      <div class="header-right">
-        <span class="system-time">{{ currentTime }}</span>
-      </div>
-    </header>
+    <div class="scanline-overlay" v-if="scanlinesEnabled"></div>
 
-    <div class="system-status-bar">
-      <div class="status-item">
-        <span class="status-label">SYSTEM</span>
-        <span class="status-value ok">ONLINE</span>
-      </div>
-      <div class="status-item">
-        <span class="status-label">NODE</span>
-        <span class="status-value">SP-MKD-01</span>
-      </div>
-      <div class="status-item">
-        <span class="status-label">VERSION</span>
-        <span class="status-value">v{{ currentVersion }}</span>
-      </div>
-    </div>
+    <a
+      href="#main-content"
+      class="skip-link"
+    >Saltar al contenido</a>
 
-    <main class="rss-main">
-      <div
-        v-if="announcements.length > 0"
-        class="announcement-container"
+    <div class="main-area">
+      <header class="app-header" v-if="!isHome">
+        <div class="header-left">
+          <span class="breadcrumb">ROYAL SPACE SOCIETY // {{ pageformattedName.toUpperCase() }}</span>
+        </div>
+        <div class="header-center">
+          <MainToolbar />
+        </div>
+        <div class="header-right">
+          <button class="scanline-toggle" @click="toggleScanlines" :class="{ active: scanlinesEnabled }" title="Alternar efecto VCR" aria-label="Alternar efecto VCR">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </button>
+          <span class="system-time">{{ currentTime }}</span>
+        </div>
+      </header>
+
+      <div class="app-header home-header" v-if="isHome">
+        <div class="header-left">
+          <span class="breadcrumb">ROYAL SPACE SOCIETY // DASHBOARD</span>
+        </div>
+        <div class="header-center"></div>
+        <div class="header-right">
+          <button class="scanline-toggle" @click="toggleScanlines" :class="{ active: scanlinesEnabled }" title="Alternar efecto VCR" aria-label="Alternar efecto VCR">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </button>
+          <span class="system-time">{{ currentTime }}</span>
+        </div>
+      </div>
+
+      <div class="tool-name-bar" v-if="!isHome && currentRoute.name !== 'tutorial'">
+        <span class="tool-name">{{ pageformattedName }} Herramienta</span>
+      </div>
+
+      <main
+        id="main-content"
+        class="app-content"
+        :class="{ 'is-home': isHome }"
+        tabindex="-1"
       >
         <div
-          v-for="(announcement, index) in announcements"
-          :key="announcement.id"
-          v-show="index === currentIndex"
-          :class="['announcement-banner', `announcement-${announcement.type}`, { transitioning: isTransitioning }]"
+          v-if="announcements.length > 0"
+          class="announcement-container"
         >
-          <div class="announcement-content">
-            <div class="announcement-icon">
-              <i :class="getAnnouncementIcon(announcement.type)"></i>
+          <div
+            v-for="(announcement, index) in announcements"
+            :key="announcement.id"
+            v-show="index === currentIndex"
+            :class="['announcement-banner', `announcement-${announcement.type}`, { transitioning: isTransitioning }]"
+          >
+            <div class="announcement-content">
+              <div class="announcement-icon">
+                <i :class="getAnnouncementIcon(announcement.type)"></i>
+              </div>
+              <div class="announcement-text">
+                <h4
+                  v-if="announcement.title"
+                  class="announcement-title"
+                >
+                  {{ announcement.title }}
+                </h4>
+                <p class="announcement-message">{{ announcement.message }}</p>
+                <a
+                  v-if="announcement.link"
+                  :href="announcement.link.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="announcement-link"
+                >
+                  {{ announcement.link.text }}
+                  <i class="pi pi-external-link"></i>
+                </a>
+              </div>
             </div>
-            <div class="announcement-text">
-              <h4
-                v-if="announcement.title"
-                class="announcement-title"
-              >
-                {{ announcement.title }}
-              </h4>
-              <p class="announcement-message">{{ announcement.message }}</p>
-              <a
-                v-if="announcement.link"
-                :href="announcement.link.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="announcement-link"
-              >
-                {{ announcement.link.text }}
-                <i class="pi pi-external-link"></i>
-              </a>
+            <button
+              v-if="announcement.dismissible"
+              class="announcement-dismiss"
+              @click="dismissAnnouncement"
+              aria-label="Close announcement"
+            >
+              <i class="pi pi-times"></i>
+            </button>
+          </div>
+
+          <div
+            v-if="showProgressBar && announcements.length > 1"
+            class="announcement-progress"
+          >
+            <div
+              v-for="(_, index) in announcements"
+              :key="index"
+              :class="['progress-dot', { active: index === currentIndex }]"
+              @click="currentIndex = index"
+            ></div>
+          </div>
+        </div>
+
+        <div
+          v-if="updateAvailable"
+          class="update-banner"
+        >
+          <div class="update-icon">
+            <i class="pi pi-refresh"></i>
+          </div>
+          <div class="update-content">
+            <div class="update-text">
+              <span class="update-title">ACTUALIZACIÓN DEL SISTEMA DISPONIBLE</span>
+              <span class="update-version">{{ currentVersion }} → {{ remoteVersion }}</span>
             </div>
+            <a
+              href="https://muhaddil.github.io/RSSWikiPageCreator/cronology.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="update-changelog"
+            >
+              VER CAMBIOS
+            </a>
           </div>
           <button
-            v-if="announcement.dismissible"
-            class="announcement-dismiss"
-            @click="dismissAnnouncement"
-            aria-label="Cerrar anuncio"
+            class="update-btn"
+            @click="reloadPage"
           >
-            <i class="pi pi-times"></i>
+            <span>ACTUALIZAR</span>
+            <i class="pi pi-arrow-right"></i>
           </button>
         </div>
 
+        <router-view />
+
         <div
-          v-if="showProgressBar && announcements.length > 1"
-          class="announcement-progress"
+          class="footer-section"
+          v-if="componentName !== 'Faq'"
         >
-          <div
-            v-for="(_, index) in announcements"
-            :key="index"
-            :class="['progress-dot', { active: index === currentIndex }]"
-            @click="currentIndex = index"
-          ></div>
-        </div>
-      </div>
-
-      <div
-        v-if="updateAvailable"
-        class="update-banner"
-      >
-        <div class="update-icon">
-          <i class="pi pi-refresh"></i>
-        </div>
-        <div class="update-content">
-          <div class="update-text">
-            <span class="update-title">ACTUALIZACIÓN DEL SISTEMA DISPONIBLE</span>
-            <span class="update-version">{{ currentVersion }} → {{ remoteVersion }}</span>
-          </div>
-          <a
-            href="https://muhaddil.github.io/RSSWikiPageCreator/cronology.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="update-changelog"
-          >
-            VER CAMBIOS
-          </a>
-        </div>
-        <button
-          class="update-btn"
-          @click="reloadPage"
-        >
-          <span>ACTUALIZAR</span>
-          <i class="pi pi-arrow-right"></i>
-        </button>
-      </div>
-
-      <RouteComponent />
-      <div
-        class="footer-section"
-        v-if="componentName !== 'Faq'"
-      >
-        <div class="rss-divider"></div>
-        <div class="footer-content">
-          <div class="footer-text">
-            <span class="footer-label">DESARROLLADO POR</span>
-            <a
-              href="https://nomanssky.fandom.com/wiki/Royal_Space_Society"
-              target="_blank"
-              class="author-name"
-            >
-              ROYAL SPACE SOCIETY
-            </a>
+          <div class="rss-divider"></div>
+          <div class="footer-content">
+            <div class="footer-text">
+              <span class="footer-label">DESARROLLADO POR</span>
+              <a
+                href="https://nomanssky.fandom.com/wiki/Royal_Space_Society"
+                target="_blank"
+                class="author-name"
+              >
+                ROYAL SPACE SOCIETY
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
 
-    <footer
-      v-if="componentName !== 'Home'"
-      class="rss-footer"
-    >
-      <FooterToolbar />
-    </footer>
+      <footer
+        v-if="componentName !== 'home'"
+        class="app-footer"
+      >
+        <FooterToolbar />
+      </footer>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.rss-core-os {
+.app-layout {
+  display: flex;
   min-height: 100vh;
-  position: relative;
-  background: #050505;
+  background: #0b0b0b;
 }
 
 .scanline-overlay {
@@ -381,52 +401,103 @@ function reloadPage() {
     0deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.03) 2px,
-    rgba(0, 0, 0, 0.03) 4px
+    rgba(255, 255, 255, 0.03) 2px,
+    rgba(255, 255, 255, 0.03) 4px
   );
   pointer-events: none;
   z-index: 1000;
-  opacity: 0.4;
+  opacity: 1;
+  animation: scanline-move 8s linear infinite;
 }
 
-.noise-overlay {
-  position: fixed;
+@keyframes scanline-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100px;
+  }
+}
+
+.scanline-overlay::before {
+  content: '';
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 999;
-  opacity: 0.5;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(255, 255, 255, 0.015) 1px,
+    rgba(255, 255, 255, 0.015) 2px
+  );
+  animation: scanline-flicker 0.1s infinite;
 }
 
-.rss-header {
-  position: fixed;
+@keyframes scanline-flicker {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.scanline-overlay::after {
+  content: '';
+  position: absolute;
   top: 0;
   left: 0;
-  right: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noise"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noise)" opacity="0.04"/%3E%3C/svg%3E');
+  opacity: 0.3;
+  animation: noise-shift 0.5s steps(10) infinite;
+}
+
+@keyframes noise-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-10px, -10px);
+  }
+}
+
+.main-area {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1.5rem;
-  background: rgba(10, 10, 10, 0.95);
-  border-bottom: 1px solid rgba(255, 26, 26, 0.3);
+  padding: 0 1.5rem;
+  height: 56px;
+  background: #111111;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   z-index: 100;
-  backdrop-filter: blur(10px);
 }
 
 .header-left {
   flex: 1;
 }
 
-.system-id {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #ff1a1a;
-  letter-spacing: 0.2em;
+.breadcrumb {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
   text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.35);
 }
 
 .header-center {
@@ -438,67 +509,108 @@ function reloadPage() {
 .header-right {
   flex: 1;
   display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 1rem;
 }
 
 .system-time {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
   letter-spacing: 0.15em;
 }
 
-.system-status-bar {
-  position: fixed;
-  top: 45px;
-  left: 0;
-  right: 0;
+.scanline-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
-  padding: 0.35rem 1rem;
-  background: rgba(5, 5, 5, 0.9);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  z-index: 99;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.65rem;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
 }
 
-.status-item {
+.scanline-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.scanline-toggle.active {
+  border-color: #c62828;
+  color: #c62828;
+  background: rgba(198, 40, 40, 0.1);
+}
+
+.mode-toggle {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.status-label {
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.4);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
 }
 
-.status-value {
+.mode-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.7);
-  letter-spacing: 0.1em;
 }
 
-.status-value.ok {
+.mode-toggle.active {
+  border-color: #66ff66;
   color: #66ff66;
-  text-shadow: 0 0 5px rgba(102, 255, 102, 0.3);
+  background: rgba(102, 255, 102, 0.1);
 }
 
-.rss-main {
-  padding-top: 90px;
-  padding-bottom: 100px;
-  min-height: 100vh;
-  width: 100%;
+.tool-name-bar {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 1.5rem;
+  background: #0b0b0b;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.tool-name {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.app-content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.app-content.is-home {
+  padding: 0;
+}
+
+.app-footer {
+  position: sticky;
+  bottom: 0;
+  background: #111111;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: 50;
 }
 
 .footer-section {
   padding: 2rem 1.5rem;
   margin-top: 4rem;
   text-align: center;
-  border-top: 1px solid rgba(255, 26, 26, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .footer-content {
@@ -516,45 +628,32 @@ function reloadPage() {
 }
 
 .footer-label {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.6rem;
-  color: rgba(255, 255, 255, 0.4);
-  letter-spacing: 0.3em;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.55rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 .author-name {
-  font-family: 'Orbitron', monospace;
+  font-family: 'Hanken Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 1rem;
-  color: #ff1a1a;
+  font-size: 0.9rem;
+  color: #c62828;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .author-name:hover {
-  color: #ff3333;
-  text-shadow: 0 0 10px rgba(255, 26, 26, 0.5);
-}
-
-.rss-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(10, 10, 10, 0.95);
-  border-top: 1px solid rgba(255, 26, 26, 0.3);
-  z-index: 100;
-  backdrop-filter: blur(10px);
+  color: #ef5350;
 }
 
 .announcement-container {
   position: relative;
-  margin: 0.75rem auto;
+  margin: 0 auto 1.5rem;
   max-width: 900px;
-  padding: 0 1rem;
 }
 
 .announcement-banner {
@@ -562,11 +661,10 @@ function reloadPage() {
   align-items: flex-start;
   justify-content: space-between;
   padding: 0.875rem 1.125rem;
-  border-radius: 0;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 26, 26, 0.3);
-  border-left: 3px solid #ff1a1a;
-  background: rgba(10, 10, 10, 0.8);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid #c62828;
+  background: #111111;
   position: relative;
   overflow: hidden;
 }
@@ -577,27 +675,19 @@ function reloadPage() {
 }
 
 .announcement-info {
-  border-left-color: rgba(255, 255, 255, 0.5);
-  background: rgba(10, 10, 10, 0.8);
-  color: rgba(255, 255, 255, 0.8);
+  border-left-color: rgba(255, 255, 255, 0.3);
 }
 
 .announcement-warning {
-  border-left-color: #ff1a1a;
-  background: rgba(10, 10, 10, 0.8);
-  color: #ff1a1a;
+  border-left-color: #c62828;
 }
 
 .announcement-error {
-  border-left-color: #ff1a1a;
-  background: rgba(10, 10, 10, 0.8);
-  color: #ff1a1a;
+  border-left-color: #c62828;
 }
 
 .announcement-success {
   border-left-color: #66ff66;
-  background: rgba(10, 10, 10, 0.8);
-  color: #66ff66;
 }
 
 .announcement-content {
@@ -619,19 +709,19 @@ function reloadPage() {
 
 .announcement-title {
   margin: 0 0 0.375rem;
-  font-family: 'Orbitron', monospace;
+  font-family: 'Hanken Grotesk', sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   line-height: 1.3;
 }
 
 .announcement-message {
   margin: 0 0 0.5rem;
   line-height: 1.5;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 0.9rem;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 0.85rem;
   opacity: 0.9;
 }
 
@@ -639,43 +729,45 @@ function reloadPage() {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.75rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
   text-decoration: none;
-  color: #ff1a1a;
+  color: #c62828;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.18em;
   padding: 0.25rem 0.5rem;
-  border: 1px solid rgba(255, 26, 26, 0.3);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(198, 40, 40, 0.3);
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
 }
 
 .announcement-link:hover {
-  background: rgba(255, 26, 26, 0.1);
-  border-color: #ff1a1a;
+  background: rgba(198, 40, 40, 0.1);
+  border-color: #c62828;
 }
 
 .announcement-dismiss {
   background: none;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   padding: 0.25rem;
-  opacity: 0.6;
-  transition: all 0.3s ease;
+  opacity: 0.5;
+  transition: all 0.2s ease;
   margin-left: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   color: #ffffff;
   font-size: 0.7rem;
+  border-radius: var(--border-radius);
 }
 
 .announcement-dismiss:hover {
   opacity: 1;
-  border-color: #ff1a1a;
-  color: #ff1a1a;
+  border-color: #c62828;
+  color: #c62828;
 }
 
 .announcement-progress {
@@ -686,32 +778,32 @@ function reloadPage() {
 }
 
 .progress-dot {
-  width: 6px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.2);
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.15);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  border-radius: 50%;
 }
 
 .progress-dot:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .progress-dot.active {
-  background: #ff1a1a;
-  box-shadow: 0 0 8px rgba(255, 26, 26, 0.5);
+  background: #c62828;
 }
 
 .update-banner {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(10, 10, 10, 0.9);
-  border: 1px solid rgba(102, 255, 102, 0.3);
+  background: #111111;
+  border: 1px solid rgba(102, 255, 102, 0.2);
   border-left: 3px solid #66ff66;
-  border-radius: 0;
+  border-radius: var(--border-radius);
   padding: 0.875rem 1.125rem;
-  margin: 0.75rem auto;
+  margin: 0 auto 1.5rem;
   max-width: 900px;
 }
 
@@ -734,28 +826,28 @@ function reloadPage() {
 }
 
 .update-title {
-  font-family: 'Orbitron', monospace;
+  font-family: 'Hanken Grotesk', sans-serif;
   font-weight: 700;
   font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   color: #66ff66;
 }
 
 .update-version {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .update-changelog {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.5);
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  transition: all 0.3s ease;
+  letter-spacing: 0.18em;
+  transition: all 0.2s ease;
 }
 
 .update-changelog:hover {
@@ -767,73 +859,149 @@ function reloadPage() {
   align-items: center;
   gap: 0.5rem;
   background: #66ff66;
-  color: #050505;
+  color: #0b0b0b;
   border: none;
   padding: 0.5rem 1rem;
-  border-radius: 0;
-  font-family: 'Orbitron', monospace;
+  border-radius: var(--border-radius);
+  font-family: 'Hanken Grotesk', sans-serif;
   font-weight: 700;
   font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.1em;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .update-btn:hover {
   background: #88ff88;
-  box-shadow: 0 0 15px rgba(102, 255, 102, 0.4);
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 1000;
+  padding: 0.6rem 1rem;
+  background: #c62828;
+  color: #ffffff;
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  border-radius: var(--border-radius);
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+:focus-visible {
+  outline: 2px solid #c62828;
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  .breadcrumb {
+    font-size: 0.55rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+    display: inline-block;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
 }
 
 @media (max-width: 768px) {
-  .rss-header {
-    padding: 0.5rem 1rem;
-  }
-
-  .system-id {
-    font-size: 0.6rem;
-  }
-
-  .system-time {
-    font-size: 0.7rem;
-  }
-
-  .system-status-bar {
-    gap: 1rem;
-    font-size: 0.6rem;
-  }
-
-  .announcement-banner {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .announcement-dismiss {
-    align-self: flex-end;
+  .main-area {
     margin-left: 0;
   }
 
-  .update-banner {
-    flex-direction: column;
-    gap: 0.75rem;
-    text-align: center;
+  .app-header {
+    padding: 0 0.75rem;
   }
 
-  .update-content {
-    align-items: center;
+  .breadcrumb {
+    font-size: 0.5rem;
+    max-width: 120px;
+  }
+
+  .header-center {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .header-right {
+    gap: 0.5rem;
+  }
+
+  .system-time {
+    font-size: 0.6rem;
+  }
+
+  .scanline-toggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .announcement-dismiss {
+    width: 32px;
+    height: 32px;
+  }
+
+  .app-content {
+    padding: 1rem;
+  }
+
+  .app-content.is-home {
+    padding: 0;
+  }
+
+  .tool-name-bar {
+    padding: 0.5rem 1rem;
+  }
+
+  .footer-section {
+    padding: 1.5rem 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .system-status-bar {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    justify-content: center;
+  .breadcrumb {
+    max-width: 80px;
+    font-size: 0.45rem;
   }
 
-  .progress-dot {
-    width: 8px;
-    height: 8px;
+  .header-right {
+    gap: 0.35rem;
+  }
+
+  .system-time {
+    display: none;
+  }
+
+  .app-content {
+    padding: 0.75rem;
+  }
+
+  .app-content.is-home {
+    padding: 0;
+  }
+
+  .tool-name-bar {
+    padding: 0.4rem 0.75rem;
+  }
+
+  .tool-name {
+    font-size: 0.75rem;
+  }
+
+  .footer-section {
+    padding: 1rem 0.75rem;
+    margin-top: 2rem;
   }
 }
 </style>

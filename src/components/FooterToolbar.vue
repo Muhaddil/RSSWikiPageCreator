@@ -3,8 +3,9 @@ import ConfirmDialog from 'primevue/confirmdialog';
 import { usePageDataStore } from '@/stores/pageData';
 import { useValidationStore } from '@/stores/validation';
 import { useToast, POSITION } from 'vue-toastification';
+import { computed } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
-import { getCurrentRoute } from '@/helpers/router';
+import { useRoute } from 'vue-router';
 
 const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK ?? '');
 
@@ -13,27 +14,30 @@ const validation = useValidationStore();
 const toast = useToast();
 const confirm = useConfirm();
 
-const route = getCurrentRoute();
+const route = useRoute();
+const currentRouteName = computed(() => (route.name as string) || '');
 
-const isBaseRenewalPage = route === 'baserenewal';
-const isCensusPage = route === 'census';
-// const isCorvettePage = route === 'corvette';
-const isFAQPage = [
-  'faq',
-  'basesdestacadas',
-  'rsslinks',
-  'censustable',
-  'regions',
-  'cronology',
-  'rssfriends',
-  'guias',
-  'feedback',
-  'latestupdates',
-  'wikiupdates',
-  'indextest',
-  'rsssystems',
-  'glyphgenerator',
-].includes(route);
+const isBaseRenewalPage = computed(() => currentRouteName.value === 'baserenewal');
+const isCensusPage = computed(() => currentRouteName.value === 'census');
+const isFAQPage = computed(() =>
+  [
+    'faq',
+    'tutorial',
+    'basesdestacadas',
+    'rsslinks',
+    'censustable',
+    'regions',
+    'cronology',
+    'rssfriends',
+    'guias',
+    'feedback',
+    'latestupdates',
+    'wikiupdates',
+    'indextest',
+    'rsssystems',
+    'glyphgenerator',
+  ].includes(currentRouteName.value)
+);
 
 function showError(message: string) {
   toast.error(message, { position: POSITION.BOTTOM_RIGHT });
@@ -138,7 +142,7 @@ async function sendToDiscord(sections: string[]): Promise<void> {
         }
       }
     } catch (error) {
-      console.error('❌ Error al procesar/enviar sección a Discord:', section, error);
+      console.error('Error processing/sending section to Discord:', section, error);
       throw error;
     }
   }
@@ -166,7 +170,7 @@ function delay(ms: number) {
 function createPage() {
   if (!checkValid()) return;
 
-  toast.success('¡Creada!', { position: POSITION.BOTTOM_RIGHT });
+  toast.success('¡Creado!', { position: POSITION.BOTTOM_RIGHT });
   handleSubmit();
 
   if (isCensusPage) {
@@ -197,7 +201,7 @@ function downloadCode() {
 
 function uploadFiles() {
   if (!isBaseRenewalPage && !pageData.image) {
-    showError('¿Qué quieres subir sin foto principal?');
+    showError('¿Qué vas a subir sin una foto principal?');
     return;
   }
 
@@ -207,18 +211,18 @@ function uploadFiles() {
 
 function confirmReset() {
   pageData.resetStore();
-  toast.success('¡Restablecido con éxito!', { position: POSITION.BOTTOM_RIGHT });
+  toast.success('¡Reiniciado con éxito!', { position: POSITION.BOTTOM_RIGHT });
 }
 
 function showConfirmDialog() {
   confirm.require({
-    message: '¿Estás seguro de que quieres restablecer?',
-    header: 'Confirmar Restablecer',
+    message: '¿Estás seguro de que quieres reiniciar?',
+    header: 'Confirmar Reinicio',
     icon: 'pi pi-exclamation-triangle',
     accept: confirmReset,
     acceptProps: { class: 'p-button-danger' },
     reject: () => {
-      toast.info('Restablecimiento cancelado.', { position: POSITION.BOTTOM_RIGHT });
+      toast.info('Reinicio cancelado.', { position: POSITION.BOTTOM_RIGHT });
     },
   });
 }
@@ -231,11 +235,11 @@ function showConfirmDialog() {
   >
     <div class="toolbar-actions">
       <button
-        class="action-btn"
+        class="action-btn secondary"
         @click="copyPage"
       >
-        <span class="btn-icon">&#9776;</span>
-        <span class="btn-text">COPIAR</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <span class="btn-text">Copiar</span>
       </button>
 
       <button
@@ -243,34 +247,34 @@ function showConfirmDialog() {
         class="action-btn primary"
         @click="createPage"
       >
-        <span class="btn-icon">&#9654;</span>
-        <span class="btn-text">CREAR</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <span class="btn-text">Generar</span>
       </button>
 
       <button
         v-if="!isBaseRenewalPage"
-        class="action-btn"
+        class="action-btn secondary"
         @click="downloadCode"
       >
-        <span class="btn-icon">&#8681;</span>
-        <span class="btn-text">DESCARGAR</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span class="btn-text">Descargar</span>
       </button>
 
       <button
         v-if="!isBaseRenewalPage"
-        class="action-btn"
+        class="action-btn secondary"
         @click="uploadFiles"
       >
-        <span class="btn-icon">&#8682;</span>
-        <span class="btn-text">SUBIR</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span class="btn-text">Subir</span>
       </button>
 
       <button
         class="action-btn danger"
         @click="showConfirmDialog"
       >
-        <span class="btn-icon">&#10006;</span>
-        <span class="btn-text">RESET</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <span class="btn-text">Reiniciar</span>
       </button>
     </div>
   </div>
@@ -281,68 +285,60 @@ function showConfirmDialog() {
 <style scoped>
 .footer-toolbar {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.6rem 1.5rem;
 }
 
 .toolbar-actions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  max-width: 800px;
-  margin: 0 auto;
+  justify-content: flex-end;
+  gap: 0.4rem;
 }
 
 .action-btn {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.8);
-  font-family: 'Orbitron', monospace;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Space Mono', monospace;
   font-size: 0.6rem;
-  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   white-space: nowrap;
+  border-radius: var(--border-radius);
 }
 
 .action-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.25);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .action-btn.primary {
-  background: rgba(255, 26, 26, 0.15);
-  border-color: rgba(255, 26, 26, 0.5);
-  color: #ff1a1a;
+  background: rgba(198, 40, 40, 0.15);
+  border-color: rgba(198, 40, 40, 0.4);
+  color: #c62828;
 }
 
 .action-btn.primary:hover {
-  background: rgba(255, 26, 26, 0.25);
-  border-color: #ff1a1a;
-  box-shadow: 0 0 10px rgba(255, 26, 26, 0.3);
+  background: rgba(198, 40, 40, 0.25);
+  border-color: #c62828;
 }
 
 .action-btn.danger {
-  border-color: rgba(153, 0, 0, 0.5);
-  color: rgba(153, 0, 0, 0.8);
+  border-color: rgba(142, 0, 0, 0.3);
+  color: rgba(142, 0, 0, 0.7);
 }
 
 .action-btn.danger:hover {
-  background: rgba(153, 0, 0, 0.15);
-  border-color: #990000;
-  color: #ff1a1a;
-}
-
-.btn-icon {
-  font-size: 0.7rem;
-  line-height: 1;
+  background: rgba(142, 0, 0, 0.1);
+  border-color: #8e0000;
+  color: #c62828;
 }
 
 .btn-text {
@@ -351,7 +347,7 @@ function showConfirmDialog() {
 
 @media (max-width: 600px) {
   .action-btn {
-    padding: 0.4rem 0.6rem;
+    padding: 0.35rem 0.5rem;
     font-size: 0.5rem;
   }
 }

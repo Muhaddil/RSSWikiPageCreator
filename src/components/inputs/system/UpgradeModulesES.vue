@@ -28,6 +28,5 @@ const options: Option[] = [
     filter
     :maxSelectedLabels="2"
     selectedItemsLabel="Se han seleccionado {0} elementos"
-    class="w-full"
   />
 </template>

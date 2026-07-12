@@ -1,4 +1,6 @@
 :root {
+  --font-hanken: 'Hanken Grotesk', sans-serif;
+  --font-space-mono: 'Space Mono', monospace;
   --font-orbitron: 'Orbitron', sans-serif;
   --font-rajdhani: 'Rajdhani', sans-serif;
   --font-share-tech: 'Share Tech Mono', monospace;

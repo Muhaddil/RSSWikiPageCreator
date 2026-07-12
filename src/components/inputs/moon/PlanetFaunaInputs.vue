@@ -123,7 +123,11 @@ const formattedGenera = computed(() => {
       :header="`Fauna:`"
       toggleable
     >
-      <Button @click="addFauna">+ Añadir Fauna</Button>
+      <Button
+        severity="danger"
+        size="small"
+        @click="addFauna"
+      >+ Añadir Fauna</Button>
       <br />
       <br />
       <div
@@ -218,6 +222,8 @@ const formattedGenera = computed(() => {
 
           <Button
             v-if="faunas.length >= 1"
+            severity="danger"
+            size="small"
             @click="removeFauna(index)"
           >
             Eliminar Criatura

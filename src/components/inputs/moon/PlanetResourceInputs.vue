@@ -134,6 +134,8 @@ function generateChemicalSymbols(resources: string[]): string {
           v-if="planet.resources.length > 3"
           @click="removeResource(index, resourceIndex)"
           icon="pi pi-times"
+          severity="danger"
+          size="small"
           class="remove-resource-button"
           aria-label="Eliminar recurso"
         />
@@ -144,6 +146,8 @@ function generateChemicalSymbols(resources: string[]): string {
         />
       </div>
       <Button
+        severity="danger"
+        size="small"
         @click="addResource(index)"
         :disabled="planet.resources.length >= 6"
       >

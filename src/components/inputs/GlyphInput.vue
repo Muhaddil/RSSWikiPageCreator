@@ -50,7 +50,7 @@ function lintGlyphs() {
 watchPostEffect(lintGlyphs);
 
 const activeCelestialBody = computed(() => {
-  if (moon.value || route === 'moon') {
+  if (moon.value || route.value === 'moon') {
     return 'luna';
   } else {
     return 'planeta';
@@ -130,8 +130,8 @@ const showDeleteButton = computed(() => model.value);
 <style scoped>
 .glyph-grid {
   display: grid;
-  grid-template-columns: repeat(8, 60px);
-  gap: 1px;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 4px;
 
   .glyphs.icon.is-small {
     height: 1em;
@@ -154,6 +154,16 @@ const showDeleteButton = computed(() => model.value);
     .glyphs {
       width: 3.5rem;
     }
+  }
+}
+
+@media (max-width: 600px) {
+  .glyph-input-wrapper > .columns {
+    flex-direction: column;
+  }
+
+  .glyph-input-wrapper > .columns > .column {
+    width: 100%;
   }
 }
 </style>

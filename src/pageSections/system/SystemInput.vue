@@ -327,11 +327,14 @@ watch(economybuy, (newValue) => {
   <div v-if="faction !== 'Uncharted' && wealth !== 'Black Market'">
     <TradeableInput />
 
-    <UpgradeModulesES v-model="modulesES" />
-    <UpgradeModules v-model="modulesMT" />
-    <UpgradeModulesSS v-model="modulesSS" />
-    <UpgradeModulesEC v-model="modulesEC" />
-    <UpgradeModulesSD v-model="modulesSD" />
+    <div class="upgrade-modules-grid">
+      <div class="upgrade-modules-header">Módulos de mejora disponibles</div>
+      <UpgradeModulesES v-model="modulesES" />
+      <UpgradeModules v-model="modulesMT" />
+      <UpgradeModulesSS v-model="modulesSS" />
+      <UpgradeModulesEC v-model="modulesEC" />
+      <UpgradeModulesSD v-model="modulesSD" />
+    </div>
   </div>
 
   <div v-if="faction !== 'Uncharted' && wealth === 'Black Market'">
@@ -344,3 +347,35 @@ watch(economybuy, (newValue) => {
 
   <GalleryInput />
 </template>
+
+<style scoped>
+.upgrade-modules-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--border-radius);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.upgrade-modules-header {
+  grid-column: 1 / -1;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.5);
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .upgrade-modules-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

@@ -5,8 +5,8 @@ import type { FileUploadSelectEvent } from 'primevue/fileupload';
 import FileUpload from 'primevue/fileupload';
 import InputText from 'primevue/inputtext';
 import InputTableItem from '../InputTableItem.vue';
-import { useDropZone, useElementBounding, useEventListener, watchDebounced } from '@vueuse/core';
 import InputGroup from 'primevue/inputgroup';
+import { useDropZone, useMediaQuery, useEventListener, watchDebounced } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import Explainer from '../Explainer.vue';
 import { debounceDelay } from '@/variables/debounce';
@@ -26,6 +26,7 @@ const model = defineModel<string>({ required: true });
 const showInfoModal = ref(false);
 const isTooLarge = ref(false);
 const hasFileEnding = ref(true);
+const isSmallScreen = useMediaQuery('(max-width: 480px)');
 
 const isInvalid = computed(() => isTooLarge.value || !hasFileEnding.value);
 
@@ -70,8 +71,6 @@ function updateFile(files: File[] | null) {
 const id = useId('file-upload-');
 
 const dropzone = ref<HTMLDivElement | null>(null);
-const inputWrapper = ref<HTMLDivElement | null>(null);
-const textInput = ref();
 const InputGroupComp = InputGroup;
 
 const { isOverDropZone } = useDropZone(dropzone, {
@@ -84,12 +83,7 @@ const { isOverDropZone } = useDropZone(dropzone, {
   preventDefaultForUnhandled: true,
 });
 
-const { height } = useElementBounding(textInput);
-const halfHeight = computed(() => height.value / 2);
-
-const { width } = useElementBounding(inputWrapper);
-const smallContainerWidth = 200;
-const isSmallScreen = computed(() => width.value <= smallContainerWidth);
+const halfHeight = computed(() => '0px');
 </script>
 
 <template>
@@ -110,7 +104,7 @@ const isSmallScreen = computed(() => width.value <= smallContainerWidth);
       </template>
 
       <template #input>
-        <div ref="inputWrapper">
+        <div>
           <Dialog
             v-model:visible="showInfoModal"
             modal
@@ -144,7 +138,6 @@ const isSmallScreen = computed(() => width.value <= smallContainerWidth);
                 v-model="model"
                 :id
                 :invalid="isInvalid"
-                ref="textInput"
                 size="small"
               />
               <FileUpload
@@ -186,5 +179,26 @@ const isSmallScreen = computed(() => width.value <= smallContainerWidth);
 <style scoped>
 :deep(.upload-button) {
   --p-inputgroup-addon-border-radius: 0;
+}
+
+:deep(.upload-button .p-button-label) {
+  font-size: 0.7rem;
+}
+
+@media (max-width: 480px) {
+  :deep(.upload-button) {
+    width: 100%;
+  }
+
+  :deep(.upload-button .p-button-label) {
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 360px) {
+  :deep(.p-inputtext) {
+    font-size: 0.7rem;
+    padding: 0.5rem 0.6rem;
+  }
 }
 </style>

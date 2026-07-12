@@ -107,7 +107,11 @@ watch(
       :header="`Flora:`"
       toggleable
     >
-      <Button @click="addFauna">+ Añadir Flora</Button>
+      <Button
+        severity="danger"
+        size="small"
+        @click="addFauna"
+      >+ Añadir Flora</Button>
       <br />
       <br />
       <div
@@ -210,6 +214,8 @@ watch(
 
           <Button
             v-if="faunas.length >= 1"
+            severity="danger"
+            size="small"
             @click="removeFauna(index)"
           >
             Eliminar Flora

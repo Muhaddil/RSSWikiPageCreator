@@ -10,12 +10,14 @@ import Toast, { POSITION } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import ConfirmationService from 'primevue/confirmationservice';
 import { createHead } from '@unhead/vue/client';
+import router from './router';
 
 const app = createApp(App);
 const pinia = createPinia();
 const head = createHead();
 
 app.use(pinia);
+app.use(router);
 app.use(head);
 app.use(ConfirmationService);
 app.use(PrimeVue, {

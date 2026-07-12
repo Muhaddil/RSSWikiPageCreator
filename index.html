@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="en" class="theme-dark">
+<html lang="es" class="theme-dark">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RSS // CORE OS</title>
+  <title>RSS WIKI PAGE CREATOR</title>
   <meta name="application-name" content="Royal Space Society - Wiki Page Creator" />
   <meta name="description"
-    content="Royal Space Society Wiki Page Creator - Military Grade Documentation System">
-  <meta name="theme-color" content="#050505" />
+    content="Royal Space Society Wiki Page Creator - Documentation System">
+  <meta name="theme-color" content="#0b0b0b" />
   <meta name="keywords" content="No Man's Sky, NMS, Wiki, Fandom, Page Creator, RSS, Royal Space Society" />
-  <meta property="og:title" content="RSS // CORE OS" />
-  <meta property="og:description" content="Royal Space Society Wiki Page Creator - Military Grade Documentation System" />
+  <meta property="og:title" content="RSS WIKI PAGE CREATOR" />
+  <meta property="og:description" content="Royal Space Society Wiki Page Creator - Documentation System" />
   <meta property="og:image"
     content="https://github.com/Muhaddil/RSSWikiPageCreator/blob/main/public/assets/images/shared/logo-white.png?raw=true" />
   <meta property="og:url" content="https://muhaddil.github.io/RSSWikiPageCreator/" />
@@ -19,7 +19,13 @@
   <meta name="twitter:image" content="https://github.com/Muhaddil/RSSWikiPageCreator/blob/main/public/assets/images/shared/logo-white.png?raw=true" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    (function() {
+      var collapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+      document.documentElement.style.setProperty('--sidebar-width', collapsed ? '60px' : '270px');
+    })();
+  </script>
   <script src="src/main.ts" type="module"></script>
   <meta name="google-site-verification" content="bzPq3iFrBUmU5sXmM9rQUqTjD9BGTs14nv_OppxH8E8" />
   <style>
@@ -35,50 +41,23 @@
     }
 
     html {
-      background: #050505;
+      background: #0b0b0b;
       scroll-behavior: smooth;
+      --sidebar-width: 270px;
     }
 
     body {
       position: relative;
-      background: #050505;
+      background: #0b0b0b;
       min-height: 100vh;
-      font-family: 'Rajdhani', sans-serif;
+      font-family: 'Hanken Grotesk', sans-serif;
       color: #ffffff;
       overflow-x: hidden;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background:
-        radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
-      pointer-events: none;
-      z-index: 1;
-    }
-
     #app {
       position: relative;
-      z-index: 2;
+      z-index: 1;
     }
   </style>
 </head>
