@@ -1,0 +1,1 @@
+var e=`/assets/images/shared/logo-white.png`;export{e as t};

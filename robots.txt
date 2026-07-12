@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap Location
-Sitemap: https://muhaddil.github.io/RSSWikiPageCreator/sitemap.xml
+Sitemap: https://data.royalspacesociety.com/sitemap.xml
