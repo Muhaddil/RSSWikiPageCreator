@@ -48,7 +48,7 @@ const simplifiedItems = [
   { label: 'Sistemas', icon: 'system', route: 'system', url: '/system' },
   { label: 'Planetas', icon: 'planet', route: 'planet', url: '/planet' },
   { label: 'Bases', icon: 'base', route: 'base', url: '/base' },
-  { label: 'Volver al Atlas', icon: 'atlas', route: 'atlas', url: 'https://nomanssky.fandom.com/wiki/Atlas' },
+  { label: 'Volver al Atlas', icon: 'atlas', route: 'atlas', url: 'https://atlas.royalspacesociety.com/' },
 ];
 
 const allMenuItems = [
