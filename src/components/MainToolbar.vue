@@ -40,6 +40,11 @@ import Tools from './Tools.vue';
   gap: 0.4rem;
 }
 
+.toolbar-right :deep(.p-button) {
+  background-color: rgba(255, 26, 26, 0.5);
+  border-color: rgba(255, 26, 26, 0.5);
+}
+
 .toolbar-title {
   font-family: 'Hanken Grotesk', sans-serif;
   font-size: clamp(0.8rem, 1.5vw, 1.1rem);
