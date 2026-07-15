@@ -39,6 +39,7 @@ const nameMap: Record<string, string> = {
   glyphgenerator: 'Generador de Glifos',
   home: 'Panel',
   tutorial: 'Tutorial',
+  'not-found': '',
 };
 
 export const pageformattedName = computed(() => nameMap[route.value] || route.value || 'Home');

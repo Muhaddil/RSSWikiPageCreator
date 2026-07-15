@@ -343,7 +343,7 @@ const isHome = computed(() => currentRoute.name === 'home' || currentRoute.path 
 
       <div
         class="tool-name-bar"
-        v-if="!isHome && currentRoute.name !== 'tutorial'"
+        v-if="!isHome && currentRoute.name !== 'tutorial' && currentRoute.name !== 'not-found'"
       >
         <span class="tool-name">{{ pageformattedName }} Herramienta</span>
       </div>

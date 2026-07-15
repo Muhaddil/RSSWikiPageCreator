@@ -205,6 +205,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/RSSSystems.vue'),
     meta: { title: 'Sistemas RSS' },
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () => import('@/pages/NotFound.vue'),
+    meta: { title: 'Página no encontrada' },
+  },
 ];
 
 const router = createRouter({

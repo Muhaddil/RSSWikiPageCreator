@@ -83,6 +83,12 @@ const events = ref<TimelineEvent[]>([
   {
     title: '1.2.2',
     date: '15 / 07 / 2026',
+    description: 'Se ha añadido una página de error 404 para cuando no se encuentra la página solicitada.',
+    category: 'Web',
+  },
+  {
+    title: '1.2.2',
+    date: '15 / 07 / 2026',
     description:
       'Se ha solucionado un problema con el sistema de creación de páginas y se han actualizado varias dependencias.',
     category: 'Web',
