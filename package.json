@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.2.1",
+  "version": "1.2.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,7 +15,7 @@
   "devDependencies": {
     "@types/node": "^25.9.5",
     "@types/sortablejs": "^1.15.9",
-    "@vitejs/plugin-vue": "^6.0.7",
+    "@vitejs/plugin-vue": "^6.0.8",
     "@vitest/browser": "^4.1.10",
     "@vitest/coverage-v8": "^4.1.10",
     "@vue/test-utils": "^2.4.11",
@@ -44,10 +44,10 @@
     "@primevue/core": "^4.5.5",
     "@primevue/forms": "^4.5.5",
     "@primevue/icons": "^4.5.5",
-    "@unhead/vue": "^3.1.7",
+    "@unhead/vue": "^3.1.8",
     "animate.css": "^4.1.1",
     "bulma": "^1.0.4",
-    "html2canvas-pro": "^2.2.3",
+    "html2canvas-pro": "^2.2.4",
     "md5-hex": "^5.0.0",
     "parse-mediawiki-template": "^0.2.2",
     "primeicons": "^7.0.0",

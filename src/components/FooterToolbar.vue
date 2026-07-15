@@ -73,7 +73,7 @@ async function handleSubmit() {
     return;
   }
 
-  const payloadSections = isCensusPage
+  const payloadSections = isCensusPage.value
     ? [
         `- **Nueva entrada en el censo creada:** ${pageData.playername}`,
         `- https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society#RSS_Members`,
@@ -173,7 +173,7 @@ function createPage() {
   toast.success('¡Creado!', { position: POSITION.BOTTOM_RIGHT });
   handleSubmit();
 
-  if (isCensusPage) {
+  if (isCensusPage.value) {
     window.open(
       'https://nomanssky.fandom.com/wiki/Census_-_Royal_Space_Society?action=edit&section=9#editform',
       '_blank'
@@ -200,7 +200,7 @@ function downloadCode() {
 }
 
 function uploadFiles() {
-  if (!isBaseRenewalPage && !pageData.image) {
+  if (!isBaseRenewalPage.value && !pageData.image) {
     showError('¿Qué vas a subir sin una foto principal?');
     return;
   }

@@ -81,6 +81,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.2.2',
+    date: '15 / 07 / 2026',
+    description:
+      'Se ha solucionado un problema con el sistema de creación de páginas y se han actualizado varias dependencias.',
+    category: 'Web',
+  },
+  {
     title: '1.2.1',
     date: '12 / 07 / 2026',
     description: 'Se ha añadido un menu de accesibilidad.',
