@@ -182,12 +182,16 @@ watchDebounced(
           tooltip="La escala máxima es 10"
         />
 
+        <br />
+
         <SanitisedTextInput
           v-model="playerName"
           placeholder="Nombre"
           class="input-text"
           label="Nombre del jugador"
         />
+
+        <br />
 
         <div class="columns is-mobile mb-0">
           <div class="column is-flex is-align-items-center">
@@ -199,23 +203,27 @@ watchDebounced(
               :options="PlayerRaces.map((r) => r.value)"
               @update:model-value="updateRaceIcon"
               class="input-text"
-              style="width: 185px; left: -12px"
+              style="width: 195px; left: -87px"
             />
           </div>
         </div>
 
-        <GlyphInput
-          v-model="Glyphs"
-          v-if="usePersonalizedGlyphs"
-        />
+        <template v-if="usePersonalizedGlyphs">
+          <br />
 
-        <SanitisedTextInput
-          v-model="location"
-          v-if="usePersonalizedGlyphs"
-          placeholder="Ubicación"
-          class="input-text"
-          label="Ubicación"
-        />
+          <GlyphInput v-model="Glyphs" />
+
+          <br />
+
+          <SanitisedTextInput
+            v-model="location"
+            placeholder="Ubicación"
+            class="input-text"
+            label="Ubicación"
+          />
+        </template>
+
+        <br />
 
         <SanitisedTextInput
           v-model="friendCode"
@@ -428,11 +436,10 @@ watchDebounced(
   left: 50px;
   width: 234px;
   height: 300px;
-  border: 2px solid #ff1a1a;
+  /* border: 2px solid #ff1a1a; */
   border-radius: 65px;
   overflow: hidden;
   font-family: NMSFuturaProBook;
-  opacity: 0;
 }
 
 .card-image-marco {
@@ -462,7 +469,7 @@ watchDebounced(
 
 .card-name-title {
   position: absolute;
-  top: 205px;
+  top: 210px;
   left: 300px;
   font-size: 2.2rem;
   font-family: NMSFuturaProBook;
@@ -480,8 +487,8 @@ watchDebounced(
 
 .card-location-field {
   position: absolute;
-  top: 410px;
-  left: 290px;
+  top: 465px;
+  left: 340px;
   font-size: 0.9rem;
   max-width: 180px;
   font-family: NMSFuturaProBook;
@@ -490,7 +497,7 @@ watchDebounced(
 
 .card-race-title {
   position: absolute;
-  top: 305px;
+  top: 310px;
   left: 300px;
   font-size: 2.2rem;
   font-family: NMSFuturaProBook;
@@ -499,7 +506,7 @@ watchDebounced(
 
 .card-race-field {
   position: absolute;
-  top: 345px;
+  top: 355px;
   left: 300px;
   width: 200px;
   font-size: 1.8rem;
@@ -509,8 +516,8 @@ watchDebounced(
 
 .card-race-icon-field {
   position: absolute;
-  bottom: 25px;
-  right: 53px;
+  bottom: 35px;
+  right: 55px;
   width: 75px;
 }
 

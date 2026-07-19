@@ -1,7 +1,7 @@
 {
   "name": "wiki-page-creator",
   "private": true,
-  "version": "1.2.3",
+  "version": "1.2.31",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -29,10 +29,10 @@
     "stylelint": "^17.14.0",
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^6.0.3",
-    "vite": "^8.1.4",
+    "vite": "^8.1.5",
     "vite-plugin-lightningcss": "^0.0.5",
     "vitest": "^4.1.10",
-    "vue": "^3.5.39",
+    "vue": "^3.5.40",
     "vue-toastification": "2.0.0-rc.5",
     "vue-tsc": "^3.3.7",
     "webdriverio": "^9.29.1"

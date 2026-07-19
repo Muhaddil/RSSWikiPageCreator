@@ -81,6 +81,13 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.2.31',
+    date: '19 / 07 / 2026',
+    description:
+      'Se han arreglado varios elementos mal colocados en el creador de tarjetas de amigo y se han actualizado varias dependencias..',
+    category: 'Web',
+  },
+  {
     title: '1.2.2',
     date: '15 / 07 / 2026',
     description: 'Se ha añadido una página de error 404 para cuando no se encuentra la página solicitada.',
