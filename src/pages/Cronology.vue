@@ -81,10 +81,16 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.2.32',
+    date: '19 / 07 / 2026',
+    description: 'Se ha añadido una animación 3D al sistema de creación de tarjetas de amigo.',
+    category: 'Web',
+  },
+  {
     title: '1.2.31',
     date: '19 / 07 / 2026',
     description:
-      'Se han arreglado varios elementos mal colocados en el creador de tarjetas de amigo y se han actualizado varias dependencias..',
+      'Se han arreglado varios elementos mal colocados en el creador de tarjetas de amigo y se han actualizado varias dependencias.',
     category: 'Web',
   },
   {

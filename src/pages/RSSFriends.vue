@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watchEffect, nextTick } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watchEffect, nextTick } from 'vue';
 import Card from 'primevue/card';
 import FileUpload from 'primevue/fileupload';
 import FileUploadNotice from '@/components/FileUploadNotice.vue';
@@ -49,6 +49,94 @@ const onUpload = (event: any) => {
 const screenWidth = ref(window.innerWidth);
 let resizeTimeout: NodeJS.Timeout | null = null;
 
+/* ---------------------------------------------------------------------- */
+/*  Realistic 3D tilt + glare                                             */
+/* ---------------------------------------------------------------------- */
+
+const cardRef = ref<HTMLElement | null>(null);
+
+const tiltX = ref(0);
+const tiltY = ref(0);
+const isHovering = ref(false);
+
+const glareX = ref(50);
+const glareY = ref(50);
+const glareOpacity = ref(0);
+
+let targetTiltX = 0;
+let targetTiltY = 0;
+let currentTiltX = 0;
+let currentTiltY = 0;
+let rafId: number | null = null;
+
+const animateTilt = () => {
+  const ease = 0.15;
+  currentTiltX += (targetTiltX - currentTiltX) * ease;
+  currentTiltY += (targetTiltY - currentTiltY) * ease;
+  tiltX.value = currentTiltX;
+  tiltY.value = currentTiltY;
+
+  const stillMoving = Math.abs(targetTiltX - currentTiltX) > 0.01 || Math.abs(targetTiltY - currentTiltY) > 0.01;
+
+  rafId = stillMoving ? requestAnimationFrame(animateTilt) : null;
+};
+
+const handleMouseMove = (event: MouseEvent) => {
+  const card = cardRef.value;
+  if (!card) return;
+
+  const rect = card.getBoundingClientRect();
+  const px = (event.clientX - rect.left) / rect.width;
+  const py = (event.clientY - rect.top) / rect.height;
+
+  targetTiltY = (px - 0.5) * 18; // máx 18deg horizontal
+  targetTiltX = -(py - 0.5) * 18; // máx 18deg vertical
+
+  glareX.value = px * 100;
+  glareY.value = py * 100;
+  glareOpacity.value = 0.25;
+
+  isHovering.value = true;
+
+  if (!rafId) rafId = requestAnimationFrame(animateTilt);
+};
+
+const handleMouseLeave = () => {
+  targetTiltX = 0;
+  targetTiltY = 0;
+  glareOpacity.value = 0;
+  isHovering.value = false;
+
+  if (!rafId) rafId = requestAnimationFrame(animateTilt);
+};
+
+const card3DStyle = computed(() => ({
+  transform: `rotateX(${tiltX.value}deg) rotateY(${tiltY.value}deg) scale(${isHovering.value ? 1.015 : 1})`,
+  transformStyle: 'preserve-3d' as const,
+  transition: isHovering.value ? 'transform 0.05s linear' : 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
+}));
+
+const glareStyle = computed(() => ({
+  background: `radial-gradient(circle at ${glareX.value}% ${glareY.value}%, rgba(255,255,255,0.9), transparent 55%)`,
+  opacity: glareOpacity.value,
+}));
+
+const parallaxStyle = (depth: number) => {
+  if (!isHovering.value) {
+    return {
+      transform: 'translateZ(0px)',
+      transition: 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+    };
+  }
+  const translateZ = depth * 3;
+  return {
+    transform: `translateZ(${translateZ}px)`,
+    transition: 'transform 0.05s linear',
+  };
+};
+
+/* ---------------------------------------------------------------------- */
+
 const updateScreenWidth = () => {
   const newWidth = window.innerWidth;
 
@@ -69,6 +157,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('resize', updateScreenWidth);
+  if (rafId) cancelAnimationFrame(rafId);
 });
 
 const updateRaceIcon = () => {
@@ -252,87 +341,126 @@ watchDebounced(
       </div>
 
       <br />
-      <div
-        ref="cardElement"
-        class="rss-card-wrapper"
-      >
-        <img
-          class="rss-card-background"
-          :src="
-            usePersonalizedGlyphs
-              ? isWhite
-                ? '/assets/images/friends/friend-white-noglyphs.png'
-                : '/assets/images/friends/friend-noglyphs.png'
-              : isWhite
-                ? '/assets/images/friends/friend-white.png'
-                : '/assets/images/friends/friend.png'
-          "
-          alt="Tarjeta RSS"
-        />
-
-        <div class="card-image-container">
+      <div class="card-perspective-container">
+        <div
+          ref="cardRef"
+          class="rss-card-wrapper"
+          :style="card3DStyle"
+          @mousemove="handleMouseMove"
+          @mouseleave="handleMouseLeave"
+        >
           <img
-            v-if="navImage"
-            :src="navImage"
-            alt="Imagen subida"
-            class="uploaded-image"
+            class="rss-card-background"
+            :class="{ 'parallax-layer': true }"
+            :style="parallaxStyle(0)"
+            :src="
+              usePersonalizedGlyphs
+                ? isWhite
+                  ? '/assets/images/friends/friend-white-noglyphs.png'
+                  : '/assets/images/friends/friend-noglyphs.png'
+                : isWhite
+                  ? '/assets/images/friends/friend-white.png'
+                  : '/assets/images/friends/friend.png'
+            "
+            alt="Tarjeta RSS"
           />
-        </div>
 
-        <div class="card-name-title">Nombre</div>
+          <div
+            class="card-image-container"
+            :class="{ 'parallax-layer': true }"
+            :style="parallaxStyle(2)"
+          >
+            <img
+              v-if="navImage"
+              :src="navImage"
+              alt="Imagen subida"
+              class="uploaded-image"
+            />
+          </div>
 
-        <div class="card-race-title">Raza</div>
+          <div
+            class="card-name-title"
+            :class="{ 'parallax-layer': true }"
+            :style="parallaxStyle(3)"
+          >
+            Nombre
+          </div>
 
-        <img
-          class="card-image-marco"
-          src="/assets/images/friends/marco.png"
-          alt="Tarjeta RSS"
-        />
+          <div
+            class="card-race-title"
+            :class="{ 'parallax-layer': true }"
+            :style="parallaxStyle(3)"
+          >
+            Raza
+          </div>
 
-        <div
-          class="card-name-field"
-          :class="{ 'text-black': isWhite, 'text-white': !isWhite }"
-        >
-          {{ playerName }}
-        </div>
-
-        <div
-          class="card-race-field"
-          :class="{ 'text-black': isWhite, 'text-white': !isWhite }"
-        >
-          {{ playerRace }}
-        </div>
-
-        <div
-          class="card-glyphs-field"
-          v-if="usePersonalizedGlyphs"
-          :class="{ 'text-black': isWhite, 'text-white': !isWhite }"
-        >
-          {{ Glyphs }}
-        </div>
-
-        <div
-          class="card-location-field"
-          v-if="usePersonalizedGlyphs"
-          :class="{ 'text-black': isWhite, 'text-white': !isWhite }"
-        >
-          {{ location }}
-        </div>
-
-        <div
-          class="card-friend-code-field"
-          :class="{ 'text-black': isWhite, 'text-white': !isWhite }"
-        >
-          {{ friendCode }}
-        </div>
-
-        <div class="card-race-icon-field">
           <img
-            v-if="playerRaceIcon"
-            :src="playerRaceIcon"
-            alt="Icono de raza"
-            class="race-icon"
+            class="card-image-marco"
+            :class="{ 'parallax-layer': true }"
+            :style="parallaxStyle(2)"
+            src="/assets/images/friends/marco.png"
+            alt="Tarjeta RSS"
           />
+
+          <div
+            class="card-name-field"
+            :class="{ 'text-black': isWhite, 'text-white': !isWhite, 'parallax-layer': true }"
+            :style="parallaxStyle(4)"
+          >
+            {{ playerName }}
+          </div>
+
+          <div
+            class="card-race-field"
+            :class="{ 'text-black': isWhite, 'text-white': !isWhite, 'parallax-layer': true }"
+            :style="parallaxStyle(4)"
+          >
+            {{ playerRace }}
+          </div>
+
+          <div
+            class="card-glyphs-field"
+            v-if="usePersonalizedGlyphs"
+            :class="{ 'text-black': isWhite, 'text-white': !isWhite, 'parallax-layer': true }"
+            :style="parallaxStyle(5)"
+          >
+            {{ Glyphs }}
+          </div>
+
+          <div
+            class="card-location-field"
+            v-if="usePersonalizedGlyphs"
+            :class="{ 'text-black': isWhite, 'text-white': !isWhite, 'parallax-layer': true }"
+            :style="parallaxStyle(5)"
+          >
+            {{ location }}
+          </div>
+
+          <div
+            class="card-friend-code-field"
+            :class="{ 'text-black': isWhite, 'text-white': !isWhite, 'parallax-layer': true }"
+            :style="parallaxStyle(3)"
+          >
+            {{ friendCode }}
+          </div>
+
+          <div
+            class="card-race-icon-field"
+            :class="{ 'parallax-layer': true }"
+            :style="parallaxStyle(6)"
+          >
+            <img
+              v-if="playerRaceIcon"
+              :src="playerRaceIcon"
+              alt="Icono de raza"
+              class="race-icon"
+            />
+          </div>
+
+          <div
+            class="card-glare"
+            :style="glareStyle"
+          ></div>
         </div>
       </div>
 
@@ -416,11 +544,43 @@ watchDebounced(
   color: var(--text-primary);
 }
 
+.card-perspective-container {
+  perspective: 1200px;
+}
+
 .rss-card-wrapper {
   position: relative;
   width: 100%;
   min-height: 400px;
   background: transparent;
+  will-change: transform;
+  transform-style: preserve-3d;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.rss-card-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  transition: box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 0;
+}
+
+.parallax-layer {
+  will-change: transform;
+  pointer-events: none;
+}
+
+.card-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 2000;
+  transition: opacity 0.3s ease;
 }
 
 .rss-card-background {
