@@ -32,6 +32,7 @@ const model = defineModel<string>({ required: true });
       <InvalidInput
         :error-message
         :invalid
+        class="full-width"
       >
         <InputText
           v-model="model"
@@ -40,6 +41,7 @@ const model = defineModel<string>({ required: true });
           :maxlength
           :pt:root:placeholder="placeholder"
           size="small"
+          class="full-width"
         />
         <template #errorMessage>
           <slot name="errorMessage"></slot>

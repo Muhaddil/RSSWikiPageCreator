@@ -13,7 +13,7 @@
 .input-table-row {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 0;
+  margin-bottom: 0.75rem;
   width: 100%;
 }
 

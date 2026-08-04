@@ -99,6 +99,7 @@ const showDeleteButton = computed(() => model.value);
             :invalid="isError"
             :maxlength="maxGlyphLength"
             size="small"
+            class="full-width"
           />
           <template #errorMessage>
             No es una región valida de la RSS, por favor mira las

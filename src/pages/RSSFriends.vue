@@ -292,7 +292,7 @@ watchDebounced(
               :options="PlayerRaces.map((r) => r.value)"
               @update:model-value="updateRaceIcon"
               class="input-text"
-              style="width: 195px; left: -87px"
+              style="left: -87px"
             />
           </div>
         </div>
