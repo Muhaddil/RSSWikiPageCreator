@@ -10,11 +10,15 @@ import Dropdown from 'primevue/dropdown';
 import { useToast, POSITION } from 'vue-toastification';
 import Rating from 'primevue/rating';
 
+onMounted(() => {
+  window.location.href = '/indextest';
+});
+
 const toast = useToast();
 
 const queryParams = new URLSearchParams(window.location.search);
 const language = ref<'en' | 'es'>(queryParams.get('lang') === 'en' ? 'en' : 'es');
-const webhook = atob(import.meta.env.VITE_DISCORD_WEBHOOK ?? '');
+const proxyUrl = import.meta.env.VITE_FEEDBACK_PROXY ?? '';
 
 type LanguageKey = 'en' | 'es';
 
@@ -206,8 +210,8 @@ const submitFeedback = async () => {
   isSubmitting.value = true;
 
   try {
-    if (!webhook || !webhook.startsWith('https://')) {
-      throw new Error('Webhook inválido o no definido.');
+    if (!proxyUrl || !proxyUrl.startsWith('https://')) {
+      throw new Error('Proxy inválido o no definido.');
     }
 
     const messageParts = splitMessage(formData.value.message, MAX_FIELD_LENGTH);
@@ -240,7 +244,7 @@ const submitFeedback = async () => {
       ],
     };
 
-    await fetch(webhook, {
+    await fetch(proxyUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -269,7 +273,7 @@ const submitFeedback = async () => {
     };
   } catch (error) {
     console.error('Error al enviar feedback:', error);
-    toast.error('Error al enviar el feedback. ¿Está configurado el webhook?', {
+    toast.error('Error al enviar el feedback. ¿Está configurado el proxy?', {
       position: POSITION.BOTTOM_RIGHT,
     });
   } finally {

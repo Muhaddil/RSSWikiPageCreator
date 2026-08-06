@@ -81,10 +81,17 @@ const events = ref<TimelineEvent[]>([
   // Web Updates
 
   {
+    title: '1.2.35',
+    date: '06 / 08 / 2026',
+    description:
+      'Se ha eliminado una funcionalidad vulnerable de la web, está vulnerabilidad permitía a los usuarios ver el webhook de los avisos al discord.',
+    category: 'Web',
+  },
+  {
     title: '1.2.34',
     date: '05 / 08 / 2026',
     description:
-      'se han arreglado los discrepancias con los tamaños de los inputs y se han actualizado diversas dependencias de la web.',
+      'Se han arreglado los discrepancias con los tamaños de los inputs y se han actualizado diversas dependencias de la web.',
     category: 'Web',
   },
   {
