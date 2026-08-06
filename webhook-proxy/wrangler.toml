@@ -1,0 +1,10 @@
+name = "webhook-proxy"
+main = "worker.js"
+compatibility_date = "2026-08-06"
+preview_urls = false
+
+vars = { ALLOWED_ORIGINS = "https://data.royalspacesociety.com" }
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "ID"

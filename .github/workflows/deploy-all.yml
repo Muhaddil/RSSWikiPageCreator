@@ -39,8 +39,7 @@ jobs:
 
       - name: Build App
         run: |
-          echo -n 'VITE_DISCORD_WEBHOOK=' >> .env
-          echo '${{ secrets.DISCORD_WEBHOOK }}' | base64 | tr -d "\n\r" >> .env
+          echo 'VITE_FEEDBACK_PROXY=${{ secrets.FEEDBACK_PROXY_URL }}' >> .env
           pnpm build
 
       # - name: Minify Code
