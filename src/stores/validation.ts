@@ -18,7 +18,15 @@ export type ValidationFieldKey =
   | 'regionData.region'
   | 'censusrenewal'
   | 'playername'
-  | 'appearance';
+  | 'appearance'
+  | 'distance'
+  | 'stellarclass'
+  | 'color'
+  | 'multiplestars'
+  | 'planetnum'
+  | 'moonnum'
+  | 'faction'
+  | 'axes';
 
 type FieldValue = string | null | undefined | { value: string | number | null | undefined };
 
@@ -92,6 +100,15 @@ const PAGE_VALIDATION_CONFIG: Record<string, PageValidationConfig> = {
       { key: 'name', label: 'nombre', errorMessage: '¡Falta el nombre!' },
       { key: 'glyphs', label: 'glifos', errorMessage: '¡Faltan los Glifos!' },
       { key: 'regionData.region', label: 'región', errorMessage: '¡Glifos Incorrectos!' },
+      { key: 'distance', label: 'distancia', errorMessage: '¡Distancia faltante!' },
+      { key: 'stellarclass', label: 'clase estelar', errorMessage: '¡Clase estelar faltante!' },
+      { key: 'image', label: 'imagen', errorMessage: '¡Falta la Imagen!' },
+      { key: 'color', label: 'color', errorMessage: '¡Falta el color!' },
+      { key: 'planetnum', label: 'planetas', errorMessage: '¡Falta el número de planetas!' },
+      { key: 'moonnum', label: 'lunas', errorMessage: '¡Falta el número de lunas!' },
+      { key: 'mode', label: 'modo de juego', errorMessage: '¡Falta el modo de juego!' },
+      { key: 'platform', label: 'plataforma', errorMessage: '¡Falta la plataforma!' },
+      { key: 'faction', label: 'facción', errorMessage: '¡Falta la facción!' },
     ],
     bannerTitle: 'Datos del sistema incompletos',
     bannerMessage: 'Necesitas completar los siguientes campos: {fields}.',
@@ -102,6 +119,11 @@ const PAGE_VALIDATION_CONFIG: Record<string, PageValidationConfig> = {
       { key: 'name', label: 'nombre', errorMessage: '¡Falta el nombre!' },
       { key: 'glyphs', label: 'glifos', errorMessage: '¡Faltan los Glifos!' },
       { key: 'regionData.region', label: 'región', errorMessage: '¡Glifos Incorrectos!' },
+      { key: 'image', label: 'imagen', errorMessage: '¡Falta la Imagen!' },
+      { key: 'system', label: 'sistema', errorMessage: '¡Falta el nombre del sistema!' },
+      { key: 'biome', label: 'bioma', errorMessage: '¡Falta el bioma!' },
+      { key: 'mode', label: 'modo de juego', errorMessage: '¡Falta el modo de juego!' },
+      { key: 'platform', label: 'plataforma', errorMessage: '¡Falta la plataforma!' },
     ],
     bannerTitle: 'Datos del planeta incompletos',
     bannerMessage: 'Necesitas completar los siguientes campos: {fields}.',
@@ -123,6 +145,12 @@ const PAGE_VALIDATION_CONFIG: Record<string, PageValidationConfig> = {
       { key: 'glyphs', label: 'glifos', errorMessage: '¡Faltan los Glifos!' },
       { key: 'image', label: 'imagen', errorMessage: '¡Falta la Imagen!' },
       { key: 'regionData.region', label: 'región', errorMessage: '¡Glifos Incorrectos!' },
+      { key: 'system', label: 'sistema', errorMessage: '¡Falta el sistema!' },
+      { key: 'planet', label: 'planeta', errorMessage: '¡Falta el planeta!' },
+      { key: 'type', label: 'tipo', errorMessage: '¡Falta el tipo de base!' },
+      { key: 'mode', label: 'modo de juego', errorMessage: '¡Falta el modo de juego!' },
+      { key: 'platform', label: 'plataforma', errorMessage: '¡Falta la plataforma!' },
+      { key: 'axes', label: 'coordenadas', errorMessage: '¡Faltan las coordenadas!' },
     ],
     bannerTitle: 'Datos de la base incompletos',
     bannerMessage: 'Para visualizar el resultado completa: {fields}.',
