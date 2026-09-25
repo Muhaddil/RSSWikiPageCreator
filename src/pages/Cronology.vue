@@ -14,6 +14,13 @@ interface TimelineEvent {
 
 const events = ref<TimelineEvent[]>([
   {
+    title: 'Méritos',
+    date: '15 / 09 / 2026',
+    description:
+      'Añadición del logo, banner y título al juego. ¡Muchas gracias a todos por participar en este camino y que continuemos mucho tiempo más!',
+    category: 'Royal Space Society',
+  },
+  {
     title: 'Censo',
     date: '10 / 07 / 2026',
     description: 'Creación del Atlas de la Royal Space Society https://atlas.royalspacesociety.com/.',
@@ -80,6 +87,12 @@ const events = ref<TimelineEvent[]>([
 
   // Web Updates
 
+  {
+    title: '1.2.363',
+    date: '25 / 09 / 2026',
+    description: 'Se han actualizado diversas dependencias de la web y se ha añadido un nuevo mérito.',
+    category: 'Web',
+  },
   {
     title: '1.2.362',
     date: '20 / 09 / 2026',
