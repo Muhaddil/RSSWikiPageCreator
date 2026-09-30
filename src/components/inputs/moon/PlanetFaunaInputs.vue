@@ -73,7 +73,7 @@ const generateOutput = () => {
     .map((fauna) => {
       const formattedName = fauna.hasWikipage === 'Yes' ? `[[${fauna.name}]]` : fauna.name;
       return `|-
-|[[File: ${fauna.image || 'nmsMisc_NotAvailable.png'}|150px]] || ${formattedName} || ${fauna.rarity} / ${fauna.ecosystem} / ${fauna.activity} || [[${fauna.genus}]] || ${fauna.height}m || ${fauna.weight}kg`;
+|[[File: ${fauna.image || 'nmsMisc_NotAvailable.png'}|150px]] || ${formattedName} || ${fauna.rarity} / ${fauna.ecosystem} / ${fauna.activity} || [[${fauna.genus}]] || ${fauna.height}m || ${fauna.weight} kg || ${fauna.discovered}`;
     })
     .join('\n\n');
   pageData.generatedOutputFauna = output;

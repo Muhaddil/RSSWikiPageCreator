@@ -90,6 +90,13 @@ const events = ref<TimelineEvent[]>([
   {
     title: '1.2.363',
     date: '25 / 09 / 2026',
+    description:
+      'Se han actualizado diversas dependencias de la web y se ha solucionado un problema que ocasionaba que el descubridor de la fauna no fuera añadido en la página de los planetas.',
+    category: 'Web',
+  },
+  {
+    title: '1.2.363',
+    date: '25 / 09 / 2026',
     description: 'Se han actualizado diversas dependencias de la web y se ha añadido un nuevo mérito.',
     category: 'Web',
   },
